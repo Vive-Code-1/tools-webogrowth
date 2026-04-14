@@ -80,7 +80,7 @@ const ToolCard = ({ tool, index }: { tool: typeof imageTools[0]; index: number }
   </motion.div>
 );
 
-const LOTTIE_URL = "https://lottie.host/f4e2f8c1-0e30-4e0c-9e3e-4e8c1e2b3c4d/coding-animation.json";
+
 
 const HeroSection = () => {
   const [animationData, setAnimationData] = useState<any>(null);
