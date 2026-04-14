@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
 
 const tools = [
   {
@@ -41,6 +42,12 @@ const stats = [
 
 const Index = () => (
   <div>
+    <SEOHead
+      title="WeboGrowth Tools - Free Online Image Compressor, Converter & Optimizer"
+      description="Free online image optimization tools by WeboGrowth. Compress PNG, JPEG, WebP images, convert formats, optimize SVGs, and generate favicons instantly."
+      keywords="image compressor online free, compress image, convert image format, svg optimizer, favicon generator, webp converter"
+      canonicalPath="/"
+    />
     {/* Hero */}
     <section className="relative overflow-hidden py-24 md:py-32">
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
@@ -48,7 +55,7 @@ const Index = () => (
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="max-w-3xl">
           <span className="inline-block px-3 py-1 bg-secondary-container text-secondary text-xs font-bold tracking-widest uppercase rounded mb-6 font-label">
-            Kinetic Laboratory v1.0
+            WeboGrowth Laboratory v1.0
           </span>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold leading-[0.9] tracking-tight text-foreground mb-8">
             Optimize Your{" "}
@@ -141,7 +148,7 @@ const Index = () => (
           <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
-              <h3 className="text-2xl font-headline font-bold mb-2">Join the Kinetic Lab</h3>
+              <h3 className="text-2xl font-headline font-bold mb-2">Join the WeboGrowth Lab</h3>
               <p className="text-on-surface-variant">Get notified when we release new optimization engines.</p>
             </div>
             <div className="flex w-full md:w-auto gap-2">

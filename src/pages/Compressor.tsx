@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
+import SEOHead from "@/components/SEOHead";
 
 const Compressor = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -81,7 +82,7 @@ const Compressor = () => {
           Optimization Engine
         </span>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold tracking-tighter mb-6 leading-[0.9]">
-          Kinetic Image <br />
+          WeboGrowth Image <br />
           <span className="text-secondary">Compression.</span>
         </h1>
         <p className="max-w-xl text-on-surface-variant text-lg font-light leading-relaxed">

@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
+import SEOHead from "@/components/SEOHead";
 
 function optimizeSvg(svgString: string): string {
   let optimized = svgString;

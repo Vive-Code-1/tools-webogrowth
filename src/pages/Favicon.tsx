@@ -3,6 +3,7 @@ import JSZip from "jszip";
 import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
+import SEOHead from "@/components/SEOHead";
 
 const ICON_SIZES = [
   { size: 16, name: "favicon-16x16.png", category: "Desktop" },

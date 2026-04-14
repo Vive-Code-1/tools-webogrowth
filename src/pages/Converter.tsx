@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
+import SEOHead from "@/components/SEOHead";
 
 const formats = [
   { value: "image/webp", label: "WebP (Optimized)" },
