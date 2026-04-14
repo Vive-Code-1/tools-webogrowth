@@ -1,16 +1,45 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
-const navLinks = [
-  { label: "Compressor", path: "/compressor" },
-  { label: "Converter", path: "/converter" },
-  { label: "SVG Optimizer", path: "/svg-optimizer" },
-  { label: "Favicon", path: "/favicon" },
+const toolCategories = [
+  {
+    label: "Image Tools",
+    tools: [
+      { label: "Compressor", path: "/compressor" },
+      { label: "Converter", path: "/converter" },
+      { label: "Image Resizer", path: "/image-resizer" },
+      { label: "Favicon Generator", path: "/favicon" },
+      { label: "Placeholder Image", path: "/placeholder" },
+    ],
+  },
+  {
+    label: "Developer Tools",
+    tools: [
+      { label: "JSON Formatter", path: "/json-formatter" },
+      { label: "CSS Minifier", path: "/css-minifier" },
+      { label: "Base64 Tool", path: "/base64" },
+      { label: "SVG Optimizer", path: "/svg-optimizer" },
+      { label: "HTML to Markdown", path: "/html-to-markdown" },
+    ],
+  },
+  {
+    label: "SEO & Design",
+    tools: [
+      { label: "Meta Tag Generator", path: "/meta-tag-generator" },
+      { label: "OG Preview", path: "/og-preview" },
+      { label: "Robots.txt Generator", path: "/robots-generator" },
+      { label: "Color Palette", path: "/color-palette" },
+      { label: "Gradient Generator", path: "/gradient-generator" },
+      { label: "Lorem Ipsum", path: "/lorem-ipsum" },
+      { label: "QR Code Generator", path: "/qr-code" },
+    ],
+  },
 ];
 
 const Navbar = () => {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [desktopDropdown, setDesktopDropdown] = useState(false);
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface-container-low/70 backdrop-blur-xl">
@@ -19,22 +48,48 @@ const Navbar = () => {
           WeboGrowth Tools
         </Link>
         <div className="hidden md:flex items-center gap-8 font-headline tracking-tight">
-          {navLinks.map((link) => {
-            const isActive = location.pathname === link.path;
-            return (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`transition-all duration-300 ${
-                  isActive
-                    ? "text-primary relative after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-primary after:rounded-full"
-                    : "text-on-surface-variant hover:text-primary"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+          <Link
+            to="/compressor"
+            className={`transition-all duration-300 ${location.pathname === "/compressor" ? "text-primary" : "text-on-surface-variant hover:text-primary"}`}
+          >
+            Compressor
+          </Link>
+          <Link
+            to="/converter"
+            className={`transition-all duration-300 ${location.pathname === "/converter" ? "text-primary" : "text-on-surface-variant hover:text-primary"}`}
+          >
+            Converter
+          </Link>
+          <div
+            className="relative"
+            onMouseEnter={() => setDesktopDropdown(true)}
+            onMouseLeave={() => setDesktopDropdown(false)}
+          >
+            <button className="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1">
+              All Tools
+              <span className={`material-symbols-outlined text-sm transition-transform ${desktopDropdown ? "rotate-180" : ""}`}>expand_more</span>
+            </button>
+            {desktopDropdown && (
+              <div className="absolute top-full right-0 mt-2 bg-surface-container-low/95 backdrop-blur-xl rounded-xl border border-outline-variant/15 p-6 min-w-[520px] shadow-2xl grid grid-cols-3 gap-6">
+                {toolCategories.map((cat) => (
+                  <div key={cat.label}>
+                    <span className="text-[10px] font-label uppercase tracking-widest text-primary font-bold block mb-3">{cat.label}</span>
+                    <div className="space-y-2">
+                      {cat.tools.map((tool) => (
+                        <Link
+                          key={tool.path}
+                          to={tool.path}
+                          className={`block text-sm transition-colors ${location.pathname === tool.path ? "text-primary font-bold" : "text-on-surface-variant hover:text-foreground"}`}
+                        >
+                          {tool.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-4">
           <Link
@@ -55,18 +110,21 @@ const Navbar = () => {
       </nav>
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setMobileOpen(false)}
-              className={`block py-2 font-headline ${
-                location.pathname === link.path ? "text-primary" : "text-on-surface-variant"
-              }`}
-            >
-              {link.label}
-            </Link>
+        <div className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
+          {toolCategories.map((cat) => (
+            <div key={cat.label}>
+              <span className="text-[10px] font-label uppercase tracking-widest text-primary font-bold block mb-2">{cat.label}</span>
+              {cat.tools.map((tool) => (
+                <Link
+                  key={tool.path}
+                  to={tool.path}
+                  onClick={() => setMobileOpen(false)}
+                  className={`block py-2 font-headline ${location.pathname === tool.path ? "text-primary" : "text-on-surface-variant"}`}
+                >
+                  {tool.label}
+                </Link>
+              ))}
+            </div>
           ))}
         </div>
       )}
