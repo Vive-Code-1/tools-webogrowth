@@ -30,6 +30,7 @@ const MetaTagGenerator = () => {
         description="Generate perfect meta tags for your website. Create title, description, Open Graph, and Twitter Card tags to boost your SEO and social media presence."
         keywords="meta tag generator, seo meta tags, og tags generator, twitter card generator, meta description generator, seo tools free"
         canonicalPath="/meta-tag-generator"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Meta Tag Generator", url: "https://tools.webogrowth.com/meta-tag-generator", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">

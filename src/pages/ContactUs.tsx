@@ -1,0 +1,165 @@
+import { useState } from "react";
+import SEOHead from "@/components/SEOHead";
+import { useToast } from "@/hooks/use-toast";
+
+const ContactUs = () => {
+  const { toast } = useToast();
+  const [form, setForm] = useState({ name: "", email: "", service: "", message: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { name, email, message } = form;
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      toast({ title: "Please fill in all required fields", variant: "destructive" });
+      return;
+    }
+    const subject = encodeURIComponent(`Contact from ${name.trim()} - ${form.service || "General"}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nService: ${form.service || "N/A"}\n\nMessage:\n${message}`);
+    window.open(`mailto:Support@webogrowth.com?subject=${subject}&body=${body}`);
+    toast({ title: "Opening email client...", description: "Your message details have been prepared." });
+  };
+
+  return (
+    <>
+      <SEOHead
+        title="Contact Us - Get in Touch | WeboGrowth Tools"
+        description="Contact WeboGrowth for web development, SEO, graphic design, and digital marketing services. Reach us at Support@webogrowth.com or call +880 1791208768."
+        keywords="contact webogrowth, web development contact, seo services contact, digital agency bangladesh"
+        canonicalPath="/contact-us"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Contact WeboGrowth",
+          url: "https://tools.webogrowth.com/contact-us",
+          mainEntity: {
+            "@type": "Organization",
+            name: "WeboGrowth",
+            telephone: "+880-1791208768",
+            email: "Support@webogrowth.com",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "Uposhohor Rd No 1, Apt 423",
+              addressLocality: "Bogura",
+              addressCountry: "BD",
+            },
+          },
+        }}
+      />
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
+        <header className="mb-12">
+          <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Contact</span>
+          <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tighter mb-6 leading-[0.9]">
+            Get in <span className="text-primary">Touch</span>
+          </h1>
+          <p className="max-w-xl text-on-surface-variant text-lg leading-relaxed">
+            Have a project in mind or need help with our tools? We'd love to hear from you.
+          </p>
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Name *</label>
+              <input
+                type="text"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                maxLength={100}
+                className="w-full bg-surface-container rounded-xl px-6 py-4 text-foreground placeholder:text-foreground/30 outline-none focus:ring-1 focus:ring-primary"
+                placeholder="Your full name"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Email *</label>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                maxLength={255}
+                className="w-full bg-surface-container rounded-xl px-6 py-4 text-foreground placeholder:text-foreground/30 outline-none focus:ring-1 focus:ring-primary"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Service Interested In</label>
+              <select
+                value={form.service}
+                onChange={(e) => setForm({ ...form, service: e.target.value })}
+                className="w-full bg-surface-container rounded-xl px-6 py-4 text-foreground outline-none focus:ring-1 focus:ring-primary"
+              >
+                <option value="">Select a service</option>
+                <option value="Web Development">Web Development</option>
+                <option value="SEO Services">SEO Services</option>
+                <option value="Graphic Design">Graphic Design</option>
+                <option value="Social Media Marketing">Social Media Marketing</option>
+                <option value="UI/UX Design">UI/UX Design</option>
+                <option value="SaaS Development">SaaS Development</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Message *</label>
+              <textarea
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                maxLength={1000}
+                rows={5}
+                className="w-full bg-surface-container rounded-xl px-6 py-4 text-foreground placeholder:text-foreground/30 outline-none focus:ring-1 focus:ring-primary resize-none"
+                placeholder="Tell us about your project or question..."
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all w-full md:w-auto"
+            >
+              <span className="flex items-center justify-center gap-2">
+                <span className="material-symbols-outlined text-lg">send</span>
+                Send Message
+              </span>
+            </button>
+          </form>
+
+          {/* Contact Info */}
+          <div className="space-y-6">
+            {[
+              { icon: "location_on", title: "Head Office", lines: ["Uposhohor Rd No 1, Apt 423", "Bogura, Bangladesh"] },
+              { icon: "phone", title: "Phone", lines: ["+880 1791208768"], href: "tel:+8801791208768" },
+              { icon: "mail", title: "Email", lines: ["Support@webogrowth.com"], href: "mailto:Support@webogrowth.com" },
+              { icon: "chat", title: "WhatsApp", lines: ["Chat with us on WhatsApp"], href: "https://wa.me/8801791208768" },
+            ].map((item) => (
+              <div key={item.title} className="bg-surface-container rounded-xl p-6 flex gap-4 items-start">
+                <div className="w-12 h-12 bg-secondary-container flex items-center justify-center rounded-lg flex-shrink-0">
+                  <span className="material-symbols-outlined text-secondary">{item.icon}</span>
+                </div>
+                <div>
+                  <h3 className="font-headline font-bold mb-1">{item.title}</h3>
+                  {item.lines.map((line) =>
+                    item.href ? (
+                      <a key={line} href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="block text-on-surface-variant text-sm hover:text-primary transition-colors">
+                        {line}
+                      </a>
+                    ) : (
+                      <p key={line} className="text-on-surface-variant text-sm">{line}</p>
+                    )
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {/* Map Embed or extra info */}
+            <div className="bg-surface-container rounded-xl p-8 text-center">
+              <span className="material-symbols-outlined text-primary text-4xl mb-3 block">public</span>
+              <h3 className="font-headline font-bold mb-2">Visit Our Website</h3>
+              <a href="https://webogrowth.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
+                webogrowth.com
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ContactUs;

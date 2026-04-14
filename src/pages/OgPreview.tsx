@@ -16,6 +16,7 @@ const OgPreview = () => {
         description="Preview how your website will look when shared on Facebook, Twitter, and LinkedIn. Test Open Graph meta tags without deploying. Free OG tag preview tool."
         keywords="og preview tool, open graph preview, test og tags, social media preview, facebook preview, twitter card preview"
         canonicalPath="/og-preview"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Open Graph Preview Tool", url: "https://tools.webogrowth.com/og-preview", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">

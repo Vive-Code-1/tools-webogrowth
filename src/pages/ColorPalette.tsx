@@ -68,6 +68,7 @@ const ColorPalette = () => {
         description="Generate beautiful color palettes from any base color. Create complementary, analogous, triadic, and shade palettes for your design projects instantly."
         keywords="color palette generator, color scheme generator, complementary colors, analogous colors, triadic colors, design color tools"
         canonicalPath="/color-palette"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Color Palette Generator", url: "https://tools.webogrowth.com/color-palette", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">

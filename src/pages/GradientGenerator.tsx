@@ -23,6 +23,7 @@ const GradientGenerator = () => {
         description="Create beautiful CSS gradients visually with our free online gradient generator. Build linear and radial gradients, customize colors and angles, copy CSS code."
         keywords="css gradient generator, gradient maker, linear gradient, radial gradient, css gradient tool, create gradient online"
         canonicalPath="/gradient-generator"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "CSS Gradient Generator", url: "https://tools.webogrowth.com/gradient-generator", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">

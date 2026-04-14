@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "./components/Layout";
+import AdminHeadInjector from "./components/AdminHeadInjector";
 import Index from "./pages/Index";
 import Compressor from "./pages/Compressor";
 import Converter from "./pages/Converter";
@@ -23,6 +24,11 @@ import RobotsTxtGenerator from "./pages/RobotsTxtGenerator";
 import OgPreview from "./pages/OgPreview";
 import PlaceholderImage from "./pages/PlaceholderImage";
 import HtmlToMarkdown from "./pages/HtmlToMarkdown";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +39,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <AdminHeadInjector />
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
@@ -54,7 +61,12 @@ const App = () => (
             <Route path="/og-preview" element={<OgPreview />} />
             <Route path="/placeholder" element={<PlaceholderImage />} />
             <Route path="/html-to-markdown" element={<HtmlToMarkdown />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/contact-us" element={<ContactUs />} />
           </Route>
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

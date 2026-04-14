@@ -35,6 +35,7 @@ const QrCodeGenerator = () => {
         description="Generate QR codes from any text or URL for free. Customize colors, size, and download as PNG. Fast, private, browser-based QR code generator."
         keywords="qr code generator free, create qr code online, qr code maker, generate qr code, url to qr code, text to qr code"
         canonicalPath="/qr-code"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "QR Code Generator", url: "https://tools.webogrowth.com/qr-code", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">

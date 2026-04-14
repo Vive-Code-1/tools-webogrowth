@@ -30,7 +30,7 @@ const footerLinks = [
       { label: "Color Palette", path: "/color-palette" },
       { label: "Gradient Generator", path: "/gradient-generator" },
       { label: "QR Code Generator", path: "/qr-code" },
-      { label: "Lorem Ipsum", path: "/lorem-ipsum" },
+      { label: "Lorem Ipsum Generator", path: "/lorem-ipsum" },
     ],
   },
 ];
@@ -43,9 +43,13 @@ const Footer = () => (
           <Link to="/" className="text-lg font-black text-primary font-headline uppercase tracking-tighter block mb-3">
             WeboGrowth
           </Link>
-          <p className="text-on-surface-variant/60 text-sm leading-relaxed">
+          <p className="text-on-surface-variant/60 text-sm leading-relaxed mb-4">
             Free online tools for developers and designers. Compress, convert, optimize, and generate — all in your browser.
           </p>
+          <div className="space-y-1">
+            <Link to="/about-us" className="block text-sm text-on-surface-variant/60 hover:text-foreground transition-colors">About Us</Link>
+            <Link to="/contact-us" className="block text-sm text-on-surface-variant/60 hover:text-foreground transition-colors">Contact Us</Link>
+          </div>
         </div>
         {footerLinks.map((group) => (
           <div key={group.title}>
@@ -73,15 +77,12 @@ const Footer = () => (
           Copyright Reserved.
         </p>
         <div className="flex gap-6">
-          {["Privacy Policy", "Terms of Service"].map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="text-on-surface-variant/50 hover:text-secondary transition-colors font-label text-sm tracking-wide uppercase"
-            >
-              {item}
-            </a>
-          ))}
+          <Link to="/privacy-policy" className="text-on-surface-variant/50 hover:text-secondary transition-colors font-label text-sm tracking-wide uppercase">
+            Privacy Policy
+          </Link>
+          <Link to="/terms-of-service" className="text-on-surface-variant/50 hover:text-secondary transition-colors font-label text-sm tracking-wide uppercase">
+            Terms of Service
+          </Link>
         </div>
       </div>
     </div>
