@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import JSZip from "jszip";
 import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
+import { uploadProcessedFile } from "@/lib/storage";
 
 const ICON_SIZES = [
   { size: 16, name: "favicon-16x16.png", category: "Desktop" },
@@ -33,7 +34,6 @@ const Favicon = () => {
       canvas.height = size;
       const ctx = canvas.getContext("2d")!;
 
-      // Background
       const r = (radius / 100) * (size / 2);
       ctx.beginPath();
       ctx.moveTo(r, 0);
@@ -50,7 +50,6 @@ const Favicon = () => {
       ctx.fill();
       ctx.clip();
 
-      // Draw image with padding
       const padding = size * 0.1;
       ctx.drawImage(img, padding, padding, size - padding * 2, size - padding * 2);
 
@@ -78,7 +77,6 @@ const Favicon = () => {
         zip.file(iconDef.name, blob);
       }
 
-      // Generate webmanifest
       const manifest = {
         name: "My App",
         short_name: "App",
@@ -93,7 +91,6 @@ const Favicon = () => {
       };
       zip.file("site.webmanifest", JSON.stringify(manifest, null, 2));
 
-      // Generate HTML snippet
       const htmlSnippet = `<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -101,7 +98,9 @@ const Favicon = () => {
       zip.file("usage.html", htmlSnippet);
 
       const zipBlob = await zip.generateAsync({ type: "blob" });
-      const url = URL.createObjectURL(zipBlob);
+      
+      // Upload to Supabase storage
+      const url = await uploadProcessedFile(zipBlob, "favicon-package.zip");
       setResult({ url, fileName: "favicon-package.zip" });
     } catch (err) {
       console.error("Favicon generation failed:", err);
@@ -125,7 +124,6 @@ const Favicon = () => {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left: Upload & Config */}
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-surface-container-low p-8 rounded-xl border border-primary/5 group hover:border-primary/20 transition-all duration-500">
             <div className="flex items-center justify-between mb-8">
@@ -140,7 +138,6 @@ const Favicon = () => {
             />
           </div>
 
-          {/* Config */}
           <div className="bg-surface-container p-8 rounded-xl space-y-6">
             <span className="text-xs font-black uppercase tracking-widest text-foreground/40">Parameters</span>
             <div className="space-y-2">
@@ -198,13 +195,11 @@ const Favicon = () => {
             downloadUrl={result?.url || null}
             fileName={result?.fileName || "favicon-package.zip"}
             onExpired={() => {
-              if (result?.url) URL.revokeObjectURL(result.url);
               setResult(null);
             }}
           />
         </div>
 
-        {/* Right: Preview */}
         <div className="lg:col-span-7">
           <div className="bg-surface-container-lowest border border-outline-variant/10 rounded-2xl p-8 md:p-10 overflow-hidden relative">
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full" />
@@ -222,7 +217,6 @@ const Favicon = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative z-10">
-              {/* Desktop */}
               <div className="bg-surface-container-high p-6 rounded-xl group hover:bg-surface-container-highest transition-all">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-secondary-container/20 rounded-lg flex items-center justify-center">
@@ -244,7 +238,6 @@ const Favicon = () => {
                 </div>
               </div>
 
-              {/* iOS */}
               <div className="bg-surface-container-high p-6 rounded-xl group hover:bg-surface-container-highest transition-all">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-secondary-container/20 rounded-lg flex items-center justify-center">
@@ -261,7 +254,6 @@ const Favicon = () => {
                 <p className="text-center mt-4 text-[10px] font-bold text-foreground/40">180 x 180 PX</p>
               </div>
 
-              {/* Android */}
               <div className="bg-surface-container-high p-6 rounded-xl group hover:bg-surface-container-highest transition-all">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-secondary-container/20 rounded-lg flex items-center justify-center">
@@ -278,7 +270,6 @@ const Favicon = () => {
                 <p className="text-center mt-4 text-[10px] font-bold text-foreground/40">512 x 512 PX</p>
               </div>
 
-              {/* Manifest */}
               <div className="bg-surface-container-high p-6 rounded-xl group hover:bg-surface-container-highest transition-all flex flex-col justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-secondary-container/20 rounded-lg flex items-center justify-center">

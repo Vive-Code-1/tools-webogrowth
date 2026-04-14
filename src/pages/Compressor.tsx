@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
+import { uploadProcessedFile } from "@/lib/storage";
 
 const Compressor = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -44,13 +45,17 @@ const Compressor = () => {
         canvas.toBlob((b) => resolve(b!), mimeType, quality / 100);
       });
 
-      const url = URL.createObjectURL(blob);
       const ext = mimeType === "image/png" ? "png" : "jpg";
+      const fileName = `compressed_${file.name.split(".")[0]}.${ext}`;
+
+      // Upload to Supabase storage
+      const url = await uploadProcessedFile(blob, fileName);
+
       setResult({
         url,
         originalSize: file.size,
         compressedSize: blob.size,
-        fileName: `compressed_${file.name.split(".")[0]}.${ext}`,
+        fileName,
       });
     } catch (err) {
       console.error("Compression failed:", err);
@@ -71,7 +76,6 @@ const Compressor = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
-      {/* Hero */}
       <header className="mb-16">
         <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">
           Optimization Engine
@@ -86,11 +90,9 @@ const Compressor = () => {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left: Controls */}
         <div className="lg:col-span-7 space-y-8">
           <DropZone onFileSelect={handleFileSelect} accept="image/png,image/jpeg,image/webp" />
 
-          {/* Quality slider */}
           <div className="bg-surface-container rounded-xl p-8 space-y-6">
             <div className="flex justify-between items-center">
               <h4 className="font-headline font-bold text-lg">Compression Intensity</h4>
@@ -128,9 +130,7 @@ const Compressor = () => {
           </div>
         </div>
 
-        {/* Right: Results */}
         <div className="lg:col-span-5 space-y-8">
-          {/* Preview */}
           <div className="bg-surface-container rounded-xl overflow-hidden">
             <div className="p-6 border-b border-outline-variant/10 flex justify-between items-center">
               <h4 className="font-headline font-bold text-sm tracking-widest uppercase">Live Delta Analysis</h4>
@@ -148,7 +148,6 @@ const Compressor = () => {
             </div>
           </div>
 
-          {/* Stats */}
           {result && (
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-surface-container-low p-6 rounded-xl">
@@ -166,12 +165,10 @@ const Compressor = () => {
             </div>
           )}
 
-          {/* Countdown Download */}
           <CountdownDownload
             downloadUrl={result?.url || null}
             fileName={result?.fileName || "compressed.jpg"}
             onExpired={() => {
-              if (result?.url) URL.revokeObjectURL(result.url);
               setResult(null);
               setFile(null);
               setPreviewUrl(null);
@@ -180,7 +177,6 @@ const Compressor = () => {
         </div>
       </div>
 
-      {/* Features */}
       <section className="mt-32">
         <h2 className="text-3xl font-headline font-bold mb-12 text-center">Laboratory Grade Features</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
+import { uploadProcessedFile } from "@/lib/storage";
 
 const formats = [
   { value: "image/webp", label: "WebP (Optimized)" },
@@ -40,8 +41,11 @@ const Converter = () => {
       });
 
       const ext = targetFormat === "image/webp" ? "webp" : targetFormat === "image/png" ? "png" : "jpg";
-      const url = URL.createObjectURL(blob);
-      setResult({ url, fileName: `converted_${file.name.split(".")[0]}.${ext}` });
+      const fileName = `converted_${file.name.split(".")[0]}.${ext}`;
+
+      // Upload to Supabase storage
+      const url = await uploadProcessedFile(blob, fileName);
+      setResult({ url, fileName });
     } catch (err) {
       console.error("Conversion failed:", err);
     } finally {
@@ -141,7 +145,6 @@ const Converter = () => {
             downloadUrl={result?.url || null}
             fileName={result?.fileName || "converted.webp"}
             onExpired={() => {
-              if (result?.url) URL.revokeObjectURL(result.url);
               setResult(null);
               setFile(null);
             }}
