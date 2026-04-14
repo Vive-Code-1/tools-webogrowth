@@ -30,7 +30,7 @@ const toolCategories = [
       { label: "Robots.txt Generator", path: "/robots-generator" },
       { label: "Color Palette", path: "/color-palette" },
       { label: "Gradient Generator", path: "/gradient-generator" },
-      { label: "Lorem Ipsum", path: "/lorem-ipsum" },
+      { label: "Lorem Ipsum Generator", path: "/lorem-ipsum" },
       { label: "QR Code Generator", path: "/qr-code" },
     ],
   },
@@ -69,17 +69,21 @@ const Navbar = () => {
               All Tools
               <span className={`material-symbols-outlined text-sm transition-transform ${desktopDropdown ? "rotate-180" : ""}`}>expand_more</span>
             </button>
+            {/* Invisible hover bridge */}
             {desktopDropdown && (
-              <div className="absolute top-full right-0 mt-2 bg-surface-container-low/95 backdrop-blur-xl rounded-xl border border-outline-variant/15 p-6 min-w-[520px] shadow-2xl grid grid-cols-3 gap-6">
+              <div className="absolute top-full right-0 w-full h-4" />
+            )}
+            {desktopDropdown && (
+              <div className="absolute top-[calc(100%+16px)] right-0 bg-surface-container-low/95 backdrop-blur-xl rounded-xl border border-outline-variant/15 p-8 min-w-[640px] shadow-2xl grid grid-cols-3 gap-8">
                 {toolCategories.map((cat) => (
                   <div key={cat.label}>
-                    <span className="text-[10px] font-label uppercase tracking-widest text-primary font-bold block mb-3">{cat.label}</span>
-                    <div className="space-y-2">
+                    <span className="text-xs font-label uppercase tracking-widest text-primary font-bold block mb-4">{cat.label}</span>
+                    <div className="space-y-1">
                       {cat.tools.map((tool) => (
                         <Link
                           key={tool.path}
                           to={tool.path}
-                          className={`block text-sm transition-colors ${location.pathname === tool.path ? "text-primary font-bold" : "text-on-surface-variant hover:text-foreground"}`}
+                          className={`block text-base py-1.5 transition-colors ${location.pathname === tool.path ? "text-primary font-bold" : "text-on-surface-variant hover:text-foreground"}`}
                         >
                           {tool.label}
                         </Link>
@@ -113,13 +117,13 @@ const Navbar = () => {
         <div className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
           {toolCategories.map((cat) => (
             <div key={cat.label}>
-              <span className="text-[10px] font-label uppercase tracking-widest text-primary font-bold block mb-2">{cat.label}</span>
+              <span className="text-xs font-label uppercase tracking-widest text-primary font-bold block mb-2">{cat.label}</span>
               {cat.tools.map((tool) => (
                 <Link
                   key={tool.path}
                   to={tool.path}
                   onClick={() => setMobileOpen(false)}
-                  className={`block py-2 font-headline ${location.pathname === tool.path ? "text-primary" : "text-on-surface-variant"}`}
+                  className={`block py-2 font-headline text-base ${location.pathname === tool.path ? "text-primary" : "text-on-surface-variant"}`}
                 >
                   {tool.label}
                 </Link>
