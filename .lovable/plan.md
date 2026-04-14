@@ -1,98 +1,99 @@
 
 
-## Plan: JSON-LD per Tool + OG Image + Pages + Mega Menu Fix + Admin Panel
+## Plan: QR Code Advanced + Navbar/Footer Rework + Admin Upgrade + Animations + Contact Email + Cleanup
 
-### 1. JSON-LD Structured Data per Tool Page
+### 1. Advanced QR Code Generator (Reference: image-6.png)
 
-Update `SEOHead.tsx` to accept optional `jsonLd` prop. Each tool page will include `SoftwareApplication` schema:
+Rebuild `QrCodeGenerator.tsx` with features matching the reference:
+- **Content types**: URL, Text, Email, Phone, SMS, vCard, WiFi, Location tabs
+- **Color customization**: Foreground color, background color, gradient options
+- **Logo overlay**: Upload company logo to center of QR code (canvas compositing)
+- **Body shape options**: Square, rounded, dots, classy rounded (visual selectors)
+- **Eye frame shape options**: Square, circle, rounded variations
+- **Transparent background**: Option to download with transparent BG
+- **Download formats**: PNG, SVG
+- **Quality slider**: Low to High quality with pixel size display
+- **Size control**: Custom pixel dimensions
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "JSON Formatter & Validator",
-  "url": "https://tools.webogrowth.com/json-formatter",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0" },
-  "author": { "@type": "Organization", "name": "WeboGrowth" }
-}
-```
+### 2. Navbar Restructure
 
-All 17 tool pages will get their own JSON-LD automatically via SEOHead.
+Remove Compressor/Converter direct links. New nav items:
+- **Home** (`/`)
+- **About Us** (`/about-us`)
+- **All Tools** (mega menu dropdown - existing)
+- **Contact Us** (replaces "Get Started" button)
 
-### 2. OG Image Setup
+### 3. Footer Update
 
-Copy the uploaded `Fabook_cover-01.jpg` to `public/og-image.jpg`. Update:
-- `index.html` — add `og:image` meta tag pointing to `https://tools.webogrowth.com/og-image.jpg`
-- `SEOHead.tsx` — add `og:image` and `twitter:image` meta tags using the same image
+Remove "About Us" and "Contact Us" links from footer (they move to navbar). Keep tool categories + copyright + Privacy/Terms.
 
-### 3. New Pages (4 pages)
+### 4. Admin Panel Enhancements
 
-**Privacy Policy** (`/privacy-policy`) — Standard privacy policy for a browser-based tools site (no data collection, browser-only processing, cookies info)
+- **Fix logo upload**: Logo saves to localStorage but isn't reflected in Navbar — wire up Navbar to read admin logo from localStorage
+- **Admin profile**: Name, avatar, password change (stored in localStorage)
+- **Multi-admin**: Add/remove admin accounts (stored in localStorage array)
+- **Additional admin features**:
+  - Analytics dashboard (page view stats from localStorage)
+  - Quick links to all tools
+  - System info (build version, tools count)
 
-**Terms of Service** (`/terms-of-service`) — Standard ToS for free online tools
+### 5. Scroll to Top on Navigation
 
-**About Us** (`/about-us`) — Content from webogrowth.com homepage:
-- WeboGrowth is a full-service digital agency
-- Services: Web Development, SEO, Graphic Design, Social Media Marketing, UI/UX, SaaS Development
-- Head Office: Uposhohor Rd No 1, Apt 423, Bogura, Bangladesh
-- Contact: +880 1791208768, Support@webogrowth.com
+Add a `ScrollToTop` component using `useLocation` + `useEffect` to call `window.scrollTo(0, 0)` on every route change.
 
-**Contact Us** (`/contact-us`) — Contact form + info from webogrowth.com:
-- Address, phone numbers, email
-- WhatsApp link
-- Contact form (name, email, service, message)
+### 6. Framer Motion Animations
 
-### 4. Fix Mega Menu (Navbar)
+Install `framer-motion`. Add:
+- **Page transitions**: Fade-in on route change
+- **Scroll animations**: Cards animate in on scroll using `whileInView`
+- **Hover effects**: Scale + glow on tool cards and buttons
+- **Homepage hero**: Staggered text reveal
+- **Tool cards**: Slide-up on scroll with stagger
 
-Current issues: dropdown disappears before clicking links, text too small. Changes:
-- Increase `min-w` from `520px` to `640px`
-- Increase link text from `text-sm` to `text-base` with `py-1.5` padding
-- Add proper `pt-2` gap bridge between trigger and dropdown (invisible hover bridge)
-- Increase category label from `text-[10px]` to `text-xs`
+### 7. Contact Form Email via Resend
 
-### 5. Footer "Lorem Ipsum" → "Lorem Ipsum Generator"
+The user provided a Resend API key. Since it's a publishable key used server-side, I'll create a Supabase Edge Function `send-contact-email` that:
+- Receives form data from ContactUs page
+- Sends email to `rafikuzzaman10@gmail.com` via Resend API
+- Update ContactUs.tsx to invoke this edge function instead of mailto
 
-Update footer link label from "Lorem Ipsum" to "Lorem Ipsum Generator". Also add Privacy Policy, Terms, About Us, Contact Us links.
+### 8. Database Cleanup (5-minute auto-delete)
 
-### 6. Admin Dashboard
+The existing `cleanup-expired-files` edge function already handles this. Ensure it's scheduled via Supabase cron or called periodically. The current implementation deletes files older than 5 minutes from `processed-files` bucket.
 
-Create a simple admin panel at `/admin` with login (hardcoded email: `aabeg01@gmail.com`, password: `aabeg01@gmail.com`). Store auth state in React context (not localStorage for security — use sessionStorage).
+### 9. Code Minification
 
-**Admin Features:**
-- **SEO Settings**: Edit site-wide meta title, description, keywords (stored in localStorage, injected via Helmet)
-- **Verification Codes**: Input fields for Google Search Console meta tag, Google Analytics tracking ID, Bing Webmaster, Facebook domain verification — these get injected into `<head>` via Helmet
-- **Logo Upload**: Upload/change site logo (stored as base64 in localStorage)
-- **Sitemap Viewer**: View current sitemap.xml content
-- **Tools Management**: View list of all tools with their SEO metadata
+Vite already minifies in production builds. No changes needed — `vite build` uses esbuild/terser by default.
 
-Admin route will be outside the main Layout (no navbar/footer) with its own dark dashboard UI.
+---
 
 ### Files to Create
-- `src/pages/PrivacyPolicy.tsx`
-- `src/pages/TermsOfService.tsx`
-- `src/pages/AboutUs.tsx`
-- `src/pages/ContactUs.tsx`
-- `src/pages/Admin.tsx`
-- `src/contexts/AdminContext.tsx`
+- `src/components/ScrollToTop.tsx`
+- `src/components/AnimatedSection.tsx` (reusable scroll animation wrapper)
+- `supabase/functions/send-contact-email/index.ts`
 
 ### Files to Update
-- `src/components/SEOHead.tsx` — Add jsonLd prop + og:image
-- `src/App.tsx` — Add 5 new routes
-- `src/components/Navbar.tsx` — Fix mega menu hover + sizing
-- `src/components/Footer.tsx` — Add page links, fix Lorem Ipsum label
-- `index.html` — Add og:image meta tag
-- `public/sitemap.xml` — Add new page URLs
-- Copy OG image to `public/og-image.jpg`
-- All 17 tool pages — Add JSON-LD data to SEOHead calls
+- `src/pages/QrCodeGenerator.tsx` — Complete rewrite with advanced features
+- `src/components/Navbar.tsx` — Remove Compressor/Converter, add Home/About/Contact
+- `src/components/Footer.tsx` — Remove About Us/Contact Us links
+- `src/pages/Admin.tsx` — Add profile, multi-admin, logo fix
+- `src/pages/ContactUs.tsx` — Use Resend edge function
+- `src/App.tsx` — Add ScrollToTop, wrap with AnimatePresence
+- `src/pages/Index.tsx` — Add framer-motion animations
+- `src/components/Layout.tsx` — Add ScrollToTop component
+- All tool page components — Add motion animations to cards
+
+### Dependencies to Add
+- `framer-motion` — Animations and page transitions
 
 ### Implementation Order
-1. Copy OG image + update SEOHead with jsonLd + og:image
-2. Update all tool pages with JSON-LD
-3. Create Privacy, Terms, About, Contact pages
-4. Fix Navbar mega menu
-5. Update Footer
-6. Build Admin dashboard
-7. Update routes, sitemap
+1. Install framer-motion
+2. Create ScrollToTop + AnimatedSection components
+3. Rebuild QR Code Generator with advanced features
+4. Update Navbar and Footer
+5. Upgrade Admin panel
+6. Add animations to homepage and tool pages
+7. Create contact email edge function
+8. Update ContactUs to use edge function
+9. Wire admin logo to Navbar
 
