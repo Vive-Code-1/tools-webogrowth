@@ -46,10 +46,6 @@ const Footer = () => (
           <p className="text-on-surface-variant/60 text-sm leading-relaxed mb-4">
             Free online tools for developers and designers. Compress, convert, optimize, and generate — all in your browser.
           </p>
-          <div className="space-y-1">
-            <Link to="/about-us" className="block text-sm text-on-surface-variant/60 hover:text-foreground transition-colors">About Us</Link>
-            <Link to="/contact-us" className="block text-sm text-on-surface-variant/60 hover:text-foreground transition-colors">Contact Us</Link>
-          </div>
         </div>
         {footerLinks.map((group) => (
           <div key={group.title}>

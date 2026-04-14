@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useToast } from "@/hooks/use-toast";
 
-const ADMIN_EMAIL = "aabeg01@gmail.com";
-const ADMIN_PASS = "aabeg01@gmail.com";
 const AUTH_KEY = "wg_admin_auth";
 const SETTINGS_KEY = "wg_admin_settings";
+const ADMINS_KEY = "wg_admins";
 
 interface AdminSettings {
   siteTitle: string;
@@ -17,6 +16,20 @@ interface AdminSettings {
   facebookVerification: string;
   logo: string;
 }
+
+interface AdminUser {
+  email: string;
+  password: string;
+  name: string;
+  avatar: string;
+}
+
+const DEFAULT_ADMIN: AdminUser = {
+  email: "aabeg01@gmail.com",
+  password: "aabeg01@gmail.com",
+  name: "Admin",
+  avatar: "",
+};
 
 const defaultSettings: AdminSettings = {
   siteTitle: "WeboGrowth Tools - Free Online Developer & Designer Tools",
@@ -52,25 +65,56 @@ const toolsList = [
 const Admin = () => {
   const { toast } = useToast();
   const [authenticated, setAuthenticated] = useState(false);
+  const [currentAdmin, setCurrentAdmin] = useState<AdminUser | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("seo");
   const [settings, setSettings] = useState<AdminSettings>(defaultSettings);
+  const [admins, setAdmins] = useState<AdminUser[]>([]);
+
+  // Profile edit state
+  const [editName, setEditName] = useState("");
+  const [editOldPass, setEditOldPass] = useState("");
+  const [editNewPass, setEditNewPass] = useState("");
+  // New admin state
+  const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [newAdminPass, setNewAdminPass] = useState("");
+  const [newAdminName, setNewAdminName] = useState("");
 
   useEffect(() => {
     const auth = sessionStorage.getItem(AUTH_KEY);
-    if (auth === "true") setAuthenticated(true);
+    if (auth) {
+      try {
+        const parsed = JSON.parse(auth);
+        setAuthenticated(true);
+        setCurrentAdmin(parsed);
+        setEditName(parsed.name || "");
+      } catch {}
+    }
     const saved = localStorage.getItem(SETTINGS_KEY);
     if (saved) {
       try { setSettings({ ...defaultSettings, ...JSON.parse(saved) }); } catch {}
+    }
+    const savedAdmins = localStorage.getItem(ADMINS_KEY);
+    if (savedAdmins) {
+      try { setAdmins(JSON.parse(savedAdmins)); } catch {}
+    } else {
+      setAdmins([DEFAULT_ADMIN]);
+      localStorage.setItem(ADMINS_KEY, JSON.stringify([DEFAULT_ADMIN]));
     }
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
-      sessionStorage.setItem(AUTH_KEY, "true");
+    const allAdmins: AdminUser[] = (() => {
+      try { return JSON.parse(localStorage.getItem(ADMINS_KEY) || "[]"); } catch { return [DEFAULT_ADMIN]; }
+    })();
+    const found = allAdmins.find((a) => a.email === email && a.password === password);
+    if (found) {
+      sessionStorage.setItem(AUTH_KEY, JSON.stringify(found));
       setAuthenticated(true);
+      setCurrentAdmin(found);
+      setEditName(found.name);
       toast({ title: "Login successful" });
     } else {
       toast({ title: "Invalid credentials", variant: "destructive" });
@@ -80,10 +124,12 @@ const Admin = () => {
   const handleLogout = () => {
     sessionStorage.removeItem(AUTH_KEY);
     setAuthenticated(false);
+    setCurrentAdmin(null);
   };
 
   const handleSave = () => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    window.dispatchEvent(new Event("storage"));
     toast({ title: "Settings saved successfully" });
   };
 
@@ -96,9 +142,96 @@ const Admin = () => {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      setSettings({ ...settings, logo: reader.result as string });
+      const newSettings = { ...settings, logo: reader.result as string };
+      setSettings(newSettings);
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));
+      window.dispatchEvent(new Event("storage"));
+      toast({ title: "Logo uploaded & saved" });
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleProfileSave = () => {
+    if (!currentAdmin) return;
+    const allAdmins: AdminUser[] = (() => {
+      try { return JSON.parse(localStorage.getItem(ADMINS_KEY) || "[]"); } catch { return []; }
+    })();
+
+    const idx = allAdmins.findIndex((a) => a.email === currentAdmin.email);
+    if (idx === -1) return;
+
+    if (editOldPass && editNewPass) {
+      if (editOldPass !== allAdmins[idx].password) {
+        toast({ title: "Old password is incorrect", variant: "destructive" });
+        return;
+      }
+      allAdmins[idx].password = editNewPass;
+    }
+    allAdmins[idx].name = editName;
+    localStorage.setItem(ADMINS_KEY, JSON.stringify(allAdmins));
+    setAdmins(allAdmins);
+    const updated = allAdmins[idx];
+    setCurrentAdmin(updated);
+    sessionStorage.setItem(AUTH_KEY, JSON.stringify(updated));
+    setEditOldPass("");
+    setEditNewPass("");
+    toast({ title: "Profile updated" });
+  };
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !currentAdmin) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const allAdmins: AdminUser[] = (() => {
+        try { return JSON.parse(localStorage.getItem(ADMINS_KEY) || "[]"); } catch { return []; }
+      })();
+      const idx = allAdmins.findIndex((a) => a.email === currentAdmin.email);
+      if (idx === -1) return;
+      allAdmins[idx].avatar = reader.result as string;
+      localStorage.setItem(ADMINS_KEY, JSON.stringify(allAdmins));
+      setAdmins(allAdmins);
+      setCurrentAdmin(allAdmins[idx]);
+      sessionStorage.setItem(AUTH_KEY, JSON.stringify(allAdmins[idx]));
+      toast({ title: "Avatar updated" });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAddAdmin = () => {
+    if (!newAdminEmail || !newAdminPass) {
+      toast({ title: "Email and password required", variant: "destructive" });
+      return;
+    }
+    const allAdmins: AdminUser[] = (() => {
+      try { return JSON.parse(localStorage.getItem(ADMINS_KEY) || "[]"); } catch { return []; }
+    })();
+    if (allAdmins.find((a) => a.email === newAdminEmail)) {
+      toast({ title: "Admin with this email already exists", variant: "destructive" });
+      return;
+    }
+    const newAdmin: AdminUser = { email: newAdminEmail, password: newAdminPass, name: newAdminName || "Admin", avatar: "" };
+    allAdmins.push(newAdmin);
+    localStorage.setItem(ADMINS_KEY, JSON.stringify(allAdmins));
+    setAdmins(allAdmins);
+    setNewAdminEmail("");
+    setNewAdminPass("");
+    setNewAdminName("");
+    toast({ title: "New admin added" });
+  };
+
+  const handleRemoveAdmin = (adminEmail: string) => {
+    if (adminEmail === currentAdmin?.email) {
+      toast({ title: "Cannot remove yourself", variant: "destructive" });
+      return;
+    }
+    const allAdmins: AdminUser[] = (() => {
+      try { return JSON.parse(localStorage.getItem(ADMINS_KEY) || "[]"); } catch { return []; }
+    })();
+    const filtered = allAdmins.filter((a) => a.email !== adminEmail);
+    localStorage.setItem(ADMINS_KEY, JSON.stringify(filtered));
+    setAdmins(filtered);
+    toast({ title: "Admin removed" });
   };
 
   if (!authenticated) {
@@ -118,9 +251,7 @@ const Admin = () => {
             <label className="text-xs font-label uppercase tracking-widest text-on-surface-variant block mb-2">Password</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary" placeholder="••••••••" />
           </div>
-          <button type="submit" className="w-full bg-primary text-on-primary py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">
-            Login
-          </button>
+          <button type="submit" className="w-full bg-primary text-on-primary py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">Login</button>
         </form>
       </div>
     );
@@ -130,29 +261,32 @@ const Admin = () => {
     { id: "seo", label: "SEO Settings", icon: "search" },
     { id: "verification", label: "Verification", icon: "verified" },
     { id: "logo", label: "Logo", icon: "image" },
+    { id: "profile", label: "My Profile", icon: "person" },
+    { id: "admins", label: "Manage Admins", icon: "group" },
     { id: "tools", label: "Tools", icon: "build" },
     { id: "sitemap", label: "Sitemap", icon: "map" },
   ];
 
   return (
     <div className="min-h-screen bg-surface">
-      <Helmet>
-        <title>Admin Dashboard | WeboGrowth Tools</title>
-        {settings.googleSearchConsole && <meta name="google-site-verification" content={settings.googleSearchConsole} />}
-        {settings.bingWebmaster && <meta name="msvalidate.01" content={settings.bingWebmaster} />}
-        {settings.facebookVerification && <meta name="facebook-domain-verification" content={settings.facebookVerification} />}
-        {settings.googleAnalytics && (
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${settings.googleAnalytics}`} />
-        )}
-      </Helmet>
+      <Helmet><title>Admin Dashboard | WeboGrowth Tools</title></Helmet>
 
-      {/* Top Bar */}
       <header className="bg-surface-container-low border-b border-outline-variant/15 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
           <h1 className="text-lg font-headline font-bold">WeboGrowth Admin</h1>
         </div>
         <div className="flex items-center gap-4">
+          {currentAdmin && (
+            <div className="flex items-center gap-2">
+              {currentAdmin.avatar ? (
+                <img src={currentAdmin.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm font-bold">{currentAdmin.name?.[0]?.toUpperCase() || "A"}</div>
+              )}
+              <span className="text-sm text-on-surface-variant hidden sm:inline">{currentAdmin.name}</span>
+            </div>
+          )}
           <a href="/" target="_blank" rel="noopener noreferrer" className="text-on-surface-variant text-sm hover:text-primary transition-colors flex items-center gap-1">
             <span className="material-symbols-outlined text-sm">open_in_new</span>View Site
           </a>
@@ -163,16 +297,13 @@ const Admin = () => {
       </header>
 
       <div className="flex">
-        {/* Sidebar */}
         <aside className="w-64 bg-surface-container-low min-h-[calc(100vh-65px)] p-4 hidden md:block">
           <nav className="space-y-1">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium flex items-center gap-3 transition-colors ${
-                  activeTab === tab.id ? "bg-primary/10 text-primary" : "text-on-surface-variant hover:bg-surface-container"
-                }`}
+                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium flex items-center gap-3 transition-colors ${activeTab === tab.id ? "bg-primary/10 text-primary" : "text-on-surface-variant hover:bg-surface-container"}`}
               >
                 <span className="material-symbols-outlined text-lg">{tab.icon}</span>
                 {tab.label}
@@ -181,22 +312,18 @@ const Admin = () => {
           </nav>
         </aside>
 
-        {/* Mobile tabs */}
         <div className="md:hidden flex overflow-x-auto border-b border-outline-variant/15 bg-surface-container-low px-4">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-3 text-xs font-bold uppercase tracking-widest whitespace-nowrap border-b-2 transition-colors ${
-                activeTab === tab.id ? "border-primary text-primary" : "border-transparent text-on-surface-variant"
-              }`}
+              className={`px-4 py-3 text-xs font-bold uppercase tracking-widest whitespace-nowrap border-b-2 transition-colors ${activeTab === tab.id ? "border-primary text-primary" : "border-transparent text-on-surface-variant"}`}
             >
               {tab.label}
             </button>
           ))}
         </div>
 
-        {/* Content */}
         <main className="flex-1 p-6 md:p-8 max-w-4xl">
           {activeTab === "seo" && (
             <div className="space-y-6">
@@ -217,9 +344,7 @@ const Admin = () => {
                   <input value={settings.siteKeywords} onChange={(e) => setSettings({ ...settings, siteKeywords: e.target.value })} className="w-full bg-surface-container rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary" />
                 </div>
               </div>
-              <button onClick={handleSave} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">
-                Save SEO Settings
-              </button>
+              <button onClick={handleSave} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">Save SEO Settings</button>
             </div>
           )}
 
@@ -228,54 +353,35 @@ const Admin = () => {
               <h2 className="text-2xl font-headline font-bold">Verification & Analytics</h2>
               <p className="text-on-surface-variant text-sm">Add verification codes for search engines and analytics tracking.</p>
               <div className="space-y-4">
-                <div className="bg-surface-container rounded-xl p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="material-symbols-outlined text-primary">search</span>
-                    <h3 className="font-headline font-bold">Google Search Console</h3>
+                {[
+                  { key: "googleSearchConsole" as const, icon: "search", title: "Google Search Console", placeholder: "e.g. ABC123xyz...", desc: "Paste the content value from the meta tag verification code." },
+                  { key: "googleAnalytics" as const, icon: "analytics", title: "Google Analytics", placeholder: "G-XXXXXXXXXX", desc: "Enter your Google Analytics Measurement ID." },
+                  { key: "bingWebmaster" as const, icon: "travel_explore", title: "Bing Webmaster", placeholder: "Bing verification code", desc: "Paste the content value from Bing Webmaster verification meta tag." },
+                  { key: "facebookVerification" as const, icon: "facebook", title: "Facebook Domain Verification", placeholder: "Facebook verification code", desc: "Paste the content value from Facebook domain verification meta tag." },
+                ].map((item) => (
+                  <div key={item.key} className="bg-surface-container rounded-xl p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="material-symbols-outlined text-primary">{item.icon}</span>
+                      <h3 className="font-headline font-bold">{item.title}</h3>
+                    </div>
+                    <p className="text-xs text-on-surface-variant mb-3">{item.desc}</p>
+                    <input value={settings[item.key]} onChange={(e) => setSettings({ ...settings, [item.key]: e.target.value })} placeholder={item.placeholder} className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
                   </div>
-                  <p className="text-xs text-on-surface-variant mb-3">Paste the content value from the meta tag verification code.</p>
-                  <input value={settings.googleSearchConsole} onChange={(e) => setSettings({ ...settings, googleSearchConsole: e.target.value })} placeholder="e.g. ABC123xyz..." className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
-                </div>
-                <div className="bg-surface-container rounded-xl p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="material-symbols-outlined text-primary">analytics</span>
-                    <h3 className="font-headline font-bold">Google Analytics</h3>
-                  </div>
-                  <p className="text-xs text-on-surface-variant mb-3">Enter your Google Analytics Measurement ID (e.g. G-XXXXXXXXXX).</p>
-                  <input value={settings.googleAnalytics} onChange={(e) => setSettings({ ...settings, googleAnalytics: e.target.value })} placeholder="G-XXXXXXXXXX" className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
-                </div>
-                <div className="bg-surface-container rounded-xl p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="material-symbols-outlined text-primary">travel_explore</span>
-                    <h3 className="font-headline font-bold">Bing Webmaster</h3>
-                  </div>
-                  <p className="text-xs text-on-surface-variant mb-3">Paste the content value from Bing Webmaster verification meta tag.</p>
-                  <input value={settings.bingWebmaster} onChange={(e) => setSettings({ ...settings, bingWebmaster: e.target.value })} placeholder="Bing verification code" className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
-                </div>
-                <div className="bg-surface-container rounded-xl p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="material-symbols-outlined text-primary">facebook</span>
-                    <h3 className="font-headline font-bold">Facebook Domain Verification</h3>
-                  </div>
-                  <p className="text-xs text-on-surface-variant mb-3">Paste the content value from Facebook domain verification meta tag.</p>
-                  <input value={settings.facebookVerification} onChange={(e) => setSettings({ ...settings, facebookVerification: e.target.value })} placeholder="Facebook verification code" className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
-                </div>
+                ))}
               </div>
-              <button onClick={handleSave} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">
-                Save Verification Settings
-              </button>
+              <button onClick={handleSave} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">Save Verification Settings</button>
             </div>
           )}
 
           {activeTab === "logo" && (
             <div className="space-y-6">
               <h2 className="text-2xl font-headline font-bold">Logo Management</h2>
-              <p className="text-on-surface-variant text-sm">Upload and manage your site logo. Max file size: 500KB.</p>
+              <p className="text-on-surface-variant text-sm">Upload and manage your site logo. Max file size: 500KB. Changes reflect immediately in the navbar.</p>
               <div className="bg-surface-container rounded-xl p-8 text-center">
                 {settings.logo ? (
                   <div className="space-y-4">
                     <img src={settings.logo} alt="Site Logo" className="max-h-24 mx-auto" />
-                    <button onClick={() => setSettings({ ...settings, logo: "" })} className="text-sm text-error hover:underline">Remove Logo</button>
+                    <button onClick={() => { const ns = { ...settings, logo: "" }; setSettings(ns); localStorage.setItem(SETTINGS_KEY, JSON.stringify(ns)); window.dispatchEvent(new Event("storage")); toast({ title: "Logo removed" }); }} className="text-sm text-error hover:underline">Remove Logo</button>
                   </div>
                 ) : (
                   <div className="py-8">
@@ -290,9 +396,89 @@ const Admin = () => {
                   <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
                 </label>
               </div>
-              <button onClick={handleSave} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">
-                Save Logo
-              </button>
+            </div>
+          )}
+
+          {activeTab === "profile" && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-headline font-bold">My Profile</h2>
+              <div className="bg-surface-container rounded-xl p-6 space-y-6">
+                <div className="flex items-center gap-6">
+                  <div className="relative">
+                    {currentAdmin?.avatar ? (
+                      <img src={currentAdmin.avatar} alt="" className="w-20 h-20 rounded-full object-cover" />
+                    ) : (
+                      <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center text-primary text-2xl font-bold">{currentAdmin?.name?.[0]?.toUpperCase() || "A"}</div>
+                    )}
+                    <label className="absolute -bottom-1 -right-1 w-8 h-8 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-on-primary text-sm">edit</span>
+                      <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
+                    </label>
+                  </div>
+                  <div>
+                    <p className="font-headline font-bold text-lg">{currentAdmin?.name}</p>
+                    <p className="text-on-surface-variant text-sm">{currentAdmin?.email}</p>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-label uppercase tracking-widest text-on-surface-variant block mb-2">Display Name</label>
+                  <input value={editName} onChange={(e) => setEditName(e.target.value)} className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary" />
+                </div>
+                <div className="border-t border-outline-variant/15 pt-4">
+                  <h3 className="font-headline font-bold mb-4">Change Password</h3>
+                  <div className="space-y-3">
+                    <input type="password" value={editOldPass} onChange={(e) => setEditOldPass(e.target.value)} placeholder="Current password" className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary" />
+                    <input type="password" value={editNewPass} onChange={(e) => setEditNewPass(e.target.value)} placeholder="New password" className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary" />
+                  </div>
+                </div>
+                <button onClick={handleProfileSave} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">Save Profile</button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "admins" && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-headline font-bold">Manage Admins</h2>
+              <p className="text-on-surface-variant text-sm">Add or remove admin accounts.</p>
+
+              {/* Add new admin */}
+              <div className="bg-surface-container rounded-xl p-6 space-y-4">
+                <h3 className="font-headline font-bold">Add New Admin</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <input value={newAdminName} onChange={(e) => setNewAdminName(e.target.value)} placeholder="Name" className="bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
+                  <input value={newAdminEmail} onChange={(e) => setNewAdminEmail(e.target.value)} placeholder="Email" type="email" className="bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
+                  <input value={newAdminPass} onChange={(e) => setNewAdminPass(e.target.value)} placeholder="Password" type="password" className="bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
+                </div>
+                <button onClick={handleAddAdmin} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all text-sm">Add Admin</button>
+              </div>
+
+              {/* Admin list */}
+              <div className="bg-surface-container rounded-xl overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-outline-variant/15">
+                      <th className="text-left px-4 py-3 font-label uppercase tracking-widest text-xs text-on-surface-variant">Name</th>
+                      <th className="text-left px-4 py-3 font-label uppercase tracking-widest text-xs text-on-surface-variant">Email</th>
+                      <th className="text-right px-4 py-3 font-label uppercase tracking-widest text-xs text-on-surface-variant">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {admins.map((admin) => (
+                      <tr key={admin.email} className="border-b border-outline-variant/10">
+                        <td className="px-4 py-3 text-foreground">{admin.name}</td>
+                        <td className="px-4 py-3 text-on-surface-variant">{admin.email}</td>
+                        <td className="px-4 py-3 text-right">
+                          {admin.email === currentAdmin?.email ? (
+                            <span className="text-xs text-primary font-bold">You</span>
+                          ) : (
+                            <button onClick={() => handleRemoveAdmin(admin.email)} className="text-xs text-error hover:underline">Remove</button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
 
@@ -335,14 +521,7 @@ const Admin = () => {
               <div className="bg-surface-container rounded-xl p-6">
                 <h3 className="font-headline font-bold mb-4">Indexed URLs</h3>
                 <div className="space-y-2">
-                  {[
-                    "/", "/compressor", "/converter", "/svg-optimizer", "/favicon",
-                    "/image-resizer", "/placeholder", "/json-formatter", "/css-minifier",
-                    "/base64", "/html-to-markdown", "/meta-tag-generator", "/og-preview",
-                    "/robots-generator", "/color-palette", "/gradient-generator",
-                    "/qr-code", "/lorem-ipsum", "/about-us", "/contact-us",
-                    "/privacy-policy", "/terms-of-service",
-                  ].map((url) => (
+                  {["/", "/compressor", "/converter", "/svg-optimizer", "/favicon", "/image-resizer", "/placeholder", "/json-formatter", "/css-minifier", "/base64", "/html-to-markdown", "/meta-tag-generator", "/og-preview", "/robots-generator", "/color-palette", "/gradient-generator", "/qr-code", "/lorem-ipsum", "/about-us", "/contact-us", "/privacy-policy", "/terms-of-service"].map((url) => (
                     <div key={url} className="flex items-center gap-2 text-sm">
                       <span className="material-symbols-outlined text-green-400 text-sm">check_circle</span>
                       <code className="text-on-surface-variant">https://tools.webogrowth.com{url}</code>
