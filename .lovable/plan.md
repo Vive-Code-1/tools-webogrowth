@@ -1,49 +1,28 @@
-## WeboGrowth Tools — Image Optimization Suite
 
-### Overview
 
-A dark-themed, "WeboGrowth Tools" web tools site with 4 image optimization tools, built with the exact design system from your mockups (Lime Green + Periwinkle, Space Grotesk + Manrope, glassmorphism surfaces). Connected to Supabase with auto-cleanup storage.
+## সমস্যা
 
-### Pages & Routes
+আপনি ঠিকই বলেছেন — আপনি Supabase credentials দিয়েছেন, তাই এই কাজগুলো আমারই করার কথা। তবে কিছু সীমাবদ্ধতা আছে:
 
-1. **Landing Page (`/`)** — Hero section, bento-grid tool cards, stats section, newsletter CTA, footer
-2. **Image Compressor (`/compressor`)** — Drag & drop upload, quality slider (lossless → max compression), live delta analysis preview, before/after stats, 5-min countdown download
-3. **Format Converter (`/converter`)** — Drag & drop, format selector (WebP/AVIF/PNG/JPG/SVG), quality precision slider, convert & download with 5-min timer
-4. **SVG Path Optimizer (`/svg-optimizer`)** — SVG upload, path optimization, before/after code preview, download
-5. **Favicon Generator (`/favicon`)** — Logo upload, background color picker, icon radius slider, technical output preview (desktop/iOS/Android/manifest), generate & download .zip with 5-min timer
+### যা আমি করতে পারি
 
-### Design System Setup
+1. **Edge Function কোড** — ইতিমধ্যে তৈরি করা হয়েছে (`supabase/functions/cleanup-expired-files/index.ts`)
+2. **Storage bucket তৈরি ও RLS policy** — আমি Supabase JS client ব্যবহার করে একটি **setup script** তৈরি করে রান করতে পারি যেটা:
+   - `processed-files` bucket তৈরি করবে (public)
+   - Storage RLS policies সেট করবে (INSERT/SELECT/DELETE for anon)
+3. **Cron job SQL** — একটি migration file তৈরি করতে পারি যেটা `pg_cron` schedule সেট করবে
 
-- Full custom color palette from your DESIGN.md (surface hierarchy, primary #cffe70, secondary #8f93ff, etc.)
-- Space Grotesk for headlines, Manrope for body/labels
-- "No-Line" rule: background color shifts instead of borders, ghost borders at 15% opacity
-- Glassmorphism for floating elements, ambient glows, tonal layering
-- Shared Navbar (sticky, blurred) + Footer across all pages
+### যা আমি সরাসরি করতে পারি না
 
-### Core Functionality
+- **Edge Function deploy** — এটার জন্য Supabase CLI এবং `SUPABASE_SERVICE_ROLE_KEY` লাগে। আমার কাছে শুধু anon key আছে, service role key নেই। Edge function deploy করতে হলে আপনাকে **service role key** দিতে হবে (Supabase Dashboard → Settings → API → service_role key)।
 
-**Client-Side Image Processing:**
+### Plan
 
-- Image compression using browser-based Canvas API (lossy) and libraries
-- Format conversion (JPG↔WebP↔PNG, SVG↔PNG) via Canvas + Blob APIs
-- SVG path optimization using SVGO (browser build)
-- Favicon generation: resize source image to all required sizes (16, 32, 48, 180, 192, 512px), generate ICO + PNG + webmanifest, package as ZIP
+1. **Setup script তৈরি ও রান করা** — Node.js script যেটা Supabase Admin API দিয়ে `processed-files` bucket তৈরি করবে
+2. **SQL migration তৈরি** — `pg_cron` schedule এর জন্য
+3. **Edge function** — আপনার service role key পেলে deploy করতে পারবো, অথবা আপনাকে শুধু একটি CLI command রান করতে হবে: `supabase functions deploy cleanup-expired-files`
 
-**Supabase Storage with 5-Minute Auto-Cleanup:**
+### আপনার কাছ থেকে যা দরকার
 
-- Processed files uploaded to a Supabase Storage bucket
-- Edge function (cron or scheduled) to delete files older than 5 minutes
-- Each file gets a metadata timestamp for expiry tracking
+**Service Role Key** দিন (Supabase Dashboard → Settings → API → `service_role` secret key)। এটা পেলে আমি bucket তৈরি, RLS policy, এবং সবকিছু সেটআপ করে দিতে পারবো। এই key টি secret হিসেবে store করা হবে, কোডে expose হবে না।
 
-**5-Minute Countdown Download System:**
-
-- After processing, a visible countdown timer starts (5:00 → 0:00)
-- User can download during the countdown window
-- When timer expires: download button disabled, alert shown saying "সময় শেষ! আবার নতুন করে ইমেজ প্রসেস করুন" (Time's up! Please process the image again)
-- File deleted from storage on expiry
-
-### Supabase Integration
-
-- Storage bucket for temporary processed files
-- Edge function for auto-cleanup (runs every minute, deletes files > 5 min old)
-- RLS policies for public read access (time-limited via signed URLs)
