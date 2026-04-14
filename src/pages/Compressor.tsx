@@ -76,6 +76,13 @@ const Compressor = () => {
   };
 
   return (
+    <>
+    <SEOHead
+      title="Image Compressor Online Free - Compress PNG, JPEG, WebP | WeboGrowth"
+      description="Compress images online for free. Reduce PNG, JPEG, WebP file sizes by up to 90% without losing quality. Fast, private, browser-based compression."
+      keywords="compress image online, image compressor free, reduce image size, png compressor, jpeg compressor, webp compressor"
+      canonicalPath="/compressor"
+    />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-16">
         <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">

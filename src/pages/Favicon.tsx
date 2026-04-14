@@ -111,6 +111,13 @@ const Favicon = () => {
   }, [file, generateIcon, bgColor]);
 
   return (
+    <>
+    <SEOHead
+      title="Favicon Generator Online Free - ICO, PNG, Apple Touch Icon | WeboGrowth"
+      description="Generate complete favicon packages for all platforms. Create ICO, PNG, Apple Touch Icon, and Android icons from any image in seconds."
+      keywords="favicon generator online, favicon creator, ico generator, apple touch icon generator, android icon generator"
+      canonicalPath="/favicon"
+    />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-20">
         <div className="inline-block px-3 py-1 bg-secondary-container/30 text-secondary text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6">
