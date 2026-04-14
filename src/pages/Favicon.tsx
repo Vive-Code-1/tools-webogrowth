@@ -297,6 +297,7 @@ const Favicon = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

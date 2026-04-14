@@ -204,6 +204,7 @@ const Compressor = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

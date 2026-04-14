@@ -184,6 +184,7 @@ const SvgOptimizer = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
