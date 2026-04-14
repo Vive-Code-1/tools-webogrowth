@@ -56,7 +56,11 @@ const Navbar = () => {
     };
     loadLogo();
     window.addEventListener("storage", loadLogo);
-    return () => window.removeEventListener("storage", loadLogo);
+    window.addEventListener("wg-settings-updated", loadLogo);
+    return () => {
+      window.removeEventListener("storage", loadLogo);
+      window.removeEventListener("wg-settings-updated", loadLogo);
+    };
   }, []);
 
   const navLinkClass = (path: string) =>

@@ -12,6 +12,7 @@ interface AdminSettings {
   siteKeywords: string;
   googleSearchConsole: string;
   googleAnalytics: string;
+  googleAdsId: string;
   bingWebmaster: string;
   facebookVerification: string;
   logo: string;
@@ -37,9 +38,14 @@ const defaultSettings: AdminSettings = {
   siteKeywords: "image compressor, json formatter, qr code generator, meta tag generator, free online tools",
   googleSearchConsole: "",
   googleAnalytics: "",
+  googleAdsId: "",
   bingWebmaster: "",
   facebookVerification: "",
   logo: "",
+};
+
+const dispatchSettingsUpdate = () => {
+  window.dispatchEvent(new CustomEvent("wg-settings-updated"));
 };
 
 const toolsList = [
