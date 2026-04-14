@@ -1,51 +1,75 @@
 import { Link } from "react-router-dom";
 import SEOHead from "@/components/SEOHead";
 
-const tools = [
-  {
-    title: "Image Compressor",
-    desc: "Lossless and lossy compression for PNG, JPEG, and WebP. Reduce file sizes by up to 90% without sacrificing visual fidelity.",
-    icon: "compress",
-    path: "/compressor",
-    span: "md:col-span-8",
-    large: true,
-  },
-  {
-    title: "Format Converter",
-    desc: "Transform assets between formats instantly. Supports AVIF, WebP, and SVG.",
-    icon: "swap_horiz",
-    path: "/converter",
-    span: "md:col-span-4",
-    tags: ["WebP", "AVIF", "SVG"],
-  },
-  {
-    title: "SVG Path Optimizer",
-    desc: "Clean up messy exports from Illustrator or Figma. Minify paths and remove metadata.",
-    icon: "slide_library",
-    path: "/svg-optimizer",
-    span: "md:col-span-4",
-  },
-  {
-    title: "Favicon Generator",
-    desc: "Generate the complete set of icons for every platform. Includes Apple Touch Icons, Android manifest, and classic ICO formats in seconds.",
-    icon: "branding_watermark",
-    path: "/favicon",
-    span: "md:col-span-8",
-    large: true,
-  },
+const imageTools = [
+  { title: "Image Compressor", desc: "Lossless and lossy compression for PNG, JPEG, and WebP. Reduce file sizes by up to 90% without sacrificing visual fidelity.", icon: "compress", path: "/compressor", span: "md:col-span-8", large: true },
+  { title: "Format Converter", desc: "Transform assets between formats instantly. Supports AVIF, WebP, and SVG.", icon: "swap_horiz", path: "/converter", span: "md:col-span-4", tags: ["WebP", "AVIF", "SVG"] },
+  { title: "SVG Path Optimizer", desc: "Clean up messy exports from Illustrator or Figma. Minify paths and remove metadata.", icon: "slide_library", path: "/svg-optimizer", span: "md:col-span-4" },
+  { title: "Favicon Generator", desc: "Generate the complete set of icons for every platform. Includes Apple Touch Icons, Android manifest, and classic ICO formats.", icon: "branding_watermark", path: "/favicon", span: "md:col-span-8", large: true },
+  { title: "Image Resizer", desc: "Resize and crop images to exact dimensions with precision. Maintain aspect ratio or set custom values.", icon: "aspect_ratio", path: "/image-resizer", span: "md:col-span-6" },
+  { title: "Placeholder Image", desc: "Generate custom placeholder images with specific dimensions, colors, and text for your mockups.", icon: "image", path: "/placeholder", span: "md:col-span-6" },
+];
+
+const devTools = [
+  { title: "JSON Formatter", desc: "Format, validate, and minify JSON data instantly. Detect syntax errors and fix malformed JSON with ease.", icon: "data_object", path: "/json-formatter", span: "md:col-span-6" },
+  { title: "CSS Minifier", desc: "Minify your CSS to reduce file size or beautify compressed CSS for readability.", icon: "css", path: "/css-minifier", span: "md:col-span-6" },
+  { title: "Base64 Tool", desc: "Encode text or files to Base64, or decode Base64 strings back to plain text.", icon: "password", path: "/base64", span: "md:col-span-4" },
+  { title: "HTML to Markdown", desc: "Convert HTML code to clean, readable Markdown format for documentation and README files.", icon: "html", path: "/html-to-markdown", span: "md:col-span-8", large: true },
+];
+
+const seoTools = [
+  { title: "Meta Tag Generator", desc: "Generate optimized meta tags for better search engine rankings and social media previews.", icon: "code", path: "/meta-tag-generator", span: "md:col-span-8", large: true },
+  { title: "OG Preview", desc: "Preview how your page will appear when shared on Facebook, Twitter, and LinkedIn.", icon: "preview", path: "/og-preview", span: "md:col-span-4" },
+  { title: "Robots.txt Generator", desc: "Create robots.txt files to control how search engines crawl your website.", icon: "smart_toy", path: "/robots-generator", span: "md:col-span-4" },
+  { title: "Color Palette", desc: "Generate complementary, analogous, and triadic palettes from any base color.", icon: "palette", path: "/color-palette", span: "md:col-span-4" },
+  { title: "CSS Gradient", desc: "Create stunning CSS gradients visually. Choose colors, adjust angles, and copy CSS code.", icon: "gradient", path: "/gradient-generator", span: "md:col-span-4" },
+  { title: "QR Code Generator", desc: "Generate QR codes from any URL or text. Customize colors and download as PNG.", icon: "qr_code_2", path: "/qr-code", span: "md:col-span-6" },
+  { title: "Lorem Ipsum", desc: "Generate placeholder dummy text for your designs. Choose paragraphs, sentences, or words.", icon: "notes", path: "/lorem-ipsum", span: "md:col-span-6" },
 ];
 
 const stats = [
+  { value: "17+", label: "Free Tools" },
   { value: "0ms", label: "Latency" },
   { value: "100%", label: "Privacy" },
 ];
+
+const ToolCard = ({ tool }: { tool: typeof imageTools[0] }) => (
+  <Link
+    to={tool.path}
+    className={`${tool.span} bg-surface-container rounded-xl overflow-hidden group hover:bg-surface-container-highest transition-all duration-500 relative border border-transparent hover:border-primary/10`}
+  >
+    <div className={`p-8 md:p-10 h-full flex flex-col justify-between relative z-10`}>
+      <div>
+        <div className="w-12 h-12 bg-secondary-container flex items-center justify-center rounded-lg mb-6">
+          <span className="material-symbols-outlined text-secondary">{tool.icon}</span>
+        </div>
+        <h3 className={`${tool.large ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"} font-headline font-bold mb-4`}>{tool.title}</h3>
+        <p className="text-on-surface-variant max-w-md leading-relaxed">{tool.desc}</p>
+      </div>
+      {"tags" in tool && (tool as any).tags && (
+        <div className="mt-8 flex gap-2">
+          {(tool as any).tags.map((tag: string) => (
+            <span key={tag} className="px-2 py-1 bg-surface-container-low rounded text-[10px] font-bold text-foreground/60 uppercase">{tag}</span>
+          ))}
+        </div>
+      )}
+      {tool.large && (
+        <div className="mt-12 flex items-center gap-4">
+          <span className="text-primary font-bold tracking-tight">Open Tool</span>
+          <div className="h-[1px] flex-grow bg-outline-variant/20" />
+          <span className="text-xs font-label uppercase text-foreground/40 tracking-widest">Free</span>
+        </div>
+      )}
+    </div>
+  </Link>
+);
 
 const Index = () => (
   <div>
     <SEOHead
       title="WeboGrowth Tools - Free Online Image Compressor, Converter & Optimizer"
-      description="Free online image optimization tools by WeboGrowth. Compress PNG, JPEG, WebP images, convert formats, optimize SVGs, and generate favicons instantly."
-      keywords="image compressor online free, compress image, convert image format, svg optimizer, favicon generator, webp converter"
+      description="Free online image optimization tools by WeboGrowth. Compress PNG, JPEG, WebP images, convert formats, optimize SVGs, generate favicons, format JSON, create QR codes, and 17+ more tools."
+      keywords="image compressor online free, compress image, convert image format, svg optimizer, favicon generator, webp converter, json formatter, meta tag generator, qr code generator, css minifier"
       canonicalPath="/"
     />
     {/* Hero */}
@@ -62,7 +86,7 @@ const Index = () => (
             <span className="gradient-text">Web Assets</span>
           </h1>
           <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed">
-            High-performance developer utilities for the modern web. Sanitize, compress, and convert with surgical precision.
+            17+ free developer and designer tools for the modern web. Compress images, format JSON, generate QR codes, create meta tags, and more — all in your browser with 100% privacy.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
@@ -73,54 +97,46 @@ const Index = () => (
               <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </Link>
             <Link
-              to="/converter"
+              to="/json-formatter"
               className="bg-transparent border border-outline-variant/20 text-foreground px-8 py-4 rounded-lg font-bold hover:bg-surface-container-highest transition-all duration-300"
             >
-              View Tools
+              Try JSON Formatter
             </Link>
           </div>
         </div>
       </div>
     </section>
 
-    {/* Tool Grid */}
+    {/* Image Tools */}
     <section className="py-20 px-6 md:px-8 max-w-7xl mx-auto">
+      <div className="mb-10">
+        <span className="text-[10px] font-label uppercase tracking-widest text-primary font-bold block mb-2">Image Tools</span>
+        <h2 className="text-3xl md:text-4xl font-headline font-bold">Compress, Convert & Optimize</h2>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        {tools.map((tool) => (
-          <Link
-            key={tool.path}
-            to={tool.path}
-            className={`${tool.span} bg-surface-container rounded-xl overflow-hidden group hover:bg-surface-container-highest transition-all duration-500 relative border border-transparent hover:border-primary/10`}
-          >
-            <div className={`p-8 md:p-10 h-full flex flex-col justify-between relative z-10`}>
-              <div>
-                <div className="w-12 h-12 bg-secondary-container flex items-center justify-center rounded-lg mb-6">
-                  <span className="material-symbols-outlined text-secondary">{tool.icon}</span>
-                </div>
-                <h3 className={`${tool.large ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"} font-headline font-bold mb-4`}>
-                  {tool.title}
-                </h3>
-                <p className="text-on-surface-variant max-w-md leading-relaxed">{tool.desc}</p>
-              </div>
-              {tool.tags && (
-                <div className="mt-8 flex gap-2">
-                  {tool.tags.map((tag) => (
-                    <span key={tag} className="px-2 py-1 bg-surface-container-low rounded text-[10px] font-bold text-foreground/60 uppercase">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-              {tool.large && (
-                <div className="mt-12 flex items-center gap-4">
-                  <span className="text-primary font-bold tracking-tight">Open Tool</span>
-                  <div className="h-[1px] flex-grow bg-outline-variant/20" />
-                  <span className="text-xs font-label uppercase text-foreground/40 tracking-widest">Stable</span>
-                </div>
-              )}
-            </div>
-          </Link>
-        ))}
+        {imageTools.map((tool) => <ToolCard key={tool.path} tool={tool} />)}
+      </div>
+    </section>
+
+    {/* Developer Tools */}
+    <section className="py-20 px-6 md:px-8 max-w-7xl mx-auto">
+      <div className="mb-10">
+        <span className="text-[10px] font-label uppercase tracking-widest text-primary font-bold block mb-2">Developer Tools</span>
+        <h2 className="text-3xl md:text-4xl font-headline font-bold">Format, Minify & Convert</h2>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        {devTools.map((tool) => <ToolCard key={tool.path} tool={tool} />)}
+      </div>
+    </section>
+
+    {/* SEO & Design Tools */}
+    <section className="py-20 px-6 md:px-8 max-w-7xl mx-auto">
+      <div className="mb-10">
+        <span className="text-[10px] font-label uppercase tracking-widest text-primary font-bold block mb-2">SEO & Design</span>
+        <h2 className="text-3xl md:text-4xl font-headline font-bold">Generate, Preview & Create</h2>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        {seoTools.map((tool) => <ToolCard key={tool.path} tool={tool} />)}
       </div>
     </section>
 
@@ -131,7 +147,8 @@ const Index = () => (
           <div className="max-w-2xl">
             <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Precision Engineered</h2>
             <p className="text-on-surface-variant">
-              Our tools use browser-native APIs for near-native performance. No files are ever uploaded permanently, ensuring 100% privacy and security for your sensitive assets.
+              Our tools use browser-native APIs for near-native performance. No files are ever uploaded permanently, ensuring 100% privacy and security for your sensitive assets. Visit{" "}
+              <a href="https://webogrowth.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">WeboGrowth.Com</a> for more.
             </p>
           </div>
           <div className="flex gap-12">
@@ -143,7 +160,6 @@ const Index = () => (
             ))}
           </div>
         </div>
-        {/* Newsletter CTA */}
         <div className="bg-gradient-to-r from-surface-container to-surface-container-high p-8 md:p-12 rounded-xl relative overflow-hidden group">
           <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
