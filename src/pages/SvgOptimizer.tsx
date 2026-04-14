@@ -1,32 +1,22 @@
 import { useState, useCallback } from "react";
 import CountdownDownload from "@/components/CountdownDownload";
+import { uploadProcessedFile } from "@/lib/storage";
 
-// Basic SVG optimization - remove comments, metadata, unnecessary whitespace
 function optimizeSvg(svgString: string): string {
   let optimized = svgString;
-  // Remove XML comments
   optimized = optimized.replace(/<!--[\s\S]*?-->/g, "");
-  // Remove metadata
   optimized = optimized.replace(/<metadata[\s\S]*?<\/metadata>/gi, "");
-  // Remove desc
   optimized = optimized.replace(/<desc[\s\S]*?<\/desc>/gi, "");
-  // Remove title
   optimized = optimized.replace(/<title[\s\S]*?<\/title>/gi, "");
-  // Remove empty groups
   optimized = optimized.replace(/<g>\s*<\/g>/g, "");
-  // Remove editor data attributes (Illustrator, Inkscape, etc.)
   optimized = optimized.replace(/\s+(xmlns:[\w]+="[^"]*")/g, (match, p1) => {
     if (p1.includes('xmlns:svg') || p1 === 'xmlns="http://www.w3.org/2000/svg"') return match;
     if (p1.includes('xmlns:xlink')) return match;
     return "";
   });
-  // Remove data-name attributes
   optimized = optimized.replace(/\s+data-[\w-]+="[^"]*"/g, "");
-  // Remove Illustrator/Inkscape specific attrs
   optimized = optimized.replace(/\s+(inkscape|sodipodi|sketch|illustrator)[\w:]*="[^"]*"/gi, "");
-  // Collapse whitespace
   optimized = optimized.replace(/\s+/g, " ").trim();
-  // Remove whitespace between tags
   optimized = optimized.replace(/>\s+</g, "><");
   return optimized;
 }
@@ -36,6 +26,7 @@ const SvgOptimizer = () => {
   const [optimizedSvg, setOptimizedSvg] = useState("");
   const [result, setResult] = useState<{ url: string; fileName: string } | null>(null);
   const [fileName, setFileName] = useState("optimized.svg");
+  const [processing, setProcessing] = useState(false);
 
   const handleFileSelect = useCallback(() => {
     const input = document.createElement("input");
@@ -63,13 +54,21 @@ const SvgOptimizer = () => {
     setResult(null);
   }, []);
 
-  const handleOptimize = useCallback(() => {
+  const handleOptimize = useCallback(async () => {
     if (!originalSvg) return;
-    const optimized = optimizeSvg(originalSvg);
-    setOptimizedSvg(optimized);
-    const blob = new Blob([optimized], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    setResult({ url, fileName: `optimized_${fileName}` });
+    setProcessing(true);
+    try {
+      const optimized = optimizeSvg(originalSvg);
+      setOptimizedSvg(optimized);
+      const blob = new Blob([optimized], { type: "image/svg+xml" });
+      const outputName = `optimized_${fileName}`;
+      const url = await uploadProcessedFile(blob, outputName);
+      setResult({ url, fileName: outputName });
+    } catch (err) {
+      console.error("SVG optimization failed:", err);
+    } finally {
+      setProcessing(false);
+    }
   }, [originalSvg, fileName]);
 
   const originalSize = new Blob([originalSvg]).size;
@@ -94,7 +93,6 @@ const SvgOptimizer = () => {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Input */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-headline font-bold text-sm uppercase tracking-widest">Input SVG</h3>
@@ -119,7 +117,6 @@ const SvgOptimizer = () => {
           )}
         </div>
 
-        {/* Output */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-headline font-bold text-sm uppercase tracking-widest">Optimized Output</h3>
@@ -141,11 +138,11 @@ const SvgOptimizer = () => {
       <div className="mt-8 flex flex-col items-center gap-6">
         <button
           onClick={handleOptimize}
-          disabled={!originalSvg}
+          disabled={!originalSvg || processing}
           className="bg-primary text-on-primary px-12 py-4 rounded-xl font-bold transition-all hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] active:scale-95 disabled:opacity-50 flex items-center gap-3"
         >
           <span className="material-symbols-outlined">auto_fix_high</span>
-          Optimize SVG
+          {processing ? "Optimizing..." : "Optimize SVG"}
         </button>
 
         <div className="w-full max-w-md">
@@ -153,7 +150,6 @@ const SvgOptimizer = () => {
             downloadUrl={result?.url || null}
             fileName={result?.fileName || "optimized.svg"}
             onExpired={() => {
-              if (result?.url) URL.revokeObjectURL(result.url);
               setResult(null);
               setOptimizedSvg("");
             }}
@@ -161,7 +157,6 @@ const SvgOptimizer = () => {
         </div>
       </div>
 
-      {/* SVG Preview */}
       {originalSvg && (
         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-surface-container-low rounded-xl p-8">

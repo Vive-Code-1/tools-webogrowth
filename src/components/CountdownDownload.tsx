@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { deleteProcessedFile } from "@/lib/storage";
 
 interface CountdownDownloadProps {
   downloadUrl: string | null;
@@ -27,6 +28,10 @@ const CountdownDownload = ({ downloadUrl, fileName, onExpired }: CountdownDownlo
         if (prev <= 1) {
           clearInterval(interval);
           setExpired(true);
+          // Delete from Supabase storage if it's a Supabase URL
+          if (downloadUrl.includes("supabase")) {
+            deleteProcessedFile(downloadUrl);
+          }
           onExpired();
           return 0;
         }
@@ -36,13 +41,28 @@ const CountdownDownload = ({ downloadUrl, fileName, onExpired }: CountdownDownlo
     return () => clearInterval(interval);
   }, [downloadUrl, expired, onExpired]);
 
-  const handleDownload = useCallback(() => {
+  const handleDownload = useCallback(async () => {
     if (!downloadUrl || expired) return;
-    const a = document.createElement("a");
-    a.href = downloadUrl;
-    a.download = fileName;
-    a.click();
-    setDownloaded(true);
+    
+    try {
+      // For Supabase URLs, fetch and download as blob
+      const response = await fetch(downloadUrl);
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(blobUrl);
+      setDownloaded(true);
+    } catch {
+      // Fallback: direct link
+      const a = document.createElement("a");
+      a.href = downloadUrl;
+      a.download = fileName;
+      a.click();
+      setDownloaded(true);
+    }
   }, [downloadUrl, expired, fileName]);
 
   const minutes = Math.floor(secondsLeft / 60);
