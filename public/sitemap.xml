@@ -18,4 +18,8 @@
   <url><loc>https://tools.webogrowth.com/og-preview</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://tools.webogrowth.com/placeholder</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://tools.webogrowth.com/html-to-markdown</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tools.webogrowth.com/about-us</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://tools.webogrowth.com/contact-us</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://tools.webogrowth.com/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://tools.webogrowth.com/terms-of-service</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
