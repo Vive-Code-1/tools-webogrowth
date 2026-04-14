@@ -1,28 +1,48 @@
 
 
-## সমস্যা
+## Plan: Kinetic → WeboGrowth Laboratory রিপ্লেস + Full SEO Optimization + Footer Update
 
-আপনি ঠিকই বলেছেন — আপনি Supabase credentials দিয়েছেন, তাই এই কাজগুলো আমারই করার কথা। তবে কিছু সীমাবদ্ধতা আছে:
+### 1. "Kinetic" → "WeboGrowth Laboratory" রিপ্লেস
 
-### যা আমি করতে পারি
+| File | Current | Replace With |
+|------|---------|-------------|
+| `src/pages/Index.tsx` | "Kinetic Laboratory v1.0" | "WeboGrowth Laboratory v1.0" |
+| `src/pages/Index.tsx` | "Join the Kinetic Lab" | "Join the WeboGrowth Lab" |
+| `src/pages/Compressor.tsx` | "Kinetic Image" | "WeboGrowth Image" |
+| `src/components/Footer.tsx` | "© 2024 WeboGrowth. Kinetic Laboratory Design." | "© 2026 WeboGrowth.Com Copyright Reserved." (linked to https://webogrowth.com) |
 
-1. **Edge Function কোড** — ইতিমধ্যে তৈরি করা হয়েছে (`supabase/functions/cleanup-expired-files/index.ts`)
-2. **Storage bucket তৈরি ও RLS policy** — আমি Supabase JS client ব্যবহার করে একটি **setup script** তৈরি করে রান করতে পারি যেটা:
-   - `processed-files` bucket তৈরি করবে (public)
-   - Storage RLS policies সেট করবে (INSERT/SELECT/DELETE for anon)
-3. **Cron job SQL** — একটি migration file তৈরি করতে পারি যেটা `pg_cron` schedule সেট করবে
+### 2. Full SEO Optimization — Per-Page `<title>` & `<meta>`
 
-### যা আমি সরাসরি করতে পারি না
+Since this is a React SPA, I'll add **react-helmet-async** to set unique `<title>`, `<meta description>`, `<meta keywords>`, canonical URL, and Open Graph tags per page:
 
-- **Edge Function deploy** — এটার জন্য Supabase CLI এবং `SUPABASE_SERVICE_ROLE_KEY` লাগে। আমার কাছে শুধু anon key আছে, service role key নেই। Edge function deploy করতে হলে আপনাকে **service role key** দিতে হবে (Supabase Dashboard → Settings → API → service_role key)।
+| Page | Title | Focus Keyword | Meta Description |
+|------|-------|--------------|-----------------|
+| **Home** (`/`) | "WeboGrowth Tools - Free Online Image Compressor, Converter & Optimizer" | "image compressor online free" | "Free online image optimization tools by WeboGrowth. Compress PNG, JPEG, WebP images, convert formats, optimize SVGs, and generate favicons instantly." |
+| **Compressor** (`/compressor`) | "Image Compressor Online Free - Compress PNG, JPEG, WebP \| WeboGrowth" | "compress image online" | "Compress images online for free. Reduce PNG, JPEG, WebP file sizes by up to 90% without losing quality. Fast, private, browser-based compression." |
+| **Converter** (`/converter`) | "Image Format Converter - Convert PNG to WebP, JPEG Online Free \| WeboGrowth" | "convert image format online" | "Convert images between PNG, WebP, and JPEG formats online for free. High-quality format conversion with no upload required." |
+| **SVG Optimizer** (`/svg-optimizer`) | "SVG Optimizer Online - Minify & Clean SVG Files Free \| WeboGrowth" | "svg optimizer online" | "Optimize and minify SVG files online for free. Remove metadata, clean paths, and reduce SVG file sizes from Figma or Illustrator exports." |
+| **Favicon** (`/favicon`) | "Favicon Generator Online Free - ICO, PNG, Apple Touch Icon \| WeboGrowth" | "favicon generator online" | "Generate complete favicon packages for all platforms. Create ICO, PNG, Apple Touch Icon, and Android icons from any image in seconds." |
 
-### Plan
+### 3. Additional SEO Enhancements
 
-1. **Setup script তৈরি ও রান করা** — Node.js script যেটা Supabase Admin API দিয়ে `processed-files` bucket তৈরি করবে
-2. **SQL migration তৈরি** — `pg_cron` schedule এর জন্য
-3. **Edge function** — আপনার service role key পেলে deploy করতে পারবো, অথবা আপনাকে শুধু একটি CLI command রান করতে হবে: `supabase functions deploy cleanup-expired-files`
+- **Update `index.html`** — Default title, meta description, OG tags updated with WeboGrowth branding
+- **Structured data (JSON-LD)** — Add `WebApplication` schema to homepage for rich results
+- **Canonical URLs** — Each page gets a canonical link
+- **`robots.txt`** — Add `Sitemap:` directive
+- **`public/sitemap.xml`** — Create sitemap with all 5 pages
+- **Update OG image meta** — Remove Lovable placeholder, use WeboGrowth branding
 
-### আপনার কাছ থেকে যা দরকার
+### 4. Footer Update
 
-**Service Role Key** দিন (Supabase Dashboard → Settings → API → `service_role` secret key)। এটা পেলে আমি bucket তৈরি, RLS policy, এবং সবকিছু সেটআপ করে দিতে পারবো। এই key টি secret হিসেবে store করা হবে, কোডে expose হবে না।
+Replace current footer copyright with:
+```
+© 2026 WeboGrowth.Com Copyright Reserved.
+```
+"WeboGrowth.Com" will be a clickable link to `https://webogrowth.com`.
+
+### Technical Details
+
+- Install `react-helmet-async` for per-page meta tags
+- Create a reusable `<SEOHead>` component used in every page
+- All changes are in: `index.html`, `Footer.tsx`, `Index.tsx`, `Compressor.tsx`, `Converter.tsx`, `SvgOptimizer.tsx`, `Favicon.tsx`, `App.tsx`, `robots.txt`, new `sitemap.xml`
 
