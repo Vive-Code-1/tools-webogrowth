@@ -29,11 +29,11 @@ const ContactUs = () => {
       toast({ title: "Message sent successfully!", description: "We'll get back to you soon." });
       setForm({ name: "", email: "", service: "", message: "" });
     } catch {
-      // Fallback to mailto
-      const subject = encodeURIComponent(`Contact from ${name.trim()} - ${form.service || "General"}`);
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nService: ${form.service || "N/A"}\n\nMessage:\n${message}`);
-      window.open(`mailto:Support@webogrowth.com?subject=${subject}&body=${body}`);
-      toast({ title: "Opening email client...", description: "Your message details have been prepared." });
+      toast({
+        title: "Could not send message automatically",
+        description: "Please email us directly at Support@webogrowth.com",
+        variant: "destructive",
+      });
     } finally {
       setSending(false);
     }
@@ -140,10 +140,14 @@ const ContactUs = () => {
                   </div>
                 </motion.div>
               ))}
-              <motion.div whileHover={{ scale: 1.02 }} className="bg-surface-container rounded-xl p-8 text-center">
-                <span className="material-symbols-outlined text-primary text-4xl mb-3 block">public</span>
-                <h3 className="font-headline font-bold mb-2">Visit Our Website</h3>
-                <a href="https://webogrowth.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">webogrowth.com</a>
+              <motion.div whileHover={{ scale: 1.02 }} className="bg-surface-container rounded-xl p-6">
+                <a href="https://webogrowth.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4">
+                  <img src="/wg-icon.png" alt="WeboGrowth" className="w-14 h-14 rounded-lg object-contain flex-shrink-0" />
+                  <div>
+                    <h3 className="font-headline font-bold mb-1">Visit Our Website</h3>
+                    <span className="text-primary hover:underline font-bold">webogrowth.com</span>
+                  </div>
+                </a>
               </motion.div>
             </div>
           </AnimatedSection>

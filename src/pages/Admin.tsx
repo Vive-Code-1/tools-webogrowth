@@ -12,6 +12,7 @@ interface AdminSettings {
   siteKeywords: string;
   googleSearchConsole: string;
   googleAnalytics: string;
+  googleAdsId: string;
   bingWebmaster: string;
   facebookVerification: string;
   logo: string;
@@ -37,9 +38,14 @@ const defaultSettings: AdminSettings = {
   siteKeywords: "image compressor, json formatter, qr code generator, meta tag generator, free online tools",
   googleSearchConsole: "",
   googleAnalytics: "",
+  googleAdsId: "",
   bingWebmaster: "",
   facebookVerification: "",
   logo: "",
+};
+
+const dispatchSettingsUpdate = () => {
+  window.dispatchEvent(new CustomEvent("wg-settings-updated"));
 };
 
 const toolsList = [
@@ -129,7 +135,7 @@ const Admin = () => {
 
   const handleSave = () => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-    window.dispatchEvent(new Event("storage"));
+    dispatchSettingsUpdate();
     toast({ title: "Settings saved successfully" });
   };
 
@@ -145,7 +151,7 @@ const Admin = () => {
       const newSettings = { ...settings, logo: reader.result as string };
       setSettings(newSettings);
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));
-      window.dispatchEvent(new Event("storage"));
+      dispatchSettingsUpdate();
       toast({ title: "Logo uploaded & saved" });
     };
     reader.readAsDataURL(file);
@@ -273,7 +279,11 @@ const Admin = () => {
 
       <header className="bg-surface-container-low border-b border-outline-variant/15 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
+          {settings.logo ? (
+            <img src={settings.logo} alt="WeboGrowth" className="h-8" />
+          ) : (
+            <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
+          )}
           <h1 className="text-lg font-headline font-bold">WeboGrowth Admin</h1>
         </div>
         <div className="flex items-center gap-4">
@@ -356,6 +366,7 @@ const Admin = () => {
                 {[
                   { key: "googleSearchConsole" as const, icon: "search", title: "Google Search Console", placeholder: "e.g. ABC123xyz...", desc: "Paste the content value from the meta tag verification code." },
                   { key: "googleAnalytics" as const, icon: "analytics", title: "Google Analytics", placeholder: "G-XXXXXXXXXX", desc: "Enter your Google Analytics Measurement ID." },
+                  { key: "googleAdsId" as const, icon: "ads_click", title: "Google Ads", placeholder: "ca-pub-XXXXXXXXXXXXXXXX", desc: "Enter your Google AdSense Publisher ID to show ads on your site." },
                   { key: "bingWebmaster" as const, icon: "travel_explore", title: "Bing Webmaster", placeholder: "Bing verification code", desc: "Paste the content value from Bing Webmaster verification meta tag." },
                   { key: "facebookVerification" as const, icon: "facebook", title: "Facebook Domain Verification", placeholder: "Facebook verification code", desc: "Paste the content value from Facebook domain verification meta tag." },
                 ].map((item) => (
@@ -381,7 +392,7 @@ const Admin = () => {
                 {settings.logo ? (
                   <div className="space-y-4">
                     <img src={settings.logo} alt="Site Logo" className="max-h-24 mx-auto" />
-                    <button onClick={() => { const ns = { ...settings, logo: "" }; setSettings(ns); localStorage.setItem(SETTINGS_KEY, JSON.stringify(ns)); window.dispatchEvent(new Event("storage")); toast({ title: "Logo removed" }); }} className="text-sm text-error hover:underline">Remove Logo</button>
+                    <button onClick={() => { const ns = { ...settings, logo: "" }; setSettings(ns); localStorage.setItem(SETTINGS_KEY, JSON.stringify(ns)); dispatchSettingsUpdate(); toast({ title: "Logo removed" }); }} className="text-sm text-error hover:underline">Remove Logo</button>
                   </div>
                 ) : (
                   <div className="py-8">

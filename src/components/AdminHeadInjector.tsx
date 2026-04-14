@@ -6,6 +6,7 @@ const SETTINGS_KEY = "wg_admin_settings";
 interface AdminSettings {
   googleSearchConsole?: string;
   googleAnalytics?: string;
+  googleAdsId?: string;
   bingWebmaster?: string;
   facebookVerification?: string;
 }
@@ -14,13 +15,22 @@ const AdminHeadInjector = () => {
   const [settings, setSettings] = useState<AdminSettings>({});
 
   useEffect(() => {
-    const saved = localStorage.getItem(SETTINGS_KEY);
-    if (saved) {
-      try { setSettings(JSON.parse(saved)); } catch {}
-    }
+    const load = () => {
+      const saved = localStorage.getItem(SETTINGS_KEY);
+      if (saved) {
+        try { setSettings(JSON.parse(saved)); } catch {}
+      }
+    };
+    load();
+    window.addEventListener("storage", load);
+    window.addEventListener("wg-settings-updated", load);
+    return () => {
+      window.removeEventListener("storage", load);
+      window.removeEventListener("wg-settings-updated", load);
+    };
   }, []);
 
-  const hasAny = settings.googleSearchConsole || settings.googleAnalytics || settings.bingWebmaster || settings.facebookVerification;
+  const hasAny = settings.googleSearchConsole || settings.googleAnalytics || settings.bingWebmaster || settings.facebookVerification || settings.googleAdsId;
   if (!hasAny) return null;
 
   return (
@@ -32,6 +42,7 @@ const AdminHeadInjector = () => {
       {settings.googleAnalytics && (
         <script>{`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${settings.googleAnalytics}')`}</script>
       )}
+      {settings.googleAdsId && <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${settings.googleAdsId}`} crossOrigin="anonymous" />}
     </Helmet>
   );
 };
