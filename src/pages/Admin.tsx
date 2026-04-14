@@ -279,7 +279,11 @@ const Admin = () => {
 
       <header className="bg-surface-container-low border-b border-outline-variant/15 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
+          {settings.logo ? (
+            <img src={settings.logo} alt="WeboGrowth" className="h-8" />
+          ) : (
+            <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
+          )}
           <h1 className="text-lg font-headline font-bold">WeboGrowth Admin</h1>
         </div>
         <div className="flex items-center gap-4">
