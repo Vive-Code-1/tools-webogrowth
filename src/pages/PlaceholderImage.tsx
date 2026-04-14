@@ -43,6 +43,7 @@ const PlaceholderImage = () => {
         description="Generate custom placeholder images online for free. Set dimensions, colors, and text for your design mockups and development projects."
         keywords="placeholder image generator, dummy image generator, placeholder image online, custom placeholder image, mockup image generator"
         canonicalPath="/placeholder"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Placeholder Image Generator", url: "https://tools.webogrowth.com/placeholder", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">

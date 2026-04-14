@@ -117,6 +117,7 @@ const Favicon = () => {
       description="Generate complete favicon packages for all platforms. Create ICO, PNG, Apple Touch Icon, and Android icons from any image in seconds."
       keywords="favicon generator online, favicon creator, ico generator, apple touch icon generator, android icon generator"
       canonicalPath="/favicon"
+      jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Favicon Generator", url: "https://tools.webogrowth.com/favicon", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
     />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-20">

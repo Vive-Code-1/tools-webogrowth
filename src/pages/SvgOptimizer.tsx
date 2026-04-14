@@ -85,6 +85,7 @@ const SvgOptimizer = () => {
       description="Optimize and minify SVG files online for free. Remove metadata, clean paths, and reduce SVG file sizes from Figma or Illustrator exports."
       keywords="svg optimizer online, minify svg, clean svg, svg compressor, optimize svg file, svg minifier"
       canonicalPath="/svg-optimizer"
+      jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "SVG Optimizer", url: "https://tools.webogrowth.com/svg-optimizer", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
     />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-16">

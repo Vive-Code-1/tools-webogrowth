@@ -66,6 +66,7 @@ const ImageResizer = () => {
         description="Resize images online for free. Change dimensions, maintain aspect ratio, and download resized images instantly. Supports PNG, JPEG, and WebP formats."
         keywords="resize image online, image resizer free, change image size, resize photo online, crop image online, image dimensions"
         canonicalPath="/image-resizer"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Image Resizer", url: "https://tools.webogrowth.com/image-resizer", applicationCategory: "MultimediaApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
