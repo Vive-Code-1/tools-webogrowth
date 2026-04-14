@@ -1,99 +1,68 @@
 
 
-## Plan: QR Code Advanced + Navbar/Footer Rework + Admin Upgrade + Animations + Contact Email + Cleanup
+## Plan: Contact Form Fix + Logo Integration + Admin Upgrades + Google Ads Support
 
-### 1. Advanced QR Code Generator (Reference: image-6.png)
+### Issues Identified
 
-Rebuild `QrCodeGenerator.tsx` with features matching the reference:
-- **Content types**: URL, Text, Email, Phone, SMS, vCard, WiFi, Location tabs
-- **Color customization**: Foreground color, background color, gradient options
-- **Logo overlay**: Upload company logo to center of QR code (canvas compositing)
-- **Body shape options**: Square, rounded, dots, classy rounded (visual selectors)
-- **Eye frame shape options**: Square, circle, rounded variations
-- **Transparent background**: Option to download with transparent BG
-- **Download formats**: PNG, SVG
-- **Quality slider**: Low to High quality with pixel size display
-- **Size control**: Custom pixel dimensions
+1. **Contact form goes blank** — The edge function fails (likely CORS or import issue with `@supabase/supabase-js/cors`), falls back to `window.open(mailto:...)` which navigates away from the page
+2. **Visit Our Website section** — Uses generic `public` icon instead of WeboGrowth logo; layout needs logo on left, text on right
+3. **Admin logo upload** — `window.dispatchEvent(new Event("storage"))` only triggers `storage` event listeners in OTHER tabs, not the same tab; Navbar never updates
+4. **Admin profile/admins features** — Already exist but need verification
+5. **Google Ads support** — Missing from admin panel
 
-### 2. Navbar Restructure
+### 1. Fix Contact Form (send-contact-email Edge Function)
 
-Remove Compressor/Converter direct links. New nav items:
-- **Home** (`/`)
-- **About Us** (`/about-us`)
-- **All Tools** (mega menu dropdown - existing)
-- **Contact Us** (replaces "Get Started" button)
+**Problem**: `import { corsHeaders } from '@supabase/supabase-js/cors'` is invalid — this module doesn't exist. The function crashes, error is caught, and `window.open(mailto:...)` navigates away causing blank page.
 
-### 3. Footer Update
+**Fix**: Replace the invalid import with inline CORS headers in `supabase/functions/send-contact-email/index.ts`:
+```typescript
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+```
 
-Remove "About Us" and "Contact Us" links from footer (they move to navbar). Keep tool categories + copyright + Privacy/Terms.
+Also fix `ContactUs.tsx` — the mailto fallback should NOT use `window.open()` (navigates away). Instead show a toast with mailto link or use `window.location.href` in a new approach. Better: just show error toast without navigating away.
 
-### 4. Admin Panel Enhancements
+### 2. Visit Our Website Section — Logo + Layout Fix
 
-- **Fix logo upload**: Logo saves to localStorage but isn't reflected in Navbar — wire up Navbar to read admin logo from localStorage
-- **Admin profile**: Name, avatar, password change (stored in localStorage)
-- **Multi-admin**: Add/remove admin accounts (stored in localStorage array)
-- **Additional admin features**:
-  - Analytics dashboard (page view stats from localStorage)
-  - Quick links to all tools
-  - System info (build version, tools count)
+Copy `Favicon-01.png` to `public/wg-icon.png`. Update the "Visit Our Website" card in `ContactUs.tsx`:
+- Replace `<span className="material-symbols-outlined">public</span>` with `<img src="/wg-icon.png" ...>`
+- Change layout from centered to flex row: logo left, text right
 
-### 5. Scroll to Top on Navigation
+### 3. Fix Admin Logo Sync to Navbar
 
-Add a `ScrollToTop` component using `useLocation` + `useEffect` to call `window.scrollTo(0, 0)` on every route change.
+**Root cause**: `window.dispatchEvent(new Event("storage"))` does NOT trigger `storage` event listeners in the same tab — the `storage` event only fires in other tabs/windows.
 
-### 6. Framer Motion Animations
+**Fix in Navbar.tsx**: Instead of relying on `storage` event, use a custom event name like `wg-settings-updated`. In Admin.tsx, dispatch `new CustomEvent("wg-settings-updated")` after saving. In Navbar.tsx, listen for both `storage` and `wg-settings-updated`.
 
-Install `framer-motion`. Add:
-- **Page transitions**: Fade-in on route change
-- **Scroll animations**: Cards animate in on scroll using `whileInView`
-- **Hover effects**: Scale + glow on tool cards and buttons
-- **Homepage hero**: Staggered text reveal
-- **Tool cards**: Slide-up on scroll with stagger
+### 4. Google Ads Support in Admin
 
-### 7. Contact Form Email via Resend
+Add a new field `googleAdsId` to `AdminSettings` interface and admin verification tab. Inject the Google Ads script via `AdminHeadInjector.tsx` similar to Google Analytics:
+```html
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX"></script>
+```
 
-The user provided a Resend API key. Since it's a publishable key used server-side, I'll create a Supabase Edge Function `send-contact-email` that:
-- Receives form data from ContactUs page
-- Sends email to `rafikuzzaman10@gmail.com` via Resend API
-- Update ContactUs.tsx to invoke this edge function instead of mailto
+Also add `googleAdsId` field to AdminHeadInjector.
 
-### 8. Database Cleanup (5-minute auto-delete)
+### 5. Admin Logo also shown in Admin Header
 
-The existing `cleanup-expired-files` edge function already handles this. Ensure it's scheduled via Supabase cron or called periodically. The current implementation deletes files older than 5 minutes from `processed-files` bucket.
-
-### 9. Code Minification
-
-Vite already minifies in production builds. No changes needed — `vite build` uses esbuild/terser by default.
-
----
-
-### Files to Create
-- `src/components/ScrollToTop.tsx`
-- `src/components/AnimatedSection.tsx` (reusable scroll animation wrapper)
-- `supabase/functions/send-contact-email/index.ts`
+Update admin header to show the uploaded logo if available.
 
 ### Files to Update
-- `src/pages/QrCodeGenerator.tsx` — Complete rewrite with advanced features
-- `src/components/Navbar.tsx` — Remove Compressor/Converter, add Home/About/Contact
-- `src/components/Footer.tsx` — Remove About Us/Contact Us links
-- `src/pages/Admin.tsx` — Add profile, multi-admin, logo fix
-- `src/pages/ContactUs.tsx` — Use Resend edge function
-- `src/App.tsx` — Add ScrollToTop, wrap with AnimatePresence
-- `src/pages/Index.tsx` — Add framer-motion animations
-- `src/components/Layout.tsx` — Add ScrollToTop component
-- All tool page components — Add motion animations to cards
+- `supabase/functions/send-contact-email/index.ts` — Fix CORS import
+- `src/pages/ContactUs.tsx` — Fix mailto fallback, update Visit Our Website section with logo
+- `src/components/Navbar.tsx` — Listen for custom event for logo sync
+- `src/pages/Admin.tsx` — Dispatch custom event, add Google Ads field, show logo in header
+- `src/components/AdminHeadInjector.tsx` — Add Google Ads injection, listen for custom event
 
-### Dependencies to Add
-- `framer-motion` — Animations and page transitions
+### Files to Copy
+- `user-uploads://Favicon-01.png` → `public/wg-icon.png`
 
 ### Implementation Order
-1. Install framer-motion
-2. Create ScrollToTop + AnimatedSection components
-3. Rebuild QR Code Generator with advanced features
-4. Update Navbar and Footer
-5. Upgrade Admin panel
-6. Add animations to homepage and tool pages
-7. Create contact email edge function
-8. Update ContactUs to use edge function
-9. Wire admin logo to Navbar
+1. Copy favicon icon to public
+2. Fix edge function CORS
+3. Fix ContactUs (form + Visit Our Website section)
+4. Fix logo sync (custom event in Navbar + Admin)
+5. Add Google Ads to Admin + AdminHeadInjector
 
