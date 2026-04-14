@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Lottie from "lottie-react";
+import { useState, useEffect } from "react";
 import SEOHead from "@/components/SEOHead";
 import AnimatedSection from "@/components/AnimatedSection";
 
@@ -78,6 +80,89 @@ const ToolCard = ({ tool, index }: { tool: typeof imageTools[0]; index: number }
   </motion.div>
 );
 
+
+
+const HeroSection = () => {
+  const [animationData, setAnimationData] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("https://lottie.host/64ad9a81-aabc-4a8f-b50f-6a61b36480b5/UZHLkEhNJA.json")
+      .then(res => res.json())
+      .then(setAnimationData)
+      .catch(() => {});
+  }, []);
+
+  return (
+    <section className="relative overflow-hidden py-24 md:py-32">
+      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
+      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[100px]" />
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-block px-3 py-1 bg-secondary-container text-secondary text-xs font-bold tracking-widest uppercase rounded mb-6 font-label"
+            >
+              WeboGrowth Laboratory v1.0
+            </motion.span>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold leading-[0.9] tracking-tight text-foreground mb-8"
+            >
+              Optimize Your{" "}
+              <span className="gradient-text">Web Assets</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed"
+            >
+              17+ free developer and designer tools for the modern web. Compress images, format JSON, generate QR codes, create meta tags, and more — all in your browser with 100% privacy.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex flex-wrap gap-4"
+            >
+              <Link
+                to="/compressor"
+                className="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold flex items-center gap-3 transition-all duration-300 hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] group"
+              >
+                Launch Compressor
+                <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </Link>
+              <Link
+                to="/json-formatter"
+                className="bg-transparent border border-outline-variant/20 text-foreground px-8 py-4 rounded-lg font-bold hover:bg-surface-container-highest transition-all duration-300"
+              >
+                Try JSON Formatter
+              </Link>
+            </motion.div>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="hidden lg:flex items-center justify-center"
+          >
+            {animationData ? (
+              <Lottie animationData={animationData} loop className="w-full max-w-lg" />
+            ) : (
+              <div className="w-full max-w-lg aspect-square bg-surface-container/30 rounded-2xl animate-pulse" />
+            )}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Index = () => (
   <div>
     <SEOHead
@@ -87,59 +172,7 @@ const Index = () => (
       canonicalPath="/"
     />
     {/* Hero */}
-    <section className="relative overflow-hidden py-24 md:py-32">
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[100px]" />
-      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-        <div className="max-w-3xl">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block px-3 py-1 bg-secondary-container text-secondary text-xs font-bold tracking-widest uppercase rounded mb-6 font-label"
-          >
-            WeboGrowth Laboratory v1.0
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold leading-[0.9] tracking-tight text-foreground mb-8"
-          >
-            Optimize Your{" "}
-            <span className="gradient-text">Web Assets</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed"
-          >
-            17+ free developer and designer tools for the modern web. Compress images, format JSON, generate QR codes, create meta tags, and more — all in your browser with 100% privacy.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-wrap gap-4"
-          >
-            <Link
-              to="/compressor"
-              className="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold flex items-center gap-3 transition-all duration-300 hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] group"
-            >
-              Launch Compressor
-              <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            </Link>
-            <Link
-              to="/json-formatter"
-              className="bg-transparent border border-outline-variant/20 text-foreground px-8 py-4 rounded-lg font-bold hover:bg-surface-container-highest transition-all duration-300"
-            >
-              Try JSON Formatter
-            </Link>
-          </motion.div>
-        </div>
-      </div>
-    </section>
+    <HeroSection />
 
     {/* Image Tools */}
     <section className="py-20 px-6 md:px-8 max-w-7xl mx-auto">
