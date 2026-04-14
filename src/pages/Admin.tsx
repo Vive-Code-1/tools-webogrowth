@@ -135,7 +135,7 @@ const Admin = () => {
 
   const handleSave = () => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-    window.dispatchEvent(new Event("storage"));
+    dispatchSettingsUpdate();
     toast({ title: "Settings saved successfully" });
   };
 
@@ -151,7 +151,7 @@ const Admin = () => {
       const newSettings = { ...settings, logo: reader.result as string };
       setSettings(newSettings);
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));
-      window.dispatchEvent(new Event("storage"));
+      dispatchSettingsUpdate();
       toast({ title: "Logo uploaded & saved" });
     };
     reader.readAsDataURL(file);
@@ -387,7 +387,7 @@ const Admin = () => {
                 {settings.logo ? (
                   <div className="space-y-4">
                     <img src={settings.logo} alt="Site Logo" className="max-h-24 mx-auto" />
-                    <button onClick={() => { const ns = { ...settings, logo: "" }; setSettings(ns); localStorage.setItem(SETTINGS_KEY, JSON.stringify(ns)); window.dispatchEvent(new Event("storage")); toast({ title: "Logo removed" }); }} className="text-sm text-error hover:underline">Remove Logo</button>
+                    <button onClick={() => { const ns = { ...settings, logo: "" }; setSettings(ns); localStorage.setItem(SETTINGS_KEY, JSON.stringify(ns)); dispatchSettingsUpdate(); toast({ title: "Logo removed" }); }} className="text-sm text-error hover:underline">Remove Logo</button>
                   </div>
                 ) : (
                   <div className="py-8">
