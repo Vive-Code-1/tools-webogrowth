@@ -39,6 +39,7 @@ const Base64Tool = () => {
         description="Encode and decode Base64 strings online for free. Convert text to Base64 or decode Base64 to text. Also supports file to Base64 conversion."
         keywords="base64 encoder, base64 decoder, base64 encode online, base64 decode online, text to base64, image to base64"
         canonicalPath="/base64"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Base64 Encoder Decoder", url: "https://tools.webogrowth.com/base64", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
