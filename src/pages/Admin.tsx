@@ -362,6 +362,7 @@ const Admin = () => {
                 {[
                   { key: "googleSearchConsole" as const, icon: "search", title: "Google Search Console", placeholder: "e.g. ABC123xyz...", desc: "Paste the content value from the meta tag verification code." },
                   { key: "googleAnalytics" as const, icon: "analytics", title: "Google Analytics", placeholder: "G-XXXXXXXXXX", desc: "Enter your Google Analytics Measurement ID." },
+                  { key: "googleAdsId" as const, icon: "ads_click", title: "Google Ads", placeholder: "ca-pub-XXXXXXXXXXXXXXXX", desc: "Enter your Google AdSense Publisher ID to show ads on your site." },
                   { key: "bingWebmaster" as const, icon: "travel_explore", title: "Bing Webmaster", placeholder: "Bing verification code", desc: "Paste the content value from Bing Webmaster verification meta tag." },
                   { key: "facebookVerification" as const, icon: "facebook", title: "Facebook Domain Verification", placeholder: "Facebook verification code", desc: "Paste the content value from Facebook domain verification meta tag." },
                 ].map((item) => (
