@@ -45,13 +45,18 @@ const Navbar = () => {
   const [logo, setLogo] = useState("");
 
   useEffect(() => {
-    const saved = localStorage.getItem(SETTINGS_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed.logo) setLogo(parsed.logo);
-      } catch {}
-    }
+    const loadLogo = () => {
+      const saved = localStorage.getItem(SETTINGS_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          setLogo(parsed.logo || "");
+        } catch {}
+      }
+    };
+    loadLogo();
+    window.addEventListener("storage", loadLogo);
+    return () => window.removeEventListener("storage", loadLogo);
   }, []);
 
   const navLinkClass = (path: string) =>
