@@ -1,95 +1,98 @@
 
 
-## Plan: ১৩টি নতুন টুল + Full SEO Optimization
+## Plan: JSON-LD per Tool + OG Image + Pages + Mega Menu Fix + Admin Panel
 
-### নতুন টুলস (১৩টি)
+### 1. JSON-LD Structured Data per Tool Page
 
-**High Priority (৫টি)**
-1. **JSON Formatter/Validator** (`/json-formatter`) — JSON paste করে format, validate, minify
-2. **Meta Tag Generator** (`/meta-tag-generator`) — Title, description, OG tags generate করে copy
-3. **Color Palette Generator** (`/color-palette`) — Input color থেকে complementary, analogous, triadic palette
-4. **QR Code Generator** (`/qr-code`) — URL/text থেকে QR code generate ও download
-5. **Image Resizer & Cropper** (`/image-resizer`) — Canvas-based resize, crop with custom dimensions
+Update `SEOHead.tsx` to accept optional `jsonLd` prop. Each tool page will include `SoftwareApplication` schema:
 
-**Medium Priority (৫টি)**
-6. **CSS Minifier/Beautifier** (`/css-minifier`) — CSS paste করে minify বা beautify
-7. **Base64 Encoder/Decoder** (`/base64`) — Text/image to Base64 এবং reverse
-8. **CSS Gradient Generator** (`/gradient-generator`) — Visual gradient builder with CSS output
-9. **Lorem Ipsum Generator** (`/lorem-ipsum`) — Paragraphs, sentences, words generate
-10. **Robots.txt Generator** (`/robots-generator`) — Form-based robots.txt builder
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JSON Formatter & Validator",
+  "url": "https://tools.webogrowth.com/json-formatter",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0" },
+  "author": { "@type": "Organization", "name": "WeboGrowth" }
+}
+```
 
-**Bonus (৩টি)**
-11. **Open Graph Preview** (`/og-preview`) — URL-less OG tag preview simulator
-12. **Placeholder Image Generator** (`/placeholder`) — Custom size/color placeholder images
-13. **HTML to Markdown Converter** (`/html-to-markdown`) — HTML paste করে Markdown output
+All 17 tool pages will get their own JSON-LD automatically via SEOHead.
 
-### প্রতিটি টুলের জন্য SEO
+### 2. OG Image Setup
 
-প্রতিটি পেজে থাকবে:
-- `<SEOHead>` with unique title, meta description, focus keywords, canonical URL, OG tags
-- Proper H1-H6 heading hierarchy
-- SEO-friendly content section (How to Use, FAQ) with internal links to other tools
-- Schema.org JSON-LD (`WebApplication` type)
+Copy the uploaded `Fabook_cover-01.jpg` to `public/og-image.jpg`. Update:
+- `index.html` — add `og:image` meta tag pointing to `https://tools.webogrowth.com/og-image.jpg`
+- `SEOHead.tsx` — add `og:image` and `twitter:image` meta tags using the same image
 
-### SEO Keyword Strategy
+### 3. New Pages (4 pages)
 
-| Tool | Title Tag | Focus Keyword |
-|------|-----------|--------------|
-| JSON Formatter | "JSON Formatter & Validator Online Free \| WeboGrowth" | json formatter online |
-| Meta Tag Generator | "Meta Tag Generator for SEO - Free Online Tool \| WeboGrowth" | meta tag generator |
-| Color Palette | "Color Palette Generator Online Free \| WeboGrowth" | color palette generator |
-| QR Code | "QR Code Generator Free Online \| WeboGrowth" | qr code generator free |
-| Image Resizer | "Image Resizer Online Free - Resize & Crop Images \| WeboGrowth" | resize image online |
-| CSS Minifier | "CSS Minifier & Beautifier Online Free \| WeboGrowth" | css minifier online |
-| Base64 | "Base64 Encoder Decoder Online Free \| WeboGrowth" | base64 encode decode |
-| Gradient Generator | "CSS Gradient Generator - Create Gradients Online \| WeboGrowth" | css gradient generator |
-| Lorem Ipsum | "Lorem Ipsum Generator - Dummy Text Online \| WeboGrowth" | lorem ipsum generator |
-| Robots.txt | "Robots.txt Generator Free Online \| WeboGrowth" | robots.txt generator |
-| OG Preview | "Open Graph Preview Tool - Test OG Tags Free \| WeboGrowth" | og preview tool |
-| Placeholder | "Placeholder Image Generator Online Free \| WeboGrowth" | placeholder image generator |
-| HTML to Markdown | "HTML to Markdown Converter Online Free \| WeboGrowth" | html to markdown |
+**Privacy Policy** (`/privacy-policy`) — Standard privacy policy for a browser-based tools site (no data collection, browser-only processing, cookies info)
 
-### Site-Wide SEO Updates
+**Terms of Service** (`/terms-of-service`) — Standard ToS for free online tools
 
-1. **Navbar** — Dropdown menu with tool categories (Image Tools, Developer Tools, SEO Tools)
-2. **Homepage** — Updated tool grid with all 17 tools, categorized sections, internal linking
-3. **Footer** — Add tool links for internal linking, keep WeboGrowth.Com link
-4. **Sitemap** — Add all 13 new routes
-5. **index.html** — Updated JSON-LD schema listing all tools
-6. **Each tool page** — "Related Tools" section at bottom for internal linking
-7. **URL Structure** — Clean, keyword-rich URLs (already planned above)
+**About Us** (`/about-us`) — Content from webogrowth.com homepage:
+- WeboGrowth is a full-service digital agency
+- Services: Web Development, SEO, Graphic Design, Social Media Marketing, UI/UX, SaaS Development
+- Head Office: Uposhohor Rd No 1, Apt 423, Bogura, Bangladesh
+- Contact: +880 1791208768, Support@webogrowth.com
 
-### Files to Create (১৩ new pages)
-- `src/pages/JsonFormatter.tsx`
-- `src/pages/MetaTagGenerator.tsx`
-- `src/pages/ColorPalette.tsx`
-- `src/pages/QrCodeGenerator.tsx`
-- `src/pages/ImageResizer.tsx`
-- `src/pages/CssMinifier.tsx`
-- `src/pages/Base64Tool.tsx`
-- `src/pages/GradientGenerator.tsx`
-- `src/pages/LoremIpsum.tsx`
-- `src/pages/RobotsTxtGenerator.tsx`
-- `src/pages/OgPreview.tsx`
-- `src/pages/PlaceholderImage.tsx`
-- `src/pages/HtmlToMarkdown.tsx`
+**Contact Us** (`/contact-us`) — Contact form + info from webogrowth.com:
+- Address, phone numbers, email
+- WhatsApp link
+- Contact form (name, email, service, message)
+
+### 4. Fix Mega Menu (Navbar)
+
+Current issues: dropdown disappears before clicking links, text too small. Changes:
+- Increase `min-w` from `520px` to `640px`
+- Increase link text from `text-sm` to `text-base` with `py-1.5` padding
+- Add proper `pt-2` gap bridge between trigger and dropdown (invisible hover bridge)
+- Increase category label from `text-[10px]` to `text-xs`
+
+### 5. Footer "Lorem Ipsum" → "Lorem Ipsum Generator"
+
+Update footer link label from "Lorem Ipsum" to "Lorem Ipsum Generator". Also add Privacy Policy, Terms, About Us, Contact Us links.
+
+### 6. Admin Dashboard
+
+Create a simple admin panel at `/admin` with login (hardcoded email: `aabeg01@gmail.com`, password: `aabeg01@gmail.com`). Store auth state in React context (not localStorage for security — use sessionStorage).
+
+**Admin Features:**
+- **SEO Settings**: Edit site-wide meta title, description, keywords (stored in localStorage, injected via Helmet)
+- **Verification Codes**: Input fields for Google Search Console meta tag, Google Analytics tracking ID, Bing Webmaster, Facebook domain verification — these get injected into `<head>` via Helmet
+- **Logo Upload**: Upload/change site logo (stored as base64 in localStorage)
+- **Sitemap Viewer**: View current sitemap.xml content
+- **Tools Management**: View list of all tools with their SEO metadata
+
+Admin route will be outside the main Layout (no navbar/footer) with its own dark dashboard UI.
+
+### Files to Create
+- `src/pages/PrivacyPolicy.tsx`
+- `src/pages/TermsOfService.tsx`
+- `src/pages/AboutUs.tsx`
+- `src/pages/ContactUs.tsx`
+- `src/pages/Admin.tsx`
+- `src/contexts/AdminContext.tsx`
 
 ### Files to Update
-- `src/App.tsx` — Add 13 new routes
-- `src/components/Navbar.tsx` — Dropdown with categories
-- `src/components/Footer.tsx` — Tool links section
-- `src/pages/Index.tsx` — Full tool grid with categories
-- `public/sitemap.xml` — Add 13 new URLs
-- `index.html` — Extended JSON-LD
-- All existing tool pages — Add "Related Tools" section
-
-### Dependencies to Add
-- `qrcode` — QR code generation
-- `turndown` — HTML to Markdown conversion
+- `src/components/SEOHead.tsx` — Add jsonLd prop + og:image
+- `src/App.tsx` — Add 5 new routes
+- `src/components/Navbar.tsx` — Fix mega menu hover + sizing
+- `src/components/Footer.tsx` — Add page links, fix Lorem Ipsum label
+- `index.html` — Add og:image meta tag
+- `public/sitemap.xml` — Add new page URLs
+- Copy OG image to `public/og-image.jpg`
+- All 17 tool pages — Add JSON-LD data to SEOHead calls
 
 ### Implementation Order
-1. Create all 13 tool pages with full functionality + SEO
-2. Update routing, navbar, footer, homepage
-3. Update sitemap & JSON-LD
-4. Add internal linking (Related Tools) to all pages
+1. Copy OG image + update SEOHead with jsonLd + og:image
+2. Update all tool pages with JSON-LD
+3. Create Privacy, Terms, About, Contact pages
+4. Fix Navbar mega menu
+5. Update Footer
+6. Build Admin dashboard
+7. Update routes, sitemap
 
