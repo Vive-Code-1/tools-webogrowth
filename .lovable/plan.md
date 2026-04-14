@@ -1,68 +1,63 @@
 
 
-## Plan: Contact Form Fix + Logo Integration + Admin Upgrades + Google Ads Support
+## Plan: Fix 4 Issues — Hero Animation, Admin Profile/Logo, Contact Form
 
 ### Issues Identified
 
-1. **Contact form goes blank** — The edge function fails (likely CORS or import issue with `@supabase/supabase-js/cors`), falls back to `window.open(mailto:...)` which navigates away from the page
-2. **Visit Our Website section** — Uses generic `public` icon instead of WeboGrowth logo; layout needs logo on left, text on right
-3. **Admin logo upload** — `window.dispatchEvent(new Event("storage"))` only triggers `storage` event listeners in OTHER tabs, not the same tab; Navbar never updates
-4. **Admin profile/admins features** — Already exist but need verification
-5. **Google Ads support** — Missing from admin panel
+1. **Homepage hero right side is empty** — The hero section uses `max-w-3xl` putting all content left, leaving right half blank
+2. **Admin profile picture/name not reflecting** — The avatar upload and profile save work in localStorage but the `currentAdmin` state in header doesn't re-render properly because the header reads from state that may not update correctly
+3. **Logo upload saves but doesn't show** — The logo saves to localStorage and `dispatchSettingsUpdate()` fires, but the Navbar listener and Admin header both depend on state that should work. Need to verify the actual rendering path is correct
+4. **Contact form error "Failed to fetch"** — The Supabase Edge Function `send-contact-email` is NOT deployed. It exists as code but hasn't been deployed to Supabase. Need to use the Resend connector gateway pattern or deploy the edge function
 
-### 1. Fix Contact Form (send-contact-email Edge Function)
+### 1. Homepage Hero — Add Lottie Animation on Right Side
 
-**Problem**: `import { corsHeaders } from '@supabase/supabase-js/cors'` is invalid — this module doesn't exist. The function crashes, error is caught, and `window.open(mailto:...)` navigates away causing blank page.
+Install `lottie-react` package. Add a coding/developer-themed Lottie animation on the right side of the hero.
 
-**Fix**: Replace the invalid import with inline CORS headers in `supabase/functions/send-contact-email/index.ts`:
-```typescript
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
-```
+Changes to `Index.tsx`:
+- Change hero layout from single-column (`max-w-3xl`) to a 2-column grid (`grid-cols-1 lg:grid-cols-2`)
+- Left column: existing text content
+- Right column: Lottie animation (use a free coding/tech animation from LottieFiles CDN URL)
+- Animation: floating code editor or developer tools visual
 
-Also fix `ContactUs.tsx` — the mailto fallback should NOT use `window.open()` (navigates away). Instead show a toast with mailto link or use `window.location.href` in a new approach. Better: just show error toast without navigating away.
+### 2. Fix Admin Profile/Avatar Save
 
-### 2. Visit Our Website Section — Logo + Layout Fix
+The `handleAvatarUpload` and `handleProfileSave` functions update localStorage and state correctly. The issue is that after avatar upload, the header component re-renders with the updated `currentAdmin` state. Looking at the code, this should work — but the `dispatchSettingsUpdate` event is not fired after avatar changes, so the admin header logo/avatar might not refresh.
 
-Copy `Favicon-01.png` to `public/wg-icon.png`. Update the "Visit Our Website" card in `ContactUs.tsx`:
-- Replace `<span className="material-symbols-outlined">public</span>` with `<img src="/wg-icon.png" ...>`
-- Change layout from centered to flex row: logo left, text right
+Fix: After avatar upload and profile save, also call `dispatchSettingsUpdate()` to ensure any listeners refresh. Also ensure the header section re-reads `currentAdmin` after state updates.
 
-### 3. Fix Admin Logo Sync to Navbar
+### 3. Fix Logo Not Showing
 
-**Root cause**: `window.dispatchEvent(new Event("storage"))` does NOT trigger `storage` event listeners in the same tab — the `storage` event only fires in other tabs/windows.
+The logo upload code saves to localStorage and dispatches `wg-settings-updated`. The Navbar listens for this event. This should work. Let me verify: the `handleLogoUpload` saves to `SETTINGS_KEY` in localStorage AND calls `dispatchSettingsUpdate()` — this is correct.
 
-**Fix in Navbar.tsx**: Instead of relying on `storage` event, use a custom event name like `wg-settings-updated`. In Admin.tsx, dispatch `new CustomEvent("wg-settings-updated")` after saving. In Navbar.tsx, listen for both `storage` and `wg-settings-updated`.
+Potential issue: The logo might be too large for localStorage (base64 of large images). Or the `settings.logo` state update might not trigger re-render in the admin page because `setSettings` is called with the new object but the admin header reads from `settings.logo` which should update.
 
-### 4. Google Ads Support in Admin
+Fix: Ensure the Admin header and Navbar both re-read from localStorage on the custom event. Add a force re-read in Admin component when settings change.
 
-Add a new field `googleAdsId` to `AdminSettings` interface and admin verification tab. Inject the Google Ads script via `AdminHeadInjector.tsx` similar to Google Analytics:
-```html
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX"></script>
-```
+### 4. Fix Contact Form — Deploy Edge Function
 
-Also add `googleAdsId` field to AdminHeadInjector.
+The edge function exists at `supabase/functions/send-contact-email/index.ts` but is not deployed. The "Failed to fetch" error confirms this.
 
-### 5. Admin Logo also shown in Admin Header
+The edge function uses `RESEND_API_KEY` from `Deno.env` and the secret is configured. The function code looks correct (inline CORS headers, Resend API call).
 
-Update admin header to show the uploaded logo if available.
+**Solution**: The edge function needs to be deployed. This happens automatically when the project is published. However, for the preview to work, we need to ensure the function is deployable.
+
+Also update the edge function to use the Resend connector gateway pattern for better reliability:
+- Use `https://connector-gateway.lovable.dev/resend/emails` instead of `https://api.resend.com/emails`
+- Add `Authorization: Bearer ${LOVABLE_API_KEY}` and `X-Connection-Api-Key: ${RESEND_API_KEY}` headers
 
 ### Files to Update
-- `supabase/functions/send-contact-email/index.ts` — Fix CORS import
-- `src/pages/ContactUs.tsx` — Fix mailto fallback, update Visit Our Website section with logo
-- `src/components/Navbar.tsx` — Listen for custom event for logo sync
-- `src/pages/Admin.tsx` — Dispatch custom event, add Google Ads field, show logo in header
-- `src/components/AdminHeadInjector.tsx` — Add Google Ads injection, listen for custom event
+- `src/pages/Index.tsx` — Add 2-column hero with Lottie animation
+- `src/pages/Admin.tsx` — Fix avatar/profile state refresh
+- `src/pages/ContactUs.tsx` — Improve error handling
+- `supabase/functions/send-contact-email/index.ts` — Use Resend connector gateway
 
-### Files to Copy
-- `user-uploads://Favicon-01.png` → `public/wg-icon.png`
+### Dependencies to Add
+- `lottie-react` — For Lottie animations
 
 ### Implementation Order
-1. Copy favicon icon to public
-2. Fix edge function CORS
-3. Fix ContactUs (form + Visit Our Website section)
-4. Fix logo sync (custom event in Navbar + Admin)
-5. Add Google Ads to Admin + AdminHeadInjector
+1. Install lottie-react
+2. Update hero section with Lottie animation
+3. Fix admin profile/avatar/logo state management
+4. Update edge function to use connector gateway
+5. Deploy edge function
 
