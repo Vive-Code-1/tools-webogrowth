@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
+import SEOHead from "@/components/SEOHead";
 
 function optimizeSvg(svgString: string): string {
   let optimized = svgString;
@@ -78,6 +79,13 @@ const SvgOptimizer = () => {
     : null;
 
   return (
+    <>
+    <SEOHead
+      title="SVG Optimizer Online - Minify & Clean SVG Files Free | WeboGrowth"
+      description="Optimize and minify SVG files online for free. Remove metadata, clean paths, and reduce SVG file sizes from Figma or Illustrator exports."
+      keywords="svg optimizer online, minify svg, clean svg, svg compressor, optimize svg file, svg minifier"
+      canonicalPath="/svg-optimizer"
+    />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-16">
         <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">
@@ -176,6 +184,7 @@ const SvgOptimizer = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

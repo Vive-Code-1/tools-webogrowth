@@ -8,7 +8,11 @@ const Footer = () => (
           WeboGrowth
         </span>
         <p className="text-on-surface-variant/50 font-label text-sm tracking-wide uppercase mt-2">
-          © 2024 WeboGrowth. Kinetic Laboratory Design.
+          © 2026{" "}
+          <a href="https://webogrowth.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            WeboGrowth.Com
+          </a>{" "}
+          Copyright Reserved.
         </p>
       </div>
       <div className="flex flex-wrap justify-center gap-8">
