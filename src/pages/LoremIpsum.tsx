@@ -46,6 +46,7 @@ const LoremIpsum = () => {
         description="Generate lorem ipsum placeholder text online for free. Create paragraphs, sentences, or words of dummy text for your design and development projects."
         keywords="lorem ipsum generator, dummy text generator, placeholder text, lorem ipsum online, generate dummy text free"
         canonicalPath="/lorem-ipsum"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Lorem Ipsum Generator", url: "https://tools.webogrowth.com/lorem-ipsum", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">

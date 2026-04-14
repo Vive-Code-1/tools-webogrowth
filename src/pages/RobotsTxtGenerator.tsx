@@ -45,6 +45,7 @@ const RobotsTxtGenerator = () => {
         description="Generate robots.txt files for your website with our free online tool. Control search engine crawling, add sitemap references, and manage bot access easily."
         keywords="robots.txt generator, create robots.txt, robots.txt maker, seo robots file, search engine crawl control"
         canonicalPath="/robots-generator"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Robots.txt Generator", url: "https://tools.webogrowth.com/robots-generator", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">

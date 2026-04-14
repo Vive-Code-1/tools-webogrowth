@@ -50,6 +50,7 @@ const CssMinifier = () => {
         description="Minify or beautify CSS code online for free. Reduce CSS file size by removing whitespace and comments, or format compressed CSS for readability."
         keywords="css minifier online, css beautifier, compress css, format css, minify css free, css optimizer"
         canonicalPath="/css-minifier"
+        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "CSS Minifier & Beautifier", url: "https://tools.webogrowth.com/css-minifier", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
