@@ -165,7 +165,41 @@ const HeroSection = () => {
   );
 };
 
-const Index = () => (
+const Index = () => {
+  const { toast } = useToast();
+  const [nlEmail, setNlEmail] = useState("");
+  const [nlSending, setNlSending] = useState(false);
+
+  const handleNewsletterSubscribe = async () => {
+    if (!nlEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nlEmail)) {
+      toast({ title: "Please enter a valid email", variant: "destructive" });
+      return;
+    }
+    setNlSending(true);
+    try {
+      let toEmail = "rafikuzzaman10@gmail.com";
+      try {
+        const saved = localStorage.getItem("wg_admin_settings");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.newsletterEmail) toEmail = parsed.newsletterEmail;
+        }
+      } catch {}
+
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: { email: nlEmail.trim(), toEmail, type: "newsletter" },
+      });
+      if (error) throw error;
+      toast({ title: "Subscribed successfully!", description: "You'll receive updates from WeboGrowth." });
+      setNlEmail("");
+    } catch {
+      toast({ title: "Could not subscribe", description: "Please try again later.", variant: "destructive" });
+    } finally {
+      setNlSending(false);
+    }
+  };
+
+  return (
   <div>
     <SEOHead
       title="WeboGrowth Tools - Free Online Image Compressor, Converter & Optimizer"
@@ -173,10 +207,8 @@ const Index = () => (
       keywords="image compressor online free, compress image, convert image format, svg optimizer, favicon generator, webp converter, json formatter, meta tag generator, qr code generator, css minifier"
       canonicalPath="/"
     />
-    {/* Hero */}
     <HeroSection />
 
-    {/* Image Tools */}
     <section className="py-20 px-6 md:px-8 max-w-7xl mx-auto">
       <AnimatedSection>
         <div className="mb-10">
@@ -189,7 +221,6 @@ const Index = () => (
       </div>
     </section>
 
-    {/* Developer Tools */}
     <section className="py-20 px-6 md:px-8 max-w-7xl mx-auto">
       <AnimatedSection>
         <div className="mb-10">
@@ -202,7 +233,6 @@ const Index = () => (
       </div>
     </section>
 
-    {/* SEO & Design Tools */}
     <section className="py-20 px-6 md:px-8 max-w-7xl mx-auto">
       <AnimatedSection>
         <div className="mb-10">
@@ -215,7 +245,6 @@ const Index = () => (
       </div>
     </section>
 
-    {/* Stats & Newsletter */}
     <section className="py-24 bg-surface-container-low/30">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <AnimatedSection>
@@ -257,9 +286,15 @@ const Index = () => (
                   className="bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary rounded-lg px-6 py-4 w-full md:w-80 text-foreground placeholder:text-foreground/30 outline-none"
                   placeholder="Enter your email"
                   type="email"
+                  value={nlEmail}
+                  onChange={(e) => setNlEmail(e.target.value)}
                 />
-                <button className="bg-secondary text-on-secondary px-6 py-4 rounded-lg font-bold hover:opacity-90 transition-colors whitespace-nowrap">
-                  Subscribe
+                <button
+                  onClick={handleNewsletterSubscribe}
+                  disabled={nlSending}
+                  className="bg-secondary text-on-secondary px-6 py-4 rounded-lg font-bold hover:opacity-90 transition-colors whitespace-nowrap disabled:opacity-50"
+                >
+                  {nlSending ? "..." : "Subscribe"}
                 </button>
               </div>
             </div>
@@ -268,6 +303,7 @@ const Index = () => (
       </div>
     </section>
   </div>
-);
+  );
+};
 
 export default Index;
