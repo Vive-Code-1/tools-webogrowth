@@ -44,6 +44,8 @@ const defaultSettings: AdminSettings = {
   bingWebmaster: "",
   facebookVerification: "",
   logo: "",
+  siteEmail: "rafikuzzaman10@gmail.com",
+  newsletterEmail: "rafikuzzaman10@gmail.com",
 };
 
 const dispatchSettingsUpdate = () => {
@@ -284,9 +286,11 @@ const Admin = () => {
           {settings.logo ? (
             <img src={settings.logo} alt="WeboGrowth" className="h-8" />
           ) : (
-            <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
+            <>
+              <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
+              <h1 className="text-lg font-headline font-bold">WeboGrowth Admin</h1>
+            </>
           )}
-          <h1 className="text-lg font-headline font-bold">WeboGrowth Admin</h1>
         </div>
         <div className="flex items-center gap-4">
           {currentAdmin && (
