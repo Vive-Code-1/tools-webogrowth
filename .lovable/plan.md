@@ -1,63 +1,88 @@
 
 
-## Plan: Fix 4 Issues — Hero Animation, Admin Profile/Logo, Contact Form
+## Plan: Fix Contact Form + Sitemap + Admin Email Settings + Logo Text + Newsletter
 
-### Issues Identified
+### Summary of Issues & Fixes
 
-1. **Homepage hero right side is empty** — The hero section uses `max-w-3xl` putting all content left, leaving right half blank
-2. **Admin profile picture/name not reflecting** — The avatar upload and profile save work in localStorage but the `currentAdmin` state in header doesn't re-render properly because the header reads from state that may not update correctly
-3. **Logo upload saves but doesn't show** — The logo saves to localStorage and `dispatchSettingsUpdate()` fires, but the Navbar listener and Admin header both depend on state that should work. Need to verify the actual rendering path is correct
-4. **Contact form error "Failed to fetch"** — The Supabase Edge Function `send-contact-email` is NOT deployed. It exists as code but hasn't been deployed to Supabase. Need to use the Resend connector gateway pattern or deploy the edge function
+1. **Contact form "Failed to fetch"** — Edge function is correctly coded but not deployed. Preview environment cannot call undeployed edge functions. The fix requires connecting the Resend connector (so gateway auth works) and redeploying the edge function.
 
-### 1. Homepage Hero — Add Lottie Animation on Right Side
+2. **Sitemap missing pages** — Already has all 22 pages. No changes needed.
 
-Install `lottie-react` package. Add a coding/developer-themed Lottie animation on the right side of the hero.
+3. **Admin dashboard: Site Email & Newsletter Email fields** — Currently missing. Add `siteEmail` and `newsletterEmail` to AdminSettings interface and UI. The contact form edge function will read the recipient email from the request body (passed from admin settings stored in localStorage).
 
-Changes to `Index.tsx`:
-- Change hero layout from single-column (`max-w-3xl`) to a 2-column grid (`grid-cols-1 lg:grid-cols-2`)
-- Left column: existing text content
-- Right column: Lottie animation (use a free coding/tech animation from LottieFiles CDN URL)
-- Animation: floating code editor or developer tools visual
+4. **Logo text "WeboGrowth Tools" showing alongside logo** — In `Navbar.tsx` line 287, the admin header shows `<h1>WeboGrowth Admin</h1>` text next to the logo. When logo is uploaded, only the logo image should show — remove the text fallback. Same fix needed in Navbar line 76.
 
-### 2. Fix Admin Profile/Avatar Save
+5. **Newsletter subscribe** — Homepage "Join the WeboGrowth Lab" subscribe button does nothing. Wire it to invoke the same `send-contact-email` edge function (or a dedicated one) to email the subscription to the admin's configured newsletter email.
 
-The `handleAvatarUpload` and `handleProfileSave` functions update localStorage and state correctly. The issue is that after avatar upload, the header component re-renders with the updated `currentAdmin` state. Looking at the code, this should work — but the `dispatchSettingsUpdate` event is not fired after avatar changes, so the admin header logo/avatar might not refresh.
+### Detailed Changes
 
-Fix: After avatar upload and profile save, also call `dispatchSettingsUpdate()` to ensure any listeners refresh. Also ensure the header section re-reads `currentAdmin` after state updates.
+#### 1. Connect Resend Connector + Redeploy Edge Function
 
-### 3. Fix Logo Not Showing
+Use `standard_connectors--connect` with `resend` to properly link the Resend connection. Then deploy the `send-contact-email` edge function. The function code is already correct (uses gateway pattern with `LOVABLE_API_KEY` + `RESEND_API_KEY`).
 
-The logo upload code saves to localStorage and dispatches `wg-settings-updated`. The Navbar listens for this event. This should work. Let me verify: the `handleLogoUpload` saves to `SETTINGS_KEY` in localStorage AND calls `dispatchSettingsUpdate()` — this is correct.
+#### 2. Admin Settings — Add Email Fields
 
-Potential issue: The logo might be too large for localStorage (base64 of large images). Or the `settings.logo` state update might not trigger re-render in the admin page because `setSettings` is called with the new object but the admin header reads from `settings.logo` which should update.
+Update `AdminSettings` interface in `Admin.tsx`:
+```typescript
+interface AdminSettings {
+  // ...existing fields...
+  siteEmail: string;       // Where contact form submissions go
+  newsletterEmail: string; // Where newsletter signups go
+}
+```
 
-Fix: Ensure the Admin header and Navbar both re-read from localStorage on the custom event. Add a force re-read in Admin component when settings change.
+Add a new admin tab "Email Settings" with two input fields. Default values: `rafikuzzaman10@gmail.com` for both.
 
-### 4. Fix Contact Form — Deploy Edge Function
+#### 3. Contact Form — Use Admin Email
 
-The edge function exists at `supabase/functions/send-contact-email/index.ts` but is not deployed. The "Failed to fetch" error confirms this.
+Update `ContactUs.tsx` to read `siteEmail` from localStorage (`wg_admin_settings`) and pass it in the edge function request body. Update `send-contact-email/index.ts` to accept an optional `toEmail` parameter (fallback to hardcoded `rafikuzzaman10@gmail.com`).
 
-The edge function uses `RESEND_API_KEY` from `Deno.env` and the secret is configured. The function code looks correct (inline CORS headers, Resend API call).
+#### 4. Newsletter Subscribe
 
-**Solution**: The edge function needs to be deployed. This happens automatically when the project is published. However, for the preview to work, we need to ensure the function is deployable.
+Update `Index.tsx` newsletter section:
+- Add state for email input and sending status
+- On subscribe, invoke `send-contact-email` with a subject like "Newsletter Signup" and the subscriber's email
+- Read `newsletterEmail` from localStorage to pass as recipient
+- Show success/error toast
 
-Also update the edge function to use the Resend connector gateway pattern for better reliability:
-- Use `https://connector-gateway.lovable.dev/resend/emails` instead of `https://api.resend.com/emails`
-- Add `Authorization: Bearer ${LOVABLE_API_KEY}` and `X-Connection-Api-Key: ${RESEND_API_KEY}` headers
+#### 5. Logo Text Fix
+
+**Navbar.tsx (line 72-77)**: When `logo` is set, show only the image. When not set, show "WeboGrowth Tools" text. This already works correctly — the ternary is fine.
+
+**Admin.tsx (line 287)**: Remove the always-visible `<h1>WeboGrowth Admin</h1>` text. When logo is uploaded, show only the logo. When no logo, show icon + "WeboGrowth Admin" text.
+
+Change from:
+```tsx
+{settings.logo ? (
+  <img src={settings.logo} alt="WeboGrowth" className="h-8" />
+) : (
+  <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
+)}
+<h1 className="text-lg font-headline font-bold">WeboGrowth Admin</h1>
+```
+To:
+```tsx
+{settings.logo ? (
+  <img src={settings.logo} alt="WeboGrowth" className="h-8" />
+) : (
+  <>
+    <span className="material-symbols-outlined text-primary">admin_panel_settings</span>
+    <h1 className="text-lg font-headline font-bold">WeboGrowth Admin</h1>
+  </>
+)}
+```
 
 ### Files to Update
-- `src/pages/Index.tsx` — Add 2-column hero with Lottie animation
-- `src/pages/Admin.tsx` — Fix avatar/profile state refresh
-- `src/pages/ContactUs.tsx` — Improve error handling
-- `supabase/functions/send-contact-email/index.ts` — Use Resend connector gateway
-
-### Dependencies to Add
-- `lottie-react` — For Lottie animations
+- `src/pages/Admin.tsx` — Add email settings tab, fix logo text
+- `src/pages/ContactUs.tsx` — Read siteEmail from admin settings, pass to edge function
+- `src/pages/Index.tsx` — Wire newsletter subscribe to send email
+- `supabase/functions/send-contact-email/index.ts` — Accept optional `toEmail` parameter
 
 ### Implementation Order
-1. Install lottie-react
-2. Update hero section with Lottie animation
-3. Fix admin profile/avatar/logo state management
-4. Update edge function to use connector gateway
-5. Deploy edge function
+1. Connect Resend connector
+2. Update Admin with email settings + logo text fix
+3. Update edge function to accept dynamic recipient
+4. Update ContactUs to pass admin email
+5. Wire newsletter subscribe
+6. Deploy edge function
 
