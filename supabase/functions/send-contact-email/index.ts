@@ -1,6 +1,6 @@
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY_1");
     if (!RESEND_API_KEY) {
       return new Response(JSON.stringify({ error: "RESEND_API_KEY not configured" }), {
         status: 500,
@@ -27,8 +27,53 @@ Deno.serve(async (req) => {
       });
     }
 
-    const { name, email, service, message } = await req.json();
+    const { name, email, service, message, toEmail, type } = await req.json();
 
+    const recipientEmail = toEmail || "rafikuzzaman10@gmail.com";
+
+    // Newsletter signup
+    if (type === "newsletter") {
+      if (!email?.trim()) {
+        return new Response(JSON.stringify({ error: "Email is required" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const res = await fetch(`${GATEWAY_URL}/emails`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+          "X-Connection-Api-Key": RESEND_API_KEY,
+        },
+        body: JSON.stringify({
+          from: "WeboGrowth Tools <onboarding@resend.dev>",
+          to: [recipientEmail],
+          subject: `New Newsletter Signup: ${email.trim()}`,
+          html: `
+            <h2>New Newsletter Subscription</h2>
+            <p><strong>Email:</strong> ${email.trim()}</p>
+            <p>This user wants to receive updates from WeboGrowth Tools.</p>
+          `,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        console.error("Resend API error:", JSON.stringify(data));
+        return new Response(JSON.stringify({ error: data.message || "Failed to send" }), {
+          status: res.status,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Contact form
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
       return new Response(JSON.stringify({ error: "Name, email, and message are required" }), {
         status: 400,
@@ -53,7 +98,7 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         from: "WeboGrowth Tools <onboarding@resend.dev>",
-        to: ["rafikuzzaman10@gmail.com"],
+        to: [recipientEmail],
         subject: `Contact from ${name.trim()} - ${service || "General"}`,
         html: `
           <h2>New Contact Form Submission</h2>

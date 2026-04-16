@@ -16,6 +16,8 @@ interface AdminSettings {
   bingWebmaster: string;
   facebookVerification: string;
   logo: string;
+  siteEmail: string;
+  newsletterEmail: string;
 }
 
 interface AdminUser {
