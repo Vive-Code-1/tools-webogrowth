@@ -271,6 +271,7 @@ const Admin = () => {
     { id: "seo", label: "SEO Settings", icon: "search" },
     { id: "verification", label: "Verification", icon: "verified" },
     { id: "logo", label: "Logo", icon: "image" },
+    { id: "email", label: "Email Settings", icon: "mail" },
     { id: "profile", label: "My Profile", icon: "person" },
     { id: "admins", label: "Manage Admins", icon: "group" },
     { id: "tools", label: "Tools", icon: "build" },
