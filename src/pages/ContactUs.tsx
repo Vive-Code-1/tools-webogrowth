@@ -20,8 +20,18 @@ const ContactUs = () => {
 
     setSending(true);
     try {
+      // Read admin-configured recipient email
+      let toEmail = "rafikuzzaman10@gmail.com";
+      try {
+        const saved = localStorage.getItem("wg_admin_settings");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.siteEmail) toEmail = parsed.siteEmail;
+        }
+      } catch {}
+
       const { data, error } = await supabase.functions.invoke("send-contact-email", {
-        body: { name: name.trim(), email: email.trim(), service: form.service, message: message.trim() },
+        body: { name: name.trim(), email: email.trim(), service: form.service, message: message.trim(), toEmail },
       });
 
       if (error) throw error;

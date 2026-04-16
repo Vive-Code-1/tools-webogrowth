@@ -73,7 +73,7 @@ const Navbar = () => {
           {logo ? (
             <img src={logo} alt="WeboGrowth" className="h-8" />
           ) : (
-            <span className="text-2xl font-bold tracking-tighter text-foreground font-headline">WeboGrowth Tools</span>
+            <span className="text-2xl font-bold tracking-tighter text-foreground font-headline">WeboGrowth</span>
           )}
         </Link>
 
