@@ -417,6 +417,32 @@ const Admin = () => {
             </div>
           )}
 
+          {activeTab === "email" && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-headline font-bold">Email Settings</h2>
+              <p className="text-on-surface-variant text-sm">Configure where contact form submissions and newsletter signups are sent.</p>
+              <div className="space-y-4">
+                <div className="bg-surface-container rounded-xl p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="material-symbols-outlined text-primary">contact_mail</span>
+                    <h3 className="font-headline font-bold">Contact Form Email</h3>
+                  </div>
+                  <p className="text-xs text-on-surface-variant mb-3">Contact form submissions will be sent to this email address.</p>
+                  <input value={settings.siteEmail} onChange={(e) => setSettings({ ...settings, siteEmail: e.target.value })} placeholder="your@email.com" className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
+                </div>
+                <div className="bg-surface-container rounded-xl p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="material-symbols-outlined text-primary">newspaper</span>
+                    <h3 className="font-headline font-bold">Newsletter Email</h3>
+                  </div>
+                  <p className="text-xs text-on-surface-variant mb-3">Newsletter signups will be sent to this email address.</p>
+                  <input value={settings.newsletterEmail} onChange={(e) => setSettings({ ...settings, newsletterEmail: e.target.value })} placeholder="your@email.com" className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm" />
+                </div>
+              </div>
+              <button onClick={handleSave} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">Save Email Settings</button>
+            </div>
+          )}
+
           {activeTab === "profile" && (
             <div className="space-y-6">
               <h2 className="text-2xl font-headline font-bold">My Profile</h2>
