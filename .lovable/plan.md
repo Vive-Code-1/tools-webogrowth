@@ -1,23 +1,55 @@
-## Plan: Fix Compressor, Converter & SVG Optimizer download issues
+## Plan: Upgrade Gradient Generator to Grainy/Noisy Gradient Image Maker
 
-### Root cause
-All three tools (Compressor, Format Converter, SVG Optimizer) call `uploadProcessedFile()` in `src/lib/storage.ts`, which uploads the processed file to a Supabase Storage bucket called `processed-files`. That upload fails with `StorageUnknownError: Failed to fetch` (visible in console logs), so `result` never gets set and the `CountdownDownload` button never renders.
+### Goal
+Transform the current CSS-only Gradient Generator into a tool that **renders downloadable PNG images** styled like the user's reference uploads — soft, blurred, grainy gradients (radial blooms, mesh-like color fields, vertical light bars) — using two user-picked colors. Add custom size input + clickable size presets.
 
-The bucket either doesn't exist or isn't publicly writable from the browser. More importantly, **there's no reason to upload at all** — every conversion/compression already happens 100% in the browser via `<canvas>`. Round-tripping the file through Supabase only adds latency, cost, and a failure point.
+### Reference Aesthetic
+The four uploaded images show:
+1. Radial green bloom on dark background (grainy)
+2. Vertical blurred light bars in green tone (noisy)
+3. Soft curved green-on-black wave (smooth grain)
+4. Vertical thin striped gradient (green→teal→navy)
 
-### Fix
-Make all processed files download directly from the browser using a local blob URL. No backend involved.
+Common traits: **soft blur**, **film grain noise overlay**, **organic light/dark falloff**, **two-color harmony**.
 
-### Changes
+### Features to Build
 
-1. **`src/lib/storage.ts`** — Replace `uploadProcessedFile` with a synchronous wrapper that returns `URL.createObjectURL(blob)`. Replace `deleteProcessedFile` with `URL.revokeObjectURL`. Keep the same function signatures so callers don't change.
+1. **Color inputs** — keep existing Color 1 + Color 2 pickers.
+2. **Gradient style selector** — replace Linear/Radial with 4 styles matching the references:
+   - `Bloom` (radial soft glow, off-center)
+   - `Bars` (vertical blurred light streaks)
+   - `Wave` (curved soft gradient)
+   - `Stripes` (thin vertical gradient bands)
+3. **Grain intensity slider** (0–100) to control noise overlay.
+4. **Size controls**:
+   - Width + Height number inputs (custom).
+   - **Preset chips below** — click to apply: `1920×1080` (Desktop), `1080×1920` (Mobile), `1200×630` (OG/Social), `1080×1080` (Square), `2560×1440` (2K), `576×1024` (Phone Wallpaper).
+5. **Live canvas preview** rendered with HTML5 `<canvas>` (downscaled fit-to-container preview, full resolution on download).
+6. **Download PNG button** — exports canvas at chosen resolution.
+7. Keep CSS code box for the Linear option as a bonus (optional — can drop if cluttered). Decision: **drop it**, since output is now an image.
 
-2. **`src/components/CountdownDownload.tsx`** — Update the cleanup branch: instead of checking `downloadUrl.includes("supabase")`, call `URL.revokeObjectURL(downloadUrl)` for any `blob:` URL on expiry. The download handler already works for blob URLs (the `fetch(blobUrl)` path works, but we can simplify to set `<a href>` directly).
+### Rendering Approach (Canvas 2D)
 
-3. No changes needed in `Compressor.tsx`, `Converter.tsx`, `SvgOptimizer.tsx` — they keep calling `uploadProcessedFile()` and consuming the returned URL exactly as before.
+For each style, draw onto an offscreen canvas at full requested resolution:
 
-### Result
-- Compress / Convert / SVG Optimize all work instantly with no network call
-- Download button appears immediately after processing
-- 5-minute countdown still applies; on expiry the blob URL is revoked to free memory
-- No Supabase Storage configuration required
+- **Bloom**: fill with color2 (dark), then `createRadialGradient` with color1 at ~70% opacity centered slightly off-axis, large radius.
+- **Bars**: fill color2; draw 6–8 vertical `createLinearGradient` rectangles (color1 → transparent) at varied widths/positions with `filter: blur(40px)` via `ctx.filter`.
+- **Wave**: fill color2; draw large arc/ellipse paths filled with radial gradient color1, blurred heavily.
+- **Stripes**: draw N=80 thin vertical bars where each bar's color is interpolated from color1→color2 across X, with subtle per-bar lightness variation for the "ridged" look.
+- **Grain overlay**: generate noise via `ImageData` (random alpha 0–grainIntensity) and composite with `globalCompositeOperation = "overlay"` or `"soft-light"`.
+
+### Download Flow
+On click → render full-resolution canvas → `canvas.toBlob('image/png')` → trigger anchor download as `gradient_{style}_{w}x{h}.png`. No backend, no storage upload.
+
+### Files to Modify
+- `src/pages/GradientGenerator.tsx` — full rewrite of UI + canvas rendering logic.
+
+### Files Unchanged
+- Routing, SEO, related tools, Layout — no other touch points needed.
+
+### Out of Scope
+- Saving presets to localStorage
+- More than 2 colors / mesh editor
+- SVG export
+
+After approval, I'll implement directly in `GradientGenerator.tsx` and visually verify the four styles render correctly.
