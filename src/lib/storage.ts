@@ -1,46 +1,23 @@
-import { supabase } from "@/integrations/supabase/client";
-
 /**
- * Upload a processed file to Supabase storage.
- * Returns a public URL for downloading.
+ * Create a local blob URL for downloading a processed file.
+ * Processing happens entirely in the browser — no upload needed.
  */
 export async function uploadProcessedFile(
   blob: Blob,
-  fileName: string
+  _fileName: string
 ): Promise<string> {
-  const uniqueName = `${Date.now()}_${Math.random().toString(36).slice(2)}_${fileName}`;
-
-  const { error } = await supabase.storage
-    .from("processed-files")
-    .upload(uniqueName, blob, {
-      contentType: blob.type || "application/octet-stream",
-      upsert: false,
-    });
-
-  if (error) {
-    console.error("Upload failed:", error);
-    throw new Error("Failed to upload processed file");
-  }
-
-  const { data: urlData } = supabase.storage
-    .from("processed-files")
-    .getPublicUrl(uniqueName);
-
-  return urlData.publicUrl;
+  return URL.createObjectURL(blob);
 }
 
 /**
- * Delete a file from storage by its public URL.
+ * Revoke a previously created blob URL to free memory.
  */
-export async function deleteProcessedFile(publicUrl: string): Promise<void> {
+export async function deleteProcessedFile(blobUrl: string): Promise<void> {
   try {
-    const url = new URL(publicUrl);
-    const pathParts = url.pathname.split("/processed-files/");
-    if (pathParts.length < 2) return;
-    const filePath = decodeURIComponent(pathParts[1]);
-
-    await supabase.storage.from("processed-files").remove([filePath]);
+    if (blobUrl.startsWith("blob:")) {
+      URL.revokeObjectURL(blobUrl);
+    }
   } catch (err) {
-    console.error("Delete failed:", err);
+    console.error("Revoke failed:", err);
   }
 }
