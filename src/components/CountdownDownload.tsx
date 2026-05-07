@@ -28,10 +28,7 @@ const CountdownDownload = ({ downloadUrl, fileName, onExpired }: CountdownDownlo
         if (prev <= 1) {
           clearInterval(interval);
           setExpired(true);
-          // Delete from Supabase storage if it's a Supabase URL
-          if (downloadUrl.includes("supabase")) {
-            deleteProcessedFile(downloadUrl);
-          }
+          deleteProcessedFile(downloadUrl);
           onExpired();
           return 0;
         }
