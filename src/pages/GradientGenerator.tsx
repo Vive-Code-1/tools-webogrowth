@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import SEOHead from "@/components/SEOHead";
 import RelatedTools from "@/components/RelatedTools";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
-type Style = "bloom" | "bars" | "wave" | "stripes";
+type Style = "bloom" | "bars" | "wave" | "stripes" | "ai";
 
 const PRESETS: { label: string; w: number; h: number }[] = [
   { label: "Desktop 1920×1080", w: 1920, h: 1080 },
@@ -15,11 +17,7 @@ const PRESETS: { label: string; w: number; h: number }[] = [
 
 function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace("#", "");
-  return [
-    parseInt(h.slice(0, 2), 16),
-    parseInt(h.slice(2, 4), 16),
-    parseInt(h.slice(4, 6), 16),
-  ];
+  return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
 
 function lerpColor(a: [number, number, number], b: [number, number, number], t: number) {
@@ -30,13 +28,35 @@ function lerpColor(a: [number, number, number], b: [number, number, number], t: 
   ];
 }
 
+function applyGrain(ctx: CanvasRenderingContext2D, w: number, h: number, grain: number) {
+  if (grain <= 0) return;
+  const intensity = grain / 100;
+  const noiseCanvas = document.createElement("canvas");
+  noiseCanvas.width = w;
+  noiseCanvas.height = h;
+  const nctx = noiseCanvas.getContext("2d")!;
+  const noise = nctx.createImageData(w, h);
+  const d = noise.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const v = Math.random() * 255;
+    d[i] = v;
+    d[i + 1] = v;
+    d[i + 2] = v;
+    d[i + 3] = Math.random() * 255 * intensity;
+  }
+  nctx.putImageData(noise, 0, 0);
+  ctx.globalCompositeOperation = "overlay";
+  ctx.drawImage(noiseCanvas, 0, 0);
+  ctx.globalCompositeOperation = "source-over";
+}
+
 function renderGradient(
   canvas: HTMLCanvasElement,
   w: number,
   h: number,
   c1: string,
   c2: string,
-  style: Style,
+  style: Exclude<Style, "ai">,
   grain: number,
 ) {
   canvas.width = w;
@@ -51,48 +71,59 @@ function renderGradient(
   if (style === "bloom") {
     ctx.fillStyle = c2;
     ctx.fillRect(0, 0, w, h);
-    const cx = w * 0.72;
-    const cy = h * 0.32;
-    const r = Math.max(w, h) * 0.55;
+    // main bloom
+    const cx = w * 0.72, cy = h * 0.32;
+    const r = Math.max(w, h) * 0.6;
     const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
     g.addColorStop(0, c1);
-    g.addColorStop(0.45, c1 + "cc");
+    g.addColorStop(0.4, c1 + "aa");
     g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+    // secondary highlight
+    const g2 = ctx.createRadialGradient(w * 0.25, h * 0.75, 0, w * 0.25, h * 0.75, Math.max(w, h) * 0.35);
+    g2.addColorStop(0, c1 + "55");
+    g2.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g2;
+    ctx.fillRect(0, 0, w, h);
+    // vignette
+    const vg = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.3, w / 2, h / 2, Math.max(w, h) * 0.7);
+    vg.addColorStop(0, "rgba(0,0,0,0)");
+    vg.addColorStop(1, c2 + "cc");
+    ctx.fillStyle = vg;
     ctx.fillRect(0, 0, w, h);
   } else if (style === "bars") {
     ctx.fillStyle = c2;
     ctx.fillRect(0, 0, w, h);
-    ctx.filter = `blur(${blurAmt * 0.6}px)`;
-    const positions = [0.05, 0.14, 0.22, 0.32, 0.44, 0.55, 0.66, 0.78];
+    ctx.filter = `blur(${blurAmt * 0.5}px)`;
+    const positions = [0.08, 0.18, 0.28, 0.4, 0.52, 0.63, 0.74, 0.86];
     positions.forEach((p, i) => {
-      const bw = w * (0.04 + (i % 3) * 0.02);
-      const grad = ctx.createLinearGradient(p * w, 0, p * w + bw, 0);
+      const bw = w * (0.05 + (i % 3) * 0.025);
+      const grad = ctx.createLinearGradient(p * w - bw, 0, p * w + bw, 0);
       grad.addColorStop(0, "rgba(0,0,0,0)");
-      grad.addColorStop(0.5, c1);
+      grad.addColorStop(0.5, c1 + (i % 2 === 0 ? "ee" : "99"));
       grad.addColorStop(1, "rgba(0,0,0,0)");
       ctx.fillStyle = grad;
-      ctx.fillRect(p * w - bw, 0, bw * 3, h);
+      ctx.fillRect(p * w - bw * 1.5, 0, bw * 3, h);
     });
     ctx.filter = "none";
   } else if (style === "wave") {
     ctx.fillStyle = c2;
     ctx.fillRect(0, 0, w, h);
     ctx.filter = `blur(${blurAmt}px)`;
-    const cx1 = w * 0.85;
-    const cy1 = h * 0.5;
-    const r1 = Math.max(w, h) * 0.6;
-    const g1 = ctx.createRadialGradient(cx1, cy1, r1 * 0.2, cx1, cy1, r1);
-    g1.addColorStop(0, "rgba(0,0,0,0)");
-    g1.addColorStop(0.5, c1);
-    g1.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.fillStyle = g1;
-    ctx.fillRect(0, 0, w, h);
-    const g2 = ctx.createRadialGradient(w * 0.1, h * 0.1, 0, w * 0.1, h * 0.1, Math.max(w, h) * 0.4);
-    g2.addColorStop(0, c1 + "88");
-    g2.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.fillStyle = g2;
-    ctx.fillRect(0, 0, w, h);
+    const blobs = [
+      { x: w * 0.85, y: h * 0.5, r: Math.max(w, h) * 0.55, a: "ee" },
+      { x: w * 0.15, y: h * 0.2, r: Math.max(w, h) * 0.4, a: "88" },
+      { x: w * 0.5, y: h * 0.95, r: Math.max(w, h) * 0.35, a: "66" },
+    ];
+    blobs.forEach((b) => {
+      const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      g.addColorStop(0, c1 + b.a);
+      g.addColorStop(0.6, c1 + "33");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, w, h);
+    });
     ctx.filter = "none";
   } else if (style === "stripes") {
     const a = hexToRgb(c1);
@@ -102,29 +133,42 @@ function renderGradient(
     for (let i = 0; i < N; i++) {
       const t = i / (N - 1);
       const [r, gg, bb] = lerpColor(a, b, t);
-      // ridge effect: subtle vertical lightness oscillation
       const ridge = 0.85 + 0.15 * Math.abs(Math.sin(i * 1.7));
       ctx.fillStyle = `rgb(${Math.min(255, r * ridge)}, ${Math.min(255, gg * ridge)}, ${Math.min(255, bb * ridge)})`;
       ctx.fillRect(i * bw, 0, bw + 1, h);
     }
   }
 
-  // Grain overlay
-  if (grain > 0) {
-    const intensity = grain / 100;
-    const noise = ctx.createImageData(w, h);
-    const d = noise.data;
-    for (let i = 0; i < d.length; i += 4) {
-      const v = Math.random() * 255;
-      d[i] = v;
-      d[i + 1] = v;
-      d[i + 2] = v;
-      d[i + 3] = Math.random() * 255 * intensity;
-    }
-    ctx.globalCompositeOperation = "overlay";
-    ctx.putImageData(noise, 0, 0);
-    ctx.globalCompositeOperation = "source-over";
+  applyGrain(ctx, w, h, grain);
+}
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+function drawAiImage(canvas: HTMLCanvasElement, img: HTMLImageElement, w: number, h: number, grain: number) {
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d")!;
+  // cover-fit
+  const ir = img.width / img.height;
+  const cr = w / h;
+  let sw = img.width, sh = img.height, sx = 0, sy = 0;
+  if (ir > cr) {
+    sw = img.height * cr;
+    sx = (img.width - sw) / 2;
+  } else {
+    sh = img.width / cr;
+    sy = (img.height - sh) / 2;
   }
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+  applyGrain(ctx, w, h, grain);
 }
 
 const GradientGenerator = () => {
@@ -133,35 +177,71 @@ const GradientGenerator = () => {
   const [style, setStyle] = useState<Style>("bloom");
   const [width, setWidth] = useState(1920);
   const [height, setHeight] = useState(1080);
-  const [grain, setGrain] = useState(35);
+  const [grain, setGrain] = useState(25);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiImage, setAiImage] = useState<HTMLImageElement | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
   const previewRef = useRef<HTMLCanvasElement>(null);
+
+  const defaultPrompt = `Soft grainy abstract gradient background, ${color1} blending into ${color2}, blurred organic light bloom, subtle film grain, modern minimal wallpaper, no text`;
 
   const renderPreview = useCallback(() => {
     if (!previewRef.current) return;
-    // preview at lower res for performance
     const maxPreview = 800;
     const ratio = width / height;
-    let pw = width;
-    let ph = height;
+    let pw = width, ph = height;
     if (Math.max(pw, ph) > maxPreview) {
-      if (ratio >= 1) {
-        pw = maxPreview;
-        ph = Math.round(maxPreview / ratio);
-      } else {
-        ph = maxPreview;
-        pw = Math.round(maxPreview * ratio);
-      }
+      if (ratio >= 1) { pw = maxPreview; ph = Math.round(maxPreview / ratio); }
+      else { ph = maxPreview; pw = Math.round(maxPreview * ratio); }
     }
-    renderGradient(previewRef.current, pw, ph, color1, color2, style, grain);
-  }, [width, height, color1, color2, style, grain]);
+    if (style === "ai") {
+      if (aiImage) drawAiImage(previewRef.current, aiImage, pw, ph, grain);
+      else {
+        const c = previewRef.current;
+        c.width = pw; c.height = ph;
+        const ctx = c.getContext("2d")!;
+        ctx.fillStyle = "#1a1a1a";
+        ctx.fillRect(0, 0, pw, ph);
+        ctx.fillStyle = "#666";
+        ctx.font = "16px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Click Generate to create AI gradient", pw / 2, ph / 2);
+      }
+    } else {
+      renderGradient(previewRef.current, pw, ph, color1, color2, style, grain);
+    }
+  }, [width, height, color1, color2, style, grain, aiImage]);
 
-  useEffect(() => {
-    renderPreview();
-  }, [renderPreview]);
+  useEffect(() => { renderPreview(); }, [renderPreview]);
+
+  const handleGenerateAi = async () => {
+    setAiLoading(true);
+    try {
+      const prompt = (aiPrompt || defaultPrompt) + ` Aspect ratio ${width}:${height}.`;
+      const { data, error } = await supabase.functions.invoke("generate-gradient-image", {
+        body: { prompt },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      if (!data?.imageUrl) throw new Error("No image returned");
+      const img = await loadImage(data.imageUrl);
+      setAiImage(img);
+      toast.success("AI gradient generated");
+    } catch (err: any) {
+      toast.error(err?.message || "Generation failed");
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   const handleDownload = () => {
     const off = document.createElement("canvas");
-    renderGradient(off, width, height, color1, color2, style, grain);
+    if (style === "ai") {
+      if (!aiImage) { toast.error("Generate an image first"); return; }
+      drawAiImage(off, aiImage, width, height, grain);
+    } else {
+      renderGradient(off, width, height, color1, color2, style, grain);
+    }
     off.toBlob((blob) => {
       if (!blob) return;
       const url = URL.createObjectURL(blob);
@@ -178,16 +258,16 @@ const GradientGenerator = () => {
     { id: "bars", label: "Bars" },
     { id: "wave", label: "Wave" },
     { id: "stripes", label: "Stripes" },
+    { id: "ai", label: "✨ AI" },
   ];
 
   return (
     <>
       <SEOHead
         title="Grainy Gradient Image Generator | WeboGrowth"
-        description="Create grainy, blurred gradient background images from any two colors. Choose bloom, bars, wave or stripes styles, set custom size, and download PNG."
-        keywords="gradient image generator, grainy gradient, noise gradient, mesh gradient, gradient background maker, gradient png download"
+        description="Create grainy, blurred gradient background images from any two colors or generate with AI. Download PNG in any size."
+        keywords="gradient image generator, grainy gradient, AI gradient, mesh gradient, gradient background maker"
         canonicalPath="/gradient-generator"
-        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Grainy Gradient Generator", url: "https://tools.webogrowth.com/gradient-generator", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
       />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
@@ -196,13 +276,12 @@ const GradientGenerator = () => {
             Gradient Image <br /><span className="text-secondary">Generator</span>
           </h1>
           <p className="max-w-xl text-on-surface-variant text-lg leading-relaxed">
-            Create grainy, blurred gradient images from two colors. Pick a style, set custom size, and download a PNG.
+            Create grainy, blurred gradient images from two colors — or generate one with AI. Pick a style, set custom size, download PNG.
           </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-6">
-            {/* Style */}
             <div>
               <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Style</label>
               <div className="flex gap-2 flex-wrap">
@@ -220,25 +299,49 @@ const GradientGenerator = () => {
               </div>
             </div>
 
-            {/* Colors */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Color 1</label>
-                <div className="flex items-center gap-3">
-                  <input type="color" value={color1} onChange={(e) => setColor1(e.target.value)} className="w-12 h-12 rounded-lg cursor-pointer border-0 bg-transparent" />
-                  <input value={color1} onChange={(e) => setColor1(e.target.value)} className="flex-1 bg-surface-container rounded-lg px-3 py-2 font-mono text-sm text-foreground outline-none" />
+            {style !== "ai" && (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Color 1</label>
+                  <div className="flex items-center gap-3">
+                    <input type="color" value={color1} onChange={(e) => setColor1(e.target.value)} className="w-12 h-12 rounded-lg cursor-pointer border-0 bg-transparent" />
+                    <input value={color1} onChange={(e) => setColor1(e.target.value)} className="flex-1 bg-surface-container rounded-lg px-3 py-2 font-mono text-sm text-foreground outline-none" />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Color 2</label>
+                  <div className="flex items-center gap-3">
+                    <input type="color" value={color2} onChange={(e) => setColor2(e.target.value)} className="w-12 h-12 rounded-lg cursor-pointer border-0 bg-transparent" />
+                    <input value={color2} onChange={(e) => setColor2(e.target.value)} className="flex-1 bg-surface-container rounded-lg px-3 py-2 font-mono text-sm text-foreground outline-none" />
+                  </div>
                 </div>
               </div>
-              <div>
-                <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Color 2</label>
-                <div className="flex items-center gap-3">
-                  <input type="color" value={color2} onChange={(e) => setColor2(e.target.value)} className="w-12 h-12 rounded-lg cursor-pointer border-0 bg-transparent" />
-                  <input value={color2} onChange={(e) => setColor2(e.target.value)} className="flex-1 bg-surface-container rounded-lg px-3 py-2 font-mono text-sm text-foreground outline-none" />
-                </div>
-              </div>
-            </div>
+            )}
 
-            {/* Size */}
+            {style === "ai" && (
+              <div className="space-y-3">
+                <div>
+                  <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">AI Prompt</label>
+                  <textarea
+                    value={aiPrompt}
+                    onChange={(e) => setAiPrompt(e.target.value)}
+                    placeholder={defaultPrompt}
+                    rows={3}
+                    className="w-full bg-surface-container rounded-lg px-4 py-3 text-foreground outline-none focus:ring-1 focus:ring-primary text-sm"
+                  />
+                  <p className="text-xs text-on-surface-variant mt-2">Empty = use auto prompt with your colors. Tip: mention "wallpaper", "soft grain", "blurred bloom".</p>
+                </div>
+                <button
+                  onClick={handleGenerateAi}
+                  disabled={aiLoading}
+                  className="w-full bg-secondary text-on-secondary py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                >
+                  <span className="material-symbols-outlined">auto_awesome</span>
+                  {aiLoading ? "Generating…" : "Generate with AI"}
+                </button>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Width (px)</label>
@@ -250,7 +353,6 @@ const GradientGenerator = () => {
               </div>
             </div>
 
-            {/* Size presets */}
             <div>
               <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Quick Sizes</label>
               <div className="flex gap-2 flex-wrap">
@@ -271,7 +373,6 @@ const GradientGenerator = () => {
               </div>
             </div>
 
-            {/* Grain */}
             <div>
               <label className="text-sm font-label uppercase tracking-widest text-on-surface-variant block mb-2">Grain: {grain}%</label>
               <input type="range" min={0} max={100} value={grain} onChange={(e) => setGrain(Number(e.target.value))} className="w-full accent-primary" />
@@ -286,7 +387,7 @@ const GradientGenerator = () => {
             </button>
           </div>
 
-          <div className="bg-surface-container rounded-xl p-4 flex items-center justify-center min-h-[400px]">
+          <div className="bg-surface-container rounded-xl p-4 flex items-center justify-center min-h-[400px] sticky top-24">
             <canvas ref={previewRef} className="max-w-full max-h-[600px] rounded-lg shadow-2xl object-contain" />
           </div>
         </div>
