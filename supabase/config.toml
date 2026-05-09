@@ -1,0 +1,10 @@
+project_id = "vgfpjhimlztysvpxcgab"
+
+[functions.send-contact-email]
+verify_jwt = false
+
+[functions.cleanup-expired-files]
+verify_jwt = false
+
+[functions.generate-gradient-image]
+verify_jwt = false
