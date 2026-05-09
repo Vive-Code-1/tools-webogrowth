@@ -1,0 +1,10 @@
+project_id = "80c33de0-a19b-4a55-9702-693c4f726b2b"
+
+[functions.send-contact-email]
+verify_jwt = false
+
+[functions.cleanup-expired-files]
+verify_jwt = false
+
+[functions.generate-gradient-image]
+verify_jwt = false
