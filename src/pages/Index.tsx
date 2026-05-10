@@ -88,7 +88,7 @@ const HeroSection = () => {
   const [animationData, setAnimationData] = useState<any>(null);
 
   useEffect(() => {
-    fetch("https://lottie.host/64ad9a81-aabc-4a8f-b50f-6a61b36480b5/UZHLkEhNJA.json")
+    fetch("/lottie/home-hero-animation.json")
       .then(res => res.json())
       .then(setAnimationData)
       .catch(() => {});
@@ -154,9 +154,9 @@ const HeroSection = () => {
             className="hidden lg:flex items-center justify-center"
           >
             {animationData ? (
-              <Lottie animationData={animationData} loop className="w-full max-w-lg" />
+              <Lottie animationData={animationData} loop className="w-full max-w-xl" />
             ) : (
-              <div className="w-full max-w-lg aspect-square bg-surface-container/30 rounded-2xl animate-pulse" />
+              <div className="w-full max-w-xl aspect-square bg-surface-container/30 rounded-2xl animate-pulse" />
             )}
           </motion.div>
         </div>
