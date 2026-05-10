@@ -4,9 +4,16 @@ import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
 import SEOHead from "@/components/SEOHead";
 
+const outputFormats = [
+  { value: "image/webp", label: "WebP (Best Compression)", ext: "webp" },
+  { value: "image/jpeg", label: "JPEG (Universal)", ext: "jpg" },
+  { value: "image/png", label: "PNG (Lossless)", ext: "png" },
+];
+
 const Compressor = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [quality, setQuality] = useState(85);
+  const [quality, setQuality] = useState(80);
+  const [outputFormat, setOutputFormat] = useState("image/webp");
   const [processing, setProcessing] = useState(false);
   const [result, setResult] = useState<{
     url: string;
@@ -39,17 +46,27 @@ const Compressor = () => {
       canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
       const ctx = canvas.getContext("2d")!;
+
+      // For JPEG (no alpha) fill white background to avoid black on transparent inputs
+      if (outputFormat === "image/jpeg") {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
       ctx.drawImage(img, 0, 0);
 
-      const mimeType = file.type === "image/png" ? "image/png" : "image/jpeg";
-      const blob = await new Promise<Blob>((resolve) => {
-        canvas.toBlob((b) => resolve(b!), mimeType, quality / 100);
+      let blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((b) => resolve(b!), outputFormat, quality / 100);
       });
 
-      const ext = mimeType === "image/png" ? "png" : "jpg";
-      const fileName = `compressed_${file.name.split(".")[0]}.${ext}`;
+      // If compressed result is larger than original, fall back to original
+      if (blob.size >= file.size) {
+        blob = file;
+      }
 
-      // Upload to Supabase storage
+      const fmt = outputFormats.find((f) => f.value === outputFormat)!;
+      const baseName = file.name.replace(/\.[^.]+$/, "");
+      const fileName = `compressed_${baseName}.${blob === file ? file.name.split(".").pop() : fmt.ext}`;
+
       const url = await uploadProcessedFile(blob, fileName);
 
       setResult({
@@ -63,11 +80,12 @@ const Compressor = () => {
     } finally {
       setProcessing(false);
     }
-  }, [file, quality]);
+  }, [file, quality, outputFormat]);
 
-  const savings = result
-    ? (((result.originalSize - result.compressedSize) / result.originalSize) * 100).toFixed(1)
-    : null;
+  const savingsNum = result
+    ? ((result.originalSize - result.compressedSize) / result.originalSize) * 100
+    : 0;
+  const savings = result ? Math.max(0, savingsNum).toFixed(1) : null;
 
   const formatSize = (bytes: number) => {
     if (bytes < 1024) return `${bytes} B`;
@@ -103,22 +121,47 @@ const Compressor = () => {
           <DropZone onFileSelect={handleFileSelect} accept="image/png,image/jpeg,image/webp" />
 
           <div className="bg-surface-container rounded-xl p-8 space-y-6">
-            <div className="flex justify-between items-center">
-              <h4 className="font-headline font-bold text-lg">Compression Intensity</h4>
-              <span className="bg-primary/10 text-primary px-3 py-1 rounded text-sm font-bold">{quality}% Quality</span>
+            <div>
+              <label className="block font-label text-sm tracking-wide uppercase text-on-surface-variant mb-3 font-bold">
+                Output Format
+              </label>
+              <select
+                value={outputFormat}
+                onChange={(e) => setOutputFormat(e.target.value)}
+                className="w-full bg-surface-container-lowest border border-outline-variant/50 rounded-xl py-4 px-6 text-foreground appearance-none focus:ring-1 focus:ring-primary focus:border-primary outline-none cursor-pointer"
+              >
+                {outputFormats.map((f) => (
+                  <option key={f.value} value={f.value}>{f.label}</option>
+                ))}
+              </select>
+              {outputFormat === "image/png" && (
+                <p className="mt-2 text-xs text-on-surface-variant">
+                  PNG is lossless — file size may not reduce significantly. Use WebP or JPEG for maximum compression.
+                </p>
+              )}
             </div>
-            <input
-              type="range"
-              min={10}
-              max={100}
-              value={quality}
-              onChange={(e) => setQuality(Number(e.target.value))}
-              className="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary"
-            />
-            <div className="flex justify-between text-xs font-label uppercase tracking-widest text-on-surface-variant">
-              <span>Maximum Compression</span>
-              <span>Lossless</span>
+
+            <div>
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="font-headline font-bold text-lg">Quality Precision</h4>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded text-sm font-bold">{quality}%</span>
+              </div>
+              <input
+                type="range"
+                min={10}
+                max={100}
+                value={quality}
+                onChange={(e) => setQuality(Number(e.target.value))}
+                disabled={outputFormat === "image/png"}
+                className="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary disabled:opacity-40"
+              />
+              <div className="flex justify-between mt-2 text-xs font-bold text-on-surface-variant uppercase tracking-widest">
+                <span>Lesser</span>
+                <span className="text-primary">{quality}%</span>
+                <span>Ultra</span>
+              </div>
             </div>
+
             <button
               onClick={handleCompress}
               disabled={!file || processing}
@@ -169,14 +212,16 @@ const Compressor = () => {
               </div>
               <div className="col-span-2 bg-gradient-to-br from-primary/10 to-transparent p-6 rounded-xl border border-primary/10">
                 <span className="text-on-surface-variant text-xs uppercase tracking-widest font-label block mb-1">Savings</span>
-                <div className="text-3xl font-headline font-black text-primary">-{savings}%</div>
+                <div className="text-3xl font-headline font-black text-primary">
+                  {savingsNum > 0 ? `-${savings}%` : "Already optimized"}
+                </div>
               </div>
             </div>
           )}
 
           <CountdownDownload
             downloadUrl={result?.url || null}
-            fileName={result?.fileName || "compressed.jpg"}
+            fileName={result?.fileName || "compressed.webp"}
             onExpired={() => {
               setResult(null);
               setFile(null);
