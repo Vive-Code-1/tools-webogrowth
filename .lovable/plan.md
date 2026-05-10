@@ -1,45 +1,62 @@
-## Plan: Fix Grain Bug + Add Gemini AI Gradient Mode
+# Fixes & Performance Optimization Plan
 
-### Problem Identified
-The preview shows only grain noise — no gradient visible. Root cause: `ctx.putImageData(noise, 0, 0)` **ignores** `globalCompositeOperation`. So the noise overwrites the entire gradient instead of blending on top. That's why you see grey static only.
+## 1. Image Compressor — Real Quality Control
 
-Additionally, the current canvas-drawn styles don't quite match the soft, organic, AI-art feel of your reference images. So we'll offer two modes.
+**সমস্যা:** Slider 21% করলেও সাইজ কমে না, বরং বাড়ে (1.33MB → 1.56MB)। কারণ — input PNG হলে আমরা output-ও PNG করি, আর `canvas.toBlob` PNG-এর জন্য quality argument ignore করে (PNG lossless)। তাই slider কাজ করে না।
 
----
+**সমাধান:** `src/pages/Compressor.tsx`-এ Converter-এর মতো সম্পূর্ণ flow:
+- Input format নির্বিশেষে output সবসময় JPEG বা WebP-তে compress হবে (user input format নির্বাচন করতে পারবে: WebP/JPEG; PNG অপশন থাকবে কিন্তু "lossless – size will not reduce" hint দেখাবে)।
+- Default output = WebP (best compression)।
+- Slider label = "Quality Precision" (Lesser → 90% → Ultra), Converter UI-র সাথে consistent।
+- যদি `compressedSize >= originalSize` হয় → "Already optimized" message + original ফেরত দেওয়া (negative savings লুকানো)।
+- Savings সর্বদা positive নাহলে "0%" দেখাবে (no `--16.8%` bug)।
 
-### Fix #1 — Grain blending bug (immediate fix)
-In `src/pages/GradientGenerator.tsx`, change grain rendering to:
-1. Draw noise into an **offscreen canvas** with `putImageData`.
-2. Then `ctx.drawImage(noiseCanvas, 0, 0)` with `globalCompositeOperation = "overlay"` — this respects blend modes.
+## 2. Home Page — Placeholder Flash Fix
 
-Result: gradient stays visible, grain overlays it like the references.
+**সমস্যা:** Reload করলে আগে empty placeholder box দেখায়, তারপর Lottie load হয় (284KB JSON fetch + parse)।
 
-### Fix #2 — Improve canvas styles
-- **Bloom**: add a second smaller off-axis radial highlight + soft vignette using a third radial of `c2` from edges.
-- **Wave**: stack 2–3 large blurred ellipses with varied positions (not just one) so it has organic falloff.
-- **Bars**: clear blurred light streaks of varying widths and opacities.
-- **Stripes**: keep ridge interpolation but add subtle blur pass.
-- Lower default grain to ~25 (current 35 was washing it out).
+**সমাধান:** `src/pages/Index.tsx`:
+- Lottie JSON-কে `import heroAnimation from "@/assets/home-hero-animation.json"` দিয়ে bundle করব (fetch round-trip বাদ)।
+- File `public/lottie/` থেকে `src/assets/`-এ move।
+- `lottie-react`-কে `React.lazy` দিয়ে dynamic import — initial bundle থেকে বের, কিন্তু animationData immediately available থাকলে first paint-এ render হবে।
+- Placeholder box-এ subtle gradient রাখব যাতে empty না দেখায়।
 
-### Fix #3 — Add "AI Gradient" mode (Gemini)
-Add a 5th style toggle: **AI**. When selected:
-- Show a **prompt input** (pre-filled with auto prompt: `"Soft grainy gradient background, {color1} blending into {color2}, blurred organic light, film grain, abstract wallpaper"`).
-- User can edit prompt, click **Generate**.
-- Calls a new edge function `generate-gradient-image` that proxies Google Gemini `imagen-3.0-generate-001` (or `gemini-2.5-flash-image-preview`) with the chosen size aspect ratio.
-- Image returned as base64 → drawn into preview canvas → downloadable as PNG with the same Download button (grain slider can still overlay client-side noise on the AI image).
+## 3. Speed Optimization (Target: 95+ Desktop, 90+ Mobile)
 
-**Secret needed**: `GEMINI_API_KEY` — will be requested via Lovable Cloud secret prompt after approval. (The Lovable AI Gateway already provides Gemini access via `LOVABLE_API_KEY`, so we'll try that first — no key required from you. If you prefer your own Gemini key for image generation specifically, you can add it.)
+বর্তমান: Desktop 83, Mobile 56। FCP/LCP slow।
 
-> Note: Lovable AI Gateway currently supports Gemini text + `gemini-2.5-flash-image-preview` for image generation. We'll use that endpoint via `LOVABLE_API_KEY` (already configured) — **no API key needed from you**.
+### Bundle splitting
+- App.tsx-এ সব 22+ pages eagerly imported → বিশাল initial bundle। সব route page-কে `React.lazy()` + `<Suspense>` দিয়ে code-split করব। Index page শুধু eager থাকবে।
 
-### Files to change
-- `src/pages/GradientGenerator.tsx` — fix grain blending, improve styles, add AI mode UI + prompt input + generate button.
-- `supabase/functions/generate-gradient-image/index.ts` — **new** edge function calling Lovable AI Gateway (`https://ai.gateway.lovable.dev/v1/chat/completions` with `google/gemini-2.5-flash-image-preview`), returns base64 PNG.
-- `supabase/config.toml` — register new function.
+### Font optimization
+- `src/index.css`-এ Google Fonts `@import` বাদ দিয়ে `index.html`-এ `<link rel="preload">` + `display=swap` সহ তিনটি font file (Manrope, Space Grotesk, Material Symbols) load করব।
+- Material Symbols-এর জন্য শুধু ব্যবহৃত icons-এর subset URL parameter ব্যবহার করব (`text=` parameter দিয়ে শুধু needed glyphs)।
 
-### Out of scope
-- Saving generations to history
-- Mesh / 3-color gradients
-- SVG output
+### Heavy library trimming
+- Homepage থেকে `framer-motion` ব্যবহার ভারী — ToolCard-এর scroll animation CSS-only (Tailwind animate + IntersectionObserver in `AnimatedSection`) দিয়ে replace করব যেখানে সম্ভব।
+- `lottie-react` শুধু Index page-এ lazy load হবে (`React.lazy` wrapper)।
 
-After approval I'll implement, deploy the edge function, and visually verify all 5 modes (Bloom, Bars, Wave, Stripes, AI) render correctly.
+### HTML & assets
+- `index.html`-এ `<link rel="preconnect">` ইতিমধ্যে আছে — `dns-prefetch` যোগ করব Supabase URL-এর জন্য।
+- OG image (currently external Google Storage WebP) → SEOHead-এ `loading="lazy"` সংক্রান্ত image কোথাও থাকলে নিশ্চিত করব।
+- `vite.config.ts`-এ `build.rollupOptions.output.manualChunks` দিয়ে vendor chunks (react, radix-ui, framer-motion) আলাদা করব caching-এর জন্য।
+
+### Misc
+- `src/index.css`-এ unused Material Symbols variation settings simplify।
+- Hero section-এর দুটো বিশাল `blur-[120px]` background ball — GPU-heavy। `will-change: transform` যোগ করে অথবা mobile-এ disable করব।
+
+## Files to change
+- `src/pages/Compressor.tsx` (rewrite compress logic + UI options)
+- `src/pages/Index.tsx` (bundled lottie, lazy Lottie component)
+- `src/App.tsx` (lazy routes + Suspense)
+- `src/index.css` (remove font @import)
+- `index.html` (font preload, dns-prefetch)
+- `vite.config.ts` (manual chunks)
+- Move `public/lottie/home-hero-animation.json` → `src/assets/`
+
+## Out of scope
+- Server-side rendering / SSG migration
+- Replacing framer-motion entirely (only homepage trimmed)
+- Image CDN setup
+
+Approval please proceed করব।
