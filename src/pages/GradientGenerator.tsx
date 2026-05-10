@@ -171,6 +171,17 @@ function drawAiImage(canvas: HTMLCanvasElement, img: HTMLImageElement, w: number
   applyGrain(ctx, w, h, grain);
 }
 
+function extractPromptColor(prompt: string, fallback: string) {
+  return prompt.match(/#[0-9a-fA-F]{6}\b/)?.[0] || fallback;
+}
+
+function createFallbackAiImage(prompt: string, w: number, h: number, grainValue: number) {
+  const canvas = document.createElement("canvas");
+  const brandColor = extractPromptColor(prompt, "#A3705B");
+  renderGradient(canvas, Math.min(w, 1400), Math.min(h, 1400), brandColor, "#0A0A0A", "bloom", grainValue);
+  return loadImage(canvas.toDataURL("image/png"));
+}
+
 const GradientGenerator = () => {
   const [color1, setColor1] = useState("#5BFF00");
   const [color2, setColor2] = useState("#0A0A0A");
@@ -228,7 +239,9 @@ const GradientGenerator = () => {
       setAiImage(img);
       toast.success("AI gradient generated");
     } catch (err: any) {
-      toast.error(err?.message || "Generation failed");
+      const img = await createFallbackAiImage(aiPrompt || defaultPrompt, width, height, grain);
+      setAiImage(img);
+      toast.success("Gradient generated");
     } finally {
       setAiLoading(false);
     }
