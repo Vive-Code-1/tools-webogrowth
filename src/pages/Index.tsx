@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import heroAnimation from "@/assets/home-hero-animation.json";
 import SEOHead from "@/components/SEOHead";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useToast } from "@/hooks/use-toast";
@@ -85,15 +86,6 @@ const ToolCard = ({ tool, index }: { tool: typeof imageTools[0]; index: number }
 
 
 const HeroSection = () => {
-  const [animationData, setAnimationData] = useState<any>(null);
-
-  useEffect(() => {
-    fetch("/lottie/home-hero-animation.json")
-      .then(res => res.json())
-      .then(setAnimationData)
-      .catch(() => {});
-  }, []);
-
   return (
     <section className="relative overflow-hidden py-24 md:py-32">
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
@@ -153,11 +145,8 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="hidden lg:flex items-center justify-center"
           >
-            {animationData ? (
-              <Lottie animationData={animationData} loop className="w-full max-w-xl" />
-            ) : (
-              <div className="w-full max-w-xl aspect-square bg-surface-container/30 rounded-2xl animate-pulse" />
-            )}
+            <Lottie animationData={heroAnimation} loop className="w-full max-w-xl" />
+
           </motion.div>
         </div>
       </div>
