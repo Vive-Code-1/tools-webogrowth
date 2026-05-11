@@ -4,6 +4,7 @@ import Lottie from "lottie-react";
 import { useState } from "react";
 import heroAnimation from "@/assets/home-hero-animation.json";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
