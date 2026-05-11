@@ -3,6 +3,7 @@ import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
 import SEOHead from "@/components/SEOHead";
+import ToolSeoSection from "@/components/ToolSeoSection";
 
 const formats = [
   { value: "image/webp", label: "WebP (Optimized)" },
@@ -56,13 +57,7 @@ const Converter = () => {
 
   return (
     <>
-    <SEOHead
-      title="Image Format Converter - Convert PNG to WebP, JPEG Online Free | WeboGrowth"
-      description="Convert images between PNG, WebP, and JPEG formats online for free. High-quality format conversion with no upload required."
-      keywords="convert image format online, png to webp, jpeg to webp, image converter free, webp converter"
-      canonicalPath="/converter"
-      jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Image Format Converter", url: "https://tools.webogrowth.com/converter", applicationCategory: "MultimediaApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-    />
+    <SEOHead {...getSeoProps("/converter")!} />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-16">
         <div className="inline-block px-3 py-1 bg-surface-container-highest rounded-full mb-6">
@@ -161,6 +156,7 @@ const Converter = () => {
         </div>
       </div>
     </div>
+        <ToolSeoSection path="/converter" />
     </>
   );
 };

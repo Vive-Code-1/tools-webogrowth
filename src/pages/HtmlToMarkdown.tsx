@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TurndownService from "turndown";
 import SEOHead from "@/components/SEOHead";
+import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 
 const turndown = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
@@ -22,13 +23,7 @@ const HtmlToMarkdown = () => {
 
   return (
     <>
-      <SEOHead
-        title="HTML to Markdown Converter Online Free | WeboGrowth"
-        description="Convert HTML to Markdown online for free. Paste HTML code and get clean, readable Markdown output instantly. Supports headings, links, images, and code blocks."
-        keywords="html to markdown, convert html to markdown, html to md, markdown converter online, html converter free"
-        canonicalPath="/html-to-markdown"
-        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "HTML to Markdown Converter", url: "https://tools.webogrowth.com/html-to-markdown", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-      />
+      <SEOHead {...getSeoProps("/html-to-markdown")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
           <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Developer Tool</span>

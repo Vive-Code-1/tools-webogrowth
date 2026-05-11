@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import SEOHead from "@/components/SEOHead";
+import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 
 function hexToHsl(hex: string): [number, number, number] {
@@ -63,13 +64,7 @@ const ColorPalette = () => {
 
   return (
     <>
-      <SEOHead
-        title="Color Palette Generator Online Free | WeboGrowth"
-        description="Generate beautiful color palettes from any base color. Create complementary, analogous, triadic, and shade palettes for your design projects instantly."
-        keywords="color palette generator, color scheme generator, complementary colors, analogous colors, triadic colors, design color tools"
-        canonicalPath="/color-palette"
-        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Color Palette Generator", url: "https://tools.webogrowth.com/color-palette", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-      />
+      <SEOHead {...getSeoProps("/color-palette")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
           <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Design Tool</span>

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import SEOHead from "@/components/SEOHead";
+import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -276,12 +277,7 @@ const GradientGenerator = () => {
 
   return (
     <>
-      <SEOHead
-        title="Grainy Gradient Image Generator | WeboGrowth"
-        description="Create grainy, blurred gradient background images from any two colors or generate with AI. Download PNG in any size."
-        keywords="gradient image generator, grainy gradient, AI gradient, mesh gradient, gradient background maker"
-        canonicalPath="/gradient-generator"
-      />
+      <SEOHead {...getSeoProps("/gradient-generator")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
           <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Design Tool</span>

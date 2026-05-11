@@ -51,25 +51,7 @@ const ContactUs = () => {
 
   return (
     <>
-      <SEOHead
-        title="Contact Us - Get in Touch | WeboGrowth Tools"
-        description="Contact WeboGrowth for web development, SEO, graphic design, and digital marketing services. Reach us at Support@webogrowth.com or call +880 1791208768."
-        keywords="contact webogrowth, web development contact, seo services contact, digital agency bangladesh"
-        canonicalPath="/contact-us"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "ContactPage",
-          name: "Contact WeboGrowth",
-          url: "https://tools.webogrowth.com/contact-us",
-          mainEntity: {
-            "@type": "Organization",
-            name: "WeboGrowth",
-            telephone: "+880-1791208768",
-            email: "Support@webogrowth.com",
-            address: { "@type": "PostalAddress", streetAddress: "Uposhohor Rd No 1, Apt 423", addressLocality: "Bogura", addressCountry: "BD" },
-          },
-        }}
-      />
+      <SEOHead {...getSeoProps("/contact-us")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <AnimatedSection>
           <header className="mb-12">

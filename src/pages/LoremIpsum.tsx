@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
+import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 
 const LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -41,13 +42,7 @@ const LoremIpsum = () => {
 
   return (
     <>
-      <SEOHead
-        title="Lorem Ipsum Generator - Dummy Text Online | WeboGrowth"
-        description="Generate lorem ipsum placeholder text online for free. Create paragraphs, sentences, or words of dummy text for your design and development projects."
-        keywords="lorem ipsum generator, dummy text generator, placeholder text, lorem ipsum online, generate dummy text free"
-        canonicalPath="/lorem-ipsum"
-        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Lorem Ipsum Generator", url: "https://tools.webogrowth.com/lorem-ipsum", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-      />
+      <SEOHead {...getSeoProps("/lorem-ipsum")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
           <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Content Tool</span>

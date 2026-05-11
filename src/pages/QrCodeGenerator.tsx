@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import QRCode from "qrcode";
 import SEOHead from "@/components/SEOHead";
+import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 import AnimatedSection from "@/components/AnimatedSection";
 import { motion } from "framer-motion";
@@ -289,13 +290,7 @@ const QrCodeGenerator = () => {
 
   return (
     <>
-      <SEOHead
-        title="QR Code Generator Free Online | WeboGrowth"
-        description="Generate QR codes from any text, URL, WiFi, vCard, email, or phone. Customize colors, add logo, choose body shapes, and download as PNG or SVG. Free online QR code maker."
-        keywords="qr code generator free, create qr code online, qr code maker, generate qr code, url to qr code, wifi qr code, vcard qr code, qr code with logo"
-        canonicalPath="/qr-code"
-        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "QR Code Generator", url: "https://tools.webogrowth.com/qr-code", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-      />
+      <SEOHead {...getSeoProps("/qr-code")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <AnimatedSection>
           <header className="mb-12">
