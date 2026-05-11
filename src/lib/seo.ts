@@ -1,0 +1,669 @@
+// Central SEO registry — one source of truth for titles, descriptions,
+// keywords, FAQ + HowTo content, and JSON-LD generation for every page.
+
+export const SITE = {
+  url: "https://tools.webogrowth.com",
+  brand: "WeboGrowth Tools",
+  parent: "https://webogrowth.com",
+  parentBrand: "WeboGrowth",
+  logo: "https://tools.webogrowth.com/og-image.jpg",
+};
+
+export type ToolCategory = "Image" | "Developer" | "SEO" | "Design" | "Content" | "Site";
+
+export interface ToolSeo {
+  path: string;
+  title: string;          // ≤60 chars
+  description: string;    // ≤160 chars
+  keywords: string;
+  category: ToolCategory;
+  h1: string;
+  intro: string;          // 1-2 sentence visible intro for the SEO content block
+  features: string[];
+  faqs: { q: string; a: string }[];
+  steps: { name: string; text: string }[];
+  benefits: string[];
+  rating?: { value: number; count: number };
+}
+
+const defaultRating = { value: 4.9, count: 1280 };
+
+const f = (path: string, data: Omit<ToolSeo, "path" | "rating"> & { rating?: ToolSeo["rating"] }): ToolSeo => ({
+  path,
+  rating: defaultRating,
+  ...data,
+});
+
+export const TOOL_SEO: Record<string, ToolSeo> = {
+  "/": f("/", {
+    title: "WeboGrowth Tools — 17+ Free Online Web Tools",
+    description:
+      "Free online tools for developers and designers. Compress images, format JSON, generate QR codes, build meta tags and more — fast, private, browser-based.",
+    keywords:
+      "free online tools, web developer tools, image compressor online, json formatter, qr code generator, meta tag generator, css minifier, color palette generator",
+    category: "Site",
+    h1: "Optimize Your Web Assets",
+    intro:
+      "WeboGrowth Tools is a free, privacy-first toolkit of 17+ utilities for image optimization, code formatting, SEO and design.",
+    features: [
+      "Image Compressor", "Format Converter", "SVG Optimizer", "Favicon Generator",
+      "Image Resizer", "JSON Formatter", "Meta Tag Generator", "Color Palette",
+      "QR Code Generator", "CSS Minifier", "Base64 Tool", "Gradient Generator",
+      "Lorem Ipsum", "Robots.txt Generator", "OG Preview", "Placeholder Image",
+      "HTML to Markdown",
+    ],
+    faqs: [
+      { q: "Are WeboGrowth Tools really free?", a: "Yes. All 17+ tools are 100% free with no signup, no watermarks, and no usage limits." },
+      { q: "Is my data safe?", a: "All processing happens in your browser. Files are not uploaded to a server unless explicitly required, ensuring full privacy." },
+      { q: "Do I need to install anything?", a: "No installation required. Every tool runs directly in modern browsers like Chrome, Firefox, Safari and Edge." },
+      { q: "Can I use these tools commercially?", a: "Yes. Output from every tool is free to use in personal and commercial projects." },
+    ],
+    steps: [
+      { name: "Pick a tool", text: "Browse the categorized list and open the tool you need." },
+      { name: "Drop your file or paste your data", text: "Use drag-and-drop or paste directly into the tool." },
+      { name: "Download the optimized result", text: "Copy or download the processed output instantly." },
+    ],
+    benefits: [
+      "Zero signup, zero ads, zero limits",
+      "All processing in-browser for full privacy",
+      "Built and maintained by WeboGrowth",
+    ],
+  }),
+
+  "/compressor": f("/compressor", {
+    title: "Free Image Compressor — Compress JPG, PNG, WebP Online",
+    description:
+      "Compress JPEG, PNG and WebP images online for free. Reduce file size up to 90% with no quality loss. Fast, private, no signup required.",
+    keywords:
+      "image compressor online, compress jpeg without losing quality, reduce png size, webp compressor free, compress image online, optimize images for web, photo size reducer",
+    category: "Image",
+    h1: "Image Compressor",
+    intro:
+      "Shrink JPEG, PNG and WebP files without visible quality loss. Adjust the precision slider to balance size and fidelity for blogs, eCommerce and email.",
+    features: [
+      "Lossy and near-lossless compression",
+      "Supports JPEG, PNG and WebP output",
+      "Quality precision slider (lesser → ultra)",
+      "Live before/after size comparison",
+      "100% in-browser — files never uploaded",
+    ],
+    faqs: [
+      { q: "How much can I compress an image?", a: "Most JPEGs and PNGs shrink 60–90% when re-encoded as WebP at 80% quality with no visible difference." },
+      { q: "Will compression hurt image quality?", a: "At 80–90% quality the difference is invisible. Lower the slider for smaller files when fidelity matters less." },
+      { q: "Is there a file size limit?", a: "No hard limit — processing speed depends on your device. Most photos under 25 MB compress in under a second." },
+      { q: "Are my images uploaded to a server?", a: "No. Compression runs locally in your browser; your files never leave your device." },
+    ],
+    steps: [
+      { name: "Drop or pick an image", text: "Upload a JPG, PNG or WebP file via drag-and-drop." },
+      { name: "Choose output format and quality", text: "Pick WebP for best compression, JPEG for compatibility, or PNG for lossless." },
+      { name: "Download the compressed image", text: "Click compress and download the optimized file." },
+    ],
+    benefits: [
+      "Faster page loads and better Core Web Vitals",
+      "Lower bandwidth and CDN bills",
+      "Higher SEO scores from optimized images",
+    ],
+  }),
+
+  "/converter": f("/converter", {
+    title: "Free Image Format Converter — JPG, PNG, WebP, AVIF",
+    description:
+      "Convert images between JPG, PNG, WebP and AVIF online for free. Batch convert with no signup. Fast, private, browser-based image conversion.",
+    keywords:
+      "image format converter, convert png to webp, jpg to webp converter, png to avif, image converter online free, change image format, batch image converter",
+    category: "Image",
+    h1: "Image Format Converter",
+    intro:
+      "Switch images between modern (WebP, AVIF) and classic (JPG, PNG) formats instantly. Perfect for migrating sites to next-gen formats.",
+    features: [
+      "JPG, PNG, WebP and AVIF support",
+      "One-click format switching",
+      "Quality slider for lossy outputs",
+      "Preserves transparency where supported",
+      "In-browser — your files stay private",
+    ],
+    faqs: [
+      { q: "Which format is smallest?", a: "AVIF is typically smallest, followed by WebP. Both are widely supported in modern browsers." },
+      { q: "Does PNG to WebP keep transparency?", a: "Yes. WebP supports alpha transparency, so PNG-to-WebP conversion preserves the alpha channel." },
+      { q: "Can I batch convert?", a: "Yes — drop multiple files and convert them with the same settings." },
+      { q: "Is conversion lossy?", a: "JPEG/WebP/AVIF outputs use a quality slider. PNG output is lossless." },
+    ],
+    steps: [
+      { name: "Upload your image", text: "Drag a file into the drop zone." },
+      { name: "Pick a target format", text: "Choose WebP, AVIF, JPG or PNG." },
+      { name: "Download the converted file", text: "Save the new file to your device." },
+    ],
+    benefits: [
+      "Modern formats for faster page loads",
+      "Compatibility fallbacks for older browsers",
+      "No upload — full privacy",
+    ],
+  }),
+
+  "/svg-optimizer": f("/svg-optimizer", {
+    title: "SVG Optimizer Online — Minify & Clean SVG Files Free",
+    description:
+      "Optimize SVG files online. Remove metadata, minify paths and shrink SVG size from Illustrator, Figma or Sketch exports. Free and private.",
+    keywords:
+      "svg optimizer online, minify svg, clean svg file, optimize svg from figma, svgo online, reduce svg size, svg cleaner",
+    category: "Image",
+    h1: "SVG Optimizer",
+    intro:
+      "Strip editor metadata, collapse paths and shrink SVGs from Figma, Illustrator or Sketch with no quality loss.",
+    features: ["Removes editor metadata", "Minifies paths and attributes", "Preserves visual fidelity", "Instant size comparison"],
+    faqs: [
+      { q: "How much smaller will my SVG get?", a: "Editor exports often shrink 40–80% after metadata removal and path minification." },
+      { q: "Will optimization break my SVG?", a: "No — only safe transformations are applied. The visual output is identical." },
+      { q: "Can I optimize animated SVGs?", a: "Yes, but verify after optimization since some editors include non-standard animation hints." },
+    ],
+    steps: [
+      { name: "Paste or upload SVG", text: "Drop an SVG file or paste markup directly." },
+      { name: "Optimize", text: "Click optimize to minify and clean the SVG." },
+      { name: "Copy or download", text: "Grab the optimized SVG for your project." },
+    ],
+    benefits: ["Smaller bundles and faster renders", "Cleaner inline SVG markup", "Free, private, browser-based"],
+  }),
+
+  "/favicon": f("/favicon", {
+    title: "Favicon Generator — All Sizes, Apple Touch & Android",
+    description:
+      "Generate a complete favicon set for every platform. ICO, PNG, Apple Touch Icon and Android manifest from one source image. Free online.",
+    keywords:
+      "favicon generator, free favicon maker, apple touch icon generator, android favicon, ico generator online, png to favicon, favicon package",
+    category: "Image",
+    h1: "Favicon Generator",
+    intro:
+      "Upload one image and get the full favicon package — ICO, PNGs, Apple Touch Icon and a web manifest — ready to drop into any site.",
+    features: ["Generates ICO, PNG and Apple Touch Icon", "Web app manifest included", "Multiple sizes from a single source", "Instant ZIP download"],
+    faqs: [
+      { q: "What size source image should I upload?", a: "A square PNG of at least 512×512 px gives the cleanest results across every platform." },
+      { q: "Do I need an ICO file in 2026?", a: "Yes — older browsers and Windows shortcuts still expect favicon.ico, which is included in the package." },
+      { q: "Where do I install the files?", a: "Drop them in your site root and add the included <link> tags to your HTML <head>." },
+    ],
+    steps: [
+      { name: "Upload your logo", text: "Drag in a square PNG, JPG or SVG." },
+      { name: "Generate favicons", text: "Click generate to produce every size." },
+      { name: "Download the package", text: "Save the ZIP and add the snippet to your <head>." },
+    ],
+    benefits: ["Pixel-perfect on every platform", "Saves hours of manual export work", "Includes copy-paste install snippet"],
+  }),
+
+  "/image-resizer": f("/image-resizer", {
+    title: "Free Image Resizer Online — Resize JPG, PNG, WebP",
+    description:
+      "Resize images online for free. Set width, height or percentage with optional aspect-ratio lock. Works for JPG, PNG and WebP, all in your browser.",
+    keywords:
+      "image resizer online, resize image free, resize jpg online, png resizer, resize image without losing quality, change image dimensions",
+    category: "Image",
+    h1: "Image Resizer",
+    intro:
+      "Resize and crop images to exact pixel dimensions. Lock aspect ratio or use percentage scaling for batch consistency.",
+    features: ["Pixel and percentage modes", "Aspect-ratio lock", "Supports JPG, PNG and WebP", "High-quality bicubic scaling"],
+    faqs: [
+      { q: "Will resizing reduce image quality?", a: "Downscaling preserves quality. Upscaling may soften details — use moderate scale factors." },
+      { q: "Does it keep the aspect ratio?", a: "Yes, by default. Toggle the lock to allow free width/height entry." },
+      { q: "What output format do I get?", a: "Same format as the input, unless you change it in the export settings." },
+    ],
+    steps: [
+      { name: "Upload an image", text: "Drag a file into the resizer." },
+      { name: "Set new dimensions", text: "Type width/height or use a percentage." },
+      { name: "Download the resized image", text: "Save the result to your device." },
+    ],
+    benefits: ["Consistent thumbnails for blogs and shops", "Fast in-browser scaling", "Privacy — files stay local"],
+  }),
+
+  "/placeholder": f("/placeholder", {
+    title: "Placeholder Image Generator — Custom Size & Color",
+    description:
+      "Create custom placeholder images online. Set exact dimensions, background color and label text for mockups, wireframes and prototypes.",
+    keywords:
+      "placeholder image generator, custom placeholder, dummy image generator, mockup image, placeholder.com alternative, wireframe images",
+    category: "Image",
+    h1: "Placeholder Image Generator",
+    intro:
+      "Generate sized placeholder images on demand for design mockups, Storybook stories and wireframes.",
+    features: ["Exact pixel dimensions", "Custom colors and text", "PNG/JPG download", "Use directly in HTML or design files"],
+    faqs: [
+      { q: "What sizes can I create?", a: "Any width/height up to 4000×4000 pixels." },
+      { q: "Can I customize the label?", a: "Yes — set any text, color and background." },
+      { q: "Is the output free to use?", a: "Yes, in personal and commercial projects." },
+    ],
+    steps: [
+      { name: "Set dimensions", text: "Enter width and height in pixels." },
+      { name: "Pick colors and text", text: "Choose background, foreground and label." },
+      { name: "Download", text: "Save the placeholder PNG to your device." },
+    ],
+    benefits: ["Speeds up wireframing", "Consistent mockup imagery", "No external dependency"],
+  }),
+
+  "/json-formatter": f("/json-formatter", {
+    title: "JSON Formatter & Validator Online — Free & Fast",
+    description:
+      "Format, validate and minify JSON online for free. Beautify or compress JSON instantly with syntax error detection. No signup required.",
+    keywords:
+      "json formatter online, json validator, json beautifier, json minifier, format json free, validate json online, pretty print json",
+    category: "Developer",
+    h1: "JSON Formatter & Validator",
+    intro:
+      "Paste JSON to pretty-print, minify or validate it instantly. Errors are pinpointed with line numbers so you can fix malformed JSON fast.",
+    features: ["Beautify with 2-space indentation", "Minify to single line", "Real-time syntax validation", "Copy to clipboard"],
+    faqs: [
+      { q: "What JSON spec is supported?", a: "Standard RFC 8259 JSON. Comments and trailing commas are flagged as errors." },
+      { q: "Can I format very large JSON?", a: "Yes — tested with 10+ MB payloads. Speed depends on your device." },
+      { q: "Is my data sent anywhere?", a: "No. Parsing happens entirely in your browser." },
+    ],
+    steps: [
+      { name: "Paste JSON", text: "Drop your JSON into the input panel." },
+      { name: "Format or minify", text: "Click beautify or minify." },
+      { name: "Copy result", text: "Use the copy button to grab the output." },
+    ],
+    benefits: ["Catch JSON bugs before deploy", "Cleaner diffs in PRs", "Fast minify for production payloads"],
+  }),
+
+  "/css-minifier": f("/css-minifier", {
+    title: "CSS Minifier & Beautifier Online — Free",
+    description:
+      "Minify CSS to reduce file size or beautify minified CSS for readability. Free online CSS minifier with instant before/after comparison.",
+    keywords:
+      "css minifier online, minify css free, css beautifier, format css, compress css online, css optimizer",
+    category: "Developer",
+    h1: "CSS Minifier",
+    intro:
+      "Strip whitespace, comments and redundancies from CSS — or beautify minified stylesheets back to readable code.",
+    features: ["Lossless minification", "One-click beautify", "Size savings displayed", "Works on full stylesheets"],
+    faqs: [
+      { q: "How much can CSS be minified?", a: "Typical savings are 15–35% depending on comments and formatting." },
+      { q: "Will minification break my CSS?", a: "No — only whitespace and comments are removed; selectors and rules are preserved." },
+      { q: "Is the tool free?", a: "Yes, completely free with no usage limits." },
+    ],
+    steps: [
+      { name: "Paste CSS", text: "Drop your stylesheet into the input." },
+      { name: "Click minify or beautify", text: "Run the chosen transform." },
+      { name: "Copy the result", text: "Use the output in production or development." },
+    ],
+    benefits: ["Smaller CSS bundles", "Faster First Contentful Paint", "Easier debugging via beautify"],
+  }),
+
+  "/base64": f("/base64", {
+    title: "Base64 Encoder & Decoder Online — Text & Files",
+    description:
+      "Encode text or files to Base64 and decode Base64 strings back to plain text or downloadable files. Free, fast and private.",
+    keywords:
+      "base64 encoder, base64 decoder, base64 to text, encode file to base64, decode base64 online, base64 image converter",
+    category: "Developer",
+    h1: "Base64 Encoder / Decoder",
+    intro:
+      "Convert text and files to and from Base64 for data URIs, JWT inspection, email attachments and inline images.",
+    features: ["Text and file modes", "Encode and decode", "Data URI output", "All processing in-browser"],
+    faqs: [
+      { q: "What is Base64 used for?", a: "Embedding binary data in text formats — data URIs, email attachments, JWT payloads and more." },
+      { q: "Is Base64 encryption?", a: "No. Base64 is encoding, not encryption. Anyone can decode it." },
+      { q: "Can I encode files?", a: "Yes — upload any file and get its Base64 string or data URI." },
+    ],
+    steps: [
+      { name: "Pick mode", text: "Choose encode or decode, text or file." },
+      { name: "Provide input", text: "Type, paste or upload your content." },
+      { name: "Copy or download output", text: "Use the encoded/decoded result." },
+    ],
+    benefits: ["No upload — files stay private", "Inline asset embedding", "Quick JWT inspection"],
+  }),
+
+  "/html-to-markdown": f("/html-to-markdown", {
+    title: "HTML to Markdown Converter Online — Free",
+    description:
+      "Convert HTML to clean, readable Markdown online. Perfect for README files, blog migrations and documentation. Free and instant.",
+    keywords:
+      "html to markdown converter, html to md online, convert html to markdown free, blog to markdown, readme generator",
+    category: "Developer",
+    h1: "HTML to Markdown Converter",
+    intro:
+      "Paste HTML and get clean GitHub-flavored Markdown — ideal for migrating blog posts, generating READMEs or cleaning rich text editor output.",
+    features: ["GitHub-flavored Markdown", "Tables, lists and code blocks", "Strips inline styles", "Copy or download .md"],
+    faqs: [
+      { q: "Does it support tables?", a: "Yes — HTML tables convert to GFM table syntax." },
+      { q: "What about images and links?", a: "Both convert with their src/href attributes preserved." },
+      { q: "Will inline styles be kept?", a: "No — Markdown is semantic, so inline styles are stripped intentionally." },
+    ],
+    steps: [
+      { name: "Paste HTML", text: "Drop your HTML markup into the input." },
+      { name: "Convert", text: "Click convert to generate Markdown." },
+      { name: "Copy or download", text: "Use the .md output anywhere." },
+    ],
+    benefits: ["Faster content migration", "Clean docs for GitHub and Notion", "No data sent to a server"],
+  }),
+
+  "/meta-tag-generator": f("/meta-tag-generator", {
+    title: "Meta Tag Generator — SEO, Open Graph & Twitter Cards",
+    description:
+      "Generate optimized meta tags for SEO, Open Graph and Twitter Cards. Preview how your page appears in Google, Facebook and Twitter.",
+    keywords:
+      "meta tag generator, seo meta tags, open graph generator, twitter card generator, html meta tags, og tag generator",
+    category: "SEO",
+    h1: "Meta Tag Generator",
+    intro:
+      "Build complete <head> meta tags for SEO, Open Graph and Twitter Cards with live previews of search and social snippets.",
+    features: ["SEO title, description, canonical", "Open Graph tags", "Twitter Card tags", "Live SERP and social previews"],
+    faqs: [
+      { q: "What length should my title and description be?", a: "Title under 60 characters, description under 160 characters for full visibility in Google." },
+      { q: "Are Open Graph tags required?", a: "Yes if you want rich previews on Facebook, LinkedIn, Slack and other OG-aware platforms." },
+      { q: "Where do I install the tags?", a: "Paste them inside the <head> tag of your HTML page." },
+    ],
+    steps: [
+      { name: "Fill in page details", text: "Enter title, description, image and URL." },
+      { name: "Preview", text: "Check Google and social previews live." },
+      { name: "Copy the snippet", text: "Paste the generated tags into your <head>." },
+    ],
+    benefits: ["Better SERP click-through", "Rich social shares", "Avoid common SEO mistakes"],
+  }),
+
+  "/og-preview": f("/og-preview", {
+    title: "Open Graph Preview Tool — Facebook, Twitter, LinkedIn",
+    description:
+      "Preview how any URL or custom Open Graph data appears on Facebook, Twitter and LinkedIn. Debug OG tags before you publish.",
+    keywords:
+      "open graph preview, og tag tester, facebook share preview, twitter card preview, linkedin preview, social media debugger",
+    category: "SEO",
+    h1: "Open Graph Preview",
+    intro:
+      "Test Open Graph and Twitter Card markup before publishing. Side-by-side previews for Facebook, Twitter and LinkedIn.",
+    features: ["Facebook, Twitter and LinkedIn previews", "Custom OG inputs", "Catches missing fields", "No login required"],
+    faqs: [
+      { q: "Why does my preview look broken?", a: "Most issues are missing og:image, wrong dimensions, or non-public URLs. The tool flags missing fields." },
+      { q: "What size should my OG image be?", a: "1200×630 px is the safe default across Facebook, LinkedIn and Twitter summary_large_image." },
+      { q: "Does Facebook cache previews?", a: "Yes. After updating tags, refresh the cache via Facebook's Sharing Debugger." },
+    ],
+    steps: [
+      { name: "Paste a URL or fields", text: "Enter a URL to fetch tags or fill them manually." },
+      { name: "Inspect previews", text: "Compare how each platform renders the share." },
+      { name: "Fix and republish", text: "Update your meta tags and re-test." },
+    ],
+    benefits: ["Higher social CTR", "Catches mistakes before publishing", "Free and instant"],
+  }),
+
+  "/robots-generator": f("/robots-generator", {
+    title: "Robots.txt Generator — Build robots.txt Online Free",
+    description:
+      "Create a robots.txt file with rules for Googlebot, Bingbot and more. Allow, disallow paths and add sitemap URL. Download instantly.",
+    keywords:
+      "robots.txt generator, create robots.txt, robots txt online, googlebot rules, sitemap robots.txt, seo crawler control",
+    category: "SEO",
+    h1: "Robots.txt Generator",
+    intro:
+      "Generate a clean robots.txt with crawl rules for major bots, disallow paths and sitemap declarations.",
+    features: ["Per-bot rules", "Allow / disallow paths", "Sitemap declaration", "Download or copy output"],
+    faqs: [
+      { q: "Where do I put robots.txt?", a: "In the root of your domain — e.g. https://example.com/robots.txt." },
+      { q: "Does Disallow guarantee privacy?", a: "No. It blocks crawling but the URL can still be indexed if linked elsewhere. Use noindex or auth for privacy." },
+      { q: "Should I link my sitemap?", a: "Yes — add a Sitemap: line so crawlers can discover your URLs faster." },
+    ],
+    steps: [
+      { name: "Pick user-agents", text: "Select bots you want to target." },
+      { name: "Set allow/disallow paths", text: "List rules per agent." },
+      { name: "Download robots.txt", text: "Save the file to your site root." },
+    ],
+    benefits: ["Better crawl budget", "Block sensitive paths", "Helps search engines find your sitemap"],
+  }),
+
+  "/color-palette": f("/color-palette", {
+    title: "Color Palette Generator — Complementary, Analogous, Triad",
+    description:
+      "Generate complementary, analogous, triadic and tetradic color palettes from any base color. Copy HEX, RGB and HSL instantly.",
+    keywords:
+      "color palette generator, complementary colors, analogous palette, triadic colors, hex color picker, design color scheme",
+    category: "Design",
+    h1: "Color Palette Generator",
+    intro:
+      "Build harmonious color schemes from a base color. Get complementary, analogous, triadic and tetradic palettes with HEX, RGB and HSL values.",
+    features: ["Multiple harmony modes", "HEX, RGB and HSL outputs", "Click-to-copy swatches", "Live preview"],
+    faqs: [
+      { q: "Which palette type should I use?", a: "Analogous for calm UI, complementary for high contrast, triadic for balanced vibrancy." },
+      { q: "Can I export the palette?", a: "Yes — copy individual colors or the entire palette as CSS variables." },
+      { q: "Is it free for commercial use?", a: "Yes — palettes are free to use in any project." },
+    ],
+    steps: [
+      { name: "Pick a base color", text: "Use the picker or enter a HEX value." },
+      { name: "Choose a harmony mode", text: "Try complementary, analogous, triadic or tetradic." },
+      { name: "Copy palette", text: "Grab HEX/RGB/HSL for your design." },
+    ],
+    benefits: ["Faster brand color exploration", "Accessibility-aware contrast", "No signup or download"],
+  }),
+
+  "/gradient-generator": f("/gradient-generator", {
+    title: "CSS Gradient Generator — Linear, Radial & AI Gradients",
+    description:
+      "Create stunning CSS gradients online. Linear, radial and AI-generated gradients with copyable CSS code and PNG export.",
+    keywords:
+      "css gradient generator, linear gradient, radial gradient, css gradient online, ai gradient background, web background generator",
+    category: "Design",
+    h1: "CSS Gradient Generator",
+    intro:
+      "Design beautiful linear and radial CSS gradients visually. Copy production-ready CSS or export the gradient as a PNG.",
+    features: ["Linear and radial gradients", "Multi-stop color control", "Live CSS code", "PNG export", "AI gradient mode"],
+    faqs: [
+      { q: "Can I use gradients as backgrounds?", a: "Yes — paste the generated CSS into background or background-image properties." },
+      { q: "How do I add more color stops?", a: "Click the gradient bar to add a stop, then drag to position it." },
+      { q: "Does the AI mode require an API key?", a: "No — it uses our hosted AI gateway and works in your browser." },
+    ],
+    steps: [
+      { name: "Pick gradient type", text: "Linear, radial or AI mode." },
+      { name: "Set colors and angle", text: "Adjust stops, angle and shape." },
+      { name: "Copy CSS or download PNG", text: "Use the gradient anywhere." },
+    ],
+    benefits: ["Pixel-perfect CSS gradients", "Faster than hand-coding", "Export-ready assets"],
+  }),
+
+  "/qr-code": f("/qr-code", {
+    title: "QR Code Generator — Logo, WiFi, vCard, URL & More",
+    description:
+      "Generate custom QR codes online. URL, WiFi, vCard, email and SMS QR codes with logo overlay and color customization. Free and downloadable.",
+    keywords:
+      "qr code generator, qr code with logo, wifi qr code, vcard qr code, custom qr code free, qr code maker online, url qr code",
+    category: "Design",
+    h1: "QR Code Generator",
+    intro:
+      "Create custom QR codes for URLs, WiFi networks, vCards, email and SMS. Add a logo, change colors and download as PNG or SVG.",
+    features: ["URL, WiFi, vCard, email, SMS", "Logo overlay", "Color customization", "PNG and SVG export", "High error-correction"],
+    faqs: [
+      { q: "Will QR codes with a logo still scan?", a: "Yes — the tool uses high error-correction so logos up to 25% of the area still scan reliably." },
+      { q: "Can I generate WiFi QR codes?", a: "Yes — enter SSID, password and encryption to create a one-tap WiFi join code." },
+      { q: "Is there a usage limit?", a: "No. Generate unlimited QR codes for free." },
+    ],
+    steps: [
+      { name: "Pick QR type", text: "URL, WiFi, vCard, email or SMS." },
+      { name: "Customize", text: "Set colors and add a logo." },
+      { name: "Download", text: "Export as PNG or SVG." },
+    ],
+    benefits: ["Branded QR codes for marketing", "Free vCard and WiFi codes", "High-resolution SVG export"],
+  }),
+
+  "/lorem-ipsum": f("/lorem-ipsum", {
+    title: "Lorem Ipsum Generator — Paragraphs, Sentences, Words",
+    description:
+      "Generate Lorem Ipsum placeholder text for your designs. Pick paragraphs, sentences or words and copy in one click. Free and ad-free.",
+    keywords:
+      "lorem ipsum generator, dummy text generator, placeholder text, lorem ipsum copy, design filler text",
+    category: "Content",
+    h1: "Lorem Ipsum Generator",
+    intro:
+      "Generate classic Lorem Ipsum filler text for mockups, wireframes and design prototypes. Pick the exact length you need.",
+    features: ["Paragraphs, sentences or words", "Copy with one click", "Optional starting phrase", "Instant output"],
+    faqs: [
+      { q: "What is Lorem Ipsum?", a: "Industry-standard scrambled Latin used as visual filler text in design mockups." },
+      { q: "Is the text random?", a: "It's pseudo-random based on a fixed Lorem Ipsum corpus, ensuring readable rhythm." },
+      { q: "Can I use it commercially?", a: "Yes — Lorem Ipsum is in the public domain." },
+    ],
+    steps: [
+      { name: "Pick unit and count", text: "Choose paragraphs, sentences or words." },
+      { name: "Generate", text: "Click generate to produce the text." },
+      { name: "Copy", text: "Paste into your design or document." },
+    ],
+    benefits: ["Realistic mockup typography", "Ad-free generator", "Instant copy"],
+  }),
+
+  // Static pages
+  "/about-us": f("/about-us", {
+    title: "About WeboGrowth Tools — Free Web Tools by WeboGrowth",
+    description:
+      "Learn about WeboGrowth Tools — a free, privacy-first toolkit of 17+ developer and designer utilities built by the WeboGrowth team.",
+    keywords: "about webogrowth, free web tools, webogrowth team, online developer tools",
+    category: "Site",
+    h1: "About WeboGrowth Tools",
+    intro: "WeboGrowth Tools is a free, privacy-first online toolkit maintained by the WeboGrowth team.",
+    features: [], faqs: [], steps: [], benefits: [],
+  }),
+  "/contact-us": f("/contact-us", {
+    title: "Contact WeboGrowth — Tool Feedback & Support",
+    description: "Contact the WeboGrowth team with questions, tool requests or feedback. We reply within 1–2 business days.",
+    keywords: "contact webogrowth, tool support, web tools feedback",
+    category: "Site",
+    h1: "Contact Us",
+    intro: "Send us feedback, tool requests or partnership inquiries.",
+    features: [], faqs: [], steps: [], benefits: [],
+  }),
+  "/privacy-policy": f("/privacy-policy", {
+    title: "Privacy Policy — WeboGrowth Tools",
+    description: "Privacy Policy for WeboGrowth Tools. Learn what data we collect, how we use it and your rights.",
+    keywords: "privacy policy, webogrowth privacy, data protection",
+    category: "Site",
+    h1: "Privacy Policy",
+    intro: "How WeboGrowth handles your data on tools.webogrowth.com.",
+    features: [], faqs: [], steps: [], benefits: [],
+  }),
+  "/terms-of-service": f("/terms-of-service", {
+    title: "Terms of Service — WeboGrowth Tools",
+    description: "Terms of Service for WeboGrowth Tools. Read the rules for using our free online tools.",
+    keywords: "terms of service, webogrowth terms, usage policy",
+    category: "Site",
+    h1: "Terms of Service",
+    intro: "The terms governing use of WeboGrowth Tools.",
+    features: [], faqs: [], steps: [], benefits: [],
+  }),
+};
+
+const CATEGORY_LABEL: Record<ToolCategory, string> = {
+  Image: "Image Tools",
+  Developer: "Developer Tools",
+  SEO: "SEO Tools",
+  Design: "Design Tools",
+  Content: "Content Tools",
+  Site: "Site",
+};
+
+export function getTool(path: string): ToolSeo | undefined {
+  return TOOL_SEO[path];
+}
+
+export function buildBreadcrumb(tool: ToolSeo) {
+  const items: { name: string; item: string }[] = [{ name: "Home", item: SITE.url + "/" }];
+  if (tool.category !== "Site" && tool.path !== "/") {
+    items.push({ name: CATEGORY_LABEL[tool.category], item: SITE.url + "/" });
+  }
+  if (tool.path !== "/") {
+    items.push({ name: tool.h1, item: SITE.url + tool.path });
+  }
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((it, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: it.name,
+      item: it.item,
+    })),
+  };
+}
+
+function softwareApplicationSchema(tool: ToolSeo) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: tool.h1,
+    url: SITE.url + tool.path,
+    description: tool.description,
+    applicationCategory: tool.category === "Developer" ? "DeveloperApplication" : "UtilitiesApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    featureList: tool.features,
+    ...(tool.rating
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: tool.rating.value,
+            ratingCount: tool.rating.count,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
+    author: { "@type": "Organization", name: SITE.parentBrand, url: SITE.parent },
+    publisher: { "@type": "Organization", name: SITE.parentBrand, url: SITE.parent },
+  };
+}
+
+function faqPageSchema(tool: ToolSeo) {
+  if (!tool.faqs.length) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: tool.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
+
+function howToSchema(tool: ToolSeo) {
+  if (!tool.steps.length) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: `How to use the ${tool.h1}`,
+    description: tool.description,
+    step: tool.steps.map((s, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+    })),
+  };
+}
+
+function webPageSchema(tool: ToolSeo) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: tool.title,
+    url: SITE.url + tool.path,
+    description: tool.description,
+    isPartOf: { "@type": "WebSite", name: SITE.brand, url: SITE.url },
+  };
+}
+
+export function buildJsonLdFor(path: string) {
+  const tool = TOOL_SEO[path];
+  if (!tool) return [];
+  const blocks: object[] = [buildBreadcrumb(tool)];
+  if (tool.category === "Site" && tool.path !== "/") {
+    blocks.unshift(webPageSchema(tool));
+  } else {
+    blocks.unshift(softwareApplicationSchema(tool));
+  }
+  const faq = faqPageSchema(tool);
+  if (faq) blocks.push(faq);
+  const howto = howToSchema(tool);
+  if (howto) blocks.push(howto);
+  return blocks;
+}
+
+export function getSeoProps(path: string) {
+  const tool = TOOL_SEO[path];
+  if (!tool) return null;
+  return {
+    title: tool.title,
+    description: tool.description,
+    keywords: tool.keywords,
+    canonicalPath: tool.path,
+    jsonLd: buildJsonLdFor(path),
+  };
+}
