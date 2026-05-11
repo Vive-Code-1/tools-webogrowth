@@ -1,4 +1,5 @@
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import { Link } from "react-router-dom";
 
 const services = [
@@ -12,32 +13,7 @@ const services = [
 
 const AboutUs = () => (
   <>
-    <SEOHead
-      title="About Us - WeboGrowth Digital Agency | WeboGrowth Tools"
-      description="WeboGrowth is a full-service digital agency specializing in web development, SEO, graphic design, social media marketing, and SaaS development. Based in Bogura, Bangladesh."
-      keywords="webogrowth, digital agency, web development company, seo agency, graphic design, bangladesh"
-      canonicalPath="/about-us"
-      jsonLd={{
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        name: "WeboGrowth",
-        url: "https://webogrowth.com",
-        logo: "https://tools.webogrowth.com/logo.png",
-        description: "Full-service digital agency specializing in web development, SEO, graphic design, and SaaS development.",
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: "Uposhohor Rd No 1, Apt 423",
-          addressLocality: "Bogura",
-          addressCountry: "BD",
-        },
-        contactPoint: {
-          "@type": "ContactPoint",
-          telephone: "+880-1791208768",
-          email: "Support@webogrowth.com",
-          contactType: "customer service",
-        },
-      }}
-    />
+    <SEOHead {...getSeoProps("/about-us")!} />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-16">
         <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">About Us</span>

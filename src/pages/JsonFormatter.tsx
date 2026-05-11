@@ -1,5 +1,7 @@
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
+import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 
 const JsonFormatter = () => {
@@ -35,13 +37,7 @@ const JsonFormatter = () => {
 
   return (
     <>
-      <SEOHead
-        title="JSON Formatter & Validator Online Free | WeboGrowth"
-        description="Format, validate and minify JSON online for free. Paste your JSON data, beautify or compress it instantly with syntax error detection."
-        keywords="json formatter online, json validator, json beautifier, json minifier, format json free, validate json online"
-        canonicalPath="/json-formatter"
-        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "JSON Formatter & Validator", url: "https://tools.webogrowth.com/json-formatter", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-      />
+      <SEOHead {...getSeoProps("/json-formatter")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
           <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Developer Tool</span>

@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
+import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 
 const PlaceholderImage = () => {
@@ -38,13 +40,7 @@ const PlaceholderImage = () => {
 
   return (
     <>
-      <SEOHead
-        title="Placeholder Image Generator Online Free | WeboGrowth"
-        description="Generate custom placeholder images online for free. Set dimensions, colors, and text for your design mockups and development projects."
-        keywords="placeholder image generator, dummy image generator, placeholder image online, custom placeholder image, mockup image generator"
-        canonicalPath="/placeholder"
-        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Placeholder Image Generator", url: "https://tools.webogrowth.com/placeholder", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-      />
+      <SEOHead {...getSeoProps("/placeholder")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
           <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Design Tool</span>

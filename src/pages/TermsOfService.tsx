@@ -1,14 +1,10 @@
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import { Link } from "react-router-dom";
 
 const TermsOfService = () => (
   <>
-    <SEOHead
-      title="Terms of Service | WeboGrowth Tools"
-      description="Read the WeboGrowth Tools terms of service. Understand the terms and conditions for using our free online developer and designer tools."
-      keywords="terms of service, webogrowth terms, terms and conditions, free tools terms"
-      canonicalPath="/terms-of-service"
-    />
+    <SEOHead {...getSeoProps("/terms-of-service")!} />
     <div className="max-w-4xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-12">
         <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Legal</span>

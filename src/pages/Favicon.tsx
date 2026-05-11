@@ -4,6 +4,8 @@ import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
+import ToolSeoSection from "@/components/ToolSeoSection";
 
 const ICON_SIZES = [
   { size: 16, name: "favicon-16x16.png", category: "Desktop" },
@@ -112,13 +114,7 @@ const Favicon = () => {
 
   return (
     <>
-    <SEOHead
-      title="Favicon Generator Online Free - ICO, PNG, Apple Touch Icon | WeboGrowth"
-      description="Generate complete favicon packages for all platforms. Create ICO, PNG, Apple Touch Icon, and Android icons from any image in seconds."
-      keywords="favicon generator online, favicon creator, ico generator, apple touch icon generator, android icon generator"
-      canonicalPath="/favicon"
-      jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Favicon Generator", url: "https://tools.webogrowth.com/favicon", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-    />
+    <SEOHead {...getSeoProps("/favicon")!} />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-20">
         <div className="inline-block px-3 py-1 bg-secondary-container/30 text-secondary text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6">
@@ -298,6 +294,7 @@ const Favicon = () => {
         </div>
       </div>
     </div>
+        <ToolSeoSection path="/favicon" />
     </>
   );
 };

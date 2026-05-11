@@ -1,5 +1,7 @@
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
+import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 
 interface Rule {
@@ -40,13 +42,7 @@ const RobotsTxtGenerator = () => {
 
   return (
     <>
-      <SEOHead
-        title="Robots.txt Generator Free Online | WeboGrowth"
-        description="Generate robots.txt files for your website with our free online tool. Control search engine crawling, add sitemap references, and manage bot access easily."
-        keywords="robots.txt generator, create robots.txt, robots.txt maker, seo robots file, search engine crawl control"
-        canonicalPath="/robots-generator"
-        jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Robots.txt Generator", url: "https://tools.webogrowth.com/robots-generator", applicationCategory: "DeveloperApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-      />
+      <SEOHead {...getSeoProps("/robots-generator")!} />
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
         <header className="mb-12">
           <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">SEO Tool</span>

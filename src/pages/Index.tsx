@@ -4,6 +4,7 @@ import Lottie from "lottie-react";
 import { useState } from "react";
 import heroAnimation from "@/assets/home-hero-animation.json";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -190,12 +191,7 @@ const Index = () => {
 
   return (
   <div>
-    <SEOHead
-      title="WeboGrowth Tools - Free Online Image Compressor, Converter & Optimizer"
-      description="Free online image optimization tools by WeboGrowth. Compress PNG, JPEG, WebP images, convert formats, optimize SVGs, generate favicons, format JSON, create QR codes, and 17+ more tools."
-      keywords="image compressor online free, compress image, convert image format, svg optimizer, favicon generator, webp converter, json formatter, meta tag generator, qr code generator, css minifier"
-      canonicalPath="/"
-    />
+    <SEOHead {...getSeoProps("/")!} />
     <HeroSection />
 
     <section className="py-20 px-6 md:px-8 max-w-7xl mx-auto">

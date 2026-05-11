@@ -1,62 +1,116 @@
-# Fixes & Performance Optimization Plan
+# Site-Wide SEO & Schema Markup Upgrade
 
-## 1. Image Compressor — Real Quality Control
+Goal: every page scores 95+ on SEO audits, qualifies for Google Rich Results, and links internally + externally (to webogrowth.com) with tool-specific keyword optimization.
 
-**সমস্যা:** Slider 21% করলেও সাইজ কমে না, বরং বাড়ে (1.33MB → 1.56MB)। কারণ — input PNG হলে আমরা output-ও PNG করি, আর `canvas.toBlob` PNG-এর জন্য quality argument ignore করে (PNG lossless)। তাই slider কাজ করে না।
+## What gets added to every tool page
 
-**সমাধান:** `src/pages/Compressor.tsx`-এ Converter-এর মতো সম্পূর্ণ flow:
-- Input format নির্বিশেষে output সবসময় JPEG বা WebP-তে compress হবে (user input format নির্বাচন করতে পারবে: WebP/JPEG; PNG অপশন থাকবে কিন্তু "lossless – size will not reduce" hint দেখাবে)।
-- Default output = WebP (best compression)।
-- Slider label = "Quality Precision" (Lesser → 90% → Ultra), Converter UI-র সাথে consistent।
-- যদি `compressedSize >= originalSize` হয় → "Already optimized" message + original ফেরত দেওয়া (negative savings লুকানো)।
-- Savings সর্বদা positive নাহলে "0%" দেখাবে (no `--16.8%` bug)।
+1. **Optimized SEO metadata** (unique per page, tool-keyword focused)
+   - Title: ≤60 chars, primary keyword first, brand suffix
+   - Description: ≤160 chars, action verb + benefit + keyword
+   - Keywords: 6–8 long-tail variants per tool
+   - Canonical URL, OG tags, Twitter card (already in `SEOHead`)
 
-## 2. Home Page — Placeholder Flash Fix
+2. **Rich JSON-LD schema** (multiple types per page)
+   - `SoftwareApplication` (tool itself, with `aggregateRating`, `offers`, `featureList`)
+   - `BreadcrumbList` (Home → Category → Tool)
+   - `FAQPage` (3–5 tool-specific Q&As)
+   - `HowTo` (step-by-step usage, 3–5 steps)
+   - `WebSite` + `Organization` (site-wide, in index.html)
 
-**সমস্যা:** Reload করলে আগে empty placeholder box দেখায়, তারপর Lottie load হয় (284KB JSON fetch + parse)।
+3. **On-page SEO content blocks** (visible HTML, helps ranking)
+   - Single `<h1>` (already present), proper `<h2>`/`<h3>` hierarchy
+   - "How to use" section (matches HowTo schema)
+   - "FAQ" section (matches FAQPage schema)
+   - "Why use [tool name]" benefits block with tool keywords
+   - Internal links to 3–4 related tools (RelatedTools already exists — keep)
+   - External link to `https://webogrowth.com` with descriptive anchor (e.g. "Built by WeboGrowth — web growth agency")
+   - `alt` text + `aria-label` audit on icons/buttons
 
-**সমাধান:** `src/pages/Index.tsx`:
-- Lottie JSON-কে `import heroAnimation from "@/assets/home-hero-animation.json"` দিয়ে bundle করব (fetch round-trip বাদ)।
-- File `public/lottie/` থেকে `src/assets/`-এ move।
-- `lottie-react`-কে `React.lazy` দিয়ে dynamic import — initial bundle থেকে বের, কিন্তু animationData immediately available থাকলে first paint-এ render হবে।
-- Placeholder box-এ subtle gradient রাখব যাতে empty না দেখায়।
+4. **Tool-specific keyword targeting**
+   Each page gets a curated keyword set, e.g.:
+   - Compressor → "image compressor online", "compress jpeg without losing quality", "reduce png size", "webp converter free"
+   - JSON Formatter → "json formatter online", "json validator", "json beautifier", "minify json"
+   - QR Code → "qr code generator free", "custom qr code with logo", "wifi qr code", "vcard qr code"
+   - …same approach for all 20+ pages
 
-## 3. Speed Optimization (Target: 95+ Desktop, 90+ Mobile)
+## Architecture changes
 
-বর্তমান: Desktop 83, Mobile 56। FCP/LCP slow।
+### A. New shared helper: `src/lib/seo.ts`
+Central registry so we don't repeat schema boilerplate per page.
 
-### Bundle splitting
-- App.tsx-এ সব 22+ pages eagerly imported → বিশাল initial bundle। সব route page-কে `React.lazy()` + `<Suspense>` দিয়ে code-split করব। Index page শুধু eager থাকবে।
+```ts
+export const SITE = {
+  url: "https://tools.webogrowth.com",
+  brand: "WeboGrowth Tools",
+  parent: "https://webogrowth.com",
+};
 
-### Font optimization
-- `src/index.css`-এ Google Fonts `@import` বাদ দিয়ে `index.html`-এ `<link rel="preload">` + `display=swap` সহ তিনটি font file (Manrope, Space Grotesk, Material Symbols) load করব।
-- Material Symbols-এর জন্য শুধু ব্যবহৃত icons-এর subset URL parameter ব্যবহার করব (`text=` parameter দিয়ে শুধু needed glyphs)।
+export interface ToolSeo {
+  path: string;
+  title: string;          // ≤60 chars
+  description: string;    // ≤160 chars
+  keywords: string;
+  category: "Image" | "Developer" | "SEO" | "Design" | "Content";
+  h1: string;
+  features: string[];     // -> SoftwareApplication.featureList
+  faqs: { q: string; a: string }[];
+  steps: { name: string; text: string }[];
+  rating?: { value: number; count: number };
+}
 
-### Heavy library trimming
-- Homepage থেকে `framer-motion` ব্যবহার ভারী — ToolCard-এর scroll animation CSS-only (Tailwind animate + IntersectionObserver in `AnimatedSection`) দিয়ে replace করব যেখানে সম্ভব।
-- `lottie-react` শুধু Index page-এ lazy load হবে (`React.lazy` wrapper)।
+export const TOOL_SEO: Record<string, ToolSeo> = { /* every route */ };
 
-### HTML & assets
-- `index.html`-এ `<link rel="preconnect">` ইতিমধ্যে আছে — `dns-prefetch` যোগ করব Supabase URL-এর জন্য।
-- OG image (currently external Google Storage WebP) → SEOHead-এ `loading="lazy"` সংক্রান্ত image কোথাও থাকলে নিশ্চিত করব।
-- `vite.config.ts`-এ `build.rollupOptions.output.manualChunks` দিয়ে vendor chunks (react, radix-ui, framer-motion) আলাদা করব caching-এর জন্য।
+export function buildToolJsonLd(tool: ToolSeo): object[];   // returns SoftwareApplication + Breadcrumb + FAQPage + HowTo
+export function buildHomeJsonLd(): object[];                // WebSite + Organization + ItemList of tools
+```
 
-### Misc
-- `src/index.css`-এ unused Material Symbols variation settings simplify।
-- Hero section-এর দুটো বিশাল `blur-[120px]` background ball — GPU-heavy। `will-change: transform` যোগ করে অথবা mobile-এ disable করব।
+### B. Upgrade `SEOHead` to accept array of JSON-LD blocks
+```ts
+jsonLd?: object | object[];
+```
+Render one `<script type="application/ld+json">` per object so Google parses each independently.
 
-## Files to change
-- `src/pages/Compressor.tsx` (rewrite compress logic + UI options)
-- `src/pages/Index.tsx` (bundled lottie, lazy Lottie component)
-- `src/App.tsx` (lazy routes + Suspense)
-- `src/index.css` (remove font @import)
-- `index.html` (font preload, dns-prefetch)
-- `vite.config.ts` (manual chunks)
-- Move `public/lottie/home-hero-animation.json` → `src/assets/`
+### C. New shared component: `src/components/ToolSeoSection.tsx`
+Renders the visible "How to use", "FAQ", "Benefits" + external/internal links block. Pulls content from `TOOL_SEO[path]`. Drop into every tool page above `<RelatedTools/>`.
+
+### D. Site-wide upgrades (one-time)
+- `index.html`: add `Organization` + `WebSite` (with `SearchAction`) JSON-LD in `<head>`
+- `src/components/Layout.tsx`: inject `BreadcrumbList` schema dynamically based on current route
+- `Footer.tsx`: ensure prominent external link to `webogrowth.com` (rel="noopener", descriptive anchor — not "click here")
+- `Navbar.tsx`: confirm semantic `<nav>` + `aria-label`
+
+### E. Per-page edits (all 20+ tool pages + About/Contact/Privacy/Terms/Home/404)
+For each `src/pages/*.tsx`:
+1. Replace inline `SEOHead` props with `TOOL_SEO[path]` derived values
+2. Pass full JSON-LD array (SoftwareApplication + Breadcrumb + FAQ + HowTo)
+3. Append `<ToolSeoSection path="…" />` before `<RelatedTools/>`
+4. Ensure single H1, proper heading hierarchy, descriptive button labels
+5. Add 1 contextual link to `webogrowth.com` inside the benefits paragraph
+
+Static pages (About, Contact, Privacy, Terms) get `WebPage` schema + breadcrumbs only (no FAQ/HowTo).
+
+## Pages covered (24 total)
+
+| Group | Pages |
+|---|---|
+| Image | Compressor, Converter, SvgOptimizer, Favicon, ImageResizer, PlaceholderImage |
+| Developer | JsonFormatter, CssMinifier, Base64Tool, HtmlToMarkdown |
+| SEO | MetaTagGenerator, OgPreview, RobotsTxtGenerator |
+| Design | ColorPalette, GradientGenerator, QrCodeGenerator |
+| Content | LoremIpsum |
+| Home/Static | Index, AboutUs, ContactUs, PrivacyPolicy, TermsOfService, NotFound |
 
 ## Out of scope
-- Server-side rendering / SSG migration
-- Replacing framer-motion entirely (only homepage trimmed)
-- Image CDN setup
+- Server-side rendering / pre-rendering (current Vite SPA — Google does render JS, schema still works; SSG would be a separate larger refactor)
+- Backlink building / off-site SEO
+- Submitting to Search Console (user already has GSC verification configured)
 
-Approval please proceed করব।
+## Validation after build
+- Manually verify schema for 2 pages with Google's Rich Results Test (recommend to user)
+- Run Lighthouse SEO audit (target 95+)
+
+## Deliverables
+- 1 new file: `src/lib/seo.ts` (single source of truth, ~400 lines of content)
+- 1 new file: `src/components/ToolSeoSection.tsx`
+- Updated: `SEOHead`, `Layout`, `Footer`, `index.html`
+- Updated: all 24 page files (mostly small — swap props, add 1 component)

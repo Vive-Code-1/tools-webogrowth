@@ -3,6 +3,8 @@ import DropZone from "@/components/DropZone";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
+import ToolSeoSection from "@/components/ToolSeoSection";
 
 const outputFormats = [
   { value: "image/webp", label: "WebP (Best Compression)", ext: "webp" },
@@ -95,13 +97,7 @@ const Compressor = () => {
 
   return (
     <>
-    <SEOHead
-      title="Image Compressor Online Free - Compress PNG, JPEG, WebP | WeboGrowth"
-      description="Compress images online for free. Reduce PNG, JPEG, WebP file sizes by up to 90% without losing quality. Fast, private, browser-based compression."
-      keywords="compress image online, image compressor free, reduce image size, png compressor, jpeg compressor, webp compressor"
-      canonicalPath="/compressor"
-      jsonLd={{ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Image Compressor", url: "https://tools.webogrowth.com/compressor", applicationCategory: "MultimediaApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@type": "Organization", name: "WeboGrowth", url: "https://webogrowth.com" } }}
-    />
+    <SEOHead {...getSeoProps("/compressor")!} />
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-16">
         <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">
@@ -250,6 +246,7 @@ const Compressor = () => {
         </div>
       </section>
     </div>
+        <ToolSeoSection path="/compressor" />
     </>
   );
 };

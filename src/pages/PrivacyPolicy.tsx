@@ -1,14 +1,10 @@
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import { Link } from "react-router-dom";
 
 const PrivacyPolicy = () => (
   <>
-    <SEOHead
-      title="Privacy Policy | WeboGrowth Tools"
-      description="Read the WeboGrowth Tools privacy policy. Learn how we protect your data. All tools process files locally in your browser — no data is uploaded to our servers."
-      keywords="privacy policy, webogrowth privacy, data protection, browser-based tools privacy"
-      canonicalPath="/privacy-policy"
-    />
+    <SEOHead {...getSeoProps("/privacy-policy")!} />
     <div className="max-w-4xl mx-auto px-6 md:px-8 py-12 lg:py-20">
       <header className="mb-12">
         <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">Legal</span>
