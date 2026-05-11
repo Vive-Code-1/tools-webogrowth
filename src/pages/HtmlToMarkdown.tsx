@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TurndownService from "turndown";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 

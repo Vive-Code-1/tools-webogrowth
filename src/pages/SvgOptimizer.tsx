@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import CountdownDownload from "@/components/CountdownDownload";
 import { uploadProcessedFile } from "@/lib/storage";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
 
 function optimizeSvg(svgString: string): string {

@@ -1,4 +1,5 @@
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import { Link } from "react-router-dom";
 
 const TermsOfService = () => (

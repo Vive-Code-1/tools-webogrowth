@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import AnimatedSection from "@/components/AnimatedSection";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";

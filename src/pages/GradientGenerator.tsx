@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import SEOHead from "@/components/SEOHead";
+import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 import { supabase } from "@/integrations/supabase/client";
