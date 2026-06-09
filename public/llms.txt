@@ -1,0 +1,41 @@
+# WeboGrowth Tools
+
+> 17+ free, browser-based tools for developers, designers, and marketers — image compression, format conversion, JSON formatting, QR codes, meta tags, and more. All processing happens locally for privacy and speed.
+
+WeboGrowth Tools is built and maintained by WeboGrowth, a digital agency offering web development, SEO, UI/UX design, and SaaS development services. Every tool is free, requires no signup, and runs entirely in the browser.
+
+## Image Tools
+
+- [Image Compressor](/compressor): Compress JPG, PNG, and WebP images up to 90% smaller with adjustable quality.
+- [Image Converter](/converter): Convert between PNG, JPEG, WebP, and other image formats.
+- [Image Resizer](/image-resizer): Resize images to exact dimensions while preserving quality.
+- [Favicon Generator](/favicon): Generate favicons in multiple sizes from a single image.
+- [Placeholder Image Generator](/placeholder): Create placeholder images with custom size, color, and text.
+- [SVG Optimizer](/svg-optimizer): Minify and clean SVG files for production use.
+
+## Developer Tools
+
+- [JSON Formatter](/json-formatter): Format, validate, and minify JSON data online.
+- [CSS Minifier](/css-minifier): Minify CSS to reduce file size and improve load times.
+- [Base64 Encoder/Decoder](/base64): Convert text and files to and from Base64.
+- [HTML to Markdown](/html-to-markdown): Convert HTML markup to clean Markdown.
+
+## SEO &amp; Design Tools
+
+- [Meta Tag Generator](/meta-tag-generator): Generate SEO-friendly meta tags for any page.
+- [OG Preview](/og-preview): Preview Open Graph cards as they appear on social media.
+- [Robots.txt Generator](/robots-generator): Create robots.txt files to control search engine crawling.
+- [Color Palette Generator](/color-palette): Build and export color palettes for design projects.
+- [Gradient Generator](/gradient-generator): Create CSS gradients with live preview.
+- [Lorem Ipsum Generator](/lorem-ipsum): Generate placeholder text for mockups and drafts.
+- [QR Code Generator](/qr-code): Create QR codes for URLs, text, and contact info.
+
+## Company
+
+- [About WeboGrowth](/about-us): Mission, services, and team behind the tools.
+- [Contact Us](/contact-us): Get in touch for custom digital solutions.
+
+## Optional
+
+- [Privacy Policy](/privacy-policy): How we handle data (we don't collect any).
+- [Terms of Service](/terms-of-service): Usage terms for the tools.
