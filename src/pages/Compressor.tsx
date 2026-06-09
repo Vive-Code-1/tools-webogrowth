@@ -139,7 +139,7 @@ const Compressor = () => {
 
             <div>
               <div className="flex justify-between items-center mb-3">
-                <h4 className="font-headline font-bold text-lg">Quality Precision</h4>
+                <h2 className="font-headline font-bold text-lg">Quality Precision</h2>
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded text-sm font-bold">{quality}%</span>
               </div>
               <input
@@ -181,7 +181,7 @@ const Compressor = () => {
         <div className="lg:col-span-5 space-y-8">
           <div className="bg-surface-container rounded-xl overflow-hidden">
             <div className="p-6 border-b border-outline-variant/10 flex justify-between items-center">
-              <h4 className="font-headline font-bold text-sm tracking-widest uppercase">Live Delta Analysis</h4>
+              <h2 className="font-headline font-bold text-sm tracking-widest uppercase">Live Delta Analysis</h2>
               <div className="flex gap-2">
                 <div className="w-2 h-2 rounded-full bg-error" />
                 <div className="w-2 h-2 rounded-full bg-primary" />
@@ -189,7 +189,7 @@ const Compressor = () => {
             </div>
             <div className="relative aspect-video bg-surface-container-lowest flex items-center justify-center">
               {previewUrl ? (
-                <img src={previewUrl} alt="Preview" className="w-full h-full object-contain" />
+                <img src={previewUrl} alt="Optimization preview of uploaded image" className="w-full h-full object-contain" />
               ) : (
                 <span className="text-on-surface-variant/30 text-sm">No image loaded</span>
               )}

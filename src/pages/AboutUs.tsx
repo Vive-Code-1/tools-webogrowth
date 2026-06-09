@@ -18,7 +18,7 @@ const AboutUs = () => (
       <header className="mb-16">
         <span className="text-primary tracking-[0.2em] font-extrabold uppercase mb-4 block text-xs font-label">About Us</span>
         <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tighter mb-6 leading-[0.9]">
-          We Are <span className="text-primary">WeboGrowth</span>
+          <span className="text-primary">WeboGrowth</span> — Digital Agency &amp; Optimization Tools
         </h1>
         <p className="max-w-2xl text-on-surface-variant text-lg leading-relaxed">
           WeboGrowth is a full-service digital agency helping businesses grow through innovative technology solutions. From web development to SEO, we provide end-to-end digital services that drive results.
