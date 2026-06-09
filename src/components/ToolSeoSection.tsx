@@ -10,7 +10,7 @@ const ToolSeoSection = ({ path }: ToolSeoSectionProps) => {
   if (!tool || (!tool.faqs.length && !tool.steps.length && !tool.benefits.length)) return null;
 
   return (
-    <section className="mt-24 pt-16 border-t border-outline-variant/10 space-y-16" aria-label={`${tool.h1} guide and FAQ`}>
+    <section className="max-w-7xl mx-auto px-6 md:px-8 mt-24 pt-16 border-t border-outline-variant/10 space-y-16" aria-label={`${tool.h1} guide and FAQ`}>
       {tool.steps.length > 0 && (
         <div>
           <h2 className="text-2xl md:text-3xl font-headline font-bold mb-4">How to use the {tool.h1}</h2>
