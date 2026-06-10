@@ -55,9 +55,9 @@ const ToolSeoSection = ({ path }: ToolSeoSectionProps) => {
           <div className="space-y-4">
             {tool.faqs.map((faq) => (
               <details key={faq.q} className="bg-surface-container rounded-xl p-5 group">
-                <summary className="font-headline font-bold cursor-pointer flex justify-between items-center gap-4">
+                <summary className="font-headline font-bold cursor-pointer flex justify-between items-center gap-4 list-none [&::-webkit-details-marker]:hidden">
                   <span>{faq.q}</span>
-                  <span className="material-symbols-outlined text-primary transition-transform group-open:rotate-180" aria-hidden>expand_more</span>
+                  <span className="material-symbols-outlined text-primary transition-transform group-open:rotate-180 group-[[open]]:rotate-180" aria-hidden>expand_more</span>
                 </summary>
                 <p className="text-on-surface-variant mt-3 text-sm leading-relaxed">{faq.a}</p>
               </details>
