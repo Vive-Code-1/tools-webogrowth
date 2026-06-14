@@ -309,11 +309,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/html-to-markdown": f("/html-to-markdown", {
-    title: "HTML to Markdown Converter Online — Free",
+    title: "HTML to Markdown Converter Online — Free HTML to MD",
     description:
-      "Convert HTML to clean, readable Markdown online. Perfect for README files, blog migrations and documentation. Free and instant.",
+      "Convert HTML to Markdown online free — paste HTML and get clean GitHub-flavored Markdown for READMEs, blog migrations and documentation.",
     keywords:
-      "html to markdown converter, html to md online, convert html to markdown free, blog to markdown, readme generator",
+      "html to markdown, html to markdown converter, html to md online, convert html to markdown free, blog to markdown, readme generator, html2md",
     category: "Developer",
     h1: "HTML to Markdown Converter",
     intro:
