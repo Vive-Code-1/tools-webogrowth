@@ -237,11 +237,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/json-formatter": f("/json-formatter", {
-    title: "JSON Formatter & Validator Online — Free & Fast",
+    title: "JSON Formatter, Validator, Beautifier & Minifier Online",
     description:
-      "Format, validate and minify JSON online for free. Beautify or compress JSON instantly with syntax error detection. No signup required.",
+      "Free JSON formatter, validator, beautifier and minifier online. Pretty print, validate and compress JSON instantly with syntax error detection.",
     keywords:
-      "json formatter online, json validator, json beautifier, json minifier, format json free, validate json online, pretty print json",
+      "json formatter, json validator, json beautifier, json minifier, json formatter online, format json free, pretty print json, json viewer",
     category: "Developer",
     h1: "JSON Formatter & Validator",
     intro:
