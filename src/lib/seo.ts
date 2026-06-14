@@ -71,11 +71,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/compressor": f("/compressor", {
-    title: "Free Image Compressor — Compress JPG, PNG, WebP Online",
+    title: "WebP Compressor — Compress PNG, JPEG & WebP Online Free",
     description:
-      "Compress JPEG, PNG and WebP images online for free. Reduce file size up to 90% with no quality loss. Fast, private, no signup required.",
+      "Free WebP compressor — compress PNG, JPEG and WebP images online up to 90% smaller with no visible quality loss. Browser-based and private.",
     keywords:
-      "image compressor online, compress jpeg without losing quality, reduce png size, webp compressor free, compress image online, optimize images for web, photo size reducer",
+      "webp compressor, compress png, compress jpeg, compress webp, image compressor online, reduce png size, compress image online free, optimize images for web",
     category: "Image",
     h1: "Image Compressor",
     intro:
@@ -106,11 +106,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/converter": f("/converter", {
-    title: "Free Image Format Converter — JPG, PNG, WebP, AVIF",
+    title: "PNG to WebP & AVIF Converter — Image Format Converter Free",
     description:
-      "Convert images between JPG, PNG, WebP and AVIF online for free. Batch convert with no signup. Fast, private, browser-based image conversion.",
+      "Convert PNG to WebP, PNG to AVIF, JPG to WebP and back online for free. Batch image format converter — fast, private, browser-based.",
     keywords:
-      "image format converter, convert png to webp, jpg to webp converter, png to avif, image converter online free, change image format, batch image converter",
+      "png to webp, png to avif, jpg to webp, convert to webp, image format converter, webp converter online, avif converter, image converter free",
     category: "Image",
     h1: "Image Format Converter",
     intro:
@@ -141,11 +141,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/svg-optimizer": f("/svg-optimizer", {
-    title: "SVG Optimizer Online — Minify & Clean SVG Files Free",
+    title: "SVGO Online — Minify & Optimize SVG Files Free",
     description:
-      "Optimize SVG files online. Remove metadata, minify paths and shrink SVG size from Illustrator, Figma or Sketch exports. Free and private.",
+      "SVGO online — minify SVG, clean Figma/Illustrator exports and shrink SVG files up to 80%. Free SVG optimizer with no upload.",
     keywords:
-      "svg optimizer online, minify svg, clean svg file, optimize svg from figma, svgo online, reduce svg size, svg cleaner",
+      "svgo online, minify svg, svg optimizer, svg optimizer online, clean svg file, optimize svg from figma, reduce svg size, svg cleaner",
     category: "Image",
     h1: "SVG Optimizer",
     intro:
@@ -165,11 +165,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/favicon": f("/favicon", {
-    title: "Favicon Generator — All Sizes, Apple Touch & Android",
+    title: "Apple Touch Icon & Favicon Generator — All Sizes Free",
     description:
-      "Generate a complete favicon set for every platform. ICO, PNG, Apple Touch Icon and Android manifest from one source image. Free online.",
+      "Apple Touch Icon generator and favicon maker — create ICO, PNG, Android & Apple Touch Icons plus manifest from one image. Free download.",
     keywords:
-      "favicon generator, free favicon maker, apple touch icon generator, android favicon, ico generator online, png to favicon, favicon package",
+      "apple touch icon generator, favicon generator, favicon maker, android favicon, ico generator online, png to favicon, favicon package, web manifest generator",
     category: "Image",
     h1: "Favicon Generator",
     intro:
@@ -189,11 +189,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/image-resizer": f("/image-resizer", {
-    title: "Free Image Resizer Online — Resize JPG, PNG, WebP",
+    title: "Image Resizer Online — Resize JPG, PNG, WebP Without Quality Loss",
     description:
-      "Resize images online for free. Set width, height or percentage with optional aspect-ratio lock. Works for JPG, PNG and WebP, all in your browser.",
+      "Resize image online free — change JPG, PNG and WebP dimensions in pixels or percent with aspect-ratio lock. No upload, full privacy.",
     keywords:
-      "image resizer online, resize image free, resize jpg online, png resizer, resize image without losing quality, change image dimensions",
+      "image resizer online, resize image online, resize image, resize jpg online, png resizer, resize image without losing quality, change image dimensions, free image resizer",
     category: "Image",
     h1: "Image Resizer",
     intro:
@@ -213,11 +213,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/placeholder": f("/placeholder", {
-    title: "Placeholder Image Generator — Custom Size & Color",
+    title: "Placeholder Image Generator — Dummy Image Maker (Custom Size)",
     description:
-      "Create custom placeholder images online. Set exact dimensions, background color and label text for mockups, wireframes and prototypes.",
+      "Generate dummy images and custom placeholder images online — set exact size, background color and label text for mockups and wireframes.",
     keywords:
-      "placeholder image generator, custom placeholder, dummy image generator, mockup image, placeholder.com alternative, wireframe images",
+      "placeholder image generator, dummy image, dummy image generator, custom placeholder, mockup image, placeholder.com alternative, wireframe images, fake image",
     category: "Image",
     h1: "Placeholder Image Generator",
     intro:
@@ -237,11 +237,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/json-formatter": f("/json-formatter", {
-    title: "JSON Formatter & Validator Online — Free & Fast",
+    title: "JSON Formatter, Validator, Beautifier & Minifier Online",
     description:
-      "Format, validate and minify JSON online for free. Beautify or compress JSON instantly with syntax error detection. No signup required.",
+      "Free JSON formatter, validator, beautifier and minifier online. Pretty print, validate and compress JSON instantly with syntax error detection.",
     keywords:
-      "json formatter online, json validator, json beautifier, json minifier, format json free, validate json online, pretty print json",
+      "json formatter, json validator, json beautifier, json minifier, json formatter online, format json free, pretty print json, json viewer",
     category: "Developer",
     h1: "JSON Formatter & Validator",
     intro:
@@ -261,11 +261,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/css-minifier": f("/css-minifier", {
-    title: "CSS Minifier & Beautifier Online — Free",
+    title: "CSS Minifier & Beautifier — Minify CSS Online Free",
     description:
-      "Minify CSS to reduce file size or beautify minified CSS for readability. Free online CSS minifier with instant before/after comparison.",
+      "Free CSS minifier and beautifier — minify CSS to shrink file size 15–35% or beautify minified stylesheets back to readable code instantly.",
     keywords:
-      "css minifier online, minify css free, css beautifier, format css, compress css online, css optimizer",
+      "css minifier, minify css, css minifier online, css beautifier, format css, compress css online, css optimizer, css formatter",
     category: "Developer",
     h1: "CSS Minifier",
     intro:
@@ -285,11 +285,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/base64": f("/base64", {
-    title: "Base64 Encoder & Decoder Online — Text & Files",
+    title: "Base64 Encoder & Decoder Online — Text, File & Image",
     description:
-      "Encode text or files to Base64 and decode Base64 strings back to plain text or downloadable files. Free, fast and private.",
+      "Base64 encoder and decoder online — encode text, files or images to Base64 and decode Base64 strings back to text or downloadable files free.",
     keywords:
-      "base64 encoder, base64 decoder, base64 to text, encode file to base64, decode base64 online, base64 image converter",
+      "base64 encoder, base64 decoder, base64 to text, encode file to base64, decode base64 online, base64 image converter, base64 online",
     category: "Developer",
     h1: "Base64 Encoder / Decoder",
     intro:
@@ -309,11 +309,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/html-to-markdown": f("/html-to-markdown", {
-    title: "HTML to Markdown Converter Online — Free",
+    title: "HTML to Markdown Converter Online — Free HTML to MD",
     description:
-      "Convert HTML to clean, readable Markdown online. Perfect for README files, blog migrations and documentation. Free and instant.",
+      "Convert HTML to Markdown online free — paste HTML and get clean GitHub-flavored Markdown for READMEs, blog migrations and documentation.",
     keywords:
-      "html to markdown converter, html to md online, convert html to markdown free, blog to markdown, readme generator",
+      "html to markdown, html to markdown converter, html to md online, convert html to markdown free, blog to markdown, readme generator, html2md",
     category: "Developer",
     h1: "HTML to Markdown Converter",
     intro:
@@ -333,11 +333,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/meta-tag-generator": f("/meta-tag-generator", {
-    title: "Meta Tag Generator — SEO, Open Graph & Twitter Cards",
+    title: "Meta Tag Generator — SEO, Open Graph & Twitter Card Tags",
     description:
-      "Generate optimized meta tags for SEO, Open Graph and Twitter Cards. Preview how your page appears in Google, Facebook and Twitter.",
+      "Free meta tag generator for SEO, Open Graph and Twitter Cards. Build perfect <head> meta tags with live Google, Facebook and Twitter previews.",
     keywords:
-      "meta tag generator, seo meta tags, open graph generator, twitter card generator, html meta tags, og tag generator",
+      "meta tag generator, seo meta tags, open graph generator, twitter card generator, html meta tags, og tag generator, meta description generator",
     category: "SEO",
     h1: "Meta Tag Generator",
     intro:
@@ -357,11 +357,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/og-preview": f("/og-preview", {
-    title: "Open Graph Preview Tool — Facebook, Twitter, LinkedIn",
+    title: "Open Graph Preview — OG Image Preview & Social Card Tester",
     description:
-      "Preview how any URL or custom Open Graph data appears on Facebook, Twitter and LinkedIn. Debug OG tags before you publish.",
+      "Open Graph preview tool — test OG image, Twitter Card and LinkedIn previews before publishing. Free social media meta tag debugger.",
     keywords:
-      "open graph preview, og tag tester, facebook share preview, twitter card preview, linkedin preview, social media debugger",
+      "open graph preview, og preview, og image preview, og tag tester, facebook share preview, twitter card preview, linkedin preview, social media debugger",
     category: "SEO",
     h1: "Open Graph Preview",
     intro:
@@ -381,11 +381,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/robots-generator": f("/robots-generator", {
-    title: "Robots.txt Generator — Build robots.txt Online Free",
+    title: "Robots.txt Generator — Create Robots.txt Online Free",
     description:
-      "Create a robots.txt file with rules for Googlebot, Bingbot and more. Allow, disallow paths and add sitemap URL. Download instantly.",
+      "Free robots.txt generator — create robots.txt online with Googlebot/Bingbot rules, allow/disallow paths and sitemap URL. Download instantly.",
     keywords:
-      "robots.txt generator, create robots.txt, robots txt online, googlebot rules, sitemap robots.txt, seo crawler control",
+      "robots txt generator, robots.txt generator, create robots.txt, robots txt online, googlebot rules, sitemap robots.txt, seo crawler control, robots.txt maker",
     category: "SEO",
     h1: "Robots.txt Generator",
     intro:
@@ -405,11 +405,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/color-palette": f("/color-palette", {
-    title: "Color Palette Generator — Complementary, Analogous, Triad",
+    title: "Color Palette Generator — From Image, Complementary, Triadic",
     description:
-      "Generate complementary, analogous, triadic and tetradic color palettes from any base color. Copy HEX, RGB and HSL instantly.",
+      "Color palette generator — extract palettes from image or build complementary, analogous and triadic schemes. Copy HEX, RGB, HSL instantly.",
     keywords:
-      "color palette generator, complementary colors, analogous palette, triadic colors, hex color picker, design color scheme",
+      "color palette generator, color palette from image, complementary colors, analogous palette, triadic colors, hex color picker, design color scheme, color scheme generator",
     category: "Design",
     h1: "Color Palette Generator",
     intro:
@@ -429,11 +429,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/gradient-generator": f("/gradient-generator", {
-    title: "CSS Gradient Generator — Linear, Radial & AI Gradients",
+    title: "CSS Gradient Generator — Linear & Radial Gradient Maker",
     description:
-      "Create stunning CSS gradients online. Linear, radial and AI-generated gradients with copyable CSS code and PNG export.",
+      "Free CSS gradient generator — design linear, radial and AI gradients with copyable CSS code and PNG export. Live multi-stop editor.",
     keywords:
-      "css gradient generator, linear gradient, radial gradient, css gradient online, ai gradient background, web background generator",
+      "css gradient generator, gradient generator, linear gradient, radial gradient, css gradient online, ai gradient background, web background generator, gradient maker",
     category: "Design",
     h1: "CSS Gradient Generator",
     intro:
@@ -453,11 +453,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/qr-code": f("/qr-code", {
-    title: "QR Code Generator — Logo, WiFi, vCard, URL & More",
+    title: "QR Code Generator with Logo — WiFi, vCard & URL QR Codes",
     description:
-      "Generate custom QR codes online. URL, WiFi, vCard, email and SMS QR codes with logo overlay and color customization. Free and downloadable.",
+      "Free QR code generator with logo — create WiFi QR codes, vCard QR codes, URL, email and SMS QR codes with custom colors. PNG & SVG export.",
     keywords:
-      "qr code generator, qr code with logo, wifi qr code, vcard qr code, custom qr code free, qr code maker online, url qr code",
+      "qr code generator, qr code with logo, wifi qr code, vcard qr code, custom qr code free, qr code maker online, url qr code, qr generator with logo",
     category: "Design",
     h1: "QR Code Generator",
     intro:
@@ -477,11 +477,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/lorem-ipsum": f("/lorem-ipsum", {
-    title: "Lorem Ipsum Generator — Paragraphs, Sentences, Words",
+    title: "Lorem Ipsum Generator — Dummy Text Generator Free",
     description:
-      "Generate Lorem Ipsum placeholder text for your designs. Pick paragraphs, sentences or words and copy in one click. Free and ad-free.",
+      "Free Lorem Ipsum generator and dummy text generator — pick paragraphs, sentences or words of placeholder text and copy with one click.",
     keywords:
-      "lorem ipsum generator, dummy text generator, placeholder text, lorem ipsum copy, design filler text",
+      "lorem ipsum generator, lorem ipsum, dummy text generator, placeholder text, lorem ipsum copy, design filler text, dummy text, lipsum",
     category: "Content",
     h1: "Lorem Ipsum Generator",
     intro:
