@@ -285,11 +285,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/base64": f("/base64", {
-    title: "Base64 Encoder & Decoder Online — Text & Files",
+    title: "Base64 Encoder & Decoder Online — Text, File & Image",
     description:
-      "Encode text or files to Base64 and decode Base64 strings back to plain text or downloadable files. Free, fast and private.",
+      "Base64 encoder and decoder online — encode text, files or images to Base64 and decode Base64 strings back to text or downloadable files free.",
     keywords:
-      "base64 encoder, base64 decoder, base64 to text, encode file to base64, decode base64 online, base64 image converter",
+      "base64 encoder, base64 decoder, base64 to text, encode file to base64, decode base64 online, base64 image converter, base64 online",
     category: "Developer",
     h1: "Base64 Encoder / Decoder",
     intro:
