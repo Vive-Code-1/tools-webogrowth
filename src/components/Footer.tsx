@@ -85,7 +85,16 @@ const Footer = () => (
           </a>{" "}
           Copyright Reserved.
         </p>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap gap-6">
+          <Link to="/blog" className="text-on-surface-variant/50 hover:text-secondary transition-colors font-label text-sm tracking-wide uppercase">
+            Blog
+          </Link>
+          <Link to="/about-us" className="text-on-surface-variant/50 hover:text-secondary transition-colors font-label text-sm tracking-wide uppercase">
+            About
+          </Link>
+          <Link to="/contact-us" className="text-on-surface-variant/50 hover:text-secondary transition-colors font-label text-sm tracking-wide uppercase">
+            Contact
+          </Link>
           <Link to="/privacy-policy" className="text-on-surface-variant/50 hover:text-secondary transition-colors font-label text-sm tracking-wide uppercase">
             Privacy Policy
           </Link>
