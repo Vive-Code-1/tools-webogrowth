@@ -5,10 +5,11 @@ import { resolve } from "node:path";
 
 const dest = process.argv[2] || "site/main";
 const entries = [
-  { href: "seo-report.html",  label: "SEO test report",     desc: "Per-route pass/fail with missing fields" },
-  { href: "seo-diff.html",    label: "Snapshot diff",       desc: "What changed vs baseline" },
-  { href: "playwright/index.html", label: "Playwright audit", desc: "Rendered title/meta/JSON-LD" },
-  { href: "lighthouse/",      label: "Lighthouse",          desc: "Performance / accessibility / SEO scores" },
+  { href: "seo-report.html",        label: "SEO test report",     desc: "Per-route pass/fail with search + status filter and Playwright failure artifacts" },
+  { href: "seo-diff.html",          label: "Snapshot diff",       desc: "Changed / new / removed routes vs baseline, with route filter" },
+  { href: "playwright/index.html",  label: "Playwright audit",    desc: "Rendered title/meta/JSON-LD + screenshots, video, trace viewer on failure" },
+  { href: "lighthouse/",            label: "Lighthouse (desktop)", desc: "Performance / accessibility / SEO scores — desktop preset" },
+  { href: "lighthouse-mobile/",     label: "Lighthouse (mobile)", desc: "Same thresholds, mobile preset (Moto G Power, slow 4G, 4× CPU)" },
 ].filter((e) => existsSync(resolve(dest, e.href.replace(/\/$/, "")))).map((e) => e);
 
 writeFileSync(resolve(dest, "index.html"), `<!doctype html><html><head><meta charset="utf-8">
