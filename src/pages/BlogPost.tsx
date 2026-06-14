@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getPostBySlug, BLOG_POSTS } from "@/blog/posts";
+import ShareButtons from "@/components/ShareButtons";
 
 const SITE_URL = "https://tools.webogrowth.com";
 
