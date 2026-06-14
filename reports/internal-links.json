@@ -1,0 +1,363 @@
+{
+  "generatedAt": "2026-06-14T16:21:32.927Z",
+  "totals": {
+    "routes": 24,
+    "links": 156,
+    "orphans": 1,
+    "under": 0,
+    "stale": 4
+  },
+  "rows": [
+    {
+      "route": "/blog/:slug",
+      "count": 0,
+      "sources": 0
+    },
+    {
+      "route": "/privacy-policy",
+      "count": 2,
+      "sources": 2
+    },
+    {
+      "route": "/terms-of-service",
+      "count": 2,
+      "sources": 2
+    },
+    {
+      "route": "/about-us",
+      "count": 4,
+      "sources": 3
+    },
+    {
+      "route": "/contact-us",
+      "count": 5,
+      "sources": 4
+    },
+    {
+      "route": "/meta-tag-generator",
+      "count": 6,
+      "sources": 6
+    },
+    {
+      "route": "/css-minifier",
+      "count": 6,
+      "sources": 6
+    },
+    {
+      "route": "/gradient-generator",
+      "count": 6,
+      "sources": 6
+    },
+    {
+      "route": "/lorem-ipsum",
+      "count": 6,
+      "sources": 6
+    },
+    {
+      "route": "/robots-generator",
+      "count": 6,
+      "sources": 6
+    },
+    {
+      "route": "/og-preview",
+      "count": 6,
+      "sources": 6
+    },
+    {
+      "route": "/placeholder",
+      "count": 6,
+      "sources": 6
+    },
+    {
+      "route": "/svg-optimizer",
+      "count": 7,
+      "sources": 7
+    },
+    {
+      "route": "/favicon",
+      "count": 7,
+      "sources": 7
+    },
+    {
+      "route": "/color-palette",
+      "count": 7,
+      "sources": 7
+    },
+    {
+      "route": "/qr-code",
+      "count": 7,
+      "sources": 7
+    },
+    {
+      "route": "/image-resizer",
+      "count": 7,
+      "sources": 7
+    },
+    {
+      "route": "/base64",
+      "count": 7,
+      "sources": 7
+    },
+    {
+      "route": "/html-to-markdown",
+      "count": 7,
+      "sources": 7
+    },
+    {
+      "route": "/json-formatter",
+      "count": 8,
+      "sources": 7
+    },
+    {
+      "route": "/converter",
+      "count": 9,
+      "sources": 7
+    },
+    {
+      "route": "/compressor",
+      "count": 11,
+      "sources": 7
+    },
+    {
+      "route": "/",
+      "count": 12,
+      "sources": 10
+    },
+    {
+      "route": "/blog",
+      "count": 12,
+      "sources": 4
+    }
+  ],
+  "orphans": [
+    {
+      "route": "/blog/:slug",
+      "count": 0,
+      "sources": 0
+    }
+  ],
+  "under": [],
+  "stale": [
+    {
+      "target": "/favicon-32x32.png",
+      "file": "src/pages/Favicon.tsx"
+    },
+    {
+      "target": "/favicon-16x16.png",
+      "file": "src/pages/Favicon.tsx"
+    },
+    {
+      "target": "/apple-touch-icon.png",
+      "file": "src/pages/Favicon.tsx"
+    },
+    {
+      "target": "/site.webmanifest",
+      "file": "src/pages/Favicon.tsx"
+    }
+  ],
+  "inbound": {
+    "/": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/ToolSeoSection.tsx",
+      "src/pages/AboutUs.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/BlogPost.tsx",
+      "src/pages/NotFound.tsx",
+      "src/pages/PrivacyPolicy.tsx",
+      "src/pages/TermsOfService.tsx",
+      "public/sitemap.xml"
+    ],
+    "/compressor": [
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/converter": [
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/svg-optimizer": [
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/favicon": [
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/json-formatter": [
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/meta-tag-generator": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/color-palette": [
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/qr-code": [
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/image-resizer": [
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/css-minifier": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/base64": [
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/gradient-generator": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/lorem-ipsum": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/robots-generator": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/og-preview": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/placeholder": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/html-to-markdown": [
+      "src/blog/posts.ts",
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/RelatedTools.tsx",
+      "src/pages/Admin.tsx",
+      "src/pages/Index.tsx",
+      "public/sitemap.xml"
+    ],
+    "/privacy-policy": [
+      "src/components/Footer.tsx",
+      "public/sitemap.xml"
+    ],
+    "/terms-of-service": [
+      "src/components/Footer.tsx",
+      "public/sitemap.xml"
+    ],
+    "/about-us": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/Navbar.tsx",
+      "public/sitemap.xml"
+    ],
+    "/contact-us": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/Navbar.tsx",
+      "src/pages/AboutUs.tsx",
+      "public/sitemap.xml"
+    ],
+    "/blog": [
+      "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
+      "src/components/Navbar.tsx",
+      "src/pages/BlogPost.tsx",
+      "src/pages/BlogPost.tsx",
+      "src/pages/BlogPost.tsx",
+      "public/sitemap.xml",
+      "public/sitemap.xml",
+      "public/sitemap.xml",
+      "public/sitemap.xml",
+      "public/sitemap.xml",
+      "public/sitemap.xml"
+    ],
+    "/blog/:slug": []
+  }
+}
