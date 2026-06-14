@@ -333,11 +333,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/meta-tag-generator": f("/meta-tag-generator", {
-    title: "Meta Tag Generator — SEO, Open Graph & Twitter Cards",
+    title: "Meta Tag Generator — SEO, Open Graph & Twitter Card Tags",
     description:
-      "Generate optimized meta tags for SEO, Open Graph and Twitter Cards. Preview how your page appears in Google, Facebook and Twitter.",
+      "Free meta tag generator for SEO, Open Graph and Twitter Cards. Build perfect <head> meta tags with live Google, Facebook and Twitter previews.",
     keywords:
-      "meta tag generator, seo meta tags, open graph generator, twitter card generator, html meta tags, og tag generator",
+      "meta tag generator, seo meta tags, open graph generator, twitter card generator, html meta tags, og tag generator, meta description generator",
     category: "SEO",
     h1: "Meta Tag Generator",
     intro:
