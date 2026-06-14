@@ -357,11 +357,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/og-preview": f("/og-preview", {
-    title: "Open Graph Preview Tool — Facebook, Twitter, LinkedIn",
+    title: "Open Graph Preview — OG Image Preview & Social Card Tester",
     description:
-      "Preview how any URL or custom Open Graph data appears on Facebook, Twitter and LinkedIn. Debug OG tags before you publish.",
+      "Open Graph preview tool — test OG image, Twitter Card and LinkedIn previews before publishing. Free social media meta tag debugger.",
     keywords:
-      "open graph preview, og tag tester, facebook share preview, twitter card preview, linkedin preview, social media debugger",
+      "open graph preview, og preview, og image preview, og tag tester, facebook share preview, twitter card preview, linkedin preview, social media debugger",
     category: "SEO",
     h1: "Open Graph Preview",
     intro:
