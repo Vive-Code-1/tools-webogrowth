@@ -405,11 +405,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/color-palette": f("/color-palette", {
-    title: "Color Palette Generator — Complementary, Analogous, Triad",
+    title: "Color Palette Generator — From Image, Complementary, Triadic",
     description:
-      "Generate complementary, analogous, triadic and tetradic color palettes from any base color. Copy HEX, RGB and HSL instantly.",
+      "Color palette generator — extract palettes from image or build complementary, analogous and triadic schemes. Copy HEX, RGB, HSL instantly.",
     keywords:
-      "color palette generator, complementary colors, analogous palette, triadic colors, hex color picker, design color scheme",
+      "color palette generator, color palette from image, complementary colors, analogous palette, triadic colors, hex color picker, design color scheme, color scheme generator",
     category: "Design",
     h1: "Color Palette Generator",
     intro:
