@@ -429,11 +429,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/gradient-generator": f("/gradient-generator", {
-    title: "CSS Gradient Generator — Linear, Radial & AI Gradients",
+    title: "CSS Gradient Generator — Linear & Radial Gradient Maker",
     description:
-      "Create stunning CSS gradients online. Linear, radial and AI-generated gradients with copyable CSS code and PNG export.",
+      "Free CSS gradient generator — design linear, radial and AI gradients with copyable CSS code and PNG export. Live multi-stop editor.",
     keywords:
-      "css gradient generator, linear gradient, radial gradient, css gradient online, ai gradient background, web background generator",
+      "css gradient generator, gradient generator, linear gradient, radial gradient, css gradient online, ai gradient background, web background generator, gradient maker",
     category: "Design",
     h1: "CSS Gradient Generator",
     intro:
