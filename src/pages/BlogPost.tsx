@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getPostBySlug, BLOG_POSTS } from "@/blog/posts";
+import ShareButtons from "@/components/ShareButtons";
 
 const SITE_URL = "https://tools.webogrowth.com";
 
@@ -106,7 +107,8 @@ const BlogPost = () => {
           </time>
         </div>
         <h1 className="text-3xl md:text-5xl font-headline font-black tracking-tight mb-4">{post.title}</h1>
-        <p className="text-on-surface-variant/80 text-lg leading-relaxed">{post.excerpt}</p>
+        <p className="text-on-surface-variant/80 text-lg leading-relaxed mb-8">{post.excerpt}</p>
+        <ShareButtons url={url} title={post.title} description={post.description} hashtags={["webogrowth", "webtools"]} />
       </header>
 
       <article className="prose prose-invert prose-lg max-w-none prose-headings:font-headline prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-12 prose-h3:text-xl prose-a:text-primary prose-strong:text-foreground prose-code:text-primary prose-code:before:content-none prose-code:after:content-none prose-table:text-sm">
@@ -114,6 +116,10 @@ const BlogPost = () => {
           {post.body}
         </ReactMarkdown>
       </article>
+
+      <div className="mt-10 pt-8 border-t border-outline-variant/15">
+        <ShareButtons url={url} title={post.title} description={post.description} hashtags={["webogrowth", "webtools"]} />
+      </div>
 
       <aside className="mt-16 p-6 bg-primary/5 border border-primary/20 rounded-2xl">
         <p className="text-xs font-label uppercase tracking-widest text-primary font-bold mb-3">Try the tools mentioned</p>
