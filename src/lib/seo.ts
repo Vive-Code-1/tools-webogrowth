@@ -71,11 +71,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/compressor": f("/compressor", {
-    title: "Free Image Compressor — Compress JPG, PNG, WebP Online",
+    title: "WebP Compressor — Compress PNG, JPEG & WebP Online Free",
     description:
-      "Compress JPEG, PNG and WebP images online for free. Reduce file size up to 90% with no quality loss. Fast, private, no signup required.",
+      "Free WebP compressor — compress PNG, JPEG and WebP images online up to 90% smaller with no visible quality loss. Browser-based and private.",
     keywords:
-      "image compressor online, compress jpeg without losing quality, reduce png size, webp compressor free, compress image online, optimize images for web, photo size reducer",
+      "webp compressor, compress png, compress jpeg, compress webp, image compressor online, reduce png size, compress image online free, optimize images for web",
     category: "Image",
     h1: "Image Compressor",
     intro:
