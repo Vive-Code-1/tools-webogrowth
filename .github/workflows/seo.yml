@@ -6,49 +6,120 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   seo-unit:
-    name: SEO unit tests
+    name: SEO unit tests + snapshot diff
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Install dependencies
-        run: npm ci || npm install
+        with: { node-version: "20", cache: "npm" }
+      - run: npm ci || npm install
+
+      - name: Restore baseline snapshot from gh-pages
+        continue-on-error: true
+        run: |
+          mkdir -p reports/baseline
+          git fetch origin gh-pages --depth=1 || true
+          git show origin/gh-pages:baseline/seo-snapshot.json > reports/baseline/seo-snapshot.json 2>/dev/null || echo "no baseline yet"
+
       - name: Run SEO test suite
         run: npx vitest run src/test/seo.test.ts
+
       - name: Generate HTML + JSON SEO report
         if: always()
-        run: node scripts/seo-report.mjs --from-file || node scripts/seo-report.mjs
-      - name: Upload report artifact
+        run: node scripts/seo-report.mjs
+
+      - name: Generate SEO snapshot diff vs baseline
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: seo-report
-          path: reports/
+        run: node scripts/seo-snapshot.mjs --diff
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: seo-report, path: reports/ }
 
   seo-e2e:
-    name: SEO end-to-end (Playwright)
+    name: Playwright rendered audit
     runs-on: ubuntu-latest
     needs: seo-unit
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Install dependencies
-        run: npm ci || npm install
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-      - name: Build site
-        run: npm run build
-      - name: Run Playwright SEO audit
-        run: npx playwright test
-      - name: Upload Playwright report
+        with: { node-version: "20", cache: "npm" }
+      - run: npm ci || npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
+        with: { name: playwright-report, path: playwright-report/ }
+
+  lighthouse:
+    name: Lighthouse thresholds
+    runs-on: ubuntu-latest
+    needs: seo-unit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20", cache: "npm" }
+      - run: npm ci || npm install
+      - run: npm run build
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@0.14.x autorun --config=lighthouserc.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: lighthouse-report, path: reports/lighthouse/ }
+
+  publish-dashboard:
+    name: Publish reports to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: [seo-unit, seo-e2e, lighthouse]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: artifacts }
+
+      - name: Assemble dashboard
+        run: |
+          mkdir -p site
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            DEST="site/pr-${{ github.event.pull_request.number }}"
+          else
+            DEST="site/main"
+          fi
+          mkdir -p "$DEST"
+          cp -r artifacts/seo-report/* "$DEST/" 2>/dev/null || true
+          mkdir -p "$DEST/playwright" && cp -r artifacts/playwright-report/* "$DEST/playwright/" 2>/dev/null || true
+          mkdir -p "$DEST/lighthouse" && cp -r artifacts/lighthouse-report/* "$DEST/lighthouse/" 2>/dev/null || true
+          node scripts/build-dashboard.mjs "$DEST"
+
+      - name: Persist baseline snapshot on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p site/baseline
+          cp artifacts/seo-report/seo-snapshot.json site/baseline/seo-snapshot.json 2>/dev/null || true
+
+      - name: Deploy to GitHub Pages (gh-pages branch)
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: playwright-report
-          path: playwright-report/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          keep_files: true
+
+      - name: Comment dashboard link on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: seo-dashboard
+          message: |
+            ### 📊 SEO Dashboard for this PR
+            - [SEO report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.pull_request.number }}/seo-report.html)
+            - [Snapshot diff vs main](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.pull_request.number }}/seo-diff.html)
+            - [Playwright report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.pull_request.number }}/playwright/index.html)
+            - [Lighthouse reports](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.pull_request.number }}/lighthouse/)
