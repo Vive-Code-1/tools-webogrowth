@@ -41,6 +41,9 @@ jobs:
       - name: Run SEO test suite
         run: npx vitest run src/test/seo.test.ts
 
+      - name: Internal linking audit (strict — fails on orphans / stale links)
+        run: node scripts/internal-link-audit.mjs --strict
+
       - name: Generate HTML + JSON SEO report
         if: always()
         run: node scripts/seo-report.mjs
