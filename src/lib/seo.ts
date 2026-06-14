@@ -381,11 +381,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/robots-generator": f("/robots-generator", {
-    title: "Robots.txt Generator — Build robots.txt Online Free",
+    title: "Robots.txt Generator — Create Robots.txt Online Free",
     description:
-      "Create a robots.txt file with rules for Googlebot, Bingbot and more. Allow, disallow paths and add sitemap URL. Download instantly.",
+      "Free robots.txt generator — create robots.txt online with Googlebot/Bingbot rules, allow/disallow paths and sitemap URL. Download instantly.",
     keywords:
-      "robots.txt generator, create robots.txt, robots txt online, googlebot rules, sitemap robots.txt, seo crawler control",
+      "robots txt generator, robots.txt generator, create robots.txt, robots txt online, googlebot rules, sitemap robots.txt, seo crawler control, robots.txt maker",
     category: "SEO",
     h1: "Robots.txt Generator",
     intro:
