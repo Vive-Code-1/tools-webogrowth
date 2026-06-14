@@ -71,7 +71,7 @@ const Navbar = () => {
       <nav className="flex justify-between items-center px-6 md:px-8 py-4 max-w-7xl mx-auto">
         <Link to="/" className="flex items-center gap-2">
           {logo ? (
-            <img src={logo} alt="WeboGrowth" className="h-8" />
+            <img src={logo} alt="WeboGrowth" className="h-8 w-auto" width="160" height="32" fetchPriority="high" decoding="async" />
           ) : (
             <span className="text-2xl font-bold tracking-tighter text-foreground font-headline">WeboGrowth</span>
           )}

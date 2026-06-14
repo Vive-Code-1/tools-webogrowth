@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { TOOL_SEO, getSeoProps, buildJsonLdFor, SITE } from "@/lib/seo";
+import { BLOG_POSTS } from "@/blog/posts";
 
 // All public routes registered in src/App.tsx (admin + 404 excluded).
 const PUBLIC_ROUTES = [
@@ -12,6 +13,12 @@ const PUBLIC_ROUTES = [
   "/html-to-markdown", "/privacy-policy", "/terms-of-service",
   "/about-us", "/contact-us",
 ];
+
+// Blog routes are owned by Blog.tsx/BlogPost.tsx — they generate SEO at
+// render time from BLOG_POSTS, so they're excluded from TOOL_SEO coverage
+// but must still appear in the sitemap.
+const BLOG_ROUTES = ["/blog", ...BLOG_POSTS.map((p) => `/blog/${p.slug}`)];
+const ALL_INDEXABLE_ROUTES = [...PUBLIC_ROUTES, ...BLOG_ROUTES];
 
 const STATIC_ROUTES = ["/about-us", "/contact-us", "/privacy-policy", "/terms-of-service"];
 const TOOL_ROUTES = PUBLIC_ROUTES.filter((p) => !STATIC_ROUTES.includes(p));
@@ -132,17 +139,20 @@ describe("sitemap.xml coverage", () => {
     expect(urls.length).toBeGreaterThan(0);
   });
 
-  it.each(urls)("sitemap URL %s maps to a registered SEO route", (url) => {
+  it.each(urls)("sitemap URL %s maps to a registered indexable route", (url) => {
     expect(url.startsWith(SITE.url), `sitemap URL not on canonical host: ${url}`).toBe(true);
     const path = url.replace(SITE.url, "") || "/";
     const normalized = path === "" ? "/" : path.replace(/\/$/, "") || "/";
-    expect(TOOL_SEO[normalized], `sitemap URL ${url} has no SEO entry`).toBeDefined();
-    expect(PUBLIC_ROUTES, `sitemap URL ${url} not in App.tsx public routes`).toContain(normalized);
+    const isBlog = normalized === "/blog" || normalized.startsWith("/blog/");
+    if (!isBlog) {
+      expect(TOOL_SEO[normalized], `sitemap URL ${url} has no SEO entry`).toBeDefined();
+    }
+    expect(ALL_INDEXABLE_ROUTES, `sitemap URL ${url} not registered`).toContain(normalized);
   });
 
-  it("every public route appears in sitemap.xml", () => {
+  it("every indexable route appears in sitemap.xml", () => {
     const paths = urls.map((u) => u.replace(SITE.url, "") || "/").map((p) => p.replace(/\/$/, "") || "/");
-    for (const route of PUBLIC_ROUTES) {
+    for (const route of ALL_INDEXABLE_ROUTES) {
       expect(paths, `route ${route} missing from sitemap.xml`).toContain(route);
     }
   });

@@ -189,7 +189,7 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/image-resizer": f("/image-resizer", {
-    title: "Image Resizer Online — Resize JPG, PNG, WebP Without Quality Loss",
+    title: "Image Resizer Online — Resize JPG, PNG & WebP Free",
     description:
       "Resize image online free — change JPG, PNG and WebP dimensions in pixels or percent with aspect-ratio lock. No upload, full privacy.",
     keywords:
@@ -213,7 +213,7 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/placeholder": f("/placeholder", {
-    title: "Placeholder Image Generator — Dummy Image Maker (Custom Size)",
+    title: "Placeholder Image Generator — Dummy Image Maker Online",
     description:
       "Generate dummy images and custom placeholder images online — set exact size, background color and label text for mockups and wireframes.",
     keywords:
