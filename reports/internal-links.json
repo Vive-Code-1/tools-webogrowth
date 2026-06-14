@@ -1,18 +1,13 @@
 {
-  "generatedAt": "2026-06-14T16:21:32.927Z",
+  "generatedAt": "2026-06-14T16:21:51.233Z",
   "totals": {
-    "routes": 24,
+    "routes": 23,
     "links": 156,
-    "orphans": 1,
+    "orphans": 0,
     "under": 0,
-    "stale": 4
+    "stale": 0
   },
   "rows": [
-    {
-      "route": "/blog/:slug",
-      "count": 0,
-      "sources": 0
-    },
     {
       "route": "/privacy-policy",
       "count": 2,
@@ -129,32 +124,9 @@
       "sources": 4
     }
   ],
-  "orphans": [
-    {
-      "route": "/blog/:slug",
-      "count": 0,
-      "sources": 0
-    }
-  ],
+  "orphans": [],
   "under": [],
-  "stale": [
-    {
-      "target": "/favicon-32x32.png",
-      "file": "src/pages/Favicon.tsx"
-    },
-    {
-      "target": "/favicon-16x16.png",
-      "file": "src/pages/Favicon.tsx"
-    },
-    {
-      "target": "/apple-touch-icon.png",
-      "file": "src/pages/Favicon.tsx"
-    },
-    {
-      "target": "/site.webmanifest",
-      "file": "src/pages/Favicon.tsx"
-    }
-  ],
+  "stale": [],
   "inbound": {
     "/": [
       "src/components/Footer.tsx",
@@ -357,7 +329,6 @@
       "public/sitemap.xml",
       "public/sitemap.xml",
       "public/sitemap.xml"
-    ],
-    "/blog/:slug": []
+    ]
   }
 }
