@@ -141,11 +141,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/svg-optimizer": f("/svg-optimizer", {
-    title: "SVG Optimizer Online — Minify & Clean SVG Files Free",
+    title: "SVGO Online — Minify & Optimize SVG Files Free",
     description:
-      "Optimize SVG files online. Remove metadata, minify paths and shrink SVG size from Illustrator, Figma or Sketch exports. Free and private.",
+      "SVGO online — minify SVG, clean Figma/Illustrator exports and shrink SVG files up to 80%. Free SVG optimizer with no upload.",
     keywords:
-      "svg optimizer online, minify svg, clean svg file, optimize svg from figma, svgo online, reduce svg size, svg cleaner",
+      "svgo online, minify svg, svg optimizer, svg optimizer online, clean svg file, optimize svg from figma, reduce svg size, svg cleaner",
     category: "Image",
     h1: "SVG Optimizer",
     intro:
