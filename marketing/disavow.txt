@@ -1,0 +1,32 @@
+# Google Disavow file for tools.webogrowth.com
+# Generated: 2026-06-14
+#
+# How to use:
+# 1. Go to https://search.google.com/search-console/disavow-links-tool
+# 2. Select property: tools.webogrowth.com
+# 3. Upload this file
+# 4. Wait 2-4 weeks for Google to re-process the link graph
+#
+# Format reference: https://support.google.com/webmasters/answer/2648487
+# - "domain:" disavows ALL links from that domain (preferred for spam networks)
+# - A bare URL disavows only that specific page
+#
+# Source: Semrush backlink audit 2026-06-14. All listed domains are
+# low-authority (Trust Score ≤5), nofollow PBN-style or comment-spam links
+# that hurt rather than help domain authority.
+
+# === Comment-spam / fake-review networks ===
+domain:buzzshrink.website
+domain:creativeposts.top
+domain:toplikevideo.com
+domain:analyticshaven.top
+domain:blogsphere.top
+domain:dailymusings.top
+
+# === Low-quality "SEO service" / fiverr-spam domains ===
+domain:fiverr-affordable-seo-services.site
+domain:backlinks-checker.com
+domain:8coint.com
+
+# Add new spam domains below as they appear in Search Console > Links report.
+# Re-upload the full file every time — Google replaces the previous list.
