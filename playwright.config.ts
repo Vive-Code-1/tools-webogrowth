@@ -9,13 +9,19 @@ export default defineConfig({
   // Generous expect timeout so react-helmet-async head mutations have time to land.
   expect: { timeout: 15_000 },
   timeout: 45_000,
-  reporter: [["list"], ["html", { open: "never", outputFolder: "playwright-report" }]],
+  reporter: [
+    ["list"],
+    ["html", { open: "never", outputFolder: "playwright-report" }],
+    // JSON reporter feeds scripts/seo-report.mjs so failure artifacts surface in the SEO dashboard.
+    ["json", { outputFile: "playwright-report/results.json" }],
+  ],
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://localhost:4173",
     actionTimeout: 10_000,
     navigationTimeout: 20_000,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
+    video: "retain-on-failure",
   },
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined

@@ -1,6 +1,7 @@
 {
+  "baselineSource": "reports/baseline/seo-snapshot.json",
   "baselineAt": "2026-06-14T15:25:36.646Z",
-  "currentAt": "2026-06-14T15:25:45.492Z",
+  "currentAt": "2026-06-14T15:39:45.468Z",
   "totalChanges": 1,
   "changes": [
     {
