@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { TOOL_SEO, getSeoProps, buildJsonLdFor, SITE } from "@/lib/seo";
 
 // All public routes registered in src/App.tsx (admin + 404 excluded).
@@ -11,10 +13,8 @@ const PUBLIC_ROUTES = [
   "/about-us", "/contact-us",
 ];
 
-// Routes that should expose tool-style structured data (FAQPage + HowTo).
-const TOOL_ROUTES = PUBLIC_ROUTES.filter(
-  (p) => !["/about-us", "/contact-us", "/privacy-policy", "/terms-of-service"].includes(p)
-);
+const STATIC_ROUTES = ["/about-us", "/contact-us", "/privacy-policy", "/terms-of-service"];
+const TOOL_ROUTES = PUBLIC_ROUTES.filter((p) => !STATIC_ROUTES.includes(p));
 
 describe("SEO registry coverage", () => {
   it("has an entry for every public route in App.tsx", () => {
@@ -24,72 +24,126 @@ describe("SEO registry coverage", () => {
   });
 });
 
-describe.each(PUBLIC_ROUTES)("SEO for %s", (path) => {
+describe.each(PUBLIC_ROUTES)("SEO fields for %s", (path) => {
   const props = getSeoProps(path)!;
 
-  it("has a non-empty title ≤ 60 chars", () => {
-    expect(props.title).toBeTruthy();
-    expect(props.title.length).toBeLessThanOrEqual(60);
+  it("title is non-empty and ≤ 60 chars", () => {
+    expect(props.title, "title missing").toBeTruthy();
+    expect(props.title.length, `title too long (${props.title.length})`).toBeLessThanOrEqual(60);
   });
 
-  it("has a meta description ≤ 160 chars", () => {
-    expect(props.description).toBeTruthy();
-    expect(props.description.length).toBeLessThanOrEqual(160);
+  it("description is non-empty and ≤ 160 chars", () => {
+    expect(props.description, "description missing").toBeTruthy();
+    expect(props.description.length, `description too long (${props.description.length})`).toBeLessThanOrEqual(160);
   });
 
-  it("has a self-referencing canonical path", () => {
+  it("canonical path self-references the route", () => {
     expect(props.canonicalPath).toBe(path);
   });
 
-  it("has keywords", () => {
-    expect(props.keywords.trim().length).toBeGreaterThan(0);
+  it("keywords are present", () => {
+    expect(props.keywords?.trim().length).toBeGreaterThan(0);
   });
 
-  it("includes a BreadcrumbList JSON-LD with internal links to the site", () => {
+  it("breadcrumb JSON-LD uses internal links only", () => {
     const blocks = buildJsonLdFor(path) as any[];
     const breadcrumb = blocks.find((b) => b["@type"] === "BreadcrumbList");
     expect(breadcrumb, "BreadcrumbList missing").toBeDefined();
-    const items = breadcrumb.mainEntity ?? breadcrumb.itemListElement;
-    expect(items.length).toBeGreaterThan(0);
+    expect(breadcrumb.itemListElement.length).toBeGreaterThan(0);
     for (const it of breadcrumb.itemListElement) {
-      expect(it.item.startsWith(SITE.url)).toBe(true);
+      expect(it.item.startsWith(SITE.url), `non-internal breadcrumb link: ${it.item}`).toBe(true);
     }
   });
 
-  it("references the external WeboGrowth parent site (external link)", () => {
+  it("references the external WeboGrowth parent domain", () => {
     const blocks = buildJsonLdFor(path) as any[];
-    const serialized = JSON.stringify(blocks);
-    // SoftwareApplication/WebPage carries author/publisher with parent URL.
-    if (blocks.some((b) => b["@type"] === "SoftwareApplication")) {
-      expect(serialized).toContain(SITE.parent);
+    const sa = blocks.find((b) => b["@type"] === "SoftwareApplication");
+    const wp = blocks.find((b) => b["@type"] === "WebPage");
+    const root = sa ?? wp;
+    if (sa) {
+      expect(JSON.stringify(root)).toContain(SITE.parent);
     }
   });
 });
 
-describe.each(TOOL_ROUTES)("Structured data for tool route %s", (path) => {
+// ---- Strict schema.org validation ---------------------------------------
+
+function validateFAQPage(faq: any, path: string) {
+  expect(faq["@context"], `${path}: FAQPage missing @context`).toBe("https://schema.org");
+  expect(faq["@type"]).toBe("FAQPage");
+  expect(Array.isArray(faq.mainEntity), `${path}: FAQPage.mainEntity must be array`).toBe(true);
+  expect(faq.mainEntity.length).toBeGreaterThan(0);
+  for (const q of faq.mainEntity) {
+    expect(q["@type"]).toBe("Question");
+    expect(typeof q.name).toBe("string");
+    expect(q.name.length).toBeGreaterThan(0);
+    expect(q.acceptedAnswer, `${path}: Question missing acceptedAnswer`).toBeDefined();
+    expect(q.acceptedAnswer["@type"]).toBe("Answer");
+    expect(typeof q.acceptedAnswer.text).toBe("string");
+    expect(q.acceptedAnswer.text.length).toBeGreaterThan(0);
+  }
+}
+
+function validateHowTo(howto: any, path: string) {
+  expect(howto["@context"], `${path}: HowTo missing @context`).toBe("https://schema.org");
+  expect(howto["@type"]).toBe("HowTo");
+  expect(typeof howto.name).toBe("string");
+  expect(howto.name.length).toBeGreaterThan(0);
+  expect(typeof howto.description).toBe("string");
+  expect(Array.isArray(howto.step)).toBe(true);
+  expect(howto.step.length).toBeGreaterThan(0);
+  howto.step.forEach((s: any, i: number) => {
+    expect(s["@type"]).toBe("HowToStep");
+    expect(s.position).toBe(i + 1);
+    expect(typeof s.name).toBe("string");
+    expect(s.name.length).toBeGreaterThan(0);
+    expect(typeof s.text).toBe("string");
+    expect(s.text.length).toBeGreaterThan(0);
+  });
+}
+
+describe.each(TOOL_ROUTES)("Schema.org JSON-LD for %s", (path) => {
   const blocks = buildJsonLdFor(path) as any[];
 
-  it("includes FAQPage JSON-LD with at least one Question", () => {
+  it("FAQPage is valid schema.org and has Questions with Answers", () => {
     const faq = blocks.find((b) => b["@type"] === "FAQPage");
     expect(faq, `FAQPage missing for ${path}`).toBeDefined();
-    expect(Array.isArray(faq.mainEntity)).toBe(true);
-    expect(faq.mainEntity.length).toBeGreaterThan(0);
-    for (const q of faq.mainEntity) {
-      expect(q["@type"]).toBe("Question");
-      expect(q.name).toBeTruthy();
-      expect(q.acceptedAnswer?.text).toBeTruthy();
-    }
+    validateFAQPage(faq, path);
   });
 
-  it("includes HowTo JSON-LD with ordered steps", () => {
+  it("HowTo is valid schema.org with positioned HowToStep entries", () => {
     const howto = blocks.find((b) => b["@type"] === "HowTo");
     expect(howto, `HowTo missing for ${path}`).toBeDefined();
-    expect(howto.step.length).toBeGreaterThan(0);
-    howto.step.forEach((s: any, i: number) => {
-      expect(s["@type"]).toBe("HowToStep");
-      expect(s.position).toBe(i + 1);
-      expect(s.name).toBeTruthy();
-      expect(s.text).toBeTruthy();
-    });
+    validateHowTo(howto, path);
+  });
+});
+
+// ---- Sitemap coverage ---------------------------------------------------
+
+function loadSitemapUrls(): string[] {
+  const xml = readFileSync(resolve(__dirname, "../../public/sitemap.xml"), "utf-8");
+  return Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1]);
+}
+
+describe("sitemap.xml coverage", () => {
+  const urls = loadSitemapUrls();
+
+  it("contains at least one URL", () => {
+    expect(urls.length).toBeGreaterThan(0);
+  });
+
+  it.each(urls)("sitemap URL %s maps to a registered SEO route", (url) => {
+    expect(url.startsWith(SITE.url), `sitemap URL not on canonical host: ${url}`).toBe(true);
+    const path = url.replace(SITE.url, "") || "/";
+    const normalized = path === "" ? "/" : path.replace(/\/$/, "") || "/";
+    expect(TOOL_SEO[normalized], `sitemap URL ${url} has no SEO entry`).toBeDefined();
+    expect(PUBLIC_ROUTES, `sitemap URL ${url} not in App.tsx public routes`).toContain(normalized);
+  });
+
+  it("every public route appears in sitemap.xml", () => {
+    const paths = urls.map((u) => u.replace(SITE.url, "") || "/").map((p) => p.replace(/\/$/, "") || "/");
+    for (const route of PUBLIC_ROUTES) {
+      expect(paths, `route ${route} missing from sitemap.xml`).toContain(route);
+    }
   });
 });
