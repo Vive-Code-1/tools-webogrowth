@@ -16,7 +16,8 @@
     "test:seo:snapshot": "node scripts/seo-snapshot.mjs",
     "test:seo:diff": "node scripts/seo-snapshot.mjs --diff",
     "test:e2e": "playwright test",
-    "lighthouse": "lhci autorun --config=lighthouserc.cjs"
+    "lighthouse": "lhci autorun --config=lighthouserc.cjs",
+    "seo:indexnow": "node scripts/indexnow-submit.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
