@@ -106,11 +106,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/converter": f("/converter", {
-    title: "Free Image Format Converter — JPG, PNG, WebP, AVIF",
+    title: "PNG to WebP & AVIF Converter — Image Format Converter Free",
     description:
-      "Convert images between JPG, PNG, WebP and AVIF online for free. Batch convert with no signup. Fast, private, browser-based image conversion.",
+      "Convert PNG to WebP, PNG to AVIF, JPG to WebP and back online for free. Batch image format converter — fast, private, browser-based.",
     keywords:
-      "image format converter, convert png to webp, jpg to webp converter, png to avif, image converter online free, change image format, batch image converter",
+      "png to webp, png to avif, jpg to webp, convert to webp, image format converter, webp converter online, avif converter, image converter free",
     category: "Image",
     h1: "Image Format Converter",
     intro:
