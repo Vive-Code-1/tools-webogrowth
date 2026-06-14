@@ -165,11 +165,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/favicon": f("/favicon", {
-    title: "Favicon Generator — All Sizes, Apple Touch & Android",
+    title: "Apple Touch Icon & Favicon Generator — All Sizes Free",
     description:
-      "Generate a complete favicon set for every platform. ICO, PNG, Apple Touch Icon and Android manifest from one source image. Free online.",
+      "Apple Touch Icon generator and favicon maker — create ICO, PNG, Android & Apple Touch Icons plus manifest from one image. Free download.",
     keywords:
-      "favicon generator, free favicon maker, apple touch icon generator, android favicon, ico generator online, png to favicon, favicon package",
+      "apple touch icon generator, favicon generator, favicon maker, android favicon, ico generator online, png to favicon, favicon package, web manifest generator",
     category: "Image",
     h1: "Favicon Generator",
     intro:
