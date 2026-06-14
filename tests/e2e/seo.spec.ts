@@ -12,21 +12,21 @@ for (const path of ROUTES) {
     const expected = getSeoProps(path)!;
 
     test("title, description, canonical match the SEO registry", async ({ page }) => {
-      await page.goto(path);
-      // Wait for react-helmet-async to mutate <head>.
-      await expect(page).toHaveTitle(expected.title, { timeout: 10_000 });
+      await page.goto(path, { waitUntil: "networkidle" });
 
-      const description = await getMeta(page, 'meta[name="description"]');
-      expect(description).toBe(expected.description);
+      // Helmet mutates <head> async after hydration — poll instead of failing fast.
+      await expect(page).toHaveTitle(expected.title, { timeout: 15_000 });
 
-      const canonical = await page.locator('link[rel="canonical"]').first().getAttribute("href");
-      expect(canonical).toContain(expected.canonicalPath);
+      await expect
+        .poll(() => getMeta(page, 'meta[name="description"]'), { timeout: 15_000, intervals: [250, 500, 1000] })
+        .toBe(expected.description);
 
-      const ogTitle = await getMeta(page, 'meta[property="og:title"]');
-      expect(ogTitle).toBe(expected.title);
+      await expect
+        .poll(() => page.locator('link[rel="canonical"]').first().getAttribute("href"), { timeout: 15_000 })
+        .toContain(expected.canonicalPath);
 
-      const ogDesc = await getMeta(page, 'meta[property="og:description"]');
-      expect(ogDesc).toBe(expected.description);
+      await expect.poll(() => getMeta(page, 'meta[property="og:title"]'), { timeout: 15_000 }).toBe(expected.title);
+      await expect.poll(() => getMeta(page, 'meta[property="og:description"]'), { timeout: 15_000 }).toBe(expected.description);
     });
 
     test("rendered JSON-LD matches the expected schema blocks", async ({ page }) => {

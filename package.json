@@ -13,7 +13,10 @@
     "test:watch": "vitest",
     "test:seo": "vitest run src/test/seo.test.ts",
     "test:seo:report": "node scripts/seo-report.mjs",
-    "test:e2e": "playwright test"
+    "test:seo:snapshot": "node scripts/seo-snapshot.mjs",
+    "test:seo:diff": "node scripts/seo-snapshot.mjs --diff",
+    "test:e2e": "playwright test",
+    "lighthouse": "lhci autorun --config=lighthouserc.cjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
