@@ -46,6 +46,19 @@ const Footer = () => (
           <p className="text-on-surface-variant/60 text-sm leading-relaxed mb-4">
             Free online tools for developers and designers. Compress, convert, optimize, and generate — all in your browser.
           </p>
+          <p className="text-on-surface-variant/60 text-sm leading-relaxed">
+            Built by{" "}
+            <a
+              href="https://webogrowth.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline font-medium"
+              title="WeboGrowth — Web Development, SEO & SaaS Agency"
+            >
+              WeboGrowth — a web growth agency
+            </a>{" "}
+            offering web design, SEO and SaaS development.
+          </p>
         </div>
         {footerLinks.map((group) => (
           <div key={group.title}>

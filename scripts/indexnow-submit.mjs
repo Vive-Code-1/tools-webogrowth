@@ -48,18 +48,4 @@ for (const url of endpoints) {
   }
 }
 
-// Also ping Google + Bing about sitemap freshness (legacy ping, still works)
-const sitemapUrl = encodeURIComponent(`https://${HOST}/sitemap.xml`);
-for (const ping of [
-  `https://www.google.com/ping?sitemap=${sitemapUrl}`,
-  `https://www.bing.com/ping?sitemap=${sitemapUrl}`,
-]) {
-  try {
-    const res = await fetch(ping);
-    console.log(`  ping ${ping} → ${res.status}`);
-  } catch (e) {
-    console.error(`  ping ${ping} → ERROR`, e.message);
-  }
-}
-
-console.log("Done.");
+console.log("Done. (Google/Bing legacy sitemap ping endpoints have been deprecated — submit via Search Console / Webmaster Tools instead.)");
