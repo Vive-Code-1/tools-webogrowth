@@ -54,6 +54,7 @@ for (const file of files) {
   for (const re of linkPatterns) {
     for (const m of src.matchAll(re)) {
       let target = m[1].split(/[?#]/)[0].replace(/\/$/, "") || "/";
+      if (ASSET_RE.test(target)) continue;        // skip asset paths inside code snippets
       // /blog/:slug → record under /blog
       const routeKey = target.startsWith("/blog/") ? "/blog" : target;
       if (inbound[routeKey] !== undefined) inbound[routeKey].push(file.replace(/\\/g, "/"));
