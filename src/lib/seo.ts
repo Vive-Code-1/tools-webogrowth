@@ -453,11 +453,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/qr-code": f("/qr-code", {
-    title: "QR Code Generator — Logo, WiFi, vCard, URL & More",
+    title: "QR Code Generator with Logo — WiFi, vCard & URL QR Codes",
     description:
-      "Generate custom QR codes online. URL, WiFi, vCard, email and SMS QR codes with logo overlay and color customization. Free and downloadable.",
+      "Free QR code generator with logo — create WiFi QR codes, vCard QR codes, URL, email and SMS QR codes with custom colors. PNG & SVG export.",
     keywords:
-      "qr code generator, qr code with logo, wifi qr code, vcard qr code, custom qr code free, qr code maker online, url qr code",
+      "qr code generator, qr code with logo, wifi qr code, vcard qr code, custom qr code free, qr code maker online, url qr code, qr generator with logo",
     category: "Design",
     h1: "QR Code Generator",
     intro:
