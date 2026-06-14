@@ -124,9 +124,10 @@ function buildQueueTweet() {
     console.log("Queue empty — nothing to post.");
     return null;
   }
-  next.posted = new Date().toISOString();
-  fs.writeFileSync(queuePath, JSON.stringify(queue, null, 2) + "\n");
-  return next.text;
+  return { text: next.text, commit: () => {
+    next.posted = new Date().toISOString();
+    fs.writeFileSync(queuePath, JSON.stringify(queue, null, 2) + "\n");
+  }};
 }
 
 // ---------------- Main ----------------
