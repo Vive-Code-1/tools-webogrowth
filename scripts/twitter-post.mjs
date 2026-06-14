@@ -132,18 +132,22 @@ function buildQueueTweet() {
 
 // ---------------- Main ----------------
 (async () => {
-  let text;
-  if (mode === "blog") text = buildBlogTweet();
-  else if (mode === "tool") text = buildToolTweet();
-  else if (mode === "queue") text = buildQueueTweet();
+  let built;
+  if (mode === "blog") built = buildBlogTweet();
+  else if (mode === "tool") built = buildToolTweet();
+  else if (mode === "queue") built = buildQueueTweet();
   else throw new Error(`Unknown mode: ${mode}`);
 
-  if (!text) return;
+  if (!built) return;
+  let text = typeof built === "string" ? built : built.text;
+  const commit = typeof built === "object" ? built.commit : null;
+
   if (text.length > 280) {
     console.warn(`⚠ Tweet is ${text.length} chars — trimming.`);
     text = text.slice(0, 277) + "...";
   }
-  await postTweet(text);
+  const result = await postTweet(text);
+  if (commit && !result.dryRun) commit();
 })().catch((e) => {
   console.error("✗ Twitter post failed:", e.message);
   process.exit(1);
