@@ -189,11 +189,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/image-resizer": f("/image-resizer", {
-    title: "Free Image Resizer Online — Resize JPG, PNG, WebP",
+    title: "Image Resizer Online — Resize JPG, PNG, WebP Without Quality Loss",
     description:
-      "Resize images online for free. Set width, height or percentage with optional aspect-ratio lock. Works for JPG, PNG and WebP, all in your browser.",
+      "Resize image online free — change JPG, PNG and WebP dimensions in pixels or percent with aspect-ratio lock. No upload, full privacy.",
     keywords:
-      "image resizer online, resize image free, resize jpg online, png resizer, resize image without losing quality, change image dimensions",
+      "image resizer online, resize image online, resize image, resize jpg online, png resizer, resize image without losing quality, change image dimensions, free image resizer",
     category: "Image",
     h1: "Image Resizer",
     intro:
