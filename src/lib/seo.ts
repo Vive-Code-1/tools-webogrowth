@@ -213,11 +213,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/placeholder": f("/placeholder", {
-    title: "Placeholder Image Generator — Custom Size & Color",
+    title: "Placeholder Image Generator — Dummy Image Maker (Custom Size)",
     description:
-      "Create custom placeholder images online. Set exact dimensions, background color and label text for mockups, wireframes and prototypes.",
+      "Generate dummy images and custom placeholder images online — set exact size, background color and label text for mockups and wireframes.",
     keywords:
-      "placeholder image generator, custom placeholder, dummy image generator, mockup image, placeholder.com alternative, wireframe images",
+      "placeholder image generator, dummy image, dummy image generator, custom placeholder, mockup image, placeholder.com alternative, wireframe images, fake image",
     category: "Image",
     h1: "Placeholder Image Generator",
     intro:
