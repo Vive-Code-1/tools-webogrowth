@@ -23,7 +23,9 @@ const APP = fs.readFileSync(path.join(SRC_DIR, "App.tsx"), "utf8");
 // 1. Discover routes
 const routes = [...APP.matchAll(/path="(\/[^"]*)"/g)]
   .map((m) => m[1])
-  .filter((p) => !p.includes("*") && p !== "/admin");
+  .filter((p) => !p.includes("*") && !p.includes(":") && p !== "/admin");
+
+const ASSET_RE = /\.(png|jpe?g|gif|webp|avif|svg|ico|xml|txt|json|webmanifest|css|js|woff2?)$/i;
 
 // 2. Walk src/ + public/sitemap.xml for internal link references
 const walk = (dir, list = []) => {
