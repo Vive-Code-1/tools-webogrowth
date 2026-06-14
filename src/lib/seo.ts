@@ -261,11 +261,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/css-minifier": f("/css-minifier", {
-    title: "CSS Minifier & Beautifier Online — Free",
+    title: "CSS Minifier & Beautifier — Minify CSS Online Free",
     description:
-      "Minify CSS to reduce file size or beautify minified CSS for readability. Free online CSS minifier with instant before/after comparison.",
+      "Free CSS minifier and beautifier — minify CSS to shrink file size 15–35% or beautify minified stylesheets back to readable code instantly.",
     keywords:
-      "css minifier online, minify css free, css beautifier, format css, compress css online, css optimizer",
+      "css minifier, minify css, css minifier online, css beautifier, format css, compress css online, css optimizer, css formatter",
     category: "Developer",
     h1: "CSS Minifier",
     intro:
