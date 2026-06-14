@@ -107,7 +107,8 @@ const BlogPost = () => {
           </time>
         </div>
         <h1 className="text-3xl md:text-5xl font-headline font-black tracking-tight mb-4">{post.title}</h1>
-        <p className="text-on-surface-variant/80 text-lg leading-relaxed">{post.excerpt}</p>
+        <p className="text-on-surface-variant/80 text-lg leading-relaxed mb-8">{post.excerpt}</p>
+        <ShareButtons url={url} title={post.title} description={post.description} hashtags={["webogrowth", "webtools"]} />
       </header>
 
       <article className="prose prose-invert prose-lg max-w-none prose-headings:font-headline prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-12 prose-h3:text-xl prose-a:text-primary prose-strong:text-foreground prose-code:text-primary prose-code:before:content-none prose-code:after:content-none prose-table:text-sm">
