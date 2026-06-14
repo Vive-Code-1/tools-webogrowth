@@ -477,11 +477,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   }),
 
   "/lorem-ipsum": f("/lorem-ipsum", {
-    title: "Lorem Ipsum Generator — Paragraphs, Sentences, Words",
+    title: "Lorem Ipsum Generator — Dummy Text Generator Free",
     description:
-      "Generate Lorem Ipsum placeholder text for your designs. Pick paragraphs, sentences or words and copy in one click. Free and ad-free.",
+      "Free Lorem Ipsum generator and dummy text generator — pick paragraphs, sentences or words of placeholder text and copy with one click.",
     keywords:
-      "lorem ipsum generator, dummy text generator, placeholder text, lorem ipsum copy, design filler text",
+      "lorem ipsum generator, lorem ipsum, dummy text generator, placeholder text, lorem ipsum copy, design filler text, dummy text, lipsum",
     category: "Content",
     h1: "Lorem Ipsum Generator",
     intro:
