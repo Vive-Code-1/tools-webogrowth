@@ -117,6 +117,10 @@ const BlogPost = () => {
         </ReactMarkdown>
       </article>
 
+      <div className="mt-10 pt-8 border-t border-outline-variant/15">
+        <ShareButtons url={url} title={post.title} description={post.description} hashtags={["webogrowth", "webtools"]} />
+      </div>
+
       <aside className="mt-16 p-6 bg-primary/5 border border-primary/20 rounded-2xl">
         <p className="text-xs font-label uppercase tracking-widest text-primary font-bold mb-3">Try the tools mentioned</p>
         <div className="flex flex-wrap gap-3">
