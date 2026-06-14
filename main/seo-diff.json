@@ -1,7 +1,7 @@
 {
   "baselineSource": "reports/baseline/seo-snapshot.json",
   "baselineAt": "2026-06-14T15:55:31.244Z",
-  "currentAt": "2026-06-14T16:49:29.461Z",
+  "currentAt": "2026-06-14T17:12:52.300Z",
   "totalChanges": 17,
   "changes": [
     {
@@ -95,7 +95,7 @@
         {
           "field": "title",
           "before": "Free Image Resizer Online — Resize JPG, PNG, WebP",
-          "after": "Image Resizer Online — Resize JPG, PNG, WebP Without Quality Loss"
+          "after": "Image Resizer Online — Resize JPG, PNG & WebP Free"
         },
         {
           "field": "description",
@@ -116,7 +116,7 @@
         {
           "field": "title",
           "before": "Placeholder Image Generator — Custom Size & Color",
-          "after": "Placeholder Image Generator — Dummy Image Maker (Custom Size)"
+          "after": "Placeholder Image Generator — Dummy Image Maker Online"
         },
         {
           "field": "description",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T16:49:29.461Z",
+  "generatedAt": "2026-06-14T17:12:52.300Z",
   "routes": {
     "/": {
       "title": "WeboGrowth Tools — 17+ Free Online Web Tools",
@@ -72,7 +72,7 @@
       "howtoSteps": 3
     },
     "/image-resizer": {
-      "title": "Image Resizer Online — Resize JPG, PNG, WebP Without Quality Loss",
+      "title": "Image Resizer Online — Resize JPG, PNG & WebP Free",
       "description": "Resize image online free — change JPG, PNG and WebP dimensions in pixels or percent with aspect-ratio lock. No upload, full privacy.",
       "keywords": "image resizer online, resize image online, resize image, resize jpg online, png resizer, resize image without losing quality, change image dimensions, free image resizer",
       "canonicalPath": "/image-resizer",
@@ -86,7 +86,7 @@
       "howtoSteps": 3
     },
     "/placeholder": {
-      "title": "Placeholder Image Generator — Dummy Image Maker (Custom Size)",
+      "title": "Placeholder Image Generator — Dummy Image Maker Online",
       "description": "Generate dummy images and custom placeholder images online — set exact size, background color and label text for mockups and wireframes.",
       "keywords": "placeholder image generator, dummy image, dummy image generator, custom placeholder, mockup image, placeholder.com alternative, wireframe images, fake image",
       "canonicalPath": "/placeholder",
