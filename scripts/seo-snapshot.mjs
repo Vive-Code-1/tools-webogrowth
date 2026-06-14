@@ -6,10 +6,10 @@
 //   node scripts/seo-snapshot.mjs --diff     # also write seo-diff.{json,html} vs reports/baseline/seo-snapshot.json
 //   node scripts/seo-snapshot.mjs --promote  # promote current snapshot to baseline
 
+import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
-import { pathToFileURL, fileURLToPath } from "node:url";
-import { register } from "node:module";
+import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -23,30 +23,31 @@ const DIFF_HTML = resolve(REPORTS, "seo-diff.html");
 mkdirSync(REPORTS, { recursive: true });
 mkdirSync(BASELINE_DIR, { recursive: true });
 
-// Load the TS registry via tsx loader so we stay in sync with runtime.
-register("tsx/esm", pathToFileURL(`${ROOT}/`));
-const { TOOL_SEO, buildJsonLdFor, getSeoProps } = await import(
-  pathToFileURL(resolve(ROOT, "src/lib/seo.ts")).href
-);
-
-const snapshot = {
-  generatedAt: new Date().toISOString(),
-  routes: {},
-};
-
-for (const path of Object.keys(TOOL_SEO)) {
-  const props = getSeoProps(path);
-  const jsonLd = buildJsonLdFor(path);
-  snapshot.routes[path] = {
+// Use tsx CLI to load the TS registry and emit per-route data as JSON.
+const tsxScript = `
+import { TOOL_SEO, buildJsonLdFor, getSeoProps } from "./src/lib/seo";
+const out = {};
+for (const p of Object.keys(TOOL_SEO)) {
+  const props = getSeoProps(p);
+  const ld = buildJsonLdFor(p);
+  out[p] = {
     title: props.title,
     description: props.description,
     keywords: props.keywords,
     canonicalPath: props.canonicalPath,
-    jsonLdTypes: jsonLd.map((b) => b["@type"]),
-    faqCount: jsonLd.find((b) => b["@type"] === "FAQPage")?.mainEntity?.length ?? 0,
-    howtoSteps: jsonLd.find((b) => b["@type"] === "HowTo")?.step?.length ?? 0,
+    jsonLdTypes: ld.map((b) => b["@type"]),
+    faqCount: ld.find((b) => b["@type"] === "FAQPage")?.mainEntity?.length ?? 0,
+    howtoSteps: ld.find((b) => b["@type"] === "HowTo")?.step?.length ?? 0,
   };
 }
+process.stdout.write(JSON.stringify(out));
+`;
+const routesJson = execFileSync("npx", ["tsx", "-e", tsxScript], { cwd: ROOT, encoding: "utf-8" });
+
+const snapshot = {
+  generatedAt: new Date().toISOString(),
+  routes: JSON.parse(routesJson),
+};
 
 writeFileSync(SNAPSHOT, JSON.stringify(snapshot, null, 2));
 console.log(`Snapshot written: ${SNAPSHOT} (${Object.keys(snapshot.routes).length} routes)`);
