@@ -1,18 +1,7 @@
 {
-  "baselineAt": "2026-06-14T15:25:36.646Z",
-  "currentAt": "2026-06-14T15:25:45.492Z",
-  "totalChanges": 1,
-  "changes": [
-    {
-      "path": "/",
-      "kind": "changed",
-      "diffs": [
-        {
-          "field": "title",
-          "before": "OLD TITLE",
-          "after": "WeboGrowth Tools — 17+ Free Online Web Tools"
-        }
-      ]
-    }
-  ]
+  "baselineSource": "reports/baseline/seo-snapshot.json",
+  "baselineAt": "2026-06-14T15:26:49.333Z",
+  "currentAt": "2026-06-14T15:40:52.098Z",
+  "totalChanges": 0,
+  "changes": []
 }

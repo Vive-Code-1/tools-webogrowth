@@ -13,18 +13,33 @@
  ins{color:#a3e635;text-decoration:none;background:#1a2e10;padding:1px 4px;border-radius:3px}
  code{background:#0a0c0f;padding:2px 6px;border-radius:4px}
  .ok{color:#a3e635;text-align:center;padding:48px}
+ .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 18px}
+ .toolbar input,.toolbar select{background:#0a0c0f;color:#e6e6e6;border:1px solid #232830;border-radius:8px;padding:8px 12px;font-size:13px}
+ .toolbar input{flex:1;min-width:220px}
 </style></head><body>
 <h1>SEO Snapshot Diff</h1>
-<div class="meta">Baseline: 2026-06-14T15:25:36.646Z → Current: 2026-06-14T15:25:45.492Z · 1 route(s) changed</div>
-
-  <div class="route">
-    <h2><span class="pill changed">changed</span> <code>/</code></h2>
-    
-      <table><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>
-        <tr><td><code>title</code></td><td><del>OLD TITLE</del></td><td><ins>WeboGrowth Tools — 17+ Free Online Web Tools</ins></td></tr>
-      </tbody></table>
-    
-    
-  </div>
-
+<div class="meta">Baseline <code>reports/baseline/seo-snapshot.json</code> @ 2026-06-14T15:26:49.333Z → Current @ 2026-06-14T15:40:52.098Z · 0 route(s) changed</div>
+<div class="toolbar">
+  <input id="q" placeholder="Search routes (e.g. /qr-code)" />
+  <select id="kind"><option value="all">All changes</option><option value="changed">Changed only</option><option value="added">New only</option><option value="removed">Removed only</option></select>
+  <span id="count" style="color:#9aa;align-self:center;font-size:12px"></span>
+</div>
+<div id="list">
+<div class="ok">✓ No SEO field changes vs baseline.</div>
+</div>
+<script>
+(function(){
+  const q = document.getElementById("q"), kind = document.getElementById("kind"), count = document.getElementById("count");
+  const items = [...document.querySelectorAll("#list .route")];
+  function apply(){
+    const s = q.value.trim().toLowerCase(), f = kind.value; let shown = 0;
+    for (const r of items){
+      const ok = (!s || r.dataset.path.toLowerCase().includes(s)) && (f === "all" || r.dataset.kind === f);
+      r.style.display = ok ? "" : "none"; if (ok) shown++;
+    }
+    count.textContent = shown + " / " + items.length + " changes";
+  }
+  if (q){ q.addEventListener("input", apply); kind.addEventListener("change", apply); apply(); }
+})();
+</script>
 </body></html>

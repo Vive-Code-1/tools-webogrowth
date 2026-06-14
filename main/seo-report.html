@@ -4,8 +4,8 @@
   body{font-family:ui-sans-serif,system-ui,sans-serif;background:#0d0f12;color:#e6e6e6;margin:0;padding:32px;max-width:1100px;margin-inline:auto}
   h1{margin:0 0 8px;font-size:28px}
   .meta{color:#9aa;font-size:13px;margin-bottom:24px}
-  .summary{display:flex;gap:16px;margin:24px 0}
-  .card{flex:1;padding:18px;border-radius:12px;background:#15181d;border:1px solid #232830}
+  .summary{display:flex;gap:16px;margin:24px 0;flex-wrap:wrap}
+  .card{flex:1;min-width:180px;padding:18px;border-radius:12px;background:#15181d;border:1px solid #232830}
   .card .num{font-size:32px;font-weight:700}
   .ok{color:#a3e635}.bad{color:#f87171}
   table{width:100%;border-collapse:collapse;margin-top:16px}
@@ -17,10 +17,16 @@
   pre{margin:6px 0 0;padding:10px;background:#0a0c0f;border-radius:8px;font-size:12px;overflow:auto;color:#fca5a5}
   details summary{cursor:pointer;color:#a3e635}
   code{background:#0a0c0f;padding:2px 6px;border-radius:4px}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 4px}
+  .toolbar input,.toolbar select{background:#0a0c0f;color:#e6e6e6;border:1px solid #232830;border-radius:8px;padding:8px 12px;font-size:13px}
+  .toolbar input{flex:1;min-width:220px}
+  .pw a{color:#60a5fa;margin-right:10px;font-size:12px;text-decoration:none}
+  .pw a:hover{text-decoration:underline}
+  .pw{margin-top:8px;padding:8px;background:#0a0c0f;border-radius:6px;font-size:12px}
 </style></head>
 <body>
   <h1>SEO Test Report</h1>
-  <div class="meta">Generated 2026-06-14T15:26:47.183Z · WeboGrowth Tools</div>
+  <div class="meta">Generated 2026-06-14T15:40:49.955Z · WeboGrowth Tools</div>
   <div class="summary">
     <div class="card"><div class="num">193</div><div>Total checks</div></div>
     <div class="card"><div class="num ok">193</div><div>Passed</div></div>
@@ -29,158 +35,163 @@
   </div>
 
   <h2>Routes (22)</h2>
-  <table>
+  <div class="toolbar">
+    <input id="q" placeholder="Search routes (e.g. /qr-code)" />
+    <select id="status"><option value="all">All statuses</option><option value="fail">Failing only</option><option value="pass">Passing only</option></select>
+    <span id="count" style="color:#9aa;align-self:center;font-size:12px"></span>
+  </div>
+  <table id="routes">
     <thead><tr><th>Route</th><th>Status</th><th>Passed</th><th>Failed</th><th>Missing / failing checks</th></tr></thead>
     <tbody>
     
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/" data-status="pass">
         <td><code>https://tools.webogrowth.com/</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/about-us" data-status="pass">
         <td><code>https://tools.webogrowth.com/about-us</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/base64" data-status="pass">
         <td><code>https://tools.webogrowth.com/base64</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/color-palette" data-status="pass">
         <td><code>https://tools.webogrowth.com/color-palette</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/compressor" data-status="pass">
         <td><code>https://tools.webogrowth.com/compressor</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/contact-us" data-status="pass">
         <td><code>https://tools.webogrowth.com/contact-us</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/converter" data-status="pass">
         <td><code>https://tools.webogrowth.com/converter</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/css-minifier" data-status="pass">
         <td><code>https://tools.webogrowth.com/css-minifier</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/favicon" data-status="pass">
         <td><code>https://tools.webogrowth.com/favicon</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/gradient-generator" data-status="pass">
         <td><code>https://tools.webogrowth.com/gradient-generator</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/html-to-markdown" data-status="pass">
         <td><code>https://tools.webogrowth.com/html-to-markdown</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/image-resizer" data-status="pass">
         <td><code>https://tools.webogrowth.com/image-resizer</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/json-formatter" data-status="pass">
         <td><code>https://tools.webogrowth.com/json-formatter</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/lorem-ipsum" data-status="pass">
         <td><code>https://tools.webogrowth.com/lorem-ipsum</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/meta-tag-generator" data-status="pass">
         <td><code>https://tools.webogrowth.com/meta-tag-generator</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/og-preview" data-status="pass">
         <td><code>https://tools.webogrowth.com/og-preview</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/placeholder" data-status="pass">
         <td><code>https://tools.webogrowth.com/placeholder</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/privacy-policy" data-status="pass">
         <td><code>https://tools.webogrowth.com/privacy-policy</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/qr-code" data-status="pass">
         <td><code>https://tools.webogrowth.com/qr-code</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/robots-generator" data-status="pass">
         <td><code>https://tools.webogrowth.com/robots-generator</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/svg-optimizer" data-status="pass">
         <td><code>https://tools.webogrowth.com/svg-optimizer</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
         <td>0</td>
         <td>—</td>
       </tr>
-      <tr>
+      <tr data-route="https://tools.webogrowth.com/terms-of-service" data-status="pass">
         <td><code>https://tools.webogrowth.com/terms-of-service</code></td>
         <td><span class="pill ok">PASS</span></td>
         <td>1</td>
@@ -191,4 +202,27 @@
   </table>
 
   <p class="ok" style="margin-top:24px">All routes pass every SEO check.</p>
+
+<script>
+(function(){
+  const q = document.getElementById("q");
+  const status = document.getElementById("status");
+  const count = document.getElementById("count");
+  const rows = [...document.querySelectorAll("#routes tbody tr")];
+  function apply(){
+    const s = q.value.trim().toLowerCase();
+    const f = status.value;
+    let shown = 0;
+    for (const r of rows){
+      const route = r.dataset.route.toLowerCase();
+      const st = r.dataset.status;
+      const ok = (!s || route.includes(s)) && (f === "all" || st === f);
+      r.style.display = ok ? "" : "none";
+      if (ok) shown++;
+    }
+    count.textContent = shown + " / " + rows.length + " routes";
+  }
+  q.addEventListener("input", apply); status.addEventListener("change", apply); apply();
+})();
+</script>
 </body></html>
