@@ -1,15 +1,36 @@
 import { useCallback, useState, type DragEvent } from "react";
 
 interface DropZoneProps {
-  onFileSelect: (file: File) => void;
+  onFileSelect?: (file: File) => void;
+  onFilesSelect?: (files: File[]) => void;
   accept?: string;
   label?: string;
   sublabel?: string;
   maxSizeMB?: number;
+  multiple?: boolean;
 }
 
-const DropZone = ({ onFileSelect, accept = "image/*", label = "Drop your visual data here", sublabel = "PNG, JPG, WEBP, or SVG. Up to 25MB.", maxSizeMB = 25 }: DropZoneProps) => {
+const DropZone = ({
+  onFileSelect,
+  onFilesSelect,
+  accept = "image/*",
+  label = "Drop your visual data here",
+  sublabel = "PNG, JPG, WEBP, or SVG. Up to 25MB.",
+  maxSizeMB = 25,
+  multiple = false,
+}: DropZoneProps) => {
   const [isDragging, setIsDragging] = useState(false);
+
+  const deliver = useCallback(
+    (files: File[]) => {
+      const valid = files.filter((f) => f.size <= maxSizeMB * 1024 * 1024);
+      if (!valid.length) return;
+      if (multiple && onFilesSelect) onFilesSelect(valid);
+      else if (onFilesSelect) onFilesSelect([valid[0]]);
+      if (onFileSelect) onFileSelect(valid[0]);
+    },
+    [maxSizeMB, multiple, onFileSelect, onFilesSelect],
+  );
 
   const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
@@ -18,20 +39,23 @@ const DropZone = ({ onFileSelect, accept = "image/*", label = "Drop your visual 
 
   const handleDragLeave = useCallback(() => setIsDragging(false), []);
 
-  const handleDrop = useCallback((e: DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file && file.size <= maxSizeMB * 1024 * 1024) onFileSelect(file);
-  }, [onFileSelect, maxSizeMB]);
+  const handleDrop = useCallback(
+    (e: DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+      deliver(Array.from(e.dataTransfer.files));
+    },
+    [deliver],
+  );
 
   const handleClick = () => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = accept;
+    input.multiple = multiple;
     input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (file) onFileSelect(file);
+      const list = (e.target as HTMLInputElement).files;
+      if (list && list.length) deliver(Array.from(list));
     };
     input.click();
   };
