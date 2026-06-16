@@ -666,9 +666,11 @@ const Converter = () => {
                 </div>
               )}
             </div>
+            </div>
           </div>
         </div>
       </div>
+
       <ToolSeoSection path="/converter" />
     </>
   );
