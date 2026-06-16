@@ -112,90 +112,122 @@ const Converter = () => {
   const updateItem = (id: string, patch: Partial<Item>) =>
     setItems((p) => p.map((i) => (i.id === id ? { ...i, ...patch } : i)));
 
-  const handleConvertAll = useCallback(async () => {
-    if (!items.length) return;
-    if (limitSize && (!targetKB || targetKB < 1)) {
-      toast({
-        title: "Invalid target size",
-        description: "Target size must be at least 1 KB.",
-        variant: "destructive",
-      });
-      return;
-    }
-    setProcessing(true);
-    // reset prior zip
-    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
-    zipUrlRef.current = null;
-    setZipUrl(null);
-    setExpired(false);
+  const handleConvertAll = useCallback(
+    async (opts: { redoAll?: boolean } = {}) => {
+      if (!items.length) return;
+      if (limitSize && (!targetKB || targetKB < 1)) {
+        toast({
+          title: "Invalid target size",
+          description: "Target size must be at least 1 KB.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setProcessing(true);
+      // reset prior zip / storage
+      clearDownload();
+      setZipUrl(null);
+      setExpired(false);
 
-    let missed = 0;
-    let failed = 0;
+      // Reset items to queued so progress UI is fresh
+      const targets = opts.redoAll
+        ? items
+        : items.filter((i) => i.status !== "done");
 
-    for (const it of items) {
-      if (it.status === "done") continue;
-      updateItem(it.id, { status: "converting", error: undefined, progress: 0, estSize: undefined });
-      try {
-        const baseName = it.file.name.replace(/\.[^.]+$/, "");
-        if (limitSize && targetKB > 0) {
-          const r = await convertImageToTargetSize(it.file, {
-            format: targetFormat,
-            targetKB,
-            onProgress: ({ estimatedSize, step, totalSteps }) => {
-              updateItem(it.id, {
-                estSize: estimatedSize,
-                progress: Math.round((step / totalSteps) * 100),
-              });
-            },
-          });
-          const ext = formatExtension(r.format);
-          if (!r.reachedTarget) missed++;
+      setItems((prev) =>
+        prev.map((i) =>
+          targets.find((t) => t.id === i.id)
+            ? {
+                ...i,
+                status: "queued",
+                error: undefined,
+                progress: 0,
+                estSize: undefined,
+                outBlob: undefined,
+                outSize: undefined,
+                outName: undefined,
+                reachedTarget: undefined,
+              }
+            : i,
+        ),
+      );
+
+      let missed = 0;
+      let failed = 0;
+
+      await runWithConcurrency(targets, CONCURRENCY, async (it) => {
+        updateItem(it.id, { status: "converting", progress: 0 });
+        try {
+          const baseName = it.file.name.replace(/\.[^.]+$/, "");
+          if (limitSize && targetKB > 0) {
+            const r = await convertImageToTargetSize(it.file, {
+              format: targetFormat,
+              targetKB,
+              onProgress: ({ estimatedSize, step, totalSteps }) => {
+                updateItem(it.id, {
+                  estSize: estimatedSize,
+                  progress: Math.round((step / totalSteps) * 100),
+                });
+              },
+            });
+            const ext = formatExtension(r.format);
+            if (!r.reachedTarget) missed++;
+            updateItem(it.id, {
+              status: "done",
+              outBlob: r.blob,
+              outName: `${baseName}.${ext}`,
+              outSize: r.blob.size,
+              reachedTarget: r.reachedTarget,
+              progress: 100,
+              error: r.reachedTarget ? undefined : `Could not fit ${targetKB} KB limit`,
+            });
+          } else {
+            const blob = await convertImage(it.file, { format: targetFormat, quality });
+            const ext = formatExtension(targetFormat);
+            updateItem(it.id, {
+              status: "done",
+              outBlob: blob,
+              outName: `${baseName}.${ext}`,
+              outSize: blob.size,
+              reachedTarget: true,
+              progress: 100,
+            });
+          }
+        } catch (e) {
+          failed++;
           updateItem(it.id, {
-            status: "done",
-            outBlob: r.blob,
-            outName: `${baseName}.${ext}`,
-            outSize: r.blob.size,
-            reachedTarget: r.reachedTarget,
-            progress: 100,
-            error: r.reachedTarget ? undefined : `Could not fit ${targetKB} KB limit`,
-          });
-        } else {
-          const blob = await convertImage(it.file, { format: targetFormat, quality });
-          const ext = formatExtension(targetFormat);
-          updateItem(it.id, {
-            status: "done",
-            outBlob: blob,
-            outName: `${baseName}.${ext}`,
-            outSize: blob.size,
-            reachedTarget: true,
-            progress: 100,
+            status: "failed",
+            error: e instanceof Error ? e.message : "Conversion failed",
           });
         }
-      } catch (e) {
-        failed++;
-        updateItem(it.id, {
-          status: "failed",
-          error: e instanceof Error ? e.message : "Conversion failed",
+      });
+
+      setProcessing(false);
+
+      if (failed) {
+        toast({
+          title: `${failed} image${failed > 1 ? "s" : ""} failed`,
+          description: "Check the queue for details.",
+          variant: "destructive",
         });
       }
-    }
-    setProcessing(false);
+      if (missed) {
+        toast({
+          title: `${missed} image${missed > 1 ? "s" : ""} exceeded target`,
+          description: `Couldn't compress to ${targetKB} KB even at lowest quality.`,
+          variant: "destructive",
+        });
+      }
+    },
+    [items, limitSize, targetKB, targetFormat, quality, clearDownload],
+  );
 
-    if (failed) {
-      toast({
-        title: `${failed} image${failed > 1 ? "s" : ""} failed`,
-        description: "Check the queue for details.",
-        variant: "destructive",
-      });
-    }
-    if (missed) {
-      toast({
-        title: `${missed} image${missed > 1 ? "s" : ""} exceeded target`,
-        description: `Couldn't compress to ${targetKB} KB even at lowest quality.`,
-        variant: "destructive",
-      });
-    }
-  }, [items, limitSize, targetKB, targetFormat, quality]);
+  const handleConvertAgain = useCallback(() => {
+    setExpired(false);
+    clearDownload();
+    setZipUrl(null);
+    handleConvertAll({ redoAll: true });
+  }, [handleConvertAll, clearDownload]);
 
   const doneItems = useMemo(
     () => items.filter((i) => i.status === "done" && i.outBlob),
