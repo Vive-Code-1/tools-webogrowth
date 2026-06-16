@@ -11,6 +11,10 @@ import {
   formatExtension,
   type ImageFormat,
 } from "@/lib/imageConvert";
+import { uploadToStorage, deleteFromStorage } from "@/lib/processedStorage";
+import { runWithConcurrency } from "@/lib/concurrency";
+
+const CONCURRENCY = 3;
 
 const formats: { value: ImageFormat; label: string }[] = [
   { value: "image/webp", label: "WebP (Optimized)" },
@@ -50,6 +54,19 @@ const Converter = () => {
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [expired, setExpired] = useState(false);
   const zipUrlRef = useRef<string | null>(null);
+  const storagePathRef = useRef<string | null>(null);
+
+  const clearDownload = useCallback(() => {
+    if (zipUrlRef.current && zipUrlRef.current.startsWith("blob:")) {
+      URL.revokeObjectURL(zipUrlRef.current);
+    }
+    if (storagePathRef.current) {
+      // Fire-and-forget server-side deletion
+      deleteFromStorage(storagePathRef.current);
+      storagePathRef.current = null;
+    }
+    zipUrlRef.current = null;
+  }, []);
 
   // Tick countdown
   useEffect(() => {
@@ -59,20 +76,17 @@ const Converter = () => {
         if (s <= 1) {
           clearInterval(id);
           setExpired(true);
-          if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
-          zipUrlRef.current = null;
+          clearDownload();
           return 0;
         }
         return s - 1;
       });
     }, 1000);
     return () => clearInterval(id);
-  }, [zipUrl, expired]);
+  }, [zipUrl, expired, clearDownload]);
 
   // Cleanup on unmount
-  useEffect(() => () => {
-    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
-  }, []);
+  useEffect(() => () => clearDownload(), [clearDownload]);
 
   const handleFilesSelect = useCallback((files: File[]) => {
     setItems((prev) => [
@@ -90,8 +104,7 @@ const Converter = () => {
 
   const clearAll = () => {
     setItems([]);
-    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
-    zipUrlRef.current = null;
+    clearDownload();
     setZipUrl(null);
     setExpired(false);
   };
@@ -99,90 +112,122 @@ const Converter = () => {
   const updateItem = (id: string, patch: Partial<Item>) =>
     setItems((p) => p.map((i) => (i.id === id ? { ...i, ...patch } : i)));
 
-  const handleConvertAll = useCallback(async () => {
-    if (!items.length) return;
-    if (limitSize && (!targetKB || targetKB < 1)) {
-      toast({
-        title: "Invalid target size",
-        description: "Target size must be at least 1 KB.",
-        variant: "destructive",
-      });
-      return;
-    }
-    setProcessing(true);
-    // reset prior zip
-    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
-    zipUrlRef.current = null;
-    setZipUrl(null);
-    setExpired(false);
+  const handleConvertAll = useCallback(
+    async (opts: { redoAll?: boolean } = {}) => {
+      if (!items.length) return;
+      if (limitSize && (!targetKB || targetKB < 1)) {
+        toast({
+          title: "Invalid target size",
+          description: "Target size must be at least 1 KB.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setProcessing(true);
+      // reset prior zip / storage
+      clearDownload();
+      setZipUrl(null);
+      setExpired(false);
 
-    let missed = 0;
-    let failed = 0;
+      // Reset items to queued so progress UI is fresh
+      const targets = opts.redoAll
+        ? items
+        : items.filter((i) => i.status !== "done");
 
-    for (const it of items) {
-      if (it.status === "done") continue;
-      updateItem(it.id, { status: "converting", error: undefined, progress: 0, estSize: undefined });
-      try {
-        const baseName = it.file.name.replace(/\.[^.]+$/, "");
-        if (limitSize && targetKB > 0) {
-          const r = await convertImageToTargetSize(it.file, {
-            format: targetFormat,
-            targetKB,
-            onProgress: ({ estimatedSize, step, totalSteps }) => {
-              updateItem(it.id, {
-                estSize: estimatedSize,
-                progress: Math.round((step / totalSteps) * 100),
-              });
-            },
-          });
-          const ext = formatExtension(r.format);
-          if (!r.reachedTarget) missed++;
+      setItems((prev) =>
+        prev.map((i) =>
+          targets.find((t) => t.id === i.id)
+            ? {
+                ...i,
+                status: "queued",
+                error: undefined,
+                progress: 0,
+                estSize: undefined,
+                outBlob: undefined,
+                outSize: undefined,
+                outName: undefined,
+                reachedTarget: undefined,
+              }
+            : i,
+        ),
+      );
+
+      let missed = 0;
+      let failed = 0;
+
+      await runWithConcurrency(targets, CONCURRENCY, async (it) => {
+        updateItem(it.id, { status: "converting", progress: 0 });
+        try {
+          const baseName = it.file.name.replace(/\.[^.]+$/, "");
+          if (limitSize && targetKB > 0) {
+            const r = await convertImageToTargetSize(it.file, {
+              format: targetFormat,
+              targetKB,
+              onProgress: ({ estimatedSize, step, totalSteps }) => {
+                updateItem(it.id, {
+                  estSize: estimatedSize,
+                  progress: Math.round((step / totalSteps) * 100),
+                });
+              },
+            });
+            const ext = formatExtension(r.format);
+            if (!r.reachedTarget) missed++;
+            updateItem(it.id, {
+              status: "done",
+              outBlob: r.blob,
+              outName: `${baseName}.${ext}`,
+              outSize: r.blob.size,
+              reachedTarget: r.reachedTarget,
+              progress: 100,
+              error: r.reachedTarget ? undefined : `Could not fit ${targetKB} KB limit`,
+            });
+          } else {
+            const blob = await convertImage(it.file, { format: targetFormat, quality });
+            const ext = formatExtension(targetFormat);
+            updateItem(it.id, {
+              status: "done",
+              outBlob: blob,
+              outName: `${baseName}.${ext}`,
+              outSize: blob.size,
+              reachedTarget: true,
+              progress: 100,
+            });
+          }
+        } catch (e) {
+          failed++;
           updateItem(it.id, {
-            status: "done",
-            outBlob: r.blob,
-            outName: `${baseName}.${ext}`,
-            outSize: r.blob.size,
-            reachedTarget: r.reachedTarget,
-            progress: 100,
-            error: r.reachedTarget ? undefined : `Could not fit ${targetKB} KB limit`,
-          });
-        } else {
-          const blob = await convertImage(it.file, { format: targetFormat, quality });
-          const ext = formatExtension(targetFormat);
-          updateItem(it.id, {
-            status: "done",
-            outBlob: blob,
-            outName: `${baseName}.${ext}`,
-            outSize: blob.size,
-            reachedTarget: true,
-            progress: 100,
+            status: "failed",
+            error: e instanceof Error ? e.message : "Conversion failed",
           });
         }
-      } catch (e) {
-        failed++;
-        updateItem(it.id, {
-          status: "failed",
-          error: e instanceof Error ? e.message : "Conversion failed",
+      });
+
+      setProcessing(false);
+
+      if (failed) {
+        toast({
+          title: `${failed} image${failed > 1 ? "s" : ""} failed`,
+          description: "Check the queue for details.",
+          variant: "destructive",
         });
       }
-    }
-    setProcessing(false);
+      if (missed) {
+        toast({
+          title: `${missed} image${missed > 1 ? "s" : ""} exceeded target`,
+          description: `Couldn't compress to ${targetKB} KB even at lowest quality.`,
+          variant: "destructive",
+        });
+      }
+    },
+    [items, limitSize, targetKB, targetFormat, quality, clearDownload],
+  );
 
-    if (failed) {
-      toast({
-        title: `${failed} image${failed > 1 ? "s" : ""} failed`,
-        description: "Check the queue for details.",
-        variant: "destructive",
-      });
-    }
-    if (missed) {
-      toast({
-        title: `${missed} image${missed > 1 ? "s" : ""} exceeded target`,
-        description: `Couldn't compress to ${targetKB} KB even at lowest quality.`,
-        variant: "destructive",
-      });
-    }
-  }, [items, limitSize, targetKB, targetFormat, quality]);
+  const handleConvertAgain = useCallback(() => {
+    setExpired(false);
+    clearDownload();
+    setZipUrl(null);
+    handleConvertAll({ redoAll: true });
+  }, [handleConvertAll, clearDownload]);
 
   const doneItems = useMemo(
     () => items.filter((i) => i.status === "done" && i.outBlob),
@@ -201,41 +246,60 @@ const Converter = () => {
     setTimeout(() => URL.revokeObjectURL(url), 2000);
   };
 
-  const prepareZip = async () => {
-    if (!doneItems.length) return;
-    if (doneItems.length === 1) {
-      // single file — use blob URL with countdown too
-      const it = doneItems[0];
-      const url = URL.createObjectURL(it.outBlob!);
+  const [preparing, setPreparing] = useState(false);
+
+  const publishBlob = async (blob: Blob, fileName: string) => {
+    try {
+      const remote = await uploadToStorage(blob, fileName);
+      zipUrlRef.current = remote.url;
+      storagePathRef.current = remote.path;
+      setZipName(fileName);
+      setZipUrl(remote.url);
+    } catch (e) {
+      console.warn("Storage upload failed, using local blob URL:", e);
+      const url = URL.createObjectURL(blob);
       zipUrlRef.current = url;
-      setZipName(it.outName!);
+      storagePathRef.current = null;
+      setZipName(fileName);
       setZipUrl(url);
-      setSecondsLeft(COUNTDOWN_SECONDS);
-      setExpired(false);
-      return;
+      toast({
+        title: "Using local download",
+        description: "Cloud storage unavailable — download stays in your browser only.",
+      });
     }
-    const zip = new JSZip();
-    const seen = new Map<string, number>();
-    for (const it of doneItems) {
-      let name = it.outName!;
-      const count = seen.get(name) || 0;
-      if (count > 0) {
-        const dot = name.lastIndexOf(".");
-        name = `${name.slice(0, dot)}-${count}${name.slice(dot)}`;
-      }
-      seen.set(it.outName!, count + 1);
-      zip.file(name, it.outBlob!);
-    }
-    const blob = await zip.generateAsync({ type: "blob" });
-    const url = URL.createObjectURL(blob);
-    zipUrlRef.current = url;
-    setZipName(`converted-images-${Date.now()}.zip`);
-    setZipUrl(url);
     setSecondsLeft(COUNTDOWN_SECONDS);
     setExpired(false);
   };
 
-  const triggerDownload = () => {
+  const prepareZip = async () => {
+    if (!doneItems.length) return;
+    setPreparing(true);
+    try {
+      if (doneItems.length === 1) {
+        const it = doneItems[0];
+        await publishBlob(it.outBlob!, it.outName!);
+        return;
+      }
+      const zip = new JSZip();
+      const seen = new Map<string, number>();
+      for (const it of doneItems) {
+        let name = it.outName!;
+        const count = seen.get(name) || 0;
+        if (count > 0) {
+          const dot = name.lastIndexOf(".");
+          name = `${name.slice(0, dot)}-${count}${name.slice(dot)}`;
+        }
+        seen.set(it.outName!, count + 1);
+        zip.file(name, it.outBlob!);
+      }
+      const blob = await zip.generateAsync({ type: "blob" });
+      await publishBlob(blob, `converted-images-${Date.now()}.zip`);
+    } finally {
+      setPreparing(false);
+    }
+  };
+
+  const triggerDownload = async () => {
     if (expired || !zipUrl) {
       toast({
         title: "Download window expired",
@@ -244,12 +308,25 @@ const Converter = () => {
       });
       return;
     }
-    const a = document.createElement("a");
-    a.href = zipUrl;
-    a.download = zipName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    try {
+      const resp = await fetch(zipUrl);
+      const blob = await resp.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = zipName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+    } catch {
+      const a = document.createElement("a");
+      a.href = zipUrl;
+      a.download = zipName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
   };
 
   const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
@@ -482,7 +559,7 @@ const Converter = () => {
               </div>
 
               <button
-                onClick={handleConvertAll}
+                onClick={() => handleConvertAll()}
                 disabled={!items.length || processing}
                 className="w-full bg-primary text-on-primary py-5 rounded-xl font-bold transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3 hover:shadow-[0_0_15px_hsla(82,98%,72%,0.2)]"
               >
@@ -504,12 +581,17 @@ const Converter = () => {
               {doneItems.length > 0 && !zipUrl && !expired && (
                 <button
                   onClick={prepareZip}
-                  className="w-full bg-surface-container-lowest border border-primary/40 text-primary py-4 rounded-xl font-bold transition-all active:scale-95 hover:bg-primary/10 flex items-center justify-center gap-3"
+                  disabled={preparing}
+                  className="w-full bg-surface-container-lowest border border-primary/40 text-primary py-4 rounded-xl font-bold transition-all active:scale-95 hover:bg-primary/10 flex items-center justify-center gap-3 disabled:opacity-50"
                 >
-                  <span className="material-symbols-outlined">folder_zip</span>
-                  {doneItems.length > 1
-                    ? `Prepare ZIP (${doneItems.length})`
-                    : "Prepare Download"}
+                  <span className={`material-symbols-outlined ${preparing ? "animate-spin" : ""}`}>
+                    {preparing ? "progress_activity" : "folder_zip"}
+                  </span>
+                  {preparing
+                    ? "Uploading..."
+                    : doneItems.length > 1
+                      ? `Prepare ZIP (${doneItems.length})`
+                      : "Prepare Download"}
                 </button>
               )}
 
@@ -521,7 +603,7 @@ const Converter = () => {
                       <span className="font-headline font-bold text-lg">{mm}:{ss}</span>
                     </div>
                     <span className="text-xs text-on-surface-variant uppercase tracking-widest font-bold">
-                      Window
+                      {storagePathRef.current ? "Cloud" : "Local"}
                     </span>
                   </div>
                   <div className="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
@@ -537,16 +619,27 @@ const Converter = () => {
                     <span className="material-symbols-outlined">download</span>
                     Download {doneItems.length > 1 ? "ZIP" : "File"}
                   </button>
+                  <p className="text-[11px] text-on-surface-variant text-center">
+                    File auto-deletes from cloud in {mm}:{ss}
+                  </p>
                 </div>
               )}
 
               {expired && (
-                <div className="bg-destructive/10 border border-destructive/40 rounded-xl p-5 text-center space-y-2">
+                <div className="bg-destructive/10 border border-destructive/40 rounded-xl p-5 text-center space-y-3">
                   <span className="material-symbols-outlined text-destructive text-3xl">timer_off</span>
                   <h4 className="font-headline font-bold text-destructive">Download window expired</h4>
                   <p className="text-xs text-on-surface-variant">
-                    Please reconvert your images to download again.
+                    File has been deleted from cloud storage. Reconvert to download again.
                   </p>
+                  <button
+                    onClick={handleConvertAgain}
+                    disabled={processing || !items.length}
+                    className="w-full bg-primary text-on-primary py-3 rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+                  >
+                    <span className="material-symbols-outlined">refresh</span>
+                    আবার কনভার্ট করুন
+                  </button>
                 </div>
               )}
             </div>
