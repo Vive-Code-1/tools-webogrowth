@@ -90,6 +90,21 @@ const Converter = () => {
   const zipUrlRef = useRef<string | null>(null);
   const storagePathRef = useRef<string | null>(null);
 
+  // Auto-collapse on conversion start, auto-expand when result ready / expired (mobile only)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    if (processing) setSheetOpen(false);
+  }, [processing]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    if (zipUrl || expired) setSheetOpen(true);
+  }, [zipUrl, expired]);
+
+
+
   const clearDownload = useCallback(() => {
     if (zipUrlRef.current && zipUrlRef.current.startsWith("blob:")) {
       URL.revokeObjectURL(zipUrlRef.current);
