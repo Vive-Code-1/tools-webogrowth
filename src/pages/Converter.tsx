@@ -352,7 +352,7 @@ const Converter = () => {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8 space-y-4 flex flex-col">
             <DropZone
               multiple
@@ -361,6 +361,8 @@ const Converter = () => {
               label="Drop your media here"
               sublabel="Bulk upload — PNG, JPEG, WebP, GIF up to 50MB each"
               maxSizeMB={50}
+              processing={processing}
+              hasFiles={items.length > 0}
             />
 
             {items.length > 0 && (
@@ -470,7 +472,7 @@ const Converter = () => {
             )}
           </div>
 
-          <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
+          <div className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start space-y-6 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             <div className="bg-surface-container-high rounded-xl p-8 shadow-2xl space-y-6">
               <h3 className="font-headline text-xl font-bold">
                 Conversion Options
