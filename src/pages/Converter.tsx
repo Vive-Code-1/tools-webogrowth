@@ -54,6 +54,19 @@ const Converter = () => {
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [expired, setExpired] = useState(false);
   const zipUrlRef = useRef<string | null>(null);
+  const storagePathRef = useRef<string | null>(null);
+
+  const clearDownload = useCallback(() => {
+    if (zipUrlRef.current && zipUrlRef.current.startsWith("blob:")) {
+      URL.revokeObjectURL(zipUrlRef.current);
+    }
+    if (storagePathRef.current) {
+      // Fire-and-forget server-side deletion
+      deleteFromStorage(storagePathRef.current);
+      storagePathRef.current = null;
+    }
+    zipUrlRef.current = null;
+  }, []);
 
   // Tick countdown
   useEffect(() => {
@@ -63,20 +76,17 @@ const Converter = () => {
         if (s <= 1) {
           clearInterval(id);
           setExpired(true);
-          if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
-          zipUrlRef.current = null;
+          clearDownload();
           return 0;
         }
         return s - 1;
       });
     }, 1000);
     return () => clearInterval(id);
-  }, [zipUrl, expired]);
+  }, [zipUrl, expired, clearDownload]);
 
   // Cleanup on unmount
-  useEffect(() => () => {
-    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
-  }, []);
+  useEffect(() => () => clearDownload(), [clearDownload]);
 
   const handleFilesSelect = useCallback((files: File[]) => {
     setItems((prev) => [
