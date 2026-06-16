@@ -47,6 +47,7 @@ const Converter = () => {
   const [limitSize, setLimitSize] = useState(false);
   const [targetKB, setTargetKB] = useState<number>(200);
   const [processing, setProcessing] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   // ZIP download countdown
   const [zipUrl, setZipUrl] = useState<string | null>(null);
@@ -336,7 +337,7 @@ const Converter = () => {
   return (
     <>
       <SEOHead {...getSeoProps("/converter")!} />
-      <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-20 pb-32 lg:pb-20">
         <header className="mb-16">
           <div className="inline-block px-3 py-1 bg-surface-container-highest rounded-full mb-6">
             <span className="font-label text-sm tracking-wide uppercase text-primary font-bold">
@@ -472,8 +473,28 @@ const Converter = () => {
             )}
           </div>
 
-          <div className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start space-y-6 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
-            <div className="bg-surface-container-high rounded-xl p-8 shadow-2xl space-y-6">
+          <div className="fixed inset-x-0 bottom-0 z-40 lg:relative lg:inset-auto lg:bottom-auto lg:col-span-4 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+            <div className={`bg-surface-container-high lg:rounded-xl rounded-t-2xl shadow-2xl lg:shadow-2xl border-t border-outline-variant/20 lg:border-0 transition-[max-height] duration-300 ease-out overflow-hidden lg:overflow-visible lg:max-h-none ${sheetOpen ? "max-h-[85vh]" : "max-h-[64px]"}`}>
+              <button
+                type="button"
+                onClick={() => setSheetOpen((o) => !o)}
+                className="lg:hidden w-full flex items-center justify-between px-5 py-4 border-b border-outline-variant/20"
+                aria-expanded={sheetOpen}
+              >
+                <span className="flex items-center gap-2 font-headline font-bold">
+                  <span className="material-symbols-outlined text-primary">tune</span>
+                  Conversion Options
+                  {items.length > 0 && (
+                    <span className="ml-1 text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full">
+                      {items.length}
+                    </span>
+                  )}
+                </span>
+                <span className={`material-symbols-outlined transition-transform ${sheetOpen ? "rotate-180" : ""}`}>
+                  expand_less
+                </span>
+              </button>
+            <div className={`lg:block lg:max-h-none lg:overflow-visible overflow-y-auto p-8 space-y-6 ${sheetOpen ? "max-h-[calc(85vh-64px)]" : "max-h-0 p-0 lg:p-8"}`}>
               <h3 className="font-headline text-xl font-bold">
                 Conversion Options
               </h3>
@@ -645,9 +666,11 @@ const Converter = () => {
                 </div>
               )}
             </div>
+            </div>
           </div>
         </div>
       </div>
+
       <ToolSeoSection path="/converter" />
     </>
   );
