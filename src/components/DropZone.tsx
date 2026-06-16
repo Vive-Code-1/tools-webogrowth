@@ -61,16 +61,16 @@ const DropZone = ({
   };
 
   return (
-    <div className="relative group">
+    <div className="relative group h-full flex">
       <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary-container rounded-xl opacity-20 group-hover:opacity-40 transition duration-500 blur-lg" />
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleClick}
-        className={`relative bg-surface-container-lowest border-2 border-dashed ${
+        className={`relative flex-1 bg-surface-container-lowest border-2 border-dashed ${
           isDragging ? "border-primary bg-primary/5" : "border-outline-variant/30 hover:border-primary/40"
-        } transition-colors flex flex-col items-center justify-center p-12 lg:p-20 rounded-xl cursor-pointer`}
+        } transition-colors flex flex-col items-center justify-center p-12 lg:p-20 rounded-xl cursor-pointer min-h-full`}
       >
         <div className="w-16 h-16 bg-surface-container flex items-center justify-center rounded-full mb-6">
           <span className="material-symbols-outlined text-primary text-3xl">upload_file</span>
