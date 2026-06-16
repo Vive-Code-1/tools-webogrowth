@@ -104,8 +104,7 @@ const Converter = () => {
 
   const clearAll = () => {
     setItems([]);
-    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
-    zipUrlRef.current = null;
+    clearDownload();
     setZipUrl(null);
     setExpired(false);
   };
