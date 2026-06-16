@@ -48,6 +48,51 @@ const Converter = () => {
   const [targetKB, setTargetKB] = useState<number>(200);
   const [processing, setProcessing] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const dragStartY = useRef<number | null>(null);
+  const sheetRef = useRef<HTMLDivElement | null>(null);
+
+  // Auto-collapse on conversion start, auto-expand when result ready / expired
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    if (processing) setSheetOpen(false);
+  }, [processing]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    if (zipUrl || expired) setSheetOpen(true);
+  }, [zipUrl, expired]);
+
+  // Esc to close sheet on mobile
+  useEffect(() => {
+    if (!sheetOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSheetOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [sheetOpen]);
+
+  const onSheetTouchStart = (e: React.TouchEvent) => {
+    dragStartY.current = e.touches[0].clientY;
+    setDragOffset(0);
+  };
+  const onSheetTouchMove = (e: React.TouchEvent) => {
+    if (dragStartY.current == null) return;
+    const dy = e.touches[0].clientY - dragStartY.current;
+    // When open, allow drag down; when closed, allow drag up (negative)
+    if (sheetOpen) setDragOffset(Math.max(0, dy));
+    else setDragOffset(Math.min(0, dy));
+  };
+  const onSheetTouchEnd = () => {
+    const dy = dragOffset;
+    dragStartY.current = null;
+    setDragOffset(0);
+    if (sheetOpen && dy > 60) setSheetOpen(false);
+    else if (!sheetOpen && dy < -40) setSheetOpen(true);
+  };
 
   // ZIP download countdown
   const [zipUrl, setZipUrl] = useState<string | null>(null);
