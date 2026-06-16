@@ -527,7 +527,7 @@ const Converter = () => {
               </div>
 
               <button
-                onClick={handleConvertAll}
+                onClick={() => handleConvertAll()}
                 disabled={!items.length || processing}
                 className="w-full bg-primary text-on-primary py-5 rounded-xl font-bold transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3 hover:shadow-[0_0_15px_hsla(82,98%,72%,0.2)]"
               >
