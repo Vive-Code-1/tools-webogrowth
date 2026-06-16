@@ -74,7 +74,7 @@ export interface TargetSizeResult {
  */
 export async function convertImageToTargetSize(
   file: File,
-  opts: { format: ImageFormat; targetKB: number },
+  opts: { format: ImageFormat; targetKB: number; onProgress?: ProgressFn },
 ): Promise<TargetSizeResult> {
   // PNG can't be lossy-compressed via canvas. Fall back to JPEG.
   const effectiveFormat: ImageFormat =
@@ -84,6 +84,8 @@ export async function convertImageToTargetSize(
 
   let scale = 1;
   let best: { blob: Blob; quality: number } | null = null;
+  const totalSteps = 5 * 8;
+  let step = 0;
 
   for (let attempt = 0; attempt < 5; attempt++) {
     const canvas = drawToCanvas(img, scale);
@@ -95,6 +97,8 @@ export async function convertImageToTargetSize(
     for (let i = 0; i < 8; i++) {
       const mid = (lo + hi) / 2;
       const blob = await canvasToBlob(canvas, effectiveFormat, mid);
+      step++;
+      opts.onProgress?.({ estimatedSize: blob.size, step, totalSteps });
       if (!localBest || Math.abs(blob.size - targetBytes) < Math.abs(localBest.blob.size - targetBytes)) {
         localBest = { blob, quality: mid };
       }
