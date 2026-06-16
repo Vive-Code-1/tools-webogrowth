@@ -48,6 +48,39 @@ const Converter = () => {
   const [targetKB, setTargetKB] = useState<number>(200);
   const [processing, setProcessing] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const dragStartY = useRef<number | null>(null);
+  const sheetRef = useRef<HTMLDivElement | null>(null);
+
+
+  // Esc to close sheet on mobile
+  useEffect(() => {
+    if (!sheetOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSheetOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [sheetOpen]);
+
+  const onSheetTouchStart = (e: React.TouchEvent) => {
+    dragStartY.current = e.touches[0].clientY;
+    setDragOffset(0);
+  };
+  const onSheetTouchMove = (e: React.TouchEvent) => {
+    if (dragStartY.current == null) return;
+    const dy = e.touches[0].clientY - dragStartY.current;
+    // When open, allow drag down; when closed, allow drag up (negative)
+    if (sheetOpen) setDragOffset(Math.max(0, dy));
+    else setDragOffset(Math.min(0, dy));
+  };
+  const onSheetTouchEnd = () => {
+    const dy = dragOffset;
+    dragStartY.current = null;
+    setDragOffset(0);
+    if (sheetOpen && dy > 60) setSheetOpen(false);
+    else if (!sheetOpen && dy < -40) setSheetOpen(true);
+  };
 
   // ZIP download countdown
   const [zipUrl, setZipUrl] = useState<string | null>(null);
@@ -56,6 +89,21 @@ const Converter = () => {
   const [expired, setExpired] = useState(false);
   const zipUrlRef = useRef<string | null>(null);
   const storagePathRef = useRef<string | null>(null);
+
+  // Auto-collapse on conversion start, auto-expand when result ready / expired (mobile only)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    if (processing) setSheetOpen(false);
+  }, [processing]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    if (zipUrl || expired) setSheetOpen(true);
+  }, [zipUrl, expired]);
+
+
 
   const clearDownload = useCallback(() => {
     if (zipUrlRef.current && zipUrlRef.current.startsWith("blob:")) {
@@ -473,28 +521,104 @@ const Converter = () => {
             )}
           </div>
 
-          <div className="fixed inset-x-0 bottom-0 z-40 lg:relative lg:inset-auto lg:bottom-auto lg:col-span-4 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
-            <div className={`bg-surface-container-high lg:rounded-xl rounded-t-2xl shadow-2xl lg:shadow-2xl border-t border-outline-variant/20 lg:border-0 transition-[max-height] duration-300 ease-out overflow-hidden lg:overflow-visible lg:max-h-none ${sheetOpen ? "max-h-[85vh]" : "max-h-[64px]"}`}>
-              <button
-                type="button"
-                onClick={() => setSheetOpen((o) => !o)}
-                className="lg:hidden w-full flex items-center justify-between px-5 py-4 border-b border-outline-variant/20"
-                aria-expanded={sheetOpen}
+          {/* Mobile backdrop */}
+          <div
+            onClick={() => setSheetOpen(false)}
+            aria-hidden="true"
+            className={`fixed inset-0 z-30 bg-black/40 lg:hidden transition-opacity duration-300 ${
+              sheetOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
+          />
+          <div
+            ref={sheetRef}
+            role="region"
+            aria-label="Conversion options"
+            className="fixed inset-x-0 bottom-0 z-40 lg:relative lg:inset-auto lg:bottom-auto lg:col-span-4 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto"
+            style={{
+              transform:
+                dragOffset !== 0
+                  ? `translateY(${dragOffset}px)`
+                  : undefined,
+              transition: dragStartY.current == null ? "transform 300ms cubic-bezier(0.32, 0.72, 0, 1)" : "none",
+            }}
+          >
+            <div
+              className={`bg-surface-container-high lg:rounded-xl rounded-t-2xl shadow-2xl lg:shadow-2xl border-t border-outline-variant/20 lg:border-0 transition-[max-height] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] overflow-hidden lg:overflow-visible lg:max-h-none ${
+                sheetOpen ? "max-h-[85vh]" : "max-h-[88px]"
+              }`}
+            >
+              <div
+                onTouchStart={onSheetTouchStart}
+                onTouchMove={onSheetTouchMove}
+                onTouchEnd={onSheetTouchEnd}
+                className="lg:hidden touch-none"
               >
-                <span className="flex items-center gap-2 font-headline font-bold">
-                  <span className="material-symbols-outlined text-primary">tune</span>
-                  Conversion Options
-                  {items.length > 0 && (
-                    <span className="ml-1 text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full">
-                      {items.length}
+                {/* Drag handle */}
+                <div className="flex justify-center pt-2 pb-1">
+                  <span className="w-10 h-1.5 rounded-full bg-outline-variant/50" aria-hidden="true" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSheetOpen((o) => !o)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSheetOpen((o) => !o);
+                    }
+                    if (e.key === "ArrowUp") setSheetOpen(true);
+                    if (e.key === "ArrowDown") setSheetOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between px-5 pb-3 pt-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
+                  aria-expanded={sheetOpen}
+                  aria-controls="conversion-options-panel"
+                  aria-label={sheetOpen ? "Collapse conversion options" : "Expand conversion options"}
+                >
+                  <span className="flex items-center gap-2 font-headline font-bold min-w-0">
+                    <span className="material-symbols-outlined text-primary" aria-hidden="true">tune</span>
+                    <span className="truncate">
+                      Conversion Options
                     </span>
-                  )}
-                </span>
-                <span className={`material-symbols-outlined transition-transform ${sheetOpen ? "rotate-180" : ""}`}>
-                  expand_less
-                </span>
-              </button>
-            <div className={`lg:block lg:max-h-none lg:overflow-visible overflow-y-auto p-8 space-y-6 ${sheetOpen ? "max-h-[calc(85vh-64px)]" : "max-h-0 p-0 lg:p-8"}`}>
+                    {items.length > 0 && (
+                      <span className="text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full shrink-0">
+                        {items.length}
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    className={`material-symbols-outlined transition-transform duration-300 ${sheetOpen ? "rotate-180" : ""}`}
+                    aria-hidden="true"
+                  >
+                    expand_less
+                  </span>
+                </button>
+                {/* Summary chips when collapsed */}
+                {!sheetOpen && (
+                  <div className="px-5 pb-3 flex items-center gap-2 overflow-x-auto text-xs animate-fade-in">
+                    <span className="px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-bold whitespace-nowrap">
+                      {targetFormat.split("/")[1].toUpperCase()}
+                    </span>
+                    <span className="px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-bold whitespace-nowrap">
+                      {limitSize ? `≤ ${targetKB} KB` : `Quality ${quality}%`}
+                    </span>
+                    {processing && (
+                      <span className="px-2 py-1 rounded-full bg-primary/20 text-primary font-bold whitespace-nowrap flex items-center gap-1">
+                        <span className="material-symbols-outlined text-sm animate-spin" aria-hidden="true">progress_activity</span>
+                        Converting
+                      </span>
+                    )}
+                    {zipUrl && !expired && (
+                      <span className="px-2 py-1 rounded-full bg-primary/20 text-primary font-bold whitespace-nowrap">
+                        Ready {mm}:{ss}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            <div
+              id="conversion-options-panel"
+              aria-hidden={!sheetOpen ? "true" : undefined}
+              className={`lg:block lg:max-h-none lg:overflow-visible overflow-y-auto p-8 space-y-6 transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${sheetOpen ? "max-h-[calc(85vh-104px)] opacity-100" : "max-h-0 p-0 opacity-0 lg:opacity-100 lg:p-8"}`}>
+
               <h3 className="font-headline text-xl font-bold">
                 Conversion Options
               </h3>
