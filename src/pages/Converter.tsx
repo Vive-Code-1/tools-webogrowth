@@ -299,7 +299,7 @@ const Converter = () => {
     }
   };
 
-  const triggerDownload = () => {
+  const triggerDownload = async () => {
     if (expired || !zipUrl) {
       toast({
         title: "Download window expired",
@@ -308,12 +308,25 @@ const Converter = () => {
       });
       return;
     }
-    const a = document.createElement("a");
-    a.href = zipUrl;
-    a.download = zipName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    try {
+      const resp = await fetch(zipUrl);
+      const blob = await resp.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = zipName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+    } catch {
+      const a = document.createElement("a");
+      a.href = zipUrl;
+      a.download = zipName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
   };
 
   const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
