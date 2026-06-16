@@ -352,8 +352,8 @@ const Converter = () => {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-8 space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:items-stretch">
+          <div className="lg:col-span-8 space-y-4 flex flex-col">
             <DropZone
               multiple
               onFilesSelect={handleFilesSelect}
