@@ -57,6 +57,8 @@ export async function convertImage(
   return canvasToBlob(canvas, opts.format, opts.quality / 100);
 }
 
+export type ProgressFn = (info: { estimatedSize: number; step: number; totalSteps: number }) => void;
+
 export interface TargetSizeResult {
   blob: Blob;
   reachedTarget: boolean;
