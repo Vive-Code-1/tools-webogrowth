@@ -52,18 +52,6 @@ const Converter = () => {
   const dragStartY = useRef<number | null>(null);
   const sheetRef = useRef<HTMLDivElement | null>(null);
 
-  // Auto-collapse on conversion start, auto-expand when result ready / expired
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(min-width: 1024px)").matches) return;
-    if (processing) setSheetOpen(false);
-  }, [processing]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(min-width: 1024px)").matches) return;
-    if (zipUrl || expired) setSheetOpen(true);
-  }, [zipUrl, expired]);
 
   // Esc to close sheet on mobile
   useEffect(() => {
