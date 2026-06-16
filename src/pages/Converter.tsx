@@ -246,38 +246,57 @@ const Converter = () => {
     setTimeout(() => URL.revokeObjectURL(url), 2000);
   };
 
-  const prepareZip = async () => {
-    if (!doneItems.length) return;
-    if (doneItems.length === 1) {
-      // single file — use blob URL with countdown too
-      const it = doneItems[0];
-      const url = URL.createObjectURL(it.outBlob!);
+  const [preparing, setPreparing] = useState(false);
+
+  const publishBlob = async (blob: Blob, fileName: string) => {
+    try {
+      const remote = await uploadToStorage(blob, fileName);
+      zipUrlRef.current = remote.url;
+      storagePathRef.current = remote.path;
+      setZipName(fileName);
+      setZipUrl(remote.url);
+    } catch (e) {
+      console.warn("Storage upload failed, using local blob URL:", e);
+      const url = URL.createObjectURL(blob);
       zipUrlRef.current = url;
-      setZipName(it.outName!);
+      storagePathRef.current = null;
+      setZipName(fileName);
       setZipUrl(url);
-      setSecondsLeft(COUNTDOWN_SECONDS);
-      setExpired(false);
-      return;
+      toast({
+        title: "Using local download",
+        description: "Cloud storage unavailable — download stays in your browser only.",
+      });
     }
-    const zip = new JSZip();
-    const seen = new Map<string, number>();
-    for (const it of doneItems) {
-      let name = it.outName!;
-      const count = seen.get(name) || 0;
-      if (count > 0) {
-        const dot = name.lastIndexOf(".");
-        name = `${name.slice(0, dot)}-${count}${name.slice(dot)}`;
-      }
-      seen.set(it.outName!, count + 1);
-      zip.file(name, it.outBlob!);
-    }
-    const blob = await zip.generateAsync({ type: "blob" });
-    const url = URL.createObjectURL(blob);
-    zipUrlRef.current = url;
-    setZipName(`converted-images-${Date.now()}.zip`);
-    setZipUrl(url);
     setSecondsLeft(COUNTDOWN_SECONDS);
     setExpired(false);
+  };
+
+  const prepareZip = async () => {
+    if (!doneItems.length) return;
+    setPreparing(true);
+    try {
+      if (doneItems.length === 1) {
+        const it = doneItems[0];
+        await publishBlob(it.outBlob!, it.outName!);
+        return;
+      }
+      const zip = new JSZip();
+      const seen = new Map<string, number>();
+      for (const it of doneItems) {
+        let name = it.outName!;
+        const count = seen.get(name) || 0;
+        if (count > 0) {
+          const dot = name.lastIndexOf(".");
+          name = `${name.slice(0, dot)}-${count}${name.slice(dot)}`;
+        }
+        seen.set(it.outName!, count + 1);
+        zip.file(name, it.outBlob!);
+      }
+      const blob = await zip.generateAsync({ type: "blob" });
+      await publishBlob(blob, `converted-images-${Date.now()}.zip`);
+    } finally {
+      setPreparing(false);
+    }
   };
 
   const triggerDownload = () => {
