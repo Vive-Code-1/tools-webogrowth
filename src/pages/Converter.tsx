@@ -581,12 +581,17 @@ const Converter = () => {
               {doneItems.length > 0 && !zipUrl && !expired && (
                 <button
                   onClick={prepareZip}
-                  className="w-full bg-surface-container-lowest border border-primary/40 text-primary py-4 rounded-xl font-bold transition-all active:scale-95 hover:bg-primary/10 flex items-center justify-center gap-3"
+                  disabled={preparing}
+                  className="w-full bg-surface-container-lowest border border-primary/40 text-primary py-4 rounded-xl font-bold transition-all active:scale-95 hover:bg-primary/10 flex items-center justify-center gap-3 disabled:opacity-50"
                 >
-                  <span className="material-symbols-outlined">folder_zip</span>
-                  {doneItems.length > 1
-                    ? `Prepare ZIP (${doneItems.length})`
-                    : "Prepare Download"}
+                  <span className={`material-symbols-outlined ${preparing ? "animate-spin" : ""}`}>
+                    {preparing ? "progress_activity" : "folder_zip"}
+                  </span>
+                  {preparing
+                    ? "Uploading..."
+                    : doneItems.length > 1
+                      ? `Prepare ZIP (${doneItems.length})`
+                      : "Prepare Download"}
                 </button>
               )}
 
@@ -598,7 +603,7 @@ const Converter = () => {
                       <span className="font-headline font-bold text-lg">{mm}:{ss}</span>
                     </div>
                     <span className="text-xs text-on-surface-variant uppercase tracking-widest font-bold">
-                      Window
+                      {storagePathRef.current ? "Cloud" : "Local"}
                     </span>
                   </div>
                   <div className="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
@@ -614,16 +619,27 @@ const Converter = () => {
                     <span className="material-symbols-outlined">download</span>
                     Download {doneItems.length > 1 ? "ZIP" : "File"}
                   </button>
+                  <p className="text-[11px] text-on-surface-variant text-center">
+                    File auto-deletes from cloud in {mm}:{ss}
+                  </p>
                 </div>
               )}
 
               {expired && (
-                <div className="bg-destructive/10 border border-destructive/40 rounded-xl p-5 text-center space-y-2">
+                <div className="bg-destructive/10 border border-destructive/40 rounded-xl p-5 text-center space-y-3">
                   <span className="material-symbols-outlined text-destructive text-3xl">timer_off</span>
                   <h4 className="font-headline font-bold text-destructive">Download window expired</h4>
                   <p className="text-xs text-on-surface-variant">
-                    Please reconvert your images to download again.
+                    File has been deleted from cloud storage. Reconvert to download again.
                   </p>
+                  <button
+                    onClick={handleConvertAgain}
+                    disabled={processing || !items.length}
+                    className="w-full bg-primary text-on-primary py-3 rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+                  >
+                    <span className="material-symbols-outlined">refresh</span>
+                    আবার কনভার্ট করুন
+                  </button>
                 </div>
               )}
             </div>
