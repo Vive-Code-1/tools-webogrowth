@@ -11,6 +11,10 @@ import {
   formatExtension,
   type ImageFormat,
 } from "@/lib/imageConvert";
+import { uploadToStorage, deleteFromStorage } from "@/lib/processedStorage";
+import { runWithConcurrency } from "@/lib/concurrency";
+
+const CONCURRENCY = 3;
 
 const formats: { value: ImageFormat; label: string }[] = [
   { value: "image/webp", label: "WebP (Optimized)" },
