@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
 import DropZone from "@/components/DropZone";
 import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
+import { toast } from "@/hooks/use-toast";
 import {
   convertImage,
   convertImageToTargetSize,
@@ -26,11 +27,14 @@ interface Item {
   outBlob?: Blob;
   outName?: string;
   outSize?: number;
+  estSize?: number;
+  progress?: number; // 0-100
   reachedTarget?: boolean;
   error?: string;
 }
 
 const fmtKB = (n: number) => `${(n / 1024).toFixed(1)} KB`;
+const COUNTDOWN_SECONDS = 300;
 
 const Converter = () => {
   const [items, setItems] = useState<Item[]>([]);
@@ -39,6 +43,36 @@ const Converter = () => {
   const [limitSize, setLimitSize] = useState(false);
   const [targetKB, setTargetKB] = useState<number>(200);
   const [processing, setProcessing] = useState(false);
+
+  // ZIP download countdown
+  const [zipUrl, setZipUrl] = useState<string | null>(null);
+  const [zipName, setZipName] = useState<string>("");
+  const [secondsLeft, setSecondsLeft] = useState(0);
+  const [expired, setExpired] = useState(false);
+  const zipUrlRef = useRef<string | null>(null);
+
+  // Tick countdown
+  useEffect(() => {
+    if (!zipUrl || expired) return;
+    const id = setInterval(() => {
+      setSecondsLeft((s) => {
+        if (s <= 1) {
+          clearInterval(id);
+          setExpired(true);
+          if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
+          zipUrlRef.current = null;
+          return 0;
+        }
+        return s - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [zipUrl, expired]);
+
+  // Cleanup on unmount
+  useEffect(() => () => {
+    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
+  }, []);
 
   const handleFilesSelect = useCallback((files: File[]) => {
     setItems((prev) => [
@@ -54,31 +88,63 @@ const Converter = () => {
   const removeItem = (id: string) =>
     setItems((p) => p.filter((i) => i.id !== id));
 
-  const clearAll = () => setItems([]);
+  const clearAll = () => {
+    setItems([]);
+    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
+    zipUrlRef.current = null;
+    setZipUrl(null);
+    setExpired(false);
+  };
 
   const updateItem = (id: string, patch: Partial<Item>) =>
     setItems((p) => p.map((i) => (i.id === id ? { ...i, ...patch } : i)));
 
   const handleConvertAll = useCallback(async () => {
     if (!items.length) return;
+    if (limitSize && (!targetKB || targetKB < 1)) {
+      toast({
+        title: "Invalid target size",
+        description: "Target size must be at least 1 KB.",
+        variant: "destructive",
+      });
+      return;
+    }
     setProcessing(true);
+    // reset prior zip
+    if (zipUrlRef.current) URL.revokeObjectURL(zipUrlRef.current);
+    zipUrlRef.current = null;
+    setZipUrl(null);
+    setExpired(false);
+
+    let missed = 0;
+    let failed = 0;
+
     for (const it of items) {
       if (it.status === "done") continue;
-      updateItem(it.id, { status: "converting", error: undefined });
+      updateItem(it.id, { status: "converting", error: undefined, progress: 0, estSize: undefined });
       try {
         const baseName = it.file.name.replace(/\.[^.]+$/, "");
         if (limitSize && targetKB > 0) {
           const r = await convertImageToTargetSize(it.file, {
             format: targetFormat,
             targetKB,
+            onProgress: ({ estimatedSize, step, totalSteps }) => {
+              updateItem(it.id, {
+                estSize: estimatedSize,
+                progress: Math.round((step / totalSteps) * 100),
+              });
+            },
           });
           const ext = formatExtension(r.format);
+          if (!r.reachedTarget) missed++;
           updateItem(it.id, {
             status: "done",
             outBlob: r.blob,
             outName: `${baseName}.${ext}`,
             outSize: r.blob.size,
             reachedTarget: r.reachedTarget,
+            progress: 100,
+            error: r.reachedTarget ? undefined : `Could not fit ${targetKB} KB limit`,
           });
         } else {
           const blob = await convertImage(it.file, { format: targetFormat, quality });
@@ -89,9 +155,11 @@ const Converter = () => {
             outName: `${baseName}.${ext}`,
             outSize: blob.size,
             reachedTarget: true,
+            progress: 100,
           });
         }
       } catch (e) {
+        failed++;
         updateItem(it.id, {
           status: "failed",
           error: e instanceof Error ? e.message : "Conversion failed",
@@ -99,6 +167,21 @@ const Converter = () => {
       }
     }
     setProcessing(false);
+
+    if (failed) {
+      toast({
+        title: `${failed} image${failed > 1 ? "s" : ""} failed`,
+        description: "Check the queue for details.",
+        variant: "destructive",
+      });
+    }
+    if (missed) {
+      toast({
+        title: `${missed} image${missed > 1 ? "s" : ""} exceeded target`,
+        description: `Couldn't compress to ${targetKB} KB even at lowest quality.`,
+        variant: "destructive",
+      });
+    }
   }, [items, limitSize, targetKB, targetFormat, quality]);
 
   const doneItems = useMemo(
@@ -118,9 +201,19 @@ const Converter = () => {
     setTimeout(() => URL.revokeObjectURL(url), 2000);
   };
 
-  const downloadZip = async () => {
+  const prepareZip = async () => {
     if (!doneItems.length) return;
-    if (doneItems.length === 1) return downloadOne(doneItems[0]);
+    if (doneItems.length === 1) {
+      // single file — use blob URL with countdown too
+      const it = doneItems[0];
+      const url = URL.createObjectURL(it.outBlob!);
+      zipUrlRef.current = url;
+      setZipName(it.outName!);
+      setZipUrl(url);
+      setSecondsLeft(COUNTDOWN_SECONDS);
+      setExpired(false);
+      return;
+    }
     const zip = new JSZip();
     const seen = new Map<string, number>();
     for (const it of doneItems) {
@@ -135,14 +228,33 @@ const Converter = () => {
     }
     const blob = await zip.generateAsync({ type: "blob" });
     const url = URL.createObjectURL(blob);
+    zipUrlRef.current = url;
+    setZipName(`converted-images-${Date.now()}.zip`);
+    setZipUrl(url);
+    setSecondsLeft(COUNTDOWN_SECONDS);
+    setExpired(false);
+  };
+
+  const triggerDownload = () => {
+    if (expired || !zipUrl) {
+      toast({
+        title: "Download window expired",
+        description: "Please reconvert your images to download again.",
+        variant: "destructive",
+      });
+      return;
+    }
     const a = document.createElement("a");
-    a.href = url;
-    a.download = `converted-images-${Date.now()}.zip`;
+    a.href = zipUrl;
+    a.download = zipName;
     document.body.appendChild(a);
     a.click();
     a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
   };
+
+  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+  const ss = String(secondsLeft % 60).padStart(2, "0");
+  const progressPct = (secondsLeft / COUNTDOWN_SECONDS) * 100;
 
   return (
     <>
@@ -188,74 +300,94 @@ const Converter = () => {
                   </button>
                 </div>
                 <ul className="space-y-2 max-h-96 overflow-auto">
-                  {items.map((it) => (
-                    <li
-                      key={it.id}
-                      className="flex items-center gap-3 bg-surface-container rounded-lg p-3"
-                    >
-                      <span className="material-symbols-outlined text-primary">
-                        image
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <div className="text-sm font-bold truncate">
-                          {it.file.name}
-                        </div>
-                        <div className="text-xs text-on-surface-variant">
-                          {fmtKB(it.file.size)}
-                          {it.outSize != null && (
-                            <>
-                              {" → "}
-                              <span className="text-primary">
-                                {fmtKB(it.outSize)}
-                              </span>
-                              {it.reachedTarget === false && (
-                                <span className="ml-2 text-amber-400">
-                                  (target missed)
+                  {items.map((it) => {
+                    const overTarget =
+                      limitSize && it.estSize != null && it.estSize > targetKB * 1024;
+                    return (
+                      <li
+                        key={it.id}
+                        className="flex flex-col gap-2 bg-surface-container rounded-lg p-3"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="material-symbols-outlined text-primary">
+                            image
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <div className="text-sm font-bold truncate">
+                              {it.file.name}
+                            </div>
+                            <div className="text-xs text-on-surface-variant">
+                              {fmtKB(it.file.size)}
+                              {it.status === "converting" && it.estSize != null && (
+                                <>
+                                  {" → est. "}
+                                  <span className={overTarget ? "text-amber-400" : "text-primary"}>
+                                    {fmtKB(it.estSize)}
+                                  </span>
+                                </>
+                              )}
+                              {it.outSize != null && it.status === "done" && (
+                                <>
+                                  {" → "}
+                                  <span className="text-primary">
+                                    {fmtKB(it.outSize)}
+                                  </span>
+                                  {it.reachedTarget === false && (
+                                    <span className="ml-2 text-amber-400">
+                                      (target missed)
+                                    </span>
+                                  )}
+                                </>
+                              )}
+                              {it.error && (
+                                <span className="ml-2 text-red-400">
+                                  {it.error}
                                 </span>
                               )}
-                            </>
-                          )}
-                          {it.error && (
-                            <span className="ml-2 text-red-400">
-                              {it.error}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="text-xs font-bold">
-                        {it.status === "converting" && (
-                          <span className="material-symbols-outlined animate-spin text-primary">
-                            progress_activity
-                          </span>
-                        )}
-                        {it.status === "done" && (
+                            </div>
+                          </div>
+                          <div className="text-xs font-bold">
+                            {it.status === "converting" && (
+                              <span className="text-primary">{it.progress ?? 0}%</span>
+                            )}
+                            {it.status === "done" && (
+                              <button
+                                onClick={() => downloadOne(it)}
+                                className="text-primary hover:underline"
+                              >
+                                Download
+                              </button>
+                            )}
+                            {it.status === "queued" && (
+                              <span className="text-on-surface-variant">
+                                Queued
+                              </span>
+                            )}
+                            {it.status === "failed" && (
+                              <span className="text-red-400">Failed</span>
+                            )}
+                          </div>
                           <button
-                            onClick={() => downloadOne(it)}
-                            className="text-primary hover:underline"
+                            onClick={() => removeItem(it.id)}
+                            className="text-on-surface-variant hover:text-red-400"
+                            aria-label="Remove"
                           >
-                            Download
+                            <span className="material-symbols-outlined text-base">
+                              close
+                            </span>
                           </button>
+                        </div>
+                        {(it.status === "converting" || it.status === "done") && (
+                          <div className="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-primary transition-all duration-300 rounded-full"
+                              style={{ width: `${it.progress ?? 0}%` }}
+                            />
+                          </div>
                         )}
-                        {it.status === "queued" && (
-                          <span className="text-on-surface-variant">
-                            Queued
-                          </span>
-                        )}
-                        {it.status === "failed" && (
-                          <span className="text-red-400">Failed</span>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => removeItem(it.id)}
-                        className="text-on-surface-variant hover:text-red-400"
-                        aria-label="Remove"
-                      >
-                        <span className="material-symbols-outlined text-base">
-                          close
-                        </span>
-                      </button>
-                    </li>
-                  ))}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
@@ -305,13 +437,20 @@ const Converter = () => {
               )}
 
               <div className="border-t border-outline-variant/20 pt-5 space-y-3">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={limitSize}
-                    onChange={(e) => setLimitSize(e.target.checked)}
-                    className="w-4 h-4 accent-primary cursor-pointer"
-                  />
+                <label className="flex items-center gap-3 cursor-pointer select-none">
+                  <span className="relative inline-flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={limitSize}
+                      onChange={(e) => setLimitSize(e.target.checked)}
+                      className="peer appearance-none w-5 h-5 rounded-full border-2 border-primary bg-surface-container-lowest checked:bg-primary cursor-pointer transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    />
+                    <span className="pointer-events-none absolute inset-0 hidden peer-checked:flex items-center justify-center text-on-primary">
+                      <svg viewBox="0 0 16 16" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3,8 7,12 13,4" />
+                      </svg>
+                    </span>
+                  </span>
                   <span className="font-bold text-sm">Limit file size</span>
                 </label>
                 {limitSize && (
@@ -362,18 +501,53 @@ const Converter = () => {
                 )}
               </button>
 
-              {doneItems.length > 0 && (
+              {doneItems.length > 0 && !zipUrl && !expired && (
                 <button
-                  onClick={downloadZip}
+                  onClick={prepareZip}
                   className="w-full bg-surface-container-lowest border border-primary/40 text-primary py-4 rounded-xl font-bold transition-all active:scale-95 hover:bg-primary/10 flex items-center justify-center gap-3"
                 >
-                  <span className="material-symbols-outlined">
-                    folder_zip
-                  </span>
+                  <span className="material-symbols-outlined">folder_zip</span>
                   {doneItems.length > 1
-                    ? `Download ZIP (${doneItems.length})`
-                    : "Download File"}
+                    ? `Prepare ZIP (${doneItems.length})`
+                    : "Prepare Download"}
                 </button>
+              )}
+
+              {zipUrl && !expired && (
+                <div className="bg-surface-container rounded-xl p-5 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary">timer</span>
+                      <span className="font-headline font-bold text-lg">{mm}:{ss}</span>
+                    </div>
+                    <span className="text-xs text-on-surface-variant uppercase tracking-widest font-bold">
+                      Window
+                    </span>
+                  </div>
+                  <div className="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary transition-all duration-1000 rounded-full"
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+                  <button
+                    onClick={triggerDownload}
+                    className="w-full bg-primary text-on-primary py-4 rounded-lg font-bold flex items-center justify-center gap-3 active:scale-95 hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)]"
+                  >
+                    <span className="material-symbols-outlined">download</span>
+                    Download {doneItems.length > 1 ? "ZIP" : "File"}
+                  </button>
+                </div>
+              )}
+
+              {expired && (
+                <div className="bg-destructive/10 border border-destructive/40 rounded-xl p-5 text-center space-y-2">
+                  <span className="material-symbols-outlined text-destructive text-3xl">timer_off</span>
+                  <h4 className="font-headline font-bold text-destructive">Download window expired</h4>
+                  <p className="text-xs text-on-surface-variant">
+                    Please reconvert your images to download again.
+                  </p>
+                </div>
               )}
             </div>
           </div>
