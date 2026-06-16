@@ -2,8 +2,8 @@
   {
     "url": "http://localhost:4173/",
     "isRepresentativeRun": false,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_-2026_06_16_17_46_27.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_-2026_06_16_17_46_27.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_-2026_06_16_17_50_04.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_-2026_06_16_17_50_04.report.json",
     "summary": {
       "performance": 0.94,
       "accessibility": 0.96,
@@ -14,10 +14,10 @@
   {
     "url": "http://localhost:4173/compressor",
     "isRepresentativeRun": false,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_compressor-2026_06_16_17_47_12.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_compressor-2026_06_16_17_47_12.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_compressor-2026_06_16_17_50_32.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_compressor-2026_06_16_17_50_32.report.json",
     "summary": {
-      "performance": 0.98,
+      "performance": 0.93,
       "accessibility": 0.87,
       "best-practices": 1,
       "seo": 0.92
@@ -26,8 +26,8 @@
   {
     "url": "http://localhost:4173/json-formatter",
     "isRepresentativeRun": false,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_json_formatter-2026_06_16_17_47_34.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_json_formatter-2026_06_16_17_47_34.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_json_formatter-2026_06_16_17_50_54.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_json_formatter-2026_06_16_17_50_54.report.json",
     "summary": {
       "performance": 0.93,
       "accessibility": 0.96,
@@ -38,10 +38,10 @@
   {
     "url": "http://localhost:4173/qr-code",
     "isRepresentativeRun": false,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_qr_code-2026_06_16_17_47_45.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_qr_code-2026_06_16_17_47_45.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_qr_code-2026_06_16_17_51_05.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_qr_code-2026_06_16_17_51_05.report.json",
     "summary": {
-      "performance": 0.95,
+      "performance": 0.94,
       "accessibility": 0.88,
       "best-practices": 1,
       "seo": 0.92
@@ -50,10 +50,10 @@
   {
     "url": "http://localhost:4173/meta-tag-generator",
     "isRepresentativeRun": false,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_meta_tag_generator-2026_06_16_17_48_08.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_meta_tag_generator-2026_06_16_17_48_08.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_meta_tag_generator-2026_06_16_17_51_28.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_meta_tag_generator-2026_06_16_17_51_28.report.json",
     "summary": {
-      "performance": 0.98,
+      "performance": 0.93,
       "accessibility": 0.96,
       "best-practices": 1,
       "seo": 0.92
@@ -62,8 +62,8 @@
   {
     "url": "http://localhost:4173/gradient-generator",
     "isRepresentativeRun": false,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_gradient_generator-2026_06_16_17_48_42.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_gradient_generator-2026_06_16_17_48_42.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_gradient_generator-2026_06_16_17_51_50.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_gradient_generator-2026_06_16_17_51_50.report.json",
     "summary": {
       "performance": 0.94,
       "accessibility": 0.92,
@@ -74,10 +74,10 @@
   {
     "url": "http://localhost:4173/",
     "isRepresentativeRun": true,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_-2026_06_16_17_46_45.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_-2026_06_16_17_46_45.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_-2026_06_16_17_49_46.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_-2026_06_16_17_49_46.report.json",
     "summary": {
-      "performance": 0.94,
+      "performance": 0.93,
       "accessibility": 0.96,
       "best-practices": 1,
       "seo": 1
@@ -86,8 +86,8 @@
   {
     "url": "http://localhost:4173/compressor",
     "isRepresentativeRun": true,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_compressor-2026_06_16_17_47_01.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_compressor-2026_06_16_17_47_01.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_compressor-2026_06_16_17_50_21.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_compressor-2026_06_16_17_50_21.report.json",
     "summary": {
       "performance": 0.93,
       "accessibility": 0.87,
@@ -98,8 +98,8 @@
   {
     "url": "http://localhost:4173/json-formatter",
     "isRepresentativeRun": true,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_json_formatter-2026_06_16_17_47_23.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_json_formatter-2026_06_16_17_47_23.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_json_formatter-2026_06_16_17_50_43.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_json_formatter-2026_06_16_17_50_43.report.json",
     "summary": {
       "performance": 0.93,
       "accessibility": 0.96,
@@ -110,8 +110,8 @@
   {
     "url": "http://localhost:4173/qr-code",
     "isRepresentativeRun": true,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_qr_code-2026_06_16_17_47_57.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_qr_code-2026_06_16_17_47_57.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_qr_code-2026_06_16_17_51_17.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_qr_code-2026_06_16_17_51_17.report.json",
     "summary": {
       "performance": 0.93,
       "accessibility": 0.88,
@@ -122,8 +122,8 @@
   {
     "url": "http://localhost:4173/meta-tag-generator",
     "isRepresentativeRun": true,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_meta_tag_generator-2026_06_16_17_48_19.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_meta_tag_generator-2026_06_16_17_48_19.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_meta_tag_generator-2026_06_16_17_51_39.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_meta_tag_generator-2026_06_16_17_51_39.report.json",
     "summary": {
       "performance": 0.93,
       "accessibility": 0.96,
@@ -134,10 +134,10 @@
   {
     "url": "http://localhost:4173/gradient-generator",
     "isRepresentativeRun": true,
-    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_gradient_generator-2026_06_16_17_48_30.report.html",
-    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_gradient_generator-2026_06_16_17_48_30.report.json",
+    "htmlPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_gradient_generator-2026_06_16_17_52_01.report.html",
+    "jsonPath": "/home/runner/work/tools-webogrowth/tools-webogrowth/reports/lighthouse/localhost-_gradient_generator-2026_06_16_17_52_01.report.json",
     "summary": {
-      "performance": 0.93,
+      "performance": 0.94,
       "accessibility": 0.92,
       "best-practices": 1,
       "seo": 0.92
