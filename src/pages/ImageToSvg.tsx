@@ -698,49 +698,170 @@ const ImageToSvg = () => {
                 </div>
 
                 {colorMode === "color" && (
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <label className="block font-label text-sm uppercase text-on-surface-variant font-bold">
-                        Color Count
-                      </label>
-                      <button
-                        type="button"
-                        onClick={() => setColorAuto((a) => !a)}
-                        className={`text-[11px] px-2 py-1 rounded-full font-bold transition-all ${
-                          colorAuto
-                            ? "bg-primary text-on-primary"
-                            : "bg-surface-container-lowest border border-outline-variant/30 text-on-surface-variant hover:border-primary/50"
-                        }`}
-                        aria-pressed={colorAuto}
-                        title="Auto-detect color count from the image to preserve original colors"
-                      >
-                        {colorAuto ? "Auto ✓" : "Auto"}
-                      </button>
+                  <div className="space-y-3">
+                    <label className="block font-label text-sm uppercase text-on-surface-variant font-bold">
+                      Palette Mode
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {(["auto", "manual"] as const).map((m) => (
+                        <button
+                          key={m}
+                          type="button"
+                          onClick={() => {
+                            setPaletteMode(m);
+                            if (m === "manual" && !manualPalette.length && detectedPalette.length) {
+                              setManualPalette(detectedPalette);
+                            }
+                          }}
+                          className={`py-2 rounded-lg text-xs font-bold capitalize transition-all ${
+                            paletteMode === m
+                              ? "bg-primary text-on-primary"
+                              : "bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/50"
+                          }`}
+                          aria-pressed={paletteMode === m}
+                        >
+                          {m}
+                        </button>
+                      ))}
                     </div>
-                    <input
-                      type="range"
-                      min={2}
-                      max={64}
-                      value={colorCount}
-                      onChange={(e) => {
-                        setColorCount(Number(e.target.value));
-                        setColorAuto(false);
-                      }}
-                      disabled={colorAuto}
-                      className="w-full accent-primary disabled:opacity-40"
-                    />
-                    <div className="flex justify-between text-xs font-bold text-on-surface-variant">
-                      <span>2</span>
-                      <span className="text-primary">
-                        {colorAuto ? "Auto" : colorCount}
-                      </span>
-                      <span>64</span>
-                    </div>
-                    {colorAuto && (
-                      <p className="text-[11px] text-on-surface-variant mt-2 leading-relaxed">
-                        Auto mode samples your image and keeps original colors intact.
-                      </p>
+
+                    {paletteMode === "auto" && (
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[11px] uppercase tracking-widest text-on-surface-variant font-bold">
+                            Max colors
+                          </span>
+                          <span className="text-primary text-xs font-bold">{colorCount}</span>
+                        </div>
+                        <input
+                          type="range"
+                          min={2}
+                          max={64}
+                          value={colorCount}
+                          onChange={(e) => setColorCount(Number(e.target.value))}
+                          className="w-full accent-primary"
+                        />
+                        <div className="flex justify-between text-[10px] font-bold text-on-surface-variant">
+                          <span>2</span>
+                          <span>64</span>
+                        </div>
+                      </div>
                     )}
+
+                    {/* Live palette preview */}
+                    <div className="bg-surface-container-lowest rounded-lg p-3 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] uppercase tracking-widest text-on-surface-variant font-bold">
+                          {paletteMode === "manual" ? "Your palette" : "Detected palette"}
+                        </span>
+                        <span className="text-[10px] text-on-surface-variant">
+                          {paletteLoading
+                            ? "Analyzing…"
+                            : `${(paletteMode === "manual" ? manualPalette : detectedPalette).length} colors`}
+                        </span>
+                      </div>
+                      {!items.length ? (
+                        <p className="text-[11px] text-on-surface-variant">
+                          Upload an image to preview its palette.
+                        </p>
+                      ) : paletteMode === "manual" ? (
+                        <>
+                          <div className="grid grid-cols-8 gap-1.5">
+                            {manualPalette.map((c, i) => (
+                              <div key={i} className="relative group">
+                                <input
+                                  type="color"
+                                  value={toHex(c)}
+                                  onChange={(e) =>
+                                    setManualPalette((p) =>
+                                      p.map((x, j) => (j === i ? fromHex(e.target.value) : x)),
+                                    )
+                                  }
+                                  className="w-full h-8 rounded cursor-pointer border border-outline-variant/30 bg-transparent"
+                                  aria-label={`Color ${i + 1}`}
+                                  title={toHex(c)}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setManualPalette((p) => p.filter((_, j) => j !== i))
+                                  }
+                                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-surface-container-highest text-[10px] leading-none opacity-0 group-hover:opacity-100 transition-opacity"
+                                  aria-label={`Remove color ${i + 1}`}
+                                  disabled={manualPalette.length <= 2}
+                                >
+                                  ×
+                                </button>
+                              </div>
+                            ))}
+                            {manualPalette.length < 32 && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setManualPalette((p) => [...p, { r: 128, g: 128, b: 128 }])
+                                }
+                                className="w-full h-8 rounded border border-dashed border-outline-variant/50 text-on-surface-variant hover:border-primary/50 hover:text-primary text-lg leading-none"
+                                aria-label="Add color"
+                              >
+                                +
+                              </button>
+                            )}
+                          </div>
+                          <div className="flex items-center justify-between pt-1">
+                            <button
+                              type="button"
+                              onClick={() => setManualPalette(detectedPalette)}
+                              disabled={!detectedPalette.length}
+                              className="text-[11px] text-primary font-bold hover:underline disabled:opacity-40"
+                            >
+                              Reset to detected
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setManualPalette([])}
+                              className="text-[11px] text-on-surface-variant hover:text-red-400"
+                            >
+                              Clear
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="grid grid-cols-8 gap-1.5">
+                          {detectedPalette.map((c, i) => (
+                            <div
+                              key={i}
+                              className="w-full h-8 rounded border border-outline-variant/20"
+                              style={{ backgroundColor: toHex(c) }}
+                              title={toHex(c)}
+                            />
+                          ))}
+                          {!detectedPalette.length && !paletteLoading && (
+                            <p className="col-span-8 text-[11px] text-on-surface-variant">
+                              Could not extract palette.
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    <label className="flex items-center justify-between gap-2 bg-surface-container-lowest rounded-lg p-3 cursor-pointer">
+                      <div className="min-w-0">
+                        <div className="text-xs font-bold flex items-center gap-2">
+                          <span className="material-symbols-outlined text-base text-primary">lock</span>
+                          Lock colors
+                        </div>
+                        <p className="text-[11px] text-on-surface-variant mt-0.5">
+                          Skip re-quantization so colors stay exact.
+                        </p>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={lockColors || paletteMode === "manual"}
+                        disabled={paletteMode === "manual"}
+                        onChange={(e) => setLockColors(e.target.checked)}
+                        className="w-5 h-5 accent-primary"
+                      />
+                    </label>
                   </div>
                 )}
 
