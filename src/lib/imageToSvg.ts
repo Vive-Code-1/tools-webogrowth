@@ -7,9 +7,28 @@ export interface TraceOptions {
   size: number; // target viewBox/output px
   colorMode: ColorMode;
   preset: QualityPreset;
-  colorCount: number; // 2-16
+  colorCount: number | "auto"; // 2-64 or "auto" to detect from image
   smoothing: number; // 0 - 5 (path simplification tolerance)
   background: "transparent" | "white" | string; // hex
+}
+
+// Estimate distinct dominant colors in image data by quantizing each
+// channel to 5 bits and counting unique buckets (ignoring transparent pixels).
+// Returns a value clamped to [4, 64] suitable for imagetracerjs numberofcolors.
+function estimateColorCount(data: ImageData): number {
+  const px = data.data;
+  const buckets = new Set<number>();
+  const step = Math.max(4, Math.floor((px.length / 4) / 4000)) * 4; // sample ~4k pixels
+  for (let i = 0; i < px.length; i += step) {
+    const a = px[i + 3];
+    if (a < 16) continue;
+    const r = px[i] >> 3;
+    const g = px[i + 1] >> 3;
+    const b = px[i + 2] >> 3;
+    buckets.add((r << 10) | (g << 5) | b);
+    if (buckets.size >= 64) break;
+  }
+  return Math.max(4, Math.min(64, buckets.size || 8));
 }
 
 export interface TraceResult {
