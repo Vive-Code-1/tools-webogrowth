@@ -633,22 +633,48 @@ const ImageToSvg = () => {
 
                 {colorMode === "color" && (
                   <div>
-                    <label className="block font-label text-sm uppercase text-on-surface-variant mb-3 font-bold">
-                      Color Count
-                    </label>
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="block font-label text-sm uppercase text-on-surface-variant font-bold">
+                        Color Count
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setColorAuto((a) => !a)}
+                        className={`text-[11px] px-2 py-1 rounded-full font-bold transition-all ${
+                          colorAuto
+                            ? "bg-primary text-on-primary"
+                            : "bg-surface-container-lowest border border-outline-variant/30 text-on-surface-variant hover:border-primary/50"
+                        }`}
+                        aria-pressed={colorAuto}
+                        title="Auto-detect color count from the image to preserve original colors"
+                      >
+                        {colorAuto ? "Auto ✓" : "Auto"}
+                      </button>
+                    </div>
                     <input
                       type="range"
                       min={2}
-                      max={16}
+                      max={64}
                       value={colorCount}
-                      onChange={(e) => setColorCount(Number(e.target.value))}
-                      className="w-full accent-primary"
+                      onChange={(e) => {
+                        setColorCount(Number(e.target.value));
+                        setColorAuto(false);
+                      }}
+                      disabled={colorAuto}
+                      className="w-full accent-primary disabled:opacity-40"
                     />
                     <div className="flex justify-between text-xs font-bold text-on-surface-variant">
                       <span>2</span>
-                      <span className="text-primary">{colorCount}</span>
-                      <span>16</span>
+                      <span className="text-primary">
+                        {colorAuto ? "Auto" : colorCount}
+                      </span>
+                      <span>64</span>
                     </div>
+                    {colorAuto && (
+                      <p className="text-[11px] text-on-surface-variant mt-2 leading-relaxed">
+                        Auto mode samples your image and keeps original colors intact.
+                      </p>
+                    )}
                   </div>
                 )}
 
