@@ -50,6 +50,10 @@ export interface TraceResult {
   pathCount: number;
   width: number;
   height: number;
+  /** Palette actually used during tracing. */
+  usedPalette: RGB[];
+  /** Avg luminance (0-255) of visible source pixels. */
+  sourceLuminance: number;
 }
 
 const loadImage = (file: File): Promise<HTMLImageElement> =>
