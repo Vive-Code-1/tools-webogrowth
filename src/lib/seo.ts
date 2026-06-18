@@ -140,6 +140,42 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
     ],
   }),
 
+  "/image-to-svg": f("/image-to-svg", {
+    title: "Image to SVG Icon Converter — PNG/JPG to SVG Free",
+    description:
+      "Convert PNG, JPG and WebP images to scalable SVG icons online. Bulk upload, color or B&W tracing, standard icon sizes 16–256px. Free & private.",
+    keywords:
+      "image to svg, png to svg, jpg to svg converter, raster to vector online, image vectorizer, svg icon generator, bulk image to svg, free svg converter",
+    category: "Image",
+    h1: "Image to SVG Icon Converter",
+    intro:
+      "Vectorize raster images into clean SVG icons at standard sizes. Color, grayscale or black-and-white tracing with bulk processing.",
+    features: [
+      "Standard icon sizes: 16, 24, 32, 48, 64, 128, 256 px",
+      "Color, grayscale and B&W tracing modes",
+      "Icon / Detailed / Logo quality presets",
+      "Live preview with zoom (50–400%)",
+      "Bulk upload with ZIP download",
+      "Copy SVG code to clipboard",
+    ],
+    faqs: [
+      { q: "Can I convert any image to SVG?", a: "Yes — PNG, JPG, WebP, GIF and BMP. Best results come from clean, high-contrast images with limited colors." },
+      { q: "Will the SVG look exactly like the original?", a: "Tracing is approximate. Use the Icon preset and B&W mode for crisp icon-like output; use Detailed for closer fidelity." },
+      { q: "How many images can I upload at once?", a: "Bulk upload is supported. Files are processed two at a time to keep your browser responsive." },
+      { q: "Are my files uploaded to a server?", a: "Tracing runs fully in your browser. Only the final ZIP is uploaded for the 5-minute download window, then auto-deleted." },
+    ],
+    steps: [
+      { name: "Drop your images", text: "Upload PNG, JPG or WebP files." },
+      { name: "Choose icon size and color mode", text: "Pick a standard size and trace style." },
+      { name: "Vectorize and download", text: "Download individual SVGs or a ZIP." },
+    ],
+    benefits: [
+      "Scalable, resolution-independent icons",
+      "Tiny file sizes for web use",
+      "Quick conversion of logo & icon assets",
+    ],
+  }),
+
   "/svg-optimizer": f("/svg-optimizer", {
     title: "SVGO Online — Minify & Optimize SVG Files Free",
     description:

@@ -7,6 +7,7 @@ const toolCategories = [
     tools: [
       { label: "Compressor", path: "/compressor" },
       { label: "Converter", path: "/converter" },
+      { label: "Image to SVG", path: "/image-to-svg" },
       { label: "Image Resizer", path: "/image-resizer" },
       { label: "Favicon Generator", path: "/favicon" },
       { label: "Placeholder Image", path: "/placeholder" },
