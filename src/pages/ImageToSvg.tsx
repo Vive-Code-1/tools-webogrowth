@@ -35,7 +35,8 @@ const ImageToSvg = () => {
   const [size, setSize] = useState(64);
   const [colorMode, setColorMode] = useState<ColorMode>("color");
   const [preset, setPreset] = useState<QualityPreset>("icon");
-  const [colorCount, setColorCount] = useState(8);
+  const [colorAuto, setColorAuto] = useState(true);
+  const [colorCount, setColorCount] = useState(16);
   const [smoothing, setSmoothing] = useState(1);
   const [background, setBackground] = useState<"transparent" | "white" | "custom">("transparent");
   const [customBg, setCustomBg] = useState("#ffffff");
