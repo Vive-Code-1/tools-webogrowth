@@ -10,9 +10,14 @@ interface Tool {
 const allTools: Tool[] = [
   { title: "Image Compressor", path: "/compressor", icon: "compress", desc: "Compress PNG, JPEG, WebP images" },
   { title: "Format Converter", path: "/converter", icon: "swap_horiz", desc: "Convert between image formats" },
+  { title: "Background Remover", path: "/background-remover", icon: "background_replace", desc: "AI background removal, browser-side" },
+  { title: "Image to SVG", path: "/image-to-svg", icon: "polyline", desc: "Vectorize images to SVG icons" },
   { title: "SVG Optimizer", path: "/svg-optimizer", icon: "slide_library", desc: "Minify and clean SVG files" },
   { title: "Favicon Generator", path: "/favicon", icon: "branding_watermark", desc: "Generate favicons for all platforms" },
+  { title: "PDF Toolkit", path: "/pdf-toolkit", icon: "picture_as_pdf", desc: "Merge, split, compress PDFs" },
+  { title: "JWT Decoder", path: "/jwt-decoder", icon: "key", desc: "Decode & verify JSON Web Tokens" },
   { title: "JSON Formatter", path: "/json-formatter", icon: "data_object", desc: "Format, validate & minify JSON" },
+  { title: "PageSpeed Analyzer", path: "/pagespeed-analyzer", icon: "speed", desc: "Core Web Vitals audit" },
   { title: "Meta Tag Generator", path: "/meta-tag-generator", icon: "code", desc: "Generate SEO meta tags" },
   { title: "Color Palette", path: "/color-palette", icon: "palette", desc: "Generate color palettes" },
   { title: "QR Code Generator", path: "/qr-code", icon: "qr_code_2", desc: "Generate QR codes from text/URL" },
@@ -26,6 +31,16 @@ const allTools: Tool[] = [
   { title: "Placeholder Image", path: "/placeholder", icon: "image", desc: "Generate placeholder images" },
   { title: "HTML to Markdown", path: "/html-to-markdown", icon: "html", desc: "Convert HTML to Markdown" },
 ];
+
+const RelatedToolsRandomized = (currentPath: string, max: number) => {
+  const others = allTools.filter((t) => t.path !== currentPath);
+  // Simple shuffle for variety
+  for (let i = others.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [others[i], others[j]] = [others[j], others[i]];
+  }
+  return others.slice(0, max);
+};
 
 interface RelatedToolsProps {
   currentPath: string;

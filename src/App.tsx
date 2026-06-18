@@ -12,6 +12,10 @@ import Index from "./pages/Index";
 const Compressor = lazy(() => import("./pages/Compressor"));
 const Converter = lazy(() => import("./pages/Converter"));
 const ImageToSvg = lazy(() => import("./pages/ImageToSvg"));
+const BackgroundRemover = lazy(() => import("./pages/BackgroundRemover"));
+const PdfToolkit = lazy(() => import("./pages/PdfToolkit"));
+const JwtDecoder = lazy(() => import("./pages/JwtDecoder"));
+const PageSpeedAnalyzer = lazy(() => import("./pages/PageSpeedAnalyzer"));
 const SvgOptimizer = lazy(() => import("./pages/SvgOptimizer"));
 const Favicon = lazy(() => import("./pages/Favicon"));
 const JsonFormatter = lazy(() => import("./pages/JsonFormatter"));
@@ -59,6 +63,10 @@ const App = () => (
               <Route path="/compressor" element={<Compressor />} />
               <Route path="/converter" element={<Converter />} />
               <Route path="/image-to-svg" element={<ImageToSvg />} />
+              <Route path="/background-remover" element={<BackgroundRemover />} />
+              <Route path="/pdf-toolkit" element={<PdfToolkit />} />
+              <Route path="/jwt-decoder" element={<JwtDecoder />} />
+              <Route path="/pagespeed-analyzer" element={<PageSpeedAnalyzer />} />
               <Route path="/svg-optimizer" element={<SvgOptimizer />} />
               <Route path="/favicon" element={<Favicon />} />
               <Route path="/json-formatter" element={<JsonFormatter />} />

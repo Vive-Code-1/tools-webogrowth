@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 const imageTools = [
   { title: "Image Compressor", desc: "Lossless and lossy compression for PNG, JPEG, and WebP. Reduce file sizes by up to 90% without sacrificing visual fidelity.", icon: "compress", path: "/compressor", span: "md:col-span-8", large: true },
   { title: "Format Converter", desc: "Transform assets between formats instantly. Supports AVIF, WebP, and SVG.", icon: "swap_horiz", path: "/converter", span: "md:col-span-4", tags: ["WebP", "AVIF", "SVG"] },
+  { title: "AI Background Remover", desc: "Remove image backgrounds with on-device AI. Bulk processing, transparent PNG output, 100% private — no upload to any server.", icon: "background_replace", path: "/background-remover", span: "md:col-span-6", tags: ["AI", "Bulk", "PNG"] },
   { title: "Image to SVG Icon", desc: "Vectorize PNG, JPG or WebP into scalable SVG icons in standard sizes (16–256px). Bulk upload, color or B&W tracing.", icon: "polyline", path: "/image-to-svg", span: "md:col-span-6", tags: ["SVG", "Icon", "Vector"] },
   { title: "SVG Path Optimizer", desc: "Clean up messy exports from Illustrator or Figma. Minify paths and remove metadata.", icon: "slide_library", path: "/svg-optimizer", span: "md:col-span-4" },
   { title: "Favicon Generator", desc: "Generate the complete set of icons for every platform. Includes Apple Touch Icons, Android manifest, and classic ICO formats.", icon: "branding_watermark", path: "/favicon", span: "md:col-span-8", large: true },
@@ -20,14 +21,17 @@ const imageTools = [
 ];
 
 const devTools = [
+  { title: "PDF Toolkit", desc: "Merge, split, compress and convert PDFs to images. Fully browser-based — no upload, no watermarks, no signup.", icon: "picture_as_pdf", path: "/pdf-toolkit", span: "md:col-span-8", large: true, tags: ["Merge", "Split", "Compress"] },
+  { title: "JWT Decoder", desc: "Decode and verify JSON Web Tokens. Inspect claims, check expiry, verify HMAC signatures locally.", icon: "key", path: "/jwt-decoder", span: "md:col-span-4", tags: ["Auth"] },
   { title: "JSON Formatter", desc: "Format, validate, and minify JSON data instantly. Detect syntax errors and fix malformed JSON with ease.", icon: "data_object", path: "/json-formatter", span: "md:col-span-6" },
   { title: "CSS Minifier", desc: "Minify your CSS to reduce file size or beautify compressed CSS for readability.", icon: "css", path: "/css-minifier", span: "md:col-span-6" },
   { title: "Base64 Tool", desc: "Encode text or files to Base64, or decode Base64 strings back to plain text.", icon: "password", path: "/base64", span: "md:col-span-4" },
-  { title: "HTML to Markdown", desc: "Convert HTML code to clean, readable Markdown format for documentation and README files.", icon: "html", path: "/html-to-markdown", span: "md:col-span-8", large: true },
+  { title: "HTML to Markdown", desc: "Convert HTML code to clean, readable Markdown format for documentation and README files.", icon: "html", path: "/html-to-markdown", span: "md:col-span-8" },
 ];
 
 const seoTools = [
   { title: "Meta Tag Generator", desc: "Generate optimized meta tags for better search engine rankings and social media previews.", icon: "code", path: "/meta-tag-generator", span: "md:col-span-8", large: true },
+  { title: "PageSpeed Analyzer", desc: "Audit Core Web Vitals (LCP, CLS, INP) with Google Lighthouse — the same score Google uses for ranking.", icon: "speed", path: "/pagespeed-analyzer", span: "md:col-span-4", tags: ["CWV", "SEO"] },
   { title: "OG Preview", desc: "Preview how your page will appear when shared on Facebook, Twitter, and LinkedIn.", icon: "preview", path: "/og-preview", span: "md:col-span-4" },
   { title: "Robots.txt Generator", desc: "Create robots.txt files to control how search engines crawl your website.", icon: "smart_toy", path: "/robots-generator", span: "md:col-span-4" },
   { title: "Color Palette", desc: "Generate complementary, analogous, and triadic palettes from any base color.", icon: "palette", path: "/color-palette", span: "md:col-span-4" },
