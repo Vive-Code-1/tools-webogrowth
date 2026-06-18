@@ -26,15 +26,15 @@
 </style></head>
 <body>
   <h1>SEO Test Report</h1>
-  <div class="meta">Generated 2026-06-18T03:21:14.896Z · WeboGrowth Tools</div>
+  <div class="meta">Generated 2026-06-18T03:41:29.294Z · WeboGrowth Tools</div>
   <div class="summary">
-    <div class="card"><div class="num">200</div><div>Total checks</div></div>
+    <div class="card"><div class="num">204</div><div>Total checks</div></div>
     <div class="card"><div class="num ok">199</div><div>Passed</div></div>
-    <div class="card"><div class="num bad">1</div><div>Failed</div></div>
+    <div class="card"><div class="num bad">5</div><div>Failed</div></div>
     <div class="card"><div class="num bad">FAIL</div><div>Overall</div></div>
   </div>
 
-  <h2>Routes (29)</h2>
+  <h2>Routes (33)</h2>
   <div class="toolbar">
     <input id="q" placeholder="Search routes (e.g. /qr-code)" />
     <select id="status"><option value="all">All statuses</option><option value="fail">Failing only</option><option value="pass">Passing only</option></select>
@@ -44,12 +44,52 @@
     <thead><tr><th>Route</th><th>Status</th><th>Passed</th><th>Failed</th><th>Missing / failing checks</th></tr></thead>
     <tbody>
     
+      <tr data-route="https://tools.webogrowth.com/background-remover" data-status="fail">
+        <td><code>https://tools.webogrowth.com/background-remover</code></td>
+        <td><span class="pill bad">FAIL</span></td>
+        <td>0</td>
+        <td>1</td>
+        <td><details open><summary>1 failure(s)</summary><div><strong>sitemap URL https://tools.webogrowth.com/background-remover maps to a registered indexable route</strong><pre>AssertionError: sitemap URL https://tools.webogrowth.com/background-remover not registered: expected [ '/', '/compressor', …(26) ] to include '/background-remover'
+    at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1191:15)
+    at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1029:14)
+    at Proxy.toContain (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/chai/index.js:1686:25)</pre></div></details></td>
+      </tr>
       <tr data-route="https://tools.webogrowth.com/image-to-svg" data-status="fail">
         <td><code>https://tools.webogrowth.com/image-to-svg</code></td>
         <td><span class="pill bad">FAIL</span></td>
         <td>0</td>
         <td>1</td>
         <td><details open><summary>1 failure(s)</summary><div><strong>sitemap URL https://tools.webogrowth.com/image-to-svg maps to a registered indexable route</strong><pre>AssertionError: sitemap URL https://tools.webogrowth.com/image-to-svg not registered: expected [ '/', '/compressor', …(26) ] to include '/image-to-svg'
+    at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1191:15)
+    at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1029:14)
+    at Proxy.toContain (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/chai/index.js:1686:25)</pre></div></details></td>
+      </tr>
+      <tr data-route="https://tools.webogrowth.com/jwt-decoder" data-status="fail">
+        <td><code>https://tools.webogrowth.com/jwt-decoder</code></td>
+        <td><span class="pill bad">FAIL</span></td>
+        <td>0</td>
+        <td>1</td>
+        <td><details open><summary>1 failure(s)</summary><div><strong>sitemap URL https://tools.webogrowth.com/jwt-decoder maps to a registered indexable route</strong><pre>AssertionError: sitemap URL https://tools.webogrowth.com/jwt-decoder not registered: expected [ '/', '/compressor', …(26) ] to include '/jwt-decoder'
+    at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1191:15)
+    at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1029:14)
+    at Proxy.toContain (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/chai/index.js:1686:25)</pre></div></details></td>
+      </tr>
+      <tr data-route="https://tools.webogrowth.com/pagespeed-analyzer" data-status="fail">
+        <td><code>https://tools.webogrowth.com/pagespeed-analyzer</code></td>
+        <td><span class="pill bad">FAIL</span></td>
+        <td>0</td>
+        <td>1</td>
+        <td><details open><summary>1 failure(s)</summary><div><strong>sitemap URL https://tools.webogrowth.com/pagespeed-analyzer maps to a registered indexable route</strong><pre>AssertionError: sitemap URL https://tools.webogrowth.com/pagespeed-analyzer not registered: expected [ '/', '/compressor', …(26) ] to include '/pagespeed-analyzer'
+    at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1191:15)
+    at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1029:14)
+    at Proxy.toContain (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/chai/index.js:1686:25)</pre></div></details></td>
+      </tr>
+      <tr data-route="https://tools.webogrowth.com/pdf-toolkit" data-status="fail">
+        <td><code>https://tools.webogrowth.com/pdf-toolkit</code></td>
+        <td><span class="pill bad">FAIL</span></td>
+        <td>0</td>
+        <td>1</td>
+        <td><details open><summary>1 failure(s)</summary><div><strong>sitemap URL https://tools.webogrowth.com/pdf-toolkit maps to a registered indexable route</strong><pre>AssertionError: sitemap URL https://tools.webogrowth.com/pdf-toolkit not registered: expected [ '/', '/compressor', …(26) ] to include '/pdf-toolkit'
     at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1191:15)
     at Proxy.&lt;anonymous&gt; (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/@vitest/expect/dist/index.js:1029:14)
     at Proxy.toContain (file:///home/runner/work/tools-webogrowth/tools-webogrowth/node_modules/chai/index.js:1686:25)</pre></div></details></td>

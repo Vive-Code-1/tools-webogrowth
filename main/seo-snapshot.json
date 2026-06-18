@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-18T03:21:15.586Z",
+  "generatedAt": "2026-06-18T03:41:29.998Z",
   "routes": {
     "/": {
       "title": "WeboGrowth Tools — 17+ Free Online Web Tools",
@@ -314,6 +314,62 @@
       ],
       "faqCount": 0,
       "howtoSteps": 0
+    },
+    "/background-remover": {
+      "title": "AI Background Remover — Free Online, Bulk & Private",
+      "description": "Remove image background online free with on-device AI. Bulk processing, transparent PNG output, no signup. Your images never leave the browser.",
+      "keywords": "background remover, remove background online, ai background remover free, transparent png maker, remove bg, bulk background remover, remove white background",
+      "canonicalPath": "/background-remover",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 4,
+      "howtoSteps": 3
+    },
+    "/pdf-toolkit": {
+      "title": "PDF Toolkit — Merge, Split, Compress & Convert PDF Free",
+      "description": "Free PDF toolkit — merge PDFs, split pages, compress files and convert PDF to images online. No upload, no watermarks, fully browser-based.",
+      "keywords": "merge pdf online, split pdf, compress pdf, pdf to image, pdf to png, free pdf tools, pdf merger, pdf splitter, online pdf editor free",
+      "canonicalPath": "/pdf-toolkit",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 4,
+      "howtoSteps": 3
+    },
+    "/jwt-decoder": {
+      "title": "JWT Decoder & Verifier Online — Decode JSON Web Tokens Free",
+      "description": "Free JWT decoder online — decode header, payload and signature, inspect claims, check expiry and verify HMAC signatures locally in your browser.",
+      "keywords": "jwt decoder, jwt.io alternative, decode jwt online, jwt verifier, json web token decoder, jwt parser, hs256 verify, jwt debugger",
+      "canonicalPath": "/jwt-decoder",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/pagespeed-analyzer": {
+      "title": "PageSpeed Analyzer — Free Core Web Vitals Audit Tool",
+      "description": "Free PageSpeed analyzer powered by Google Lighthouse. Audit Core Web Vitals (LCP, CLS, INP) for any URL with mobile and desktop scores.",
+      "keywords": "pagespeed analyzer, core web vitals checker, lighthouse audit online, website speed test, lcp checker, cls checker, page speed insights alternative",
+      "canonicalPath": "/pagespeed-analyzer",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 4,
+      "howtoSteps": 3
     }
   }
 }
