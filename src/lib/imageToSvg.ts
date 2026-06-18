@@ -1,4 +1,3 @@
-// @ts-expect-error - no types shipped
 import ImageTracer from "imagetracerjs";
 
 export type ColorMode = "color" | "grayscale" | "bw";
