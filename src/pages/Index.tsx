@@ -46,7 +46,9 @@ const stats = [
   { value: "100%", label: "Privacy" },
 ];
 
-const ToolCard = ({ tool, index }: { tool: typeof imageTools[0]; index: number }) => (
+interface ToolCardData { title: string; desc: string; icon: string; path: string; span: string; large?: boolean; tags?: string[] }
+
+const ToolCard = ({ tool, index }: { tool: ToolCardData; index: number }) => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
