@@ -6,6 +6,13 @@ import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
 import { toast } from "@/hooks/use-toast";
 import { traceToSvg, svgToBlob, type ColorMode, type QualityPreset } from "@/lib/imageToSvg";
+import {
+  type RGB,
+  toHex,
+  fromHex,
+  avgLuminance,
+  extractPaletteFromFile,
+} from "@/lib/palette";
 import { uploadToStorage, deleteFromStorage } from "@/lib/processedStorage";
 import { runWithConcurrency } from "@/lib/concurrency";
 
