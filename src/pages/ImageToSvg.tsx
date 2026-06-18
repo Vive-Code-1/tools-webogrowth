@@ -196,6 +196,16 @@ const ImageToSvg = () => {
       );
 
       let failed = 0;
+      const brightnessShifts: string[] = [];
+      const activePalette: RGB[] | undefined =
+        colorMode === "color"
+          ? paletteMode === "manual" && manualPalette.length >= 2
+            ? manualPalette
+            : lockColors && detectedPalette.length >= 2
+              ? detectedPalette
+              : undefined
+          : undefined;
+
       await runWithConcurrency(targets, CONCURRENCY, async (it) => {
         updateItem(it.id, { status: "tracing" });
         try {
@@ -203,9 +213,11 @@ const ImageToSvg = () => {
             size,
             colorMode,
             preset,
-            colorCount: colorAuto ? "auto" : colorCount,
+            colorCount: paletteMode === "auto" ? "auto" : colorCount,
             smoothing,
             background: resolvedBg,
+            palette: activePalette,
+            lockColors: colorMode === "color" ? lockColors || paletteMode === "manual" : true,
           });
           const baseName = it.file.name.replace(/\.[^.]+$/, "");
           updateItem(it.id, {
@@ -215,6 +227,15 @@ const ImageToSvg = () => {
             outSize: r.size,
             pathCount: r.pathCount,
           });
+
+          // Brightness-shift validator: warn if SVG palette went much darker
+          // than the source — typical "everything turned black" failure.
+          if (colorMode === "color" && r.sourceLuminance > 80) {
+            const outLum = avgLuminance(r.usedPalette);
+            if (outLum < r.sourceLuminance * 0.5 && outLum < 70) {
+              brightnessShifts.push(it.file.name);
+            }
+          }
         } catch (e) {
           failed++;
           updateItem(it.id, {
@@ -232,8 +253,15 @@ const ImageToSvg = () => {
           variant: "destructive",
         });
       }
+      if (brightnessShifts.length) {
+        toast({
+          title: "Output looks darker than source",
+          description: `${brightnessShifts.length} SVG${brightnessShifts.length > 1 ? "s" : ""} came out much darker. Try “Lock colors”, switch to Manual palette, or raise Color Count, then reconvert.`,
+          variant: "destructive",
+        });
+      }
     },
-    [items, size, colorMode, preset, colorCount, colorAuto, smoothing, resolvedBg, clearDownload],
+    [items, size, colorMode, preset, colorCount, paletteMode, manualPalette, lockColors, detectedPalette, smoothing, resolvedBg, clearDownload],
   );
 
   const handleConvertAgain = useCallback(() => {
