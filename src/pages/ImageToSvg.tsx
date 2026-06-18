@@ -195,7 +195,7 @@ const ImageToSvg = () => {
         });
       }
     },
-    [items, size, colorMode, preset, colorCount, smoothing, resolvedBg, clearDownload],
+    [items, size, colorMode, preset, colorCount, colorAuto, smoothing, resolvedBg, clearDownload],
   );
 
   const handleConvertAgain = useCallback(() => {
