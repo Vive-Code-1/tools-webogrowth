@@ -548,7 +548,7 @@ const ImageToSvg = () => {
                       {size}px
                     </span>
                     <span className="px-2 py-1 rounded-full bg-surface-container-highest font-bold whitespace-nowrap">
-                      {colorMode === "bw" ? "B&W" : colorMode === "grayscale" ? "Gray" : `${colorCount} colors`}
+                      {colorMode === "bw" ? "B&W" : colorMode === "grayscale" ? "Gray" : colorAuto ? "Auto colors" : `${colorCount} colors`}
                     </span>
                     <span className="px-2 py-1 rounded-full bg-surface-container-highest font-bold whitespace-nowrap">
                       {preset}
