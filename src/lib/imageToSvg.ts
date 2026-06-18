@@ -132,17 +132,53 @@ export async function traceToSvg(file: File, opts: TraceOptions): Promise<TraceR
   const imageData = ctx.getImageData(0, 0, w, h);
 
   const preset = presetOpts(opts.preset);
-  const resolvedColorCount =
-    opts.colorCount === "auto"
-      ? estimateColorCount(imageData)
-      : Math.max(2, Math.min(64, opts.colorCount));
+
+  // Dense sample of visible pixels — used both for palette extraction and
+  // luminance metrics (for the brightness-shift validator on the caller).
+  const samples = sampleImageData(imageData, 20000);
+  const sourceLuminance = samples.length
+    ? samples.reduce((s, c) => s + (0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b), 0) / samples.length
+    : 0;
+
+  // Decide palette + numberofcolors based on color mode.
+  let palette: RGB[] = [];
+  let useLockedPalette = false;
+
+  if (opts.colorMode === "bw") {
+    palette = [
+      { r: 0, g: 0, b: 0 },
+      { r: 255, g: 255, b: 255 },
+    ];
+    useLockedPalette = true;
+  } else if (opts.colorMode === "grayscale") {
+    const n =
+      opts.colorCount === "auto"
+        ? Math.max(4, Math.min(8, estimateColorCount(imageData)))
+        : Math.max(2, Math.min(16, opts.colorCount));
+    palette = Array.from({ length: n }, (_, i) => {
+      const v = Math.round((i / (n - 1)) * 255);
+      return { r: v, g: v, b: v };
+    });
+    useLockedPalette = true;
+  } else {
+    // color mode
+    if (opts.palette && opts.palette.length >= 2) {
+      palette = opts.palette.slice(0, 64);
+      useLockedPalette = true;
+    } else {
+      const n =
+        opts.colorCount === "auto"
+          ? Math.max(4, Math.min(24, estimateColorCount(imageData)))
+          : Math.max(2, Math.min(64, opts.colorCount));
+      palette = medianCut(samples, n);
+      if (!palette.length) palette = [{ r: 0, g: 0, b: 0 }];
+      useLockedPalette = !!opts.lockColors;
+    }
+  }
+
   const tracerOpts: Record<string, unknown> = {
     ...preset,
-    numberofcolors: resolvedColorCount,
-    // Random sampling preserves original image colors much better than
-    // deterministic palette quantization (which can collapse subtle colors to black).
-    colorsampling: 2,
-    mincolorratio: 0,
+    numberofcolors: palette.length,
     ltres: (preset.ltres ?? 1) + opts.smoothing * 0.5,
     qtres: (preset.qtres ?? 1) + opts.smoothing * 0.5,
     pathomit: (preset.pathomit ?? 8) + opts.smoothing * 4,
@@ -151,30 +187,28 @@ export async function traceToSvg(file: File, opts: TraceOptions): Promise<TraceR
     scale: 1,
   };
 
-  if (opts.colorMode === "bw") {
-    tracerOpts.numberofcolors = 2;
+  if (useLockedPalette) {
     tracerOpts.colorsampling = 0;
-    tracerOpts.pal = [
-      { r: 0, g: 0, b: 0, a: 255 },
-      { r: 255, g: 255, b: 255, a: 255 },
-    ];
-  } else if (opts.colorMode === "grayscale") {
-    tracerOpts.colorsampling = 0;
-    const n = tracerOpts.numberofcolors as number;
-    tracerOpts.pal = Array.from({ length: n }, (_, i) => {
-      const v = Math.round((i / (n - 1)) * 255);
-      return { r: v, g: v, b: v, a: 255 };
-    });
+    tracerOpts.pal = palette.map((c) => ({ r: c.r, g: c.g, b: c.b, a: 255 }));
+  } else {
+    // Provide our median-cut palette as a seed, but let the tracer also sample
+    // for better dithering — colorsampling: 2 (random) keeps colors faithful.
+    tracerOpts.colorsampling = 2;
+    tracerOpts.mincolorratio = 0;
   }
 
   const rawSvg: string = ImageTracer.imagedataToSVG(imageData, tracerOpts);
   const svg = optimizeSvg(rawSvg, opts.size, opts.background);
+  const usedPalette = useLockedPalette ? palette : extractSvgFillColors(svg);
+
   return {
     svg,
     size: new Blob([svg]).size,
     pathCount: countPaths(svg),
     width: opts.size,
     height: opts.size,
+    usedPalette: usedPalette.length ? usedPalette : palette,
+    sourceLuminance,
   };
 }
 
