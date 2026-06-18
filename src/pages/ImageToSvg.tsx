@@ -165,7 +165,7 @@ const ImageToSvg = () => {
             size,
             colorMode,
             preset,
-            colorCount,
+            colorCount: colorAuto ? "auto" : colorCount,
             smoothing,
             background: resolvedBg,
           });
