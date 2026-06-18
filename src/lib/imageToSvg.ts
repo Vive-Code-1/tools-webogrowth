@@ -16,6 +16,13 @@ export interface TraceOptions {
   colorCount: number | "auto"; // 2-64 or "auto" to detect from image
   smoothing: number; // 0 - 5 (path simplification tolerance)
   background: "transparent" | "white" | string; // hex
+  /** Manual palette (color mode only). When set, this exact set is used. */
+  palette?: RGB[];
+  /**
+   * Lock colors to the resolved palette via colorsampling:0.
+   * Prevents imagetracerjs from re-quantizing and shifting hues.
+   */
+  lockColors?: boolean;
 }
 
 // Estimate distinct dominant colors in image data by quantizing each
