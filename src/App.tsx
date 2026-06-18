@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 
 const Compressor = lazy(() => import("./pages/Compressor"));
 const Converter = lazy(() => import("./pages/Converter"));
+const ImageToSvg = lazy(() => import("./pages/ImageToSvg"));
 const SvgOptimizer = lazy(() => import("./pages/SvgOptimizer"));
 const Favicon = lazy(() => import("./pages/Favicon"));
 const JsonFormatter = lazy(() => import("./pages/JsonFormatter"));
@@ -57,6 +58,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/compressor" element={<Compressor />} />
               <Route path="/converter" element={<Converter />} />
+              <Route path="/image-to-svg" element={<ImageToSvg />} />
               <Route path="/svg-optimizer" element={<SvgOptimizer />} />
               <Route path="/favicon" element={<Favicon />} />
               <Route path="/json-formatter" element={<JsonFormatter />} />
