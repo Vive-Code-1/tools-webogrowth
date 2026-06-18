@@ -1,4 +1,10 @@
 import ImageTracer from "imagetracerjs";
+import {
+  type RGB,
+  sampleImageData,
+  medianCut,
+  extractSvgFillColors,
+} from "./palette";
 
 export type ColorMode = "color" | "grayscale" | "bw";
 export type QualityPreset = "icon" | "detailed" | "logo";
