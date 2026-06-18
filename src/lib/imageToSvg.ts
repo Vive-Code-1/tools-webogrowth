@@ -115,9 +115,17 @@ export async function traceToSvg(file: File, opts: TraceOptions): Promise<TraceR
   const imageData = ctx.getImageData(0, 0, w, h);
 
   const preset = presetOpts(opts.preset);
+  const resolvedColorCount =
+    opts.colorCount === "auto"
+      ? estimateColorCount(imageData)
+      : Math.max(2, Math.min(64, opts.colorCount));
   const tracerOpts: Record<string, unknown> = {
     ...preset,
-    numberofcolors: Math.max(2, Math.min(16, opts.colorCount)),
+    numberofcolors: resolvedColorCount,
+    // Random sampling preserves original image colors much better than
+    // deterministic palette quantization (which can collapse subtle colors to black).
+    colorsampling: 2,
+    mincolorratio: 0,
     ltres: (preset.ltres ?? 1) + opts.smoothing * 0.5,
     qtres: (preset.qtres ?? 1) + opts.smoothing * 0.5,
     pathomit: (preset.pathomit ?? 8) + opts.smoothing * 4,
