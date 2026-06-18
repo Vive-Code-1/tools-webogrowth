@@ -574,6 +574,145 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
     intro: "The terms governing use of WeboGrowth Tools.",
     features: [], faqs: [], steps: [], benefits: [],
   }),
+
+  "/background-remover": f("/background-remover", {
+    title: "AI Background Remover — Free Online, Bulk & Private",
+    description:
+      "Remove image background online free with on-device AI. Bulk processing, transparent PNG output, no signup. Your images never leave the browser.",
+    keywords:
+      "background remover, remove background online, ai background remover free, transparent png maker, remove bg, bulk background remover, remove white background",
+    category: "Image",
+    h1: "AI Background Remover",
+    intro:
+      "Strip backgrounds from photos and product images instantly. The AI model runs on-device, so images never upload to a server.",
+    features: [
+      "On-device AI (no upload required)",
+      "Bulk processing up to 10 images",
+      "Transparent PNG output",
+      "ZIP download for batches",
+      "Works on people, products, animals, logos",
+    ],
+    faqs: [
+      { q: "Is the background remover really free?", a: "Yes — 100% free, no signup, no watermark. The AI model is downloaded once (~30MB) and cached for instant reuse." },
+      { q: "Are my images uploaded?", a: "No. The neural network runs entirely in your browser using WebAssembly and WebGPU when available." },
+      { q: "What image types work best?", a: "Photos with a clearly defined subject — people, products, animals — give the cleanest cutouts." },
+      { q: "Is there a file or batch limit?", a: "Up to 10 images per batch, 15 MB each. Processing speed depends on your device." },
+    ],
+    steps: [
+      { name: "Drop your images", text: "Upload up to 10 PNG, JPG or WebP files." },
+      { name: "Click Remove Background", text: "The AI model processes each image one by one." },
+      { name: "Download PNGs or ZIP", text: "Save individually or grab them all as a ZIP." },
+    ],
+    benefits: [
+      "Free alternative to remove.bg with no quota",
+      "Total privacy — no server upload",
+      "Bulk processing for product photography",
+    ],
+  }),
+
+  "/pdf-toolkit": f("/pdf-toolkit", {
+    title: "PDF Toolkit — Merge, Split, Compress & Convert PDF Free",
+    description:
+      "Free PDF toolkit — merge PDFs, split pages, compress files and convert PDF to images online. No upload, no watermarks, fully browser-based.",
+    keywords:
+      "merge pdf online, split pdf, compress pdf, pdf to image, pdf to png, free pdf tools, pdf merger, pdf splitter, online pdf editor free",
+    category: "Developer",
+    h1: "PDF Toolkit",
+    intro:
+      "Merge multiple PDFs, split into single pages, compress for sharing, or export every page as PNG — all client-side for full privacy.",
+    features: [
+      "Merge unlimited PDFs into one",
+      "Split a PDF into one file per page",
+      "Lossless compression with object streams",
+      "PDF to PNG export at 2x resolution",
+      "ZIP bundle for batch outputs",
+    ],
+    faqs: [
+      { q: "Is there a file size limit?", a: "Each PDF can be up to 50 MB. Larger files work but depend on your device's memory." },
+      { q: "Does compression lose quality?", a: "No — this is lossless structural compression. For heavy compression of images inside PDFs, use Adobe Acrobat." },
+      { q: "Are my PDFs uploaded?", a: "Processing happens locally in your browser. Only the final result is uploaded for the 5-minute download window, then auto-deleted." },
+      { q: "Can I merge password-protected PDFs?", a: "Encrypted PDFs are loaded with ignoreEncryption; if the file requires a password to open, decrypt it first." },
+    ],
+    steps: [
+      { name: "Pick an operation", text: "Choose Merge, Split, Compress or PDF→Images." },
+      { name: "Upload your PDF(s)", text: "Drag and drop your files into the zone." },
+      { name: "Download the result", text: "Save the output PDF or ZIP within 5 minutes." },
+    ],
+    benefits: [
+      "All-in-one PDF utility, no ads",
+      "Privacy-first browser processing",
+      "Free alternative to iLovePDF and SmallPDF",
+    ],
+  }),
+
+  "/jwt-decoder": f("/jwt-decoder", {
+    title: "JWT Decoder & Verifier Online — Decode JSON Web Tokens Free",
+    description:
+      "Free JWT decoder online — decode header, payload and signature, inspect claims, check expiry and verify HMAC signatures locally in your browser.",
+    keywords:
+      "jwt decoder, jwt.io alternative, decode jwt online, jwt verifier, json web token decoder, jwt parser, hs256 verify, jwt debugger",
+    category: "Developer",
+    h1: "JWT Decoder & Verifier",
+    intro:
+      "Paste any JSON Web Token to inspect its header, payload and signature. Verify HMAC signatures without sending the token to a server.",
+    features: [
+      "Decode header, payload and signature",
+      "Auto-detect expiry and issued-at",
+      "Verify HS256, HS384 and HS512 signatures",
+      "Copy claims as JSON",
+      "100% client-side — tokens never leave the browser",
+    ],
+    faqs: [
+      { q: "Is it safe to paste production tokens?", a: "Decoding happens entirely in your browser. Tokens are never sent to any server." },
+      { q: "Which algorithms can be verified?", a: "HMAC algorithms (HS256/HS384/HS512). RS256 and ES256 require public-key verification and are decode-only here." },
+      { q: "What's a JWT?", a: "A JSON Web Token is a compact, URL-safe token format used for stateless authentication, with three Base64url-encoded parts separated by dots." },
+    ],
+    steps: [
+      { name: "Paste the JWT", text: "Drop your token into the input box." },
+      { name: "Inspect claims", text: "Review decoded header and payload with expiry detection." },
+      { name: "Verify signature", text: "Enter the HMAC secret and click Verify to confirm authenticity." },
+    ],
+    benefits: [
+      "Faster than switching to jwt.io",
+      "Tokens stay private — no server round-trip",
+      "Built for daily auth debugging",
+    ],
+  }),
+
+  "/pagespeed-analyzer": f("/pagespeed-analyzer", {
+    title: "PageSpeed Analyzer — Free Core Web Vitals Audit Tool",
+    description:
+      "Free PageSpeed analyzer powered by Google Lighthouse. Audit Core Web Vitals (LCP, CLS, INP) for any URL with mobile and desktop scores.",
+    keywords:
+      "pagespeed analyzer, core web vitals checker, lighthouse audit online, website speed test, lcp checker, cls checker, page speed insights alternative",
+    category: "SEO",
+    h1: "PageSpeed Analyzer",
+    intro:
+      "Run a Google Lighthouse audit on any URL and get the same Core Web Vitals score Google uses for search rankings.",
+    features: [
+      "Powered by Google PageSpeed Insights API",
+      "Mobile and desktop strategies",
+      "LCP, CLS, INP, TBT, FCP, Speed Index",
+      "Actionable optimization opportunities",
+      "Real Lighthouse score — same as PSI",
+    ],
+    faqs: [
+      { q: "Is this the same as Google PageSpeed Insights?", a: "Yes — it calls the official PSI API and returns the same Lighthouse score Google uses for indexing." },
+      { q: "Why does the score change between runs?", a: "Lighthouse runs on a shared Google server. Network conditions cause variance — run 3 times and take the median." },
+      { q: "Does it work on local URLs?", a: "No. The page must be publicly accessible for Google's crawler to reach it." },
+      { q: "Is there a rate limit?", a: "Yes — Google's anonymous quota is limited. If you hit it, wait a minute and try again." },
+    ],
+    steps: [
+      { name: "Enter a URL", text: "Type or paste the page you want to audit." },
+      { name: "Pick mobile or desktop", text: "Mobile is what Google uses for ranking." },
+      { name: "Review the report", text: "Check Core Web Vitals and follow the optimization tips." },
+    ],
+    benefits: [
+      "Official Lighthouse score, no install",
+      "Track Core Web Vitals for SEO",
+      "Identify performance wins fast",
+    ],
+  }),
 };
 
 const CATEGORY_LABEL: Record<ToolCategory, string> = {

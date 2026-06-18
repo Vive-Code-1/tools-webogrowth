@@ -8,6 +8,7 @@ const toolCategories = [
       { label: "Compressor", path: "/compressor" },
       { label: "Converter", path: "/converter" },
       { label: "Image to SVG", path: "/image-to-svg" },
+      { label: "Background Remover", path: "/background-remover" },
       { label: "Image Resizer", path: "/image-resizer" },
       { label: "Favicon Generator", path: "/favicon" },
       { label: "Placeholder Image", path: "/placeholder" },
@@ -17,6 +18,8 @@ const toolCategories = [
     label: "Developer Tools",
     tools: [
       { label: "JSON Formatter", path: "/json-formatter" },
+      { label: "JWT Decoder", path: "/jwt-decoder" },
+      { label: "PDF Toolkit", path: "/pdf-toolkit" },
       { label: "CSS Minifier", path: "/css-minifier" },
       { label: "Base64 Tool", path: "/base64" },
       { label: "SVG Optimizer", path: "/svg-optimizer" },
@@ -27,6 +30,7 @@ const toolCategories = [
     label: "SEO & Design",
     tools: [
       { label: "Meta Tag Generator", path: "/meta-tag-generator" },
+      { label: "PageSpeed Analyzer", path: "/pagespeed-analyzer" },
       { label: "OG Preview", path: "/og-preview" },
       { label: "Robots.txt Generator", path: "/robots-generator" },
       { label: "Color Palette", path: "/color-palette" },
