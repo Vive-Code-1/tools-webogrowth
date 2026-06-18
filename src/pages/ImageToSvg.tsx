@@ -120,6 +120,32 @@ const ImageToSvg = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Extract live palette from the first image whenever the queue changes.
+  useEffect(() => {
+    if (!items.length || colorMode !== "color") {
+      setDetectedPalette([]);
+      return;
+    }
+    let cancelled = false;
+    const targetCount = Math.max(4, Math.min(24, colorCount));
+    setPaletteLoading(true);
+    extractPaletteFromFile(items[0].file, targetCount)
+      .then((res) => {
+        if (cancelled) return;
+        setDetectedPalette(res.palette);
+        setDetectedLuminance(res.avgLuminance);
+        // Seed manual palette the first time the user has nothing yet.
+        setManualPalette((prev) => (prev.length ? prev : res.palette));
+      })
+      .catch(() => {
+        if (!cancelled) setDetectedPalette([]);
+      })
+      .finally(() => {
+        if (!cancelled) setPaletteLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [items, colorMode, colorCount]);
+
   const handleFilesSelect = useCallback((files: File[]) => {
     setItems((prev) => [
       ...prev,
