@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-16T17:48:34.348Z",
+  "generatedAt": "2026-06-18T02:49:00.507Z",
   "routes": {
     "/": {
       "title": "WeboGrowth Tools — 17+ Free Online Web Tools",
@@ -34,6 +34,20 @@
       "description": "Convert PNG to WebP, PNG to AVIF, JPG to WebP and back online for free. Batch image format converter — fast, private, browser-based.",
       "keywords": "png to webp, png to avif, jpg to webp, convert to webp, image format converter, webp converter online, avif converter, image converter free",
       "canonicalPath": "/converter",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 4,
+      "howtoSteps": 3
+    },
+    "/image-to-svg": {
+      "title": "Image to SVG Icon Converter — PNG/JPG to SVG Free",
+      "description": "Convert PNG, JPG and WebP images to scalable SVG icons online. Bulk upload, color or B&W tracing, standard icon sizes 16–256px. Free & private.",
+      "keywords": "image to svg, png to svg, jpg to svg converter, raster to vector online, image vectorizer, svg icon generator, bulk image to svg, free svg converter",
+      "canonicalPath": "/image-to-svg",
       "jsonLdTypes": [
         "SoftwareApplication",
         "BreadcrumbList",

@@ -1,7 +1,26 @@
 {
   "baselineSource": "reports/baseline/seo-snapshot.json",
-  "baselineAt": "2026-06-16T17:44:08.780Z",
-  "currentAt": "2026-06-16T17:48:34.348Z",
-  "totalChanges": 0,
-  "changes": []
+  "baselineAt": "2026-06-16T17:53:04.480Z",
+  "currentAt": "2026-06-18T02:49:00.507Z",
+  "totalChanges": 1,
+  "changes": [
+    {
+      "path": "/image-to-svg",
+      "kind": "added",
+      "after": {
+        "title": "Image to SVG Icon Converter — PNG/JPG to SVG Free",
+        "description": "Convert PNG, JPG and WebP images to scalable SVG icons online. Bulk upload, color or B&W tracing, standard icon sizes 16–256px. Free & private.",
+        "keywords": "image to svg, png to svg, jpg to svg converter, raster to vector online, image vectorizer, svg icon generator, bulk image to svg, free svg converter",
+        "canonicalPath": "/image-to-svg",
+        "jsonLdTypes": [
+          "SoftwareApplication",
+          "BreadcrumbList",
+          "FAQPage",
+          "HowTo"
+        ],
+        "faqCount": 4,
+        "howtoSteps": 3
+      }
+    }
+  ]
 }
