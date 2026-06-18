@@ -93,9 +93,8 @@ const PdfToolkit = () => {
         }
       } else {
         // to-images via pdfjs
-        const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
-        // @ts-expect-error worker module
-        const worker = await import("pdfjs-dist/build/pdf.worker.mjs?url");
+        const pdfjs: any = await import("pdfjs-dist");
+        const worker: any = await import("pdfjs-dist/build/pdf.worker.mjs?url");
         pdfjs.GlobalWorkerOptions.workerSrc = worker.default;
         const bytes = new Uint8Array(await files[0].arrayBuffer());
         const doc = await pdfjs.getDocument({ data: bytes }).promise;
