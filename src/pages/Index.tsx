@@ -14,6 +14,8 @@ const imageTools = [
   { title: "Format Converter", desc: "Transform assets between formats instantly. Supports AVIF, WebP, and SVG.", icon: "swap_horiz", path: "/converter", span: "md:col-span-4", tags: ["WebP", "AVIF", "SVG"] },
   { title: "AI Background Remover", desc: "Remove image backgrounds with on-device AI. Bulk processing, transparent PNG output, 100% private — no upload to any server.", icon: "background_replace", path: "/background-remover", span: "md:col-span-6", tags: ["AI", "Bulk", "PNG"] },
   { title: "Image to SVG Icon", desc: "Vectorize PNG, JPG or WebP into scalable SVG icons in standard sizes (16–256px). Bulk upload, color or B&W tracing.", icon: "polyline", path: "/image-to-svg", span: "md:col-span-6", tags: ["SVG", "Icon", "Vector"] },
+  { title: "Video → GIF Converter", desc: "Convert short videos to optimized GIF, WebM or MP4 with trimming, FPS and resolution control. Powered by FFmpeg in your browser.", icon: "gif_box", path: "/video-to-gif", span: "md:col-span-8", large: true, tags: ["GIF", "WebM", "MP4"] },
+  { title: "Watermark Tool", desc: "Add text or logo watermarks to bulk images. Position, opacity and tile pattern.", icon: "branding_watermark", path: "/watermark", span: "md:col-span-4", tags: ["Bulk"] },
   { title: "SVG Path Optimizer", desc: "Clean up messy exports from Illustrator or Figma. Minify paths and remove metadata.", icon: "slide_library", path: "/svg-optimizer", span: "md:col-span-4" },
   { title: "Favicon Generator", desc: "Generate the complete set of icons for every platform. Includes Apple Touch Icons, Android manifest, and classic ICO formats.", icon: "branding_watermark", path: "/favicon", span: "md:col-span-8", large: true },
   { title: "Image Resizer", desc: "Resize and crop images to exact dimensions with precision. Maintain aspect ratio or set custom values.", icon: "aspect_ratio", path: "/image-resizer", span: "md:col-span-6" },
@@ -23,20 +25,26 @@ const imageTools = [
 const devTools = [
   { title: "PDF Toolkit", desc: "Merge, split, compress and convert PDFs to images. Fully browser-based — no upload, no watermarks, no signup.", icon: "picture_as_pdf", path: "/pdf-toolkit", span: "md:col-span-8", large: true, tags: ["Merge", "Split", "Compress"] },
   { title: "JWT Decoder", desc: "Decode and verify JSON Web Tokens. Inspect claims, check expiry, verify HMAC signatures locally.", icon: "key", path: "/jwt-decoder", span: "md:col-span-4", tags: ["Auth"] },
+  { title: "Regex Tester", desc: "Test JavaScript regular expressions with live match highlighting, capture groups, replace preview and a cheat sheet.", icon: "code_blocks", path: "/regex-tester", span: "md:col-span-6", tags: ["Regex"] },
+  { title: "Diff Checker", desc: "Compare two text blocks side-by-side with line or word-level diff highlighting.", icon: "compare_arrows", path: "/diff-checker", span: "md:col-span-6", tags: ["Compare"] },
+  { title: "cURL / HTTP Builder", desc: "Build HTTP requests visually, copy as cURL or fetch(), and test directly in your browser.", icon: "terminal", path: "/curl-builder", span: "md:col-span-6", tags: ["API"] },
   { title: "JSON Formatter", desc: "Format, validate, and minify JSON data instantly. Detect syntax errors and fix malformed JSON with ease.", icon: "data_object", path: "/json-formatter", span: "md:col-span-6" },
-  { title: "CSS Minifier", desc: "Minify your CSS to reduce file size or beautify compressed CSS for readability.", icon: "css", path: "/css-minifier", span: "md:col-span-6" },
+  { title: "CSS Minifier", desc: "Minify your CSS to reduce file size or beautify compressed CSS for readability.", icon: "css", path: "/css-minifier", span: "md:col-span-4" },
   { title: "Base64 Tool", desc: "Encode text or files to Base64, or decode Base64 strings back to plain text.", icon: "password", path: "/base64", span: "md:col-span-4" },
-  { title: "HTML to Markdown", desc: "Convert HTML code to clean, readable Markdown format for documentation and README files.", icon: "html", path: "/html-to-markdown", span: "md:col-span-8" },
+  { title: "HTML to Markdown", desc: "Convert HTML code to clean, readable Markdown format for documentation and README files.", icon: "html", path: "/html-to-markdown", span: "md:col-span-4" },
 ];
 
 const seoTools = [
-  { title: "Meta Tag Generator", desc: "Generate optimized meta tags for better search engine rankings and social media previews.", icon: "code", path: "/meta-tag-generator", span: "md:col-span-8", large: true },
-  { title: "PageSpeed Analyzer", desc: "Audit Core Web Vitals (LCP, CLS, INP) with Google Lighthouse — the same score Google uses for ranking.", icon: "speed", path: "/pagespeed-analyzer", span: "md:col-span-4", tags: ["CWV", "SEO"] },
+  { title: "AI Alt Text Generator", desc: "Generate SEO-optimized, accessibility-friendly alt text for bulk images using AI vision.", icon: "auto_awesome", path: "/alt-text-generator", span: "md:col-span-8", large: true, tags: ["AI", "Bulk"] },
+  { title: "Schema Generator", desc: "Build JSON-LD structured data for Article, Product, FAQ, LocalBusiness, Organization and more.", icon: "schema", path: "/schema-generator", span: "md:col-span-4", tags: ["JSON-LD"] },
+  { title: "Sitemap Generator", desc: "Build a Google-ready XML sitemap from a URL list with per-page priority and validate the output.", icon: "account_tree", path: "/sitemap-generator", span: "md:col-span-6", tags: ["XML"] },
+  { title: "Meta Tag Generator", desc: "Generate optimized meta tags for better search engine rankings and social media previews.", icon: "code", path: "/meta-tag-generator", span: "md:col-span-6" },
+  { title: "PageSpeed Analyzer", desc: "Audit Core Web Vitals (LCP, CLS, INP) with Google Lighthouse — the same score Google uses for ranking.", icon: "speed", path: "/pagespeed-analyzer", span: "md:col-span-4", tags: ["CWV"] },
   { title: "OG Preview", desc: "Preview how your page will appear when shared on Facebook, Twitter, and LinkedIn.", icon: "preview", path: "/og-preview", span: "md:col-span-4" },
   { title: "Robots.txt Generator", desc: "Create robots.txt files to control how search engines crawl your website.", icon: "smart_toy", path: "/robots-generator", span: "md:col-span-4" },
   { title: "Color Palette", desc: "Generate complementary, analogous, and triadic palettes from any base color.", icon: "palette", path: "/color-palette", span: "md:col-span-4" },
   { title: "CSS Gradient", desc: "Create stunning CSS gradients visually. Choose colors, adjust angles, and copy CSS code.", icon: "gradient", path: "/gradient-generator", span: "md:col-span-4" },
-  { title: "QR Code Generator", desc: "Generate advanced QR codes with logo overlay, custom shapes, WiFi, vCard and more.", icon: "qr_code_2", path: "/qr-code", span: "md:col-span-6" },
+  { title: "QR Code Generator", desc: "Generate advanced QR codes with logo overlay, custom shapes, WiFi, vCard and more.", icon: "qr_code_2", path: "/qr-code", span: "md:col-span-4" },
   { title: "Lorem Ipsum Generator", desc: "Generate placeholder dummy text for your designs. Choose paragraphs, sentences, or words.", icon: "notes", path: "/lorem-ipsum", span: "md:col-span-6" },
 ];
 

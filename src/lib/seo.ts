@@ -713,6 +713,182 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
       "Identify performance wins fast",
     ],
   }),
+
+  "/regex-tester": f("/regex-tester", {
+    title: "Regex Tester Online — Test JavaScript Regex Free",
+    description:
+      "Free regex tester with live match highlighting, capture groups, flags, replace preview and a cheat sheet. Test JavaScript regular expressions instantly.",
+    keywords: "regex tester, regex101 alternative, javascript regex, regex builder online, regular expression tester, regex match highlighter",
+    category: "Developer",
+    h1: "Regex Tester & Builder",
+    intro: "Test JavaScript regular expressions live with match highlighting, capture groups and replace preview — plus a built-in cheat sheet.",
+    features: ["Live match highlighting", "All flags (g, i, m, s, u, y)", "Capture & named groups", "Replace preview with $ refs", "Built-in cheat sheet"],
+    faqs: [
+      { q: "Which regex engine does this use?", a: "Native JavaScript RegExp — the same engine Node.js and browsers use. Patterns work in your production code." },
+      { q: "Does it support named groups?", a: "Yes — use (?<name>...) for named capture groups and $<name> in replacement strings." },
+      { q: "Is my test text uploaded anywhere?", a: "No. All matching happens in your browser." },
+    ],
+    steps: [
+      { name: "Enter a pattern", text: "Type your regex and toggle flags." },
+      { name: "Paste test text", text: "Matches are highlighted instantly." },
+      { name: "Copy or replace", text: "Copy the pattern or preview a replace operation." },
+    ],
+    benefits: ["No signup or limits", "Cheat sheet at your side", "Native JS engine — production-accurate"],
+  }),
+
+  "/schema-generator": f("/schema-generator", {
+    title: "Schema Markup Generator — JSON-LD Builder Free",
+    description:
+      "Generate Google-ready JSON-LD schema markup for Article, Product, FAQ, LocalBusiness, Organization, Breadcrumb and Event — copy & paste into your site.",
+    keywords: "schema markup generator, json-ld generator, structured data generator, faq schema, product schema, article schema, localbusiness schema",
+    category: "SEO",
+    h1: "Schema Markup Generator",
+    intro: "Build JSON-LD structured data for seven popular schema.org types with a guided form. Output is ready for the Google Rich Results Test.",
+    features: ["Article, Product, FAQ, LocalBusiness, Organization, Breadcrumb, Event", "Clean JSON-LD output", "Copy as <script> tag", "Direct link to Google validator"],
+    faqs: [
+      { q: "What is JSON-LD?", a: "JSON-LD is the Google-recommended format for structured data. It tells search engines what your page is about for rich snippets." },
+      { q: "Does this validate against Google?", a: "Yes — output follows schema.org and the Google Rich Results spec. Use the validator link to confirm." },
+      { q: "Where do I paste the output?", a: "Inside the <head> of your HTML. The tool wraps the JSON in a <script type=\"application/ld+json\"> tag." },
+    ],
+    steps: [
+      { name: "Pick schema type", text: "Choose Article, Product, FAQ and more." },
+      { name: "Fill the fields", text: "Only enter what you have — empty fields are omitted." },
+      { name: "Copy the snippet", text: "Paste into your site <head>." },
+    ],
+    benefits: ["Rich results in Google", "Higher CTR from snippets", "Spec-compliant JSON-LD"],
+  }),
+
+  "/watermark": f("/watermark", {
+    title: "Image Watermark Tool — Bulk Watermark Photos Free",
+    description:
+      "Add text or logo watermarks to bulk images. Position, opacity, tile pattern, custom font size & color. 100% browser-based & private.",
+    keywords: "watermark image online, bulk watermark, add watermark to photos, logo watermark tool, photo watermark, free watermark maker",
+    category: "Image",
+    h1: "Image Watermark Tool",
+    intro: "Protect photos and brand assets with text or logo watermarks. Bulk-process up to 20 images with live preview, positioning and tile pattern.",
+    features: ["Text or logo watermarks", "5 positions + tile pattern", "Opacity, font size & color", "Bulk processing with ZIP export", "Live preview"],
+    faqs: [
+      { q: "What image formats are supported?", a: "JPG, PNG and WebP. Output is PNG to preserve quality and transparency." },
+      { q: "Will it resize my images?", a: "No — watermarks are added at the original resolution." },
+      { q: "Are my images uploaded?", a: "No. Watermarking runs fully in your browser." },
+    ],
+    steps: [
+      { name: "Upload images", text: "Drop up to 20 photos." },
+      { name: "Configure watermark", text: "Add text or upload a logo and pick a position." },
+      { name: "Apply & download", text: "Download all watermarked images as a ZIP." },
+    ],
+    benefits: ["Protect against image theft", "Bulk brand-mark hundreds of photos", "Privacy — files never uploaded"],
+  }),
+
+  "/alt-text-generator": f("/alt-text-generator", {
+    title: "AI Alt Text Generator — Bulk Image Alt Tags Free",
+    description:
+      "Generate SEO-friendly, accessibility-compliant alt text for images using AI vision. Bulk process up to 10 images per batch, export as CSV.",
+    keywords: "ai alt text generator, image alt text, bulk alt text, accessibility alt tags, seo alt text, ai image description",
+    category: "SEO",
+    h1: "AI Alt Text Generator",
+    intro: "Use AI vision to write concise, accessible, SEO-friendly alt text for any image. Add context, batch up to 10 images, copy as CSV.",
+    features: ["Powered by Lovable AI vision", "Bulk processing (10/batch)", "Optional context + SEO mode", "Editable output", "CSV export"],
+    faqs: [
+      { q: "How accurate is the alt text?", a: "Very high for clear photos. Always review before publishing — alt text should match what users care about on the page." },
+      { q: "Is there a limit?", a: "Lovable AI free tier covers most usage. Heavy bulk users may need to add credits to their workspace." },
+      { q: "Are my images stored?", a: "No. Images are sent to the AI vision API and discarded after generation. We don't keep copies." },
+    ],
+    steps: [
+      { name: "Upload images", text: "Drop up to 10 images per batch." },
+      { name: "Add context (optional)", text: "Help the AI tailor descriptions." },
+      { name: "Generate & export", text: "Copy each alt text or download CSV." },
+    ],
+    benefits: ["Massive accessibility win", "Better image SEO rankings", "Hours of writing saved"],
+  }),
+
+  "/video-to-gif": f("/video-to-gif", {
+    title: "Video to GIF Converter — MP4 to GIF/WebM Online Free",
+    description:
+      "Convert MP4, MOV, WebM videos to optimized GIF, WebM or MP4 clips with trim, FPS and resolution control. Powered by FFmpeg in your browser.",
+    keywords: "video to gif, mp4 to gif, convert video to gif, video trimmer online, webm converter, ffmpeg online, free gif maker",
+    category: "Image",
+    h1: "Video → GIF / WebM Converter",
+    intro: "Trim a video clip, pick FPS and resolution, and convert to GIF, WebM or MP4 — all in your browser with FFmpeg.wasm.",
+    features: ["GIF, WebM and MP4 outputs", "Trim start/end with sliders", "Custom FPS and width", "FFmpeg.wasm — no upload", "Conversion progress bar"],
+    faqs: [
+      { q: "Why does the first conversion take time?", a: "Your browser downloads the ~25MB FFmpeg core once, then caches it. Later conversions are fast." },
+      { q: "What input formats work?", a: "MP4, MOV, WebM, MKV and most browser-playable formats. Max 100MB for smooth performance." },
+      { q: "Is my video uploaded?", a: "No. Conversion happens fully on your device with FFmpeg.wasm." },
+    ],
+    steps: [
+      { name: "Upload a video", text: "Drop MP4, MOV or WebM." },
+      { name: "Trim & configure", text: "Set start/end, FPS and width." },
+      { name: "Convert & download", text: "Download GIF, WebM or MP4." },
+    ],
+    benefits: ["No upload, full privacy", "Studio-grade FFmpeg in browser", "Optimized for social & blog use"],
+  }),
+
+  "/diff-checker": f("/diff-checker", {
+    title: "Diff Checker Online — Compare Text Side by Side Free",
+    description:
+      "Compare two text blocks with line or word-level diff highlighting. Spot added, removed and changed content instantly. Free & private.",
+    keywords: "diff checker, text compare, compare text online, diff tool, text difference checker, code diff",
+    category: "Developer",
+    h1: "Diff Checker",
+    intro: "Compare any two text blocks — code, JSON, copy or configs — with line or word-level diff highlighting and add/remove counts.",
+    features: ["Line and word diff modes", "Ignore-case toggle", "Add / remove counts", "Inline color-coded view", "100% in-browser"],
+    faqs: [
+      { q: "What's the difference between line and word diff?", a: "Line diff is best for code or paragraphs. Word diff shows changes inside a sentence — better for copywriting edits." },
+      { q: "How large can the inputs be?", a: "Comfortably tens of thousands of lines, depending on your device." },
+      { q: "Is my text uploaded?", a: "No. Diffing happens entirely in your browser." },
+    ],
+    steps: [
+      { name: "Paste original text", text: "Drop the baseline content on the left." },
+      { name: "Paste changed text", text: "Drop the new version on the right." },
+      { name: "Review the diff", text: "Inline highlights show what changed." },
+    ],
+    benefits: ["Catch every change", "Cleaner code reviews", "No upload — private by default"],
+  }),
+
+  "/curl-builder": f("/curl-builder", {
+    title: "cURL Builder & HTTP Tester — Generate cURL Online Free",
+    description:
+      "Build HTTP requests visually with method, headers, body, auth — copy as cURL or fetch() and test from the browser. Free Postman alternative.",
+    keywords: "curl builder, curl generator, http request builder, postman alternative, fetch generator, online curl tester, api request tool",
+    category: "Developer",
+    h1: "cURL & HTTP Request Builder",
+    intro: "Visually construct any HTTP request — method, headers, auth, body — and export as cURL or fetch(). Send the request directly to test responses.",
+    features: ["All HTTP methods", "Custom headers + auth (Bearer, Basic)", "Request body", "Live cURL & fetch() output", "Send request from browser"],
+    faqs: [
+      { q: "Can I send requests to any URL?", a: "Yes, but the target server must allow CORS for browser-side calls. cURL output works everywhere." },
+      { q: "Are credentials stored?", a: "No. Headers and tokens stay in your session — nothing is saved or sent to our servers." },
+      { q: "Does it support GraphQL?", a: "Yes — send a POST request to your GraphQL endpoint with the query in the body." },
+    ],
+    steps: [
+      { name: "Choose method and URL", text: "Pick GET, POST, PUT, etc." },
+      { name: "Add headers, auth and body", text: "Configure exactly the request you need." },
+      { name: "Copy cURL or send", text: "Use the command in your terminal or send it from the browser." },
+    ],
+    benefits: ["Skip Postman for quick tests", "Share cURL with teammates", "Generate fetch() code instantly"],
+  }),
+
+  "/sitemap-generator": f("/sitemap-generator", {
+    title: "XML Sitemap Generator & Validator — Free SEO Tool",
+    description:
+      "Build a Google-ready XML sitemap from a URL list with per-page priority, changefreq, lastmod — and validate it against the sitemap.org spec.",
+    keywords: "sitemap generator, xml sitemap, sitemap validator, sitemap.xml generator, google sitemap, free sitemap maker",
+    category: "SEO",
+    h1: "XML Sitemap Generator & Validator",
+    intro: "Bulk-import URLs to generate a clean sitemap.xml with priority, changefreq and lastmod. Validate against the sitemap.org spec and download.",
+    features: ["Bulk URL import", "Per-row priority & changefreq", "Validates 50k-URL limit", "Suggested robots.txt", "Downloadable XML"],
+    faqs: [
+      { q: "What's the max sitemap size?", a: "The sitemap.org spec allows up to 50,000 URLs and 50MB per file. The validator warns you if you exceed that." },
+      { q: "Where do I put sitemap.xml?", a: "At your site root, e.g. https://example.com/sitemap.xml. Submit it in Google Search Console." },
+      { q: "Do I need lastmod?", a: "It's optional but helps search engines re-crawl updated pages faster." },
+    ],
+    steps: [
+      { name: "Paste your URL list", text: "Bulk import URLs or add them one by one." },
+      { name: "Adjust priority & frequency", text: "Tune per-page metadata for SEO." },
+      { name: "Validate & download", text: "Download sitemap.xml and submit to Search Console." },
+    ],
+    benefits: ["Faster Google indexing", "Spec-compliant output", "Includes robots.txt snippet"],
+  }),
 };
 
 const CATEGORY_LABEL: Record<ToolCategory, string> = {

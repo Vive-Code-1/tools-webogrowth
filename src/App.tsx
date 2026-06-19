@@ -16,6 +16,14 @@ const BackgroundRemover = lazy(() => import("./pages/BackgroundRemover"));
 const PdfToolkit = lazy(() => import("./pages/PdfToolkit"));
 const JwtDecoder = lazy(() => import("./pages/JwtDecoder"));
 const PageSpeedAnalyzer = lazy(() => import("./pages/PageSpeedAnalyzer"));
+const RegexTester = lazy(() => import("./pages/RegexTester"));
+const SchemaGenerator = lazy(() => import("./pages/SchemaGenerator"));
+const Watermark = lazy(() => import("./pages/Watermark"));
+const AltTextGenerator = lazy(() => import("./pages/AltTextGenerator"));
+const VideoToGif = lazy(() => import("./pages/VideoToGif"));
+const DiffChecker = lazy(() => import("./pages/DiffChecker"));
+const CurlBuilder = lazy(() => import("./pages/CurlBuilder"));
+const SitemapGenerator = lazy(() => import("./pages/SitemapGenerator"));
 const SvgOptimizer = lazy(() => import("./pages/SvgOptimizer"));
 const Favicon = lazy(() => import("./pages/Favicon"));
 const JsonFormatter = lazy(() => import("./pages/JsonFormatter"));
@@ -67,6 +75,14 @@ const App = () => (
               <Route path="/pdf-toolkit" element={<PdfToolkit />} />
               <Route path="/jwt-decoder" element={<JwtDecoder />} />
               <Route path="/pagespeed-analyzer" element={<PageSpeedAnalyzer />} />
+              <Route path="/regex-tester" element={<RegexTester />} />
+              <Route path="/schema-generator" element={<SchemaGenerator />} />
+              <Route path="/watermark" element={<Watermark />} />
+              <Route path="/alt-text-generator" element={<AltTextGenerator />} />
+              <Route path="/video-to-gif" element={<VideoToGif />} />
+              <Route path="/diff-checker" element={<DiffChecker />} />
+              <Route path="/curl-builder" element={<CurlBuilder />} />
+              <Route path="/sitemap-generator" element={<SitemapGenerator />} />
               <Route path="/svg-optimizer" element={<SvgOptimizer />} />
               <Route path="/favicon" element={<Favicon />} />
               <Route path="/json-formatter" element={<JsonFormatter />} />
