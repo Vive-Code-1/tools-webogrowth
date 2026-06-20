@@ -576,7 +576,7 @@ const ImageToSvg = () => {
             }}
           >
             <div
-              className={`bg-surface-container-high lg:rounded-xl rounded-t-2xl shadow-2xl border-t border-outline-variant/20 lg:border-0 transition-[max-height] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] overflow-hidden lg:overflow-visible lg:max-h-none ${
+              className={`bg-surface-container-high lg:rounded-xl rounded-t-2xl shadow-2xl border-t border-outline-variant/20 lg:border-0 transition-[max-height] duration-300 ease-ios overflow-hidden lg:overflow-visible lg:max-h-none ${
                 sheetOpen ? "max-h-[85vh]" : "max-h-[88px]"
               }`}
             >

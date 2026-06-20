@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      transitionTimingFunction: {
+        ios: "cubic-bezier(0.32, 0.72, 0, 1)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

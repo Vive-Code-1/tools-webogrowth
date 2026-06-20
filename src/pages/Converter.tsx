@@ -543,7 +543,7 @@ const Converter = () => {
             }}
           >
             <div
-              className={`bg-surface-container-high lg:rounded-xl rounded-t-2xl shadow-2xl lg:shadow-2xl border-t border-outline-variant/20 lg:border-0 transition-[max-height] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] overflow-hidden lg:overflow-visible lg:max-h-none ${
+              className={`bg-surface-container-high lg:rounded-xl rounded-t-2xl shadow-2xl lg:shadow-2xl border-t border-outline-variant/20 lg:border-0 transition-[max-height] duration-300 ease-ios overflow-hidden lg:overflow-visible lg:max-h-none ${
                 sheetOpen ? "max-h-[85vh]" : "max-h-[88px]"
               }`}
             >
@@ -617,7 +617,7 @@ const Converter = () => {
             <div
               id="conversion-options-panel"
               aria-hidden={!sheetOpen ? "true" : undefined}
-              className={`lg:block lg:max-h-none lg:overflow-visible overflow-y-auto p-8 space-y-6 transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${sheetOpen ? "max-h-[calc(85vh-104px)] opacity-100" : "max-h-0 p-0 opacity-0 lg:opacity-100 lg:p-8"}`}>
+              className={`lg:block lg:max-h-none lg:overflow-visible overflow-y-auto p-8 space-y-6 transition-all duration-300 ease-ios ${sheetOpen ? "max-h-[calc(85vh-104px)] opacity-100" : "max-h-0 p-0 opacity-0 lg:opacity-100 lg:p-8"}`}>
 
               <h3 className="font-headline text-xl font-bold">
                 Conversion Options
