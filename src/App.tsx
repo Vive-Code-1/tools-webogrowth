@@ -63,7 +63,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <AdminHeadInjector />
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route element={<Layout />}>
