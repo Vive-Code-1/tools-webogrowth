@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 import DropZone from "@/components/DropZone";
+import ResultCountdownPanel from "@/components/ResultCountdownPanel";
 import JSZip from "jszip";
 import { useToast } from "@/hooks/use-toast";
 
