@@ -153,6 +153,31 @@ const BlogPost = () => {
         </div>
       </aside>
 
+      <aside className="mt-6 p-6 bg-surface-container-lowest border border-outline-variant/15 rounded-2xl">
+        <p className="text-xs font-label uppercase tracking-widest text-on-surface-variant/60 font-bold mb-2">About the author</p>
+        <p className="text-on-surface-variant/80 text-sm leading-relaxed">
+          This guide was written by the{" "}
+          <a
+            href="https://webogrowth.com"
+            target="_blank"
+            rel="noopener"
+            className="text-primary underline underline-offset-4 hover:no-underline font-bold"
+          >
+            WeboGrowth
+          </a>{" "}
+          team — an SEO &amp; growth agency helping brands rank higher and ship faster. Visit{" "}
+          <a
+            href="https://webogrowth.com"
+            target="_blank"
+            rel="noopener"
+            className="text-primary underline underline-offset-4 hover:no-underline"
+          >
+            webogrowth.com
+          </a>{" "}
+          to learn more about our services.
+        </p>
+      </aside>
+
       {related.length > 0 && (
         <section className="mt-16">
           <h2 className="text-2xl font-headline font-bold tracking-tight mb-6">Related guides</h2>
