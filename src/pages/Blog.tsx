@@ -1,11 +1,16 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { BLOG_POSTS } from "@/blog/posts";
+import { getAllCategories, getAllTags } from "@/blog/taxonomy";
+import BlogPostCard from "@/components/BlogPostCard";
 
 const SITE_URL = "https://tools.webogrowth.com";
 
 const Blog = () => {
   const sortedPosts = [...BLOG_POSTS].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  const categories = getAllCategories();
+  const tags = getAllTags().slice(0, 24);
+
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -27,7 +32,7 @@ const Blog = () => {
         <title>Blog — Image, SEO & Developer Guides | WeboGrowth Tools</title>
         <meta
           name="description"
-          content="Practical guides on image compression, JSON formatting, SEO, QR codes and modern web tooling. Written by the WeboGrowth team."
+          content="Practical guides on image compression, JSON formatting, SEO, QR codes and modern web tooling. Browse by category or tag."
         />
         <meta name="keywords" content="web tools blog, image compression guide, json tutorial, seo guide, qr code marketing, free developer tools" />
         <link rel="canonical" href={`${SITE_URL}/blog`} />
@@ -38,7 +43,7 @@ const Blog = () => {
         <script type="application/ld+json">{JSON.stringify(itemListLd)}</script>
       </Helmet>
 
-      <header className="mb-12">
+      <header className="mb-10">
         <p className="text-xs font-label uppercase tracking-widest text-primary font-bold mb-3">WeboGrowth Blog</p>
         <h1 className="text-4xl md:text-5xl font-headline font-black tracking-tight mb-4">
           Guides for designers, developers &amp; marketers
@@ -48,43 +53,47 @@ const Blog = () => {
         </p>
       </header>
 
+      {categories.length > 0 && (
+        <nav className="mb-10 flex flex-wrap gap-2" aria-label="Blog categories">
+          <span className="px-3 py-1.5 rounded-full text-sm bg-primary text-on-primary font-bold">
+            All <span className="opacity-60">({sortedPosts.length})</span>
+          </span>
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              to={`/blog/category/${c.slug}`}
+              className="px-3 py-1.5 rounded-full text-sm border border-outline-variant/20 hover:border-primary hover:text-primary transition-colors"
+            >
+              {c.name} <span className="text-on-surface-variant/50">({c.count})</span>
+            </Link>
+          ))}
+        </nav>
+      )}
+
       <div className="grid md:grid-cols-2 gap-6">
         {sortedPosts.map((post) => (
-          <article
-            key={post.slug}
-            className="group bg-surface-container-lowest border border-outline-variant/15 rounded-2xl p-6 hover:border-primary/40 transition-all"
-          >
-            {post.cover && (
-              <Link to={`/blog/${post.slug}`} aria-label={post.title} className="block mb-5 overflow-hidden rounded-xl border border-outline-variant/15 bg-surface-container-lowest">
-                <img
-                  src={post.cover}
-                  alt={post.title}
-                  loading="lazy"
-                  width={1280}
-                  height={720}
-                  className="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </Link>
-            )}
-            <div className="flex items-center gap-3 mb-3 text-xs uppercase tracking-widest font-label">
-              <span className="text-primary font-bold">{post.category}</span>
-              <span className="text-on-surface-variant/40">•</span>
-              <span className="text-on-surface-variant/60">{post.readMinutes} min read</span>
-            </div>
-            <h2 className="text-xl md:text-2xl font-headline font-bold tracking-tight mb-3 group-hover:text-primary transition-colors">
-              <Link to={`/blog/${post.slug}`} className="after:absolute after:inset-0">
-                {post.title}
-              </Link>
-            </h2>
-            <p className="text-on-surface-variant/70 text-sm leading-relaxed mb-4">{post.excerpt}</p>
-            <div className="flex items-center gap-2 text-xs text-on-surface-variant/50">
-              <time dateTime={post.date}>{new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</time>
-              <span>•</span>
-              <span>{post.author}</span>
-            </div>
-          </article>
+          <BlogPostCard key={post.slug} post={post} />
         ))}
       </div>
+
+      {tags.length > 0 && (
+        <section className="mt-16 pt-10 border-t border-outline-variant/15">
+          <h2 className="text-sm font-label uppercase tracking-widest text-on-surface-variant/60 font-bold mb-4">
+            Popular tags
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {tags.map((t) => (
+              <Link
+                key={t.slug}
+                to={`/blog/tag/${t.slug}`}
+                className="px-3 py-1.5 rounded-full text-sm border border-outline-variant/20 hover:border-primary hover:text-primary transition-colors"
+              >
+                #{t.name} <span className="text-on-surface-variant/50">({t.count})</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };

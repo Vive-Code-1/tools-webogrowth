@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import { getPostBySlug, BLOG_POSTS } from "@/blog/posts";
 import ShareButtons from "@/components/ShareButtons";
 import { getPostFaqs, buildFaqPageSchema } from "@/blog/faq";
+import { getPostTags, slugify } from "@/blog/taxonomy";
 
 const SITE_URL = "https://tools.webogrowth.com";
 
