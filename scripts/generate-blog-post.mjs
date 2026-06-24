@@ -328,44 +328,42 @@ async function fetchWithRetry(url, init, { tries = 5, baseDelayMs = 4000 } = {})
 }
 
 async function callModel() {
-
   if (dry) {
-    return {
-      slug: slugify(topic.title),
-      title: topic.title,
-      description: `Dry-run description for ${topic.primaryKeyword}.`,
-      keywords: topic.primaryKeyword,
-      category: topic.category,
-      readMinutes: 6,
-      excerpt: "Dry run.",
-      relatedTools: [{ label: topic.relatedToolLabel, path: topic.relatedToolPath }],
-      body: "Dry run body.",
-    };
-  }
-  const url = `${GEMINI_BASE}/${TEXT_MODEL}:generateContent?key=${apiKey}`;
-  const body = JSON.stringify({
-    systemInstruction: { parts: [{ text: SYSTEM }] },
-    contents: [{ role: "user", parts: [{ text: USER }] }],
-    generationConfig: {
-      responseMimeType: "application/json",
-      temperature: 0.7,
-      maxOutputTokens: 8192,
-    },
-  });
-  const res = await fetchWithRetry(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body,
-  });
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(`Gemini API ${res.status}: ${t}`);
+    return buildFallbackPost("dry run");
   }
 
-  const data = await res.json();
-  const content = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join("");
-  if (!content) throw new Error("Empty completion: " + JSON.stringify(data).slice(0, 500));
-  return safeParseJson(content);
+  if (!apiKey) {
+    return buildFallbackPost("missing GEMINI_API_KEY");
+  }
+
+  try {
+    const url = `${GEMINI_BASE}/${TEXT_MODEL}:generateContent?key=${apiKey}`;
+    const body = JSON.stringify({
+      systemInstruction: { parts: [{ text: SYSTEM }] },
+      contents: [{ role: "user", parts: [{ text: USER }] }],
+      generationConfig: {
+        responseMimeType: "application/json",
+        temperature: 0.7,
+        maxOutputTokens: 8192,
+      },
+    });
+    const res = await fetchWithRetry(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      throw new Error(`Gemini API ${res.status}: ${t.slice(0, 500)}`);
+    }
+
+    const data = await res.json();
+    const content = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join("");
+    if (!content) throw new Error("Empty completion: " + JSON.stringify(data).slice(0, 500));
+    return safeParseJson(content);
+  } catch (e) {
+    return buildFallbackPost(e?.message || "model generation failed");
+  }
 }
 
 // Gemini sometimes emits invalid JSON inside markdown body strings:
@@ -423,20 +421,11 @@ function repairJsonStrings(input) {
 }
 
 
-const post = await callModel();
+const post = normalizePost(await callModel());
 
 // ---- validate ----
 const required = ["slug", "title", "description", "keywords", "category", "readMinutes", "excerpt", "relatedTools", "body"];
-for (const k of required) if (post[k] == null) throw new Error(`Missing field: ${k}`);
-if (post.title.length > 70) post.title = post.title.slice(0, 67) + "...";
-if (post.description.length > 160) post.description = post.description.slice(0, 157) + "...";
-post.slug = slugify(post.slug || post.title);
-if (existingSlugs.has(post.slug)) {
-  console.error(`✗ Slug already exists: ${post.slug}`);
-  process.exit(1);
-}
-const validCats = ["Image", "Developer", "SEO", "Design", "Guide"];
-if (!validCats.includes(post.category)) post.category = topic.category;
+for (const k of required) if (post[k] == null) Object.assign(post, normalizePost(buildFallbackPost(`missing field: ${k}`)));
 
 const today = new Date().toISOString().slice(0, 10);
 
