@@ -23,7 +23,18 @@ const Watermark = () => {
   const [tile, setTile] = useState(false);
   const [outputs, setOutputs] = useState<{ name: string; url: string; blob: Blob }[]>([]);
   const [processing, setProcessing] = useState(false);
+  const [countdownKey, setCountdownKey] = useState(0);
   const previewRef = useRef<HTMLCanvasElement>(null);
+
+  const handleExpire = useCallback(() => {
+    setOutputs((prev) => {
+      prev.forEach((o) => {
+        if (o.url.startsWith("blob:")) URL.revokeObjectURL(o.url);
+      });
+      return [];
+    });
+  }, []);
+
 
   const drawWatermark = async (img: HTMLImageElement, logoImg: HTMLImageElement | null): Promise<Blob> => {
     const canvas = document.createElement("canvas");
