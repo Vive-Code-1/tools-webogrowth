@@ -75,7 +75,7 @@ const ImageResizer = () => {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div className="space-y-6">
             <DropZone onFileSelect={handleFileSelect} accept="image/png,image/jpeg,image/webp" />
             {file && (
