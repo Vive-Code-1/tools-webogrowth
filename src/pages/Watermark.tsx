@@ -124,7 +124,8 @@ const Watermark = () => {
       }
       if (logoUrl) URL.revokeObjectURL(logoUrl);
       setOutputs(results);
-      toast({ title: `Watermarked ${results.length} image${results.length > 1 ? "s" : ""}` });
+      setCountdownKey(Date.now());
+      toast({ title: `Watermarked ${results.length} image${results.length > 1 ? "s" : ""}`, description: "৫ মিনিটের মধ্যে ডাউনলোড করুন।" });
     } finally { setProcessing(false); }
   };
 
