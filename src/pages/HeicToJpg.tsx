@@ -4,7 +4,7 @@ import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
 import { uploadProcessedFile } from "@/lib/storage";
-import CountdownDownload from "@/components/CountdownDownload";
+
 import { toast } from "@/hooks/use-toast";
 
 type OutFormat = "image/jpeg" | "image/png" | "image/webp";
@@ -367,7 +367,16 @@ const HeicToJpg = () => {
                           </span>
                         )}
                       </p>
-                      <CountdownDownload url={r.url} fileName={r.name} />
+                      <a
+                        href={r.url}
+                        download={r.name}
+                        className="inline-flex items-center justify-center gap-2 w-full px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90"
+                      >
+                        <span className="material-symbols-outlined text-base">
+                          download
+                        </span>
+                        Download {ext.toUpperCase()}
+                      </a>
                     </div>
                   </div>
                 );
