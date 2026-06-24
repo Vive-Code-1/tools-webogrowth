@@ -337,24 +337,6 @@ const Converter = () => {
       setPreparing(false);
     }
   };
-      const zip = new JSZip();
-      const seen = new Map<string, number>();
-      for (const it of doneItems) {
-        let name = it.outName!;
-        const count = seen.get(name) || 0;
-        if (count > 0) {
-          const dot = name.lastIndexOf(".");
-          name = `${name.slice(0, dot)}-${count}${name.slice(dot)}`;
-        }
-        seen.set(it.outName!, count + 1);
-        zip.file(name, it.outBlob!);
-      }
-      const blob = await zip.generateAsync({ type: "blob" });
-      await publishBlob(blob, `converted-images-${Date.now()}.zip`);
-    } finally {
-      setPreparing(false);
-    }
-  };
 
   const triggerDownload = async () => {
     if (expired || !zipUrl) {
