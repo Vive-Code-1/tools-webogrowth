@@ -165,23 +165,60 @@ async function callModel() {
   return safeParseJson(content);
 }
 
-// Gemini sometimes emits invalid JSON escapes inside markdown body strings
-// (e.g. "\ ", "\|", "\-"). Repair them before JSON.parse.
+// Gemini sometimes emits invalid JSON inside markdown body strings:
+//   - invalid escapes: "\ ", "\|", "\-", "\!"
+//   - raw control chars (literal newlines/tabs) inside string values
+// Repair them with a string-aware scanner before JSON.parse.
 function safeParseJson(raw) {
   let text = raw.trim();
   // strip markdown fences if present
   text = text.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "");
-  try { return JSON.parse(text); } catch {}
-  // Replace any invalid backslash escape (not one of " \ / b f n r t u) with the literal char
-  const repaired = text.replace(/\\([^"\\\/bfnrtu])/g, "$1");
-  try { return JSON.parse(repaired); } catch (e) {
-    // Last resort: also escape stray control chars
-    const cleaned = repaired.replace(/[\u0000-\u001F]/g, (c) =>
-      c === "\n" ? "\\n" : c === "\r" ? "\\r" : c === "\t" ? "\\t" : "",
-    );
-    return JSON.parse(cleaned);
+  // trim to outermost JSON object
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start > 0 || end < text.length - 1) {
+    if (start !== -1 && end !== -1 && end > start) text = text.slice(start, end + 1);
   }
+  try { return JSON.parse(text); } catch {}
+  return JSON.parse(repairJsonStrings(text));
 }
+
+function repairJsonStrings(input) {
+  const validEscapes = new Set(['"', "\\", "/", "b", "f", "n", "r", "t", "u"]);
+  let out = "";
+  let inString = false;
+  for (let i = 0; i < input.length; i++) {
+    const c = input[i];
+    if (!inString) {
+      out += c;
+      if (c === '"') inString = true;
+      continue;
+    }
+    // inside a string
+    if (c === "\\") {
+      const next = input[i + 1];
+      if (next === undefined) { out += "\\\\"; continue; }
+      if (validEscapes.has(next)) { out += c + next; i++; continue; }
+      // invalid escape — drop the backslash, keep the char
+      out += next;
+      i++;
+      continue;
+    }
+    if (c === '"') { out += c; inString = false; continue; }
+    // escape raw control chars that are illegal inside JSON strings
+    const code = c.charCodeAt(0);
+    if (code < 0x20) {
+      if (c === "\n") out += "\\n";
+      else if (c === "\r") out += "\\r";
+      else if (c === "\t") out += "\\t";
+      else out += "\\u" + code.toString(16).padStart(4, "0");
+      continue;
+    }
+    out += c;
+  }
+  return out;
+}
+
 
 const post = await callModel();
 
