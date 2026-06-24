@@ -115,6 +115,19 @@ const BlogPost = () => {
         <ShareButtons url={url} title={post.title} description={post.description} hashtags={["webogrowth", "webtools"]} />
       </header>
 
+      {post.cover && (
+        <figure className="mb-10 -mx-2 md:mx-0">
+          <img
+            src={post.cover}
+            alt={post.title}
+            loading="eager"
+            width={1280}
+            height={720}
+            className="w-full rounded-2xl border border-outline-variant/15 aspect-[16/9] object-cover bg-surface-container-lowest"
+          />
+        </figure>
+      )}
+
       <article className="prose prose-invert prose-lg max-w-none prose-headings:font-headline prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-12 prose-h3:text-xl prose-a:text-primary prose-strong:text-foreground prose-code:text-primary prose-code:before:content-none prose-code:after:content-none prose-table:text-sm">
         <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
           {post.body}
