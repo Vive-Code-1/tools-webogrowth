@@ -31,8 +31,7 @@ const SITE = "https://tools.webogrowth.com";
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey && !dry) {
-  console.error("✗ GEMINI_API_KEY missing. Get one at https://aistudio.google.com/apikey and add it as a GitHub repo secret.");
-  process.exit(1);
+  console.warn("⚠ GEMINI_API_KEY missing. Publishing a deterministic fallback post instead of failing the workflow.");
 }
 
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
@@ -58,6 +57,129 @@ function slugify(s) {
     .trim()
     .replace(/\s+/g, "-")
     .slice(0, 80);
+}
+
+function uniqueSlug(base, used) {
+  const cleanBase = slugify(base || topic.title) || `blog-post-${Date.now()}`;
+  if (!used.has(cleanBase)) return cleanBase;
+
+  for (let n = 2; n < 1000; n++) {
+    const suffix = `-${n}`;
+    const candidate = `${cleanBase.slice(0, 80 - suffix.length)}${suffix}`;
+    if (!used.has(candidate)) return candidate;
+  }
+
+  return `${cleanBase.slice(0, 69)}-${Date.now().toString(36)}`;
+}
+
+function titleCase(value) {
+  return String(value)
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function clampText(value, max, fallback) {
+  const text = String(value || fallback || "").replace(/\s+/g, " ").trim();
+  if (text.length <= max) return text;
+  return text.slice(0, Math.max(0, max - 3)).replace(/[\s,.;:-]+$/g, "") + "...";
+}
+
+function sanitizeRelatedTools(input) {
+  const first = { label: topic.relatedToolLabel, path: topic.relatedToolPath };
+  const seen = new Set([first.path]);
+  const tools = [first];
+
+  for (const tool of Array.isArray(input) ? input : []) {
+    if (!tool?.label || !tool?.path || !String(tool.path).startsWith("/")) continue;
+    if (seen.has(tool.path)) continue;
+    seen.add(tool.path);
+    tools.push({ label: String(tool.label).slice(0, 60), path: String(tool.path).slice(0, 80) });
+    if (tools.length >= 4) break;
+  }
+
+  return tools;
+}
+
+function buildFallbackBody() {
+  const keyword = topic.primaryKeyword;
+  const toolLabel = topic.relatedToolLabel;
+  const toolPath = topic.relatedToolPath;
+  const shortTitle = topic.title.replace(/\s*\([^)]*\)\s*/g, " ").replace(/\s+/g, " ").trim();
+
+  return `${shortTitle} is easier when you use a fast browser-based workflow. This guide shows how to handle ${keyword} without uploads, installs, or confusing settings. Built by the team at [WeboGrowth](https://webogrowth.com), it focuses on practical steps you can use today.
+
+## Why ${keyword} matters
+
+People usually search for ${keyword} because they need a quick result, not a long technical lesson. The safest approach is to use a tool that runs in your browser, keeps your files private, and gives you an output that works across websites, email, and social platforms.
+
+The [${toolLabel}](${toolPath}) is designed for that workflow. It keeps the process simple: choose your file or input, review the result, and download or copy the final output.
+
+## Quick comparison
+
+| Method | Best for | Privacy | Setup time |
+|---|---|---|---|
+| Browser tool | Fast one-off tasks and client work | High, when processing stays local | Under 1 minute |
+| Desktop app | Large repeat batches | Depends on the app | 5-20 minutes |
+| Server upload tool | Sharing across teams | Lower, files leave your device | 1-3 minutes |
+
+For most small business, SEO, design, and developer tasks, the browser option is the best balance of speed and control.
+
+## Step-by-step workflow
+
+1. Open the [${toolLabel}](${toolPath}).
+2. Add your file or paste the content you want to process.
+3. Keep the default settings first, then adjust quality, size, or output format only if needed.
+4. Preview the result before downloading or copying it.
+5. Save the optimized output with a clear file name that includes the target keyword or page name.
+
+This simple workflow reduces mistakes because you can see the result before publishing it.
+
+## Best settings to start with
+
+Use conservative settings when quality matters. If you are preparing assets for a landing page, blog post, product page, or social preview, start with the default output and only reduce quality or size when the file is still too large.
+
+For SEO pages, pair the output with helpful metadata. If the task relates to images, write descriptive alt text. If it relates to code or markup, validate the result before shipping it.
+
+## Common mistakes
+
+- **Using random upload sites for private files.** Prefer browser-based tools for client or internal work.
+- **Over-optimizing the result.** Smaller is not always better if readability or quality drops.
+- **Forgetting the final page context.** A file, snippet, or tag should support the page's search intent.
+- **Skipping a preview.** Always check the result before adding it to a live page.
+
+## Where WeboGrowth Tools fits
+
+The [${toolLabel}](${toolPath}) is part of WeboGrowth Tools, a free toolkit for image, SEO, design, and developer workflows. If your next step is technical SEO, you can also use tools like the [Meta Tag Generator](/meta-tag-generator), [Sitemap Generator](/sitemap-generator), or [PageSpeed Analyzer](/pagespeed-analyzer).
+
+## TL;DR
+
+For ${keyword}, use a browser-based workflow first. It is faster, safer for private work, and easier to repeat. Start with the [${toolLabel}](${toolPath}), preview the output, then publish only after checking quality and SEO context.`;
+}
+
+function buildFallbackPost(reason = "") {
+  if (reason) console.warn(`⚠ Using fallback post: ${reason}`);
+  const keyword = topic.primaryKeyword;
+  const title = clampText(topic.title, 60, titleCase(keyword));
+  return {
+    slug: slugify(topic.title),
+    title,
+    description: clampText(`${titleCase(keyword)} guide with simple steps, privacy tips, common mistakes, and a free browser-based tool from WeboGrowth.`, 158),
+    keywords: [
+      keyword,
+      `${keyword} guide`,
+      `${keyword} free`,
+      `${keyword} online`,
+      topic.relatedToolLabel.toLowerCase(),
+      "webogrowth tools",
+    ].join(", "),
+    category: topic.category,
+    readMinutes: 6,
+    excerpt: clampText(`A practical guide to ${keyword}, including the safest workflow, best settings, common mistakes, and a free browser tool.`, 200),
+    relatedTools: [{ label: topic.relatedToolLabel, path: topic.relatedToolPath }],
+    imagePrompt: `Modern editorial cover for ${keyword}: a clean workstation screen with abstract file cards, subtle lime-green accents, dark background, soft studio lighting, no text.`,
+    imageAlt: clampText(`${keyword} guide cover image`, 120),
+    body: buildFallbackBody(),
+  };
 }
 
 // ---- prompt the model ----
