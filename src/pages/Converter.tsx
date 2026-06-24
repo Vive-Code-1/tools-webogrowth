@@ -594,9 +594,9 @@ const Converter = () => {
                         Converting
                       </span>
                     )}
-                    {zipUrl && !expired && (
+                    {doneItems.length > 0 && !expired && (
                       <span className="px-2 py-1 rounded-full bg-primary/20 text-primary font-bold whitespace-nowrap">
-                        Ready {mm}:{ss}
+                        Ready
                       </span>
                     )}
                   </div>
@@ -733,52 +733,21 @@ const Converter = () => {
               )}
 
               {zipUrl && !expired && (
-                <div className="bg-surface-container rounded-xl p-5 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary">timer</span>
-                      <span className="font-headline font-bold text-lg">{mm}:{ss}</span>
-                    </div>
-                    <span className="text-xs text-on-surface-variant uppercase tracking-widest font-bold">
-                      {storagePathRef.current ? "Cloud" : "Local"}
-                    </span>
-                  </div>
-                  <div className="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-primary transition-all duration-1000 rounded-full"
-                      style={{ width: `${progressPct}%` }}
-                    />
-                  </div>
-                  <button
-                    onClick={triggerDownload}
-                    className="w-full bg-primary text-on-primary py-4 rounded-lg font-bold flex items-center justify-center gap-3 active:scale-95 hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)]"
-                  >
-                    <span className="material-symbols-outlined">download</span>
-                    Download {doneItems.length > 1 ? "ZIP" : "File"}
-                  </button>
-                  <p className="text-[11px] text-on-surface-variant text-center">
-                    File auto-deletes from cloud in {mm}:{ss}
-                  </p>
-                </div>
+                <button
+                  onClick={triggerDownload}
+                  className="w-full bg-primary text-on-primary py-4 rounded-lg font-bold flex items-center justify-center gap-3 active:scale-95 hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)]"
+                >
+                  <span className="material-symbols-outlined">download</span>
+                  Download {doneItems.length > 1 ? "ZIP" : "File"}
+                </button>
               )}
 
-              {expired && (
-                <div className="bg-destructive/10 border border-destructive/40 rounded-xl p-5 text-center space-y-3">
-                  <span className="material-symbols-outlined text-destructive text-3xl">timer_off</span>
-                  <h4 className="font-headline font-bold text-destructive">Download window expired</h4>
-                  <p className="text-xs text-on-surface-variant">
-                    File has been deleted from cloud storage. Reconvert to download again.
-                  </p>
-                  <button
-                    onClick={handleConvertAgain}
-                    disabled={processing || !items.length}
-                    className="w-full bg-primary text-on-primary py-3 rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
-                  >
-                    <span className="material-symbols-outlined">refresh</span>
-                    আবার কনভার্ট করুন
-                  </button>
-                </div>
-              )}
+              <ResultCountdownPanel
+                active={doneItems.length > 0 || expired}
+                resetKey={countdownKey}
+                onExpire={handleExpire}
+                onReconvert={handleConvertAgain}
+              />
             </div>
             </div>
           </div>
