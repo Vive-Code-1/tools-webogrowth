@@ -1,0 +1,28 @@
+name: Keep Workflows Alive
+
+# GitHub Actions disables scheduled workflows after 60 days without human commits.
+# This workflow runs every 50 days and re-enables the blog workflow so the daily
+# auto-publish never silently stops. Requires BLOG_BOT_PAT (PAT with 'workflow' scope).
+
+on:
+  schedule:
+    - cron: "0 9 1,20 * *" # twice a month, well within the 60-day window
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  reenable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-enable scheduled workflows
+        env:
+          GH_TOKEN: ${{ secrets.BLOG_BOT_PAT || secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          for wf in blog-auto.yml keepalive.yml; do
+            echo "→ enabling $wf"
+            gh workflow enable "$wf" --repo "$REPO" || echo "  (already enabled or not found)"
+          done

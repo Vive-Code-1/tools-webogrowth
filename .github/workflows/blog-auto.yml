@@ -17,7 +17,13 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      # Checkout with PAT (if available) so commits are attributed to a real user
+      # and reset GitHub Actions' 60-day "inactive repo" timer that would otherwise
+      # disable scheduled workflows. Falls back to GITHUB_TOKEN if PAT is missing.
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BLOG_BOT_PAT || secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - uses: actions/setup-node@v4
         with: { node-version: "20" }
@@ -28,13 +34,24 @@ jobs:
         run: node scripts/generate-blog-post.mjs
 
       - name: Commit & push
+        env:
+          USING_PAT: ${{ secrets.BLOG_BOT_PAT != '' }}
         run: |
           if git diff --quiet; then
             echo "No changes — nothing to commit."
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ "$USING_PAT" = "true" ]; then
+            # PAT present → attribute commit to PAT owner so it counts as
+            # human activity and keeps the scheduled workflow alive past 60 days.
+            git config user.name "webogrowth-bot"
+            git config user.email "bot@webogrowth.com"
+            echo "→ pushing with BLOG_BOT_PAT (counts as human activity)"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            echo "⚠ BLOG_BOT_PAT not set — using GITHUB_TOKEN. Schedule will auto-disable after 60 days of no human commits."
+          fi
           mkdir -p public/blog-images
           git add src/blog/posts.ts public/sitemap.xml marketing/blog-topic-queue.json
           git add public/blog-images 2>/dev/null || true
@@ -42,7 +59,7 @@ jobs:
           git push
 
       - name: Ping IndexNow (Bing, Yandex, etc.)
-        run: node scripts/indexnow-submit.mjs
+        run: node scripts/indexnow-submit.mjs || true
 
       - name: Ping Google sitemap
         run: |
