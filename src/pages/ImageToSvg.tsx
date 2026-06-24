@@ -13,7 +13,7 @@ import {
   avgLuminance,
   extractPaletteFromFile,
 } from "@/lib/palette";
-import { uploadToStorage, deleteFromStorage } from "@/lib/processedStorage";
+// (cloud storage removed — all downloads now stay in the browser as blob URLs)
 import { runWithConcurrency } from "@/lib/concurrency";
 
 const CONCURRENCY = 2;
@@ -91,10 +91,7 @@ const ImageToSvg = () => {
     if (zipUrlRef.current && zipUrlRef.current.startsWith("blob:")) {
       URL.revokeObjectURL(zipUrlRef.current);
     }
-    if (storagePathRef.current) {
-      deleteFromStorage(storagePathRef.current);
-      storagePathRef.current = null;
-    }
+    storagePathRef.current = null;
     zipUrlRef.current = null;
   }, []);
 
