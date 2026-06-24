@@ -67,7 +67,7 @@ const AltTextGenerator = () => {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           <div className="space-y-4">
             <DropZone multiple onFilesSelect={onFiles} accept="image/*" label="Drop images" sublabel="Up to 10 images, max 10MB each" maxSizeMB={10} hasFiles={items.length > 0} />
             <div className="bg-surface-container rounded-xl p-5 space-y-3">
