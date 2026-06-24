@@ -69,6 +69,7 @@ Always include:
 - A "TL;DR" closing section
 - Inline links to the related WeboGrowth tool (use relative paths like [/compressor]) at least 2 times
 - 1–2 inline links to other WeboGrowth tools or blog posts where genuinely relevant
+- Exactly ONE inline link to our parent agency https://webogrowth.com — placed naturally in the intro OR the closing TL;DR (e.g. "Built by the team at [WeboGrowth](https://webogrowth.com)")
 - No emojis in headings; sparingly in lists is OK
 - No external affiliate links
 
@@ -82,6 +83,8 @@ Return STRICT JSON only — no markdown fence, no commentary. Schema:
   "readMinutes": 5-9,
   "excerpt": "≤ 200 chars hook for the blog index card",
   "relatedTools": [{ "label": "...", "path": "/..." }],
+  "imagePrompt": "A short, vivid scene description (1-2 sentences) for a 16:9 editorial cover image illustrating the article. No text in the image. Modern, clean, professional. Dark background friendly. Include subject, mood, lighting, style.",
+  "imageAlt": "Concise alt text for the cover image, includes the primary keyword naturally, ≤ 120 chars",
   "body": "full markdown body, NO leading H1 (the page renders the title), starts with the intro paragraph"
 }`;
 
@@ -149,6 +152,60 @@ if (!validCats.includes(post.category)) post.category = topic.category;
 
 const today = new Date().toISOString().slice(0, 10);
 
+// ---- generate cover image via Lovable AI Gateway ----
+async function generateCover(prompt, slug) {
+  if (dry) return null;
+  if (!prompt) return null;
+  try {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash-image-preview",
+        messages: [
+          {
+            role: "user",
+            content: `Create a 16:9 widescreen editorial cover image. Modern, clean, professional, dark-mode friendly with subtle lime-green accents. No text, no watermarks, no logos. Scene: ${prompt}`,
+          },
+        ],
+        modalities: ["image", "text"],
+      }),
+    });
+    if (!res.ok) {
+      console.warn(`✗ Image gen failed ${res.status}: ${await res.text()}`);
+      return null;
+    }
+    const data = await res.json();
+    const msg = data.choices?.[0]?.message;
+    const imgUrl =
+      msg?.images?.[0]?.image_url?.url ||
+      msg?.images?.[0]?.url ||
+      (Array.isArray(msg?.content) ? msg.content.find((c) => c?.image_url?.url)?.image_url?.url : null);
+    if (!imgUrl || !imgUrl.startsWith("data:")) {
+      console.warn("✗ No image data in response");
+      return null;
+    }
+    const b64 = imgUrl.split(",")[1];
+    const buf = Buffer.from(b64, "base64");
+    const dir = path.join(ROOT, "public/blog-images");
+    fs.mkdirSync(dir, { recursive: true });
+    const ext = imgUrl.includes("image/png") ? "png" : "jpg";
+    const filename = `${slug}.${ext}`;
+    fs.writeFileSync(path.join(dir, filename), buf);
+    console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB)`);
+    return `/blog-images/${filename}`;
+  } catch (e) {
+    console.warn(`✗ Image gen error: ${e.message}`);
+    return null;
+  }
+}
+
+const coverPath = await generateCover(post.imagePrompt, post.slug);
+const coverAlt = post.imageAlt || post.title;
+
 // ---- build TS literal ----
 const esc = (s) => s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
 const relatedTools = post.relatedTools
@@ -156,6 +213,14 @@ const relatedTools = post.relatedTools
   .slice(0, 4)
   .map((t) => `      { label: ${JSON.stringify(t.label)}, path: ${JSON.stringify(t.path)} },`)
   .join("\n");
+
+// Guarantee a webogrowth.com link exists in the body
+let finalBody = post.body;
+if (!/webogrowth\.com/i.test(finalBody)) {
+  finalBody += `\n\n---\n\n*Published by the team at [WeboGrowth](https://webogrowth.com) — SEO &amp; growth services for ambitious brands.*\n`;
+}
+
+const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
 
 const block = `  post({
     slug: ${JSON.stringify(post.slug)},
@@ -166,11 +231,11 @@ const block = `  post({
     author: "WeboGrowth Team",
     category: ${JSON.stringify(post.category)},
     readMinutes: ${Number(post.readMinutes) || 6},
-    excerpt: ${JSON.stringify(post.excerpt)},
+${coverField}    excerpt: ${JSON.stringify(post.excerpt)},
     relatedTools: [
 ${relatedTools}
     ],
-    body: \`${esc(post.body)}\`,
+    body: \`${esc(finalBody)}\`,
   }),
 ];`;
 
