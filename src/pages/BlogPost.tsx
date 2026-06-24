@@ -94,6 +94,9 @@ const BlogPost = () => {
         <meta name="twitter:image" content={coverUrl} />
         <script type="application/ld+json">{JSON.stringify(articleLd)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
+        {faqLd && (
+          <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
+        )}
       </Helmet>
 
       <nav className="text-xs uppercase tracking-widest font-label text-on-surface-variant/60 mb-6" aria-label="Breadcrumb">
