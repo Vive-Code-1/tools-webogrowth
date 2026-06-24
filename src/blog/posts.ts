@@ -38,6 +38,13 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: "Image Converter", path: "/converter" },
       { label: "Image Resizer", path: "/image-resizer" },
     ],
+    faqs: [
+      { question: "How much can I compress a PNG without losing quality?", answer: "Most PNGs shrink by 60–80% using smart lossy compression that quantizes the color palette but keeps transparency intact. At typical screen sizes the result is visually identical to the original." },
+      { question: "Is online PNG compression safe and private?", answer: "Browser-based tools like the WeboGrowth Image Compressor process files entirely on your device — nothing is uploaded to a server, so even confidential screenshots stay private." },
+      { question: "Should I use PNG or WebP for the web?", answer: "Use PNG for logos, icons, and screenshots with text or transparency. For photographs and most other images, WebP is 25–35% smaller than JPEG at the same quality and is supported by every modern browser." },
+      { question: "Will compressing a PNG break transparency?", answer: "No — modern compressors preserve the alpha channel. Avoid tools that 'flatten' the image, which fills transparent pixels with white." },
+      { question: "Can I compress the same PNG twice?", answer: "It is not recommended. Re-quantizing an already-reduced palette can introduce visible banding in gradients and soft edges. Always compress from the original file." },
+    ],
     body: `## Why PNGs are so heavy
 
 PNG is a **lossless** format — every pixel is stored exactly as it was exported. That makes PNG perfect for logos, icons, and screenshots that need crisp edges, but it also means file sizes balloon quickly. A single 1920×1080 PNG screenshot can easily exceed **2 MB**, while a JPEG of the same image lands under 300 KB.
