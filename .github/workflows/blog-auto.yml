@@ -24,7 +24,7 @@ jobs:
 
       - name: Generate post
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_FOR_DAILY_AUTO_BLOG }}
         run: node scripts/generate-blog-post.mjs
 
       - name: Commit & push
