@@ -136,7 +136,25 @@ async function callModel() {
   const data = await res.json();
   const content = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join("");
   if (!content) throw new Error("Empty completion: " + JSON.stringify(data).slice(0, 500));
-  return JSON.parse(content);
+  return safeParseJson(content);
+}
+
+// Gemini sometimes emits invalid JSON escapes inside markdown body strings
+// (e.g. "\ ", "\|", "\-"). Repair them before JSON.parse.
+function safeParseJson(raw) {
+  let text = raw.trim();
+  // strip markdown fences if present
+  text = text.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "");
+  try { return JSON.parse(text); } catch {}
+  // Replace any invalid backslash escape (not one of " \ / b f n r t u) with the literal char
+  const repaired = text.replace(/\\([^"\\\/bfnrtu])/g, "$1");
+  try { return JSON.parse(repaired); } catch (e) {
+    // Last resort: also escape stray control chars
+    const cleaned = repaired.replace(/[\u0000-\u001F]/g, (c) =>
+      c === "\n" ? "\\n" : c === "\r" ? "\\r" : c === "\t" ? "\\t" : "",
+    );
+    return JSON.parse(cleaned);
+  }
 }
 
 const post = await callModel();
