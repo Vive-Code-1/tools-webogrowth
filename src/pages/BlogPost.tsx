@@ -35,6 +35,7 @@ const BlogPost = () => {
     keywords: post.keywords,
     articleSection: post.category,
     wordCount: post.body.split(/\s+/).length,
+    image: coverUrl,
   };
 
   const breadcrumbLd = {
