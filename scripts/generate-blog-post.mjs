@@ -171,6 +171,7 @@ function buildFallbackPost(reason = "") {
   const keyword = topic.primaryKeyword;
   const title = clampText(topic.title, 60, titleCase(keyword));
   return {
+    _fallback: true,
     slug: slugify(topic.title),
     title,
     description: clampText(`${titleCase(keyword)} guide with simple steps, privacy tips, common mistakes, and a free browser-based tool from WeboGrowth.`, 158),
@@ -480,7 +481,7 @@ async function generateCover(prompt, slug) {
   }
 }
 
-const coverPath = (await generateCover(post.imagePrompt, post.slug)) ?? createFallbackCover(post.slug, post.title, post.imageAlt);
+const coverPath = (post._fallback ? null : await generateCover(post.imagePrompt, post.slug)) ?? createFallbackCover(post.slug, post.title, post.imageAlt);
 const coverAlt = post.imageAlt || post.title;
 
 // ---- build TS literal ----
