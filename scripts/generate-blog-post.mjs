@@ -335,6 +335,7 @@ Always include:
 - At least one comparison table
 - At least one numbered list (step-by-step)
 - A "Common mistakes" or "Pitfalls" section
+- A "## FAQ" section near the end with 4–6 H3 questions; each question is a real query a user would type into Google, and each answer is 2–4 plain sentences directly under the H3 (no sub-headings, no lists inside the answer). Mirror these Q&A pairs into the JSON "faqs" array.
 - A "TL;DR" closing section
 - Inline links to the related WeboGrowth tool (use relative paths like [/compressor]) at least 2 times
 - 1–2 inline links to other WeboGrowth tools or blog posts where genuinely relevant
