@@ -150,8 +150,13 @@ const Watermark = () => {
             )}
             <div className="bg-surface-container rounded-xl p-4">
               <h3 className="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-3">Live Preview</h3>
-              <canvas ref={previewRef} className="max-w-full rounded-lg bg-surface-container-lowest" />
-              {!files.length && <p className="text-on-surface-variant text-sm">Upload an image to preview.</p>}
+              <div className="w-full h-[420px] md:h-[520px] rounded-lg bg-surface-container-lowest flex items-center justify-center overflow-hidden">
+                {files.length ? (
+                  <canvas ref={previewRef} className="max-w-full max-h-full w-auto h-auto object-contain" />
+                ) : (
+                  <p className="text-on-surface-variant text-sm">Upload an image to preview.</p>
+                )}
+              </div>
             </div>
           </div>
 
