@@ -101,7 +101,31 @@ You may add 1–2 more related tools from this set if relevant: /compressor, /co
 
 Write the article now. Output JSON only.`;
 
+// Retry transient Gemini failures (429 rate limit, 500/502/503/504 outages).
+async function fetchWithRetry(url, init, { tries = 5, baseDelayMs = 4000 } = {}) {
+  let lastErr;
+  for (let i = 0; i < tries; i++) {
+    try {
+      const res = await fetch(url, init);
+      if (res.ok) return res;
+      if (![429, 500, 502, 503, 504].includes(res.status)) return res;
+      const body = await res.text();
+      lastErr = new Error(`HTTP ${res.status}: ${body.slice(0, 200)}`);
+      console.warn(`  ↻ attempt ${i + 1}/${tries} failed (${res.status}); retrying...`);
+    } catch (e) {
+      lastErr = e;
+      console.warn(`  ↻ attempt ${i + 1}/${tries} network error: ${e.message}`);
+    }
+    if (i < tries - 1) {
+      const delay = baseDelayMs * Math.pow(2, i) + Math.floor(Math.random() * 1000);
+      await new Promise((r) => setTimeout(r, delay));
+    }
+  }
+  throw lastErr ?? new Error("fetchWithRetry exhausted");
+}
+
 async function callModel() {
+
   if (dry) {
     return {
       slug: slugify(topic.title),
@@ -116,23 +140,25 @@ async function callModel() {
     };
   }
   const url = `${GEMINI_BASE}/${TEXT_MODEL}:generateContent?key=${apiKey}`;
-  const res = await fetch(url, {
+  const body = JSON.stringify({
+    systemInstruction: { parts: [{ text: SYSTEM }] },
+    contents: [{ role: "user", parts: [{ text: USER }] }],
+    generationConfig: {
+      responseMimeType: "application/json",
+      temperature: 0.7,
+      maxOutputTokens: 8192,
+    },
+  });
+  const res = await fetchWithRetry(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: SYSTEM }] },
-      contents: [{ role: "user", parts: [{ text: USER }] }],
-      generationConfig: {
-        responseMimeType: "application/json",
-        temperature: 0.7,
-        maxOutputTokens: 8192,
-      },
-    }),
+    body,
   });
   if (!res.ok) {
     const t = await res.text();
     throw new Error(`Gemini API ${res.status}: ${t}`);
   }
+
   const data = await res.json();
   const content = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join("");
   if (!content) throw new Error("Empty completion: " + JSON.stringify(data).slice(0, 500));
@@ -180,7 +206,7 @@ async function generateCover(prompt, slug) {
   if (!prompt) return null;
   try {
     const url = `${GEMINI_BASE}/${IMAGE_MODEL}:generateContent?key=${apiKey}`;
-    const res = await fetch(url, {
+    const res = await fetchWithRetry(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
