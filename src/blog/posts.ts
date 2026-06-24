@@ -251,6 +251,13 @@ Convert your assets once and you'll see immediate gains in PageSpeed Insights an
       { label: "Image Converter", path: "/converter" },
       { label: "Favicon Generator", path: "/favicon" },
     ],
+    faqs: [
+      { question: "What is the best free alternative to TinyPNG?", answer: "The WeboGrowth Image Compressor is a strong free alternative — it runs entirely in the browser, has no upload limit, no signup, and supports PNG, JPEG, and WebP with adjustable quality." },
+      { question: "Is TinyPNG really free?", answer: "TinyPNG is free for the first 20 images per month at up to 5 MB each. Beyond that, you need a paid plan. Browser-based alternatives have no monthly cap because the work happens on your device." },
+      { question: "Are browser-based image compressors as good as TinyPNG?", answer: "Yes — modern WebAssembly versions of pngquant and MozJPEG produce file sizes within 1–3% of TinyPNG, with the bonus that your images never leave your computer." },
+      { question: "Can I compress hundreds of images at once for free?", answer: "Yes. Tools that run client-side have no server cost, so they can batch-process unlimited files. The only limit is your device's RAM." },
+      { question: "Do free compressors strip EXIF and metadata?", answer: "Most do, by default, which is good for privacy and shaves a few KB. Check the tool's settings if you need to preserve copyright or camera data." },
+    ],
     body: `## Why look for a TinyPNG alternative?
 
 TinyPNG popularized smart PNG/JPEG compression and the free tier handles **20 images per month, up to 5 MB each**. If you process more than that, you have to pay $39/year — or open multiple browsers and play whack-a-mole with the limit.
