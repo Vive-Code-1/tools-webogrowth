@@ -135,6 +135,13 @@ Compress every PNG before you upload it. Use a quality of 70–80 for UI work, 6
       { label: "Image Compressor", path: "/compressor" },
       { label: "SVG Optimizer", path: "/svg-optimizer" },
     ],
+    faqs: [
+      { question: "Which is better for the web — JPEG, WebP, or AVIF?", answer: "WebP is the best default in 2026: 25–35% smaller than JPEG at the same quality, supported by every modern browser, and great for both photos and graphics with transparency. AVIF wins on file size but encodes slowly." },
+      { question: "Does WebP work in every browser?", answer: "Yes. WebP is supported in Chrome, Edge, Firefox, Safari (14+), Opera, and all modern mobile browsers. Less than 1% of global traffic still needs a JPEG fallback." },
+      { question: "Should I switch all my JPEGs to AVIF?", answer: "Only if you have a CDN that auto-negotiates formats. AVIF saves 20–30% over WebP but encoding is slow and Safari support landed late. For most sites, WebP delivers the best speed-to-savings ratio." },
+      { question: "Does Google rank WebP images higher than JPEG?", answer: "Google does not rank formats directly, but smaller WebP files improve Core Web Vitals (LCP), and Core Web Vitals are a ranking signal. So WebP indirectly helps SEO." },
+      { question: "Will converting JPEG to WebP lose quality?", answer: "Re-encoding any lossy format degrades quality slightly. Convert from the original source file whenever possible, and keep WebP quality around 80 for a near-invisible loss." },
+    ],
     body: `## The 30-second answer
 
 - **Use WebP as your default.** 97% browser support, 25–35% smaller than JPEG at the same quality.
