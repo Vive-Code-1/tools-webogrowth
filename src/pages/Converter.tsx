@@ -247,11 +247,7 @@ const Converter = () => {
       setProcessing(false);
 
       // Start the 5-minute download window as soon as any conversion succeeded.
-      const anyDone = targets.some((t) => {
-        const i = items.find((x) => x.id === t.id);
-        return i ? true : false;
-      });
-      if (anyDone) {
+      if (failed < targets.length) {
         setCountdownKey(Date.now());
         setExpired(false);
       }
