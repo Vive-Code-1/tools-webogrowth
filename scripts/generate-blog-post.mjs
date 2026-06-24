@@ -152,6 +152,60 @@ if (!validCats.includes(post.category)) post.category = topic.category;
 
 const today = new Date().toISOString().slice(0, 10);
 
+// ---- generate cover image via Lovable AI Gateway ----
+async function generateCover(prompt, slug) {
+  if (dry) return null;
+  if (!prompt) return null;
+  try {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash-image-preview",
+        messages: [
+          {
+            role: "user",
+            content: `Create a 16:9 widescreen editorial cover image. Modern, clean, professional, dark-mode friendly with subtle lime-green accents. No text, no watermarks, no logos. Scene: ${prompt}`,
+          },
+        ],
+        modalities: ["image", "text"],
+      }),
+    });
+    if (!res.ok) {
+      console.warn(`✗ Image gen failed ${res.status}: ${await res.text()}`);
+      return null;
+    }
+    const data = await res.json();
+    const msg = data.choices?.[0]?.message;
+    const imgUrl =
+      msg?.images?.[0]?.image_url?.url ||
+      msg?.images?.[0]?.url ||
+      (Array.isArray(msg?.content) ? msg.content.find((c) => c?.image_url?.url)?.image_url?.url : null);
+    if (!imgUrl || !imgUrl.startsWith("data:")) {
+      console.warn("✗ No image data in response");
+      return null;
+    }
+    const b64 = imgUrl.split(",")[1];
+    const buf = Buffer.from(b64, "base64");
+    const dir = path.join(ROOT, "public/blog-images");
+    fs.mkdirSync(dir, { recursive: true });
+    const ext = imgUrl.includes("image/png") ? "png" : "jpg";
+    const filename = `${slug}.${ext}`;
+    fs.writeFileSync(path.join(dir, filename), buf);
+    console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB)`);
+    return `/blog-images/${filename}`;
+  } catch (e) {
+    console.warn(`✗ Image gen error: ${e.message}`);
+    return null;
+  }
+}
+
+const coverPath = await generateCover(post.imagePrompt, post.slug);
+const coverAlt = post.imageAlt || post.title;
+
 // ---- build TS literal ----
 const esc = (s) => s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
 const relatedTools = post.relatedTools
