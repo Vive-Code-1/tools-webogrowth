@@ -14,6 +14,7 @@ const BlogPost = () => {
   if (!post) return <Navigate to="/blog" replace />;
 
   const url = `${SITE_URL}/blog/${post.slug}`;
+  const coverUrl = post.cover ? (post.cover.startsWith("http") ? post.cover : `${SITE_URL}${post.cover}`) : `${SITE_URL}/og-image.jpg`;
 
   const articleLd = {
     "@context": "https://schema.org",
