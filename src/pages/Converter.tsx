@@ -246,6 +246,16 @@ const Converter = () => {
 
       setProcessing(false);
 
+      // Start the 5-minute download window as soon as any conversion succeeded.
+      const anyDone = targets.some((t) => {
+        const i = items.find((x) => x.id === t.id);
+        return i ? true : false;
+      });
+      if (anyDone) {
+        setCountdownKey(Date.now());
+        setExpired(false);
+      }
+
       if (failed) {
         toast({
           title: `${failed} image${failed > 1 ? "s" : ""} failed`,
@@ -291,25 +301,12 @@ const Converter = () => {
   const [preparing, setPreparing] = useState(false);
 
   const publishBlob = async (blob: Blob, fileName: string) => {
-    try {
-      const remote = await uploadToStorage(blob, fileName);
-      zipUrlRef.current = remote.url;
-      storagePathRef.current = remote.path;
-      setZipName(fileName);
-      setZipUrl(remote.url);
-    } catch (e) {
-      console.warn("Storage upload failed, using local blob URL:", e);
-      const url = URL.createObjectURL(blob);
-      zipUrlRef.current = url;
-      storagePathRef.current = null;
-      setZipName(fileName);
-      setZipUrl(url);
-      toast({
-        title: "Using local download",
-        description: "Cloud storage unavailable — download stays in your browser only.",
-      });
-    }
-    setSecondsLeft(COUNTDOWN_SECONDS);
+    // Local blob URL only — no cloud storage, zero DB usage.
+    const url = URL.createObjectURL(blob);
+    zipUrlRef.current = url;
+    setZipName(fileName);
+    setZipUrl(url);
+    setCountdownKey(Date.now());
     setExpired(false);
   };
 
@@ -322,6 +319,24 @@ const Converter = () => {
         await publishBlob(it.outBlob!, it.outName!);
         return;
       }
+      const zip = new JSZip();
+      const seen = new Map<string, number>();
+      for (const it of doneItems) {
+        let name = it.outName!;
+        const count = seen.get(name) || 0;
+        if (count > 0) {
+          const dot = name.lastIndexOf(".");
+          name = `${name.slice(0, dot)}-${count}${name.slice(dot)}`;
+        }
+        seen.set(it.outName!, count + 1);
+        zip.file(name, it.outBlob!);
+      }
+      const blob = await zip.generateAsync({ type: "blob" });
+      await publishBlob(blob, `converted-images-${Date.now()}.zip`);
+    } finally {
+      setPreparing(false);
+    }
+  };
       const zip = new JSZip();
       const seen = new Map<string, number>();
       for (const it of doneItems) {
@@ -371,9 +386,7 @@ const Converter = () => {
     }
   };
 
-  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
-  const ss = String(secondsLeft % 60).padStart(2, "0");
-  const progressPct = (secondsLeft / COUNTDOWN_SECONDS) * 100;
+  // (secondsLeft display now lives inside <ResultCountdownPanel/>)
 
   return (
     <>
