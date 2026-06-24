@@ -178,10 +178,10 @@ const Converter = () => {
       setZipUrl(null);
       setExpired(false);
 
-      // Reset items to queued so progress UI is fresh
-      const targets = opts.redoAll
-        ? items
-        : items.filter((i) => i.status !== "done");
+      // Always re-convert every item — users may tweak settings (target KB, quality, format)
+      // and expect a fresh pass. Keeping previously-done items as-is would silently ignore changes.
+      void opts;
+      const targets = items;
 
       setItems((prev) =>
         prev.map((i) =>
@@ -720,7 +720,9 @@ const Converter = () => {
                 ) : (
                   <>
                     <span className="material-symbols-outlined">autorenew</span>
-                    Convert {items.length > 0 ? `All (${items.length})` : ""}
+                    {doneItems.length === items.length && items.length > 0
+                      ? `Re-convert All (${items.length})`
+                      : `Convert ${items.length > 0 ? `All (${items.length})` : ""}`}
                   </>
                 )}
               </button>
