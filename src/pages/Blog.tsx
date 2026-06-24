@@ -49,7 +49,7 @@ const Blog = () => {
       </header>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {BLOG_POSTS.map((post) => (
+        {sortedPosts.map((post) => (
           <article
             key={post.slug}
             className="group bg-surface-container-lowest border border-outline-variant/15 rounded-2xl p-6 hover:border-primary/40 transition-all"
