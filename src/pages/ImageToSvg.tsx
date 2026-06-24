@@ -296,24 +296,12 @@ const ImageToSvg = () => {
   };
 
   const publishBlob = async (blob: Blob, fileName: string) => {
-    try {
-      const remote = await uploadToStorage(blob, fileName);
-      zipUrlRef.current = remote.url;
-      storagePathRef.current = remote.path;
-      setZipName(fileName);
-      setZipUrl(remote.url);
-    } catch (e) {
-      console.warn("Storage upload failed, using local blob URL:", e);
-      const url = URL.createObjectURL(blob);
-      zipUrlRef.current = url;
-      storagePathRef.current = null;
-      setZipName(fileName);
-      setZipUrl(url);
-      toast({
-        title: "Using local download",
-        description: "Cloud storage unavailable — download stays in your browser only.",
-      });
-    }
+    // Local blob URL only — no cloud storage, zero DB usage.
+    const url = URL.createObjectURL(blob);
+    zipUrlRef.current = url;
+    storagePathRef.current = null;
+    setZipName(fileName);
+    setZipUrl(url);
     setSecondsLeft(COUNTDOWN_SECONDS);
     setExpired(false);
   };
