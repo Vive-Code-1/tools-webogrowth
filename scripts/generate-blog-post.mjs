@@ -83,6 +83,8 @@ Return STRICT JSON only — no markdown fence, no commentary. Schema:
   "readMinutes": 5-9,
   "excerpt": "≤ 200 chars hook for the blog index card",
   "relatedTools": [{ "label": "...", "path": "/..." }],
+  "imagePrompt": "A short, vivid scene description (1-2 sentences) for a 16:9 editorial cover image illustrating the article. No text in the image. Modern, clean, professional. Dark background friendly. Include subject, mood, lighting, style.",
+  "imageAlt": "Concise alt text for the cover image, includes the primary keyword naturally, ≤ 120 chars",
   "body": "full markdown body, NO leading H1 (the page renders the title), starts with the intro paragraph"
 }`;
 
