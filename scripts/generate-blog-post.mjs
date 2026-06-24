@@ -486,11 +486,15 @@ function repairJsonStrings(input) {
 }
 
 
-const post = normalizePost(await callModel());
+writeLog(`topic="${topic.title}" slug=${slugify(topic.title)} existingSlugs=${existingSlugs.size}`);
 
-// ---- validate ----
-const required = ["slug", "title", "description", "keywords", "category", "readMinutes", "excerpt", "relatedTools", "body"];
-for (const k of required) if (post[k] == null) Object.assign(post, normalizePost(buildFallbackPost(`missing field: ${k}`)));
+const post = await stage("call-model", async () => normalizePost(await callModel()));
+writeLog(`post.slug=${post.slug} fallback=${!!post._fallback} bodyChars=${(post.body || "").length}`);
+
+await stage("validate-required", async () => {
+  const required = ["slug", "title", "description", "keywords", "category", "readMinutes", "excerpt", "relatedTools", "body"];
+  for (const k of required) if (post[k] == null) Object.assign(post, normalizePost(buildFallbackPost(`missing field: ${k}`)));
+});
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -519,13 +523,16 @@ async function generateCover(prompt, slug) {
       }),
     });
     if (!res.ok) {
-      console.warn(`✗ Image gen failed ${res.status}: ${await res.text()}`);
+      const t = await res.text();
+      writeLog(`image gen HTTP ${res.status}: ${t.slice(0, 300)}`);
+      console.warn(`✗ Image gen failed ${res.status}: ${t}`);
       return null;
     }
     const data = await res.json();
     const parts = data?.candidates?.[0]?.content?.parts || [];
     const imgPart = parts.find((p) => p.inlineData?.data);
     if (!imgPart) {
+      writeLog(`image gen no inlineData: ${JSON.stringify(data).slice(0, 300)}`);
       console.warn("✗ No image data in response: " + JSON.stringify(data).slice(0, 300));
       return null;
     }
@@ -539,31 +546,33 @@ async function generateCover(prompt, slug) {
     console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB)`);
     return `/blog-images/${filename}`;
   } catch (e) {
+    writeLog(`image gen exception: ${e?.stack || e?.message || e}`);
     console.warn(`✗ Image gen error: ${e.message}`);
     return null;
   }
 }
 
-const coverPath = (post._fallback ? null : await generateCover(post.imagePrompt, post.slug)) ?? createFallbackCover(post.slug, post.title, post.imageAlt);
+const coverPath = await stage("generate-cover", async () =>
+  (post._fallback ? null : await generateCover(post.imagePrompt, post.slug)) ?? createFallbackCover(post.slug, post.title, post.imageAlt),
+);
 const coverAlt = post.imageAlt || post.title;
 
 // ---- build TS literal ----
-const esc = (s) => s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
-const relatedTools = post.relatedTools
-  .filter((t) => t && t.label && t.path)
-  .slice(0, 4)
-  .map((t) => `      { label: ${JSON.stringify(t.label)}, path: ${JSON.stringify(t.path)} },`)
-  .join("\n");
+const { updatedPosts, updatedSitemap, block } = await stage("splice-files", async () => {
+  const esc = (s) => s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+  const relatedTools = post.relatedTools
+    .filter((t) => t && t.label && t.path)
+    .slice(0, 4)
+    .map((t) => `      { label: ${JSON.stringify(t.label)}, path: ${JSON.stringify(t.path)} },`)
+    .join("\n");
 
-// Guarantee a webogrowth.com link exists in the body
-let finalBody = post.body;
-if (!/webogrowth\.com/i.test(finalBody)) {
-  finalBody += `\n\n---\n\n*Published by the team at [WeboGrowth](https://webogrowth.com) — SEO &amp; growth services for ambitious brands.*\n`;
-}
+  let finalBody = post.body;
+  if (!/webogrowth\.com/i.test(finalBody)) {
+    finalBody += `\n\n---\n\n*Published by the team at [WeboGrowth](https://webogrowth.com) — SEO &amp; growth services for ambitious brands.*\n`;
+  }
 
-const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
-
-const block = `  post({
+  const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
+  const block = `  post({
     slug: ${JSON.stringify(post.slug)},
     title: ${JSON.stringify(post.title)},
     description: ${JSON.stringify(post.description)},
@@ -580,30 +589,39 @@ ${relatedTools}
   }),
 ];`;
 
-const updatedPosts = postsSrc.replace(/\n\];\s*\n\nexport const getPostBySlug/, `\n${block}\n\nexport const getPostBySlug`);
-if (updatedPosts === postsSrc) throw new Error("Failed to splice post into src/blog/posts.ts");
+  const updatedPosts = postsSrc.replace(/\n\];\s*\n\nexport const getPostBySlug/, `\n${block}\n\nexport const getPostBySlug`);
+  if (updatedPosts === postsSrc) {
+    fs.writeFileSync(path.join(DEBUG_DIR, "posts.snapshot.ts"), postsSrc.slice(-2000));
+    throw new Error("Failed to splice post into src/blog/posts.ts (regex did not match — see .debug/posts.snapshot.ts)");
+  }
 
-// ---- sitemap entry ----
-const sitemap = fs.readFileSync(SITEMAP, "utf8");
-const newUrl = `  <url><loc>${SITE}/blog/${post.slug}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n</urlset>`;
-const updatedSitemap = sitemap.includes(`/blog/${post.slug}`)
-  ? sitemap
-  : sitemap.replace("</urlset>", newUrl);
+  const sitemap = fs.readFileSync(SITEMAP, "utf8");
+  const newUrl = `  <url><loc>${SITE}/blog/${post.slug}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n</urlset>`;
+  const updatedSitemap = sitemap.includes(`/blog/${post.slug}`) ? sitemap : sitemap.replace("</urlset>", newUrl);
 
-// ---- mark queue ----
-const idx = queue.findIndex((t) => t.title === topic.title);
-queue[idx].posted = new Date().toISOString();
-queue[idx].slug = post.slug;
+  return { updatedPosts, updatedSitemap, block };
+});
+
+await stage("mark-queue", async () => {
+  const idx = queue.findIndex((t) => t.title === topic.title);
+  if (idx === -1) throw new Error(`Topic not found in queue: ${topic.title}`);
+  queue[idx].posted = new Date().toISOString();
+  queue[idx].slug = post.slug;
+});
 
 if (dry) {
   console.log("--- DRY RUN ---\n", block.slice(0, 600), "\n...");
+  flushStages({ result: "dry-run" });
   process.exit(0);
 }
 
-fs.writeFileSync(POSTS, updatedPosts);
-fs.writeFileSync(SITEMAP, updatedSitemap);
-fs.writeFileSync(QUEUE, JSON.stringify(queue, null, 2) + "\n");
+await stage("write-files", async () => {
+  fs.writeFileSync(POSTS, updatedPosts);
+  fs.writeFileSync(SITEMAP, updatedSitemap);
+  fs.writeFileSync(QUEUE, JSON.stringify(queue, null, 2) + "\n");
+});
 
 console.log(`✓ Published /blog/${post.slug}`);
 console.log(`  title: ${post.title}`);
 console.log(`  words: ~${post.body.split(/\s+/).length}`);
+flushStages({ result: "ok", slug: post.slug, coverPath });
