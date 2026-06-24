@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 /**
- * Auto-generate a SEO-optimized blog post via Lovable AI Gateway.
+ * Auto-generate a SEO-optimized blog post via Google AI Studio (Gemini API).
  *
  * - Picks the next un-posted topic from marketing/blog-topic-queue.json
- * - Calls Gemini 2.5 Flash via the Lovable AI Gateway
+ * - Calls Gemini 2.5 Flash (text) + Gemini 2.5 Flash Image (cover) directly
+ *   on Google's Generative Language API using GEMINI_API_KEY
  * - Validates JSON, appends a fully-formed post to src/blog/posts.ts
- * - Adds a sitemap.xml entry
+ * - Adds a sitemap.xml entry, saves cover image to public/blog-images/
  * - Marks the topic as posted in the queue
  *
- * Required env: LOVABLE_API_KEY
+ * Required env: GEMINI_API_KEY  (get from https://aistudio.google.com/apikey)
  * Usage: node scripts/generate-blog-post.mjs [--dry] [--slug=custom-slug]
  */
 import fs from "node:fs";
@@ -28,11 +29,15 @@ const POSTS = path.join(ROOT, "src/blog/posts.ts");
 const SITEMAP = path.join(ROOT, "public/sitemap.xml");
 const SITE = "https://tools.webogrowth.com";
 
-const apiKey = process.env.LOVABLE_API_KEY;
+const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey && !dry) {
-  console.error("✗ LOVABLE_API_KEY missing. Set it as a repo secret.");
+  console.error("✗ GEMINI_API_KEY missing. Get one at https://aistudio.google.com/apikey and add it as a GitHub repo secret.");
   process.exit(1);
 }
+
+const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+const TEXT_MODEL = "gemini-2.5-flash";
+const IMAGE_MODEL = "gemini-2.5-flash-image";
 
 // ---- pick next topic ----
 const queue = JSON.parse(fs.readFileSync(QUEUE, "utf8"));
@@ -110,28 +115,27 @@ async function callModel() {
       body: "Dry run body.",
     };
   }
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const url = `${GEMINI_BASE}/${TEXT_MODEL}:generateContent?key=${apiKey}`;
+  const res = await fetch(url, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
-      messages: [
-        { role: "system", content: SYSTEM },
-        { role: "user", content: USER },
-      ],
-      response_format: { type: "json_object" },
+      systemInstruction: { parts: [{ text: SYSTEM }] },
+      contents: [{ role: "user", parts: [{ text: USER }] }],
+      generationConfig: {
+        responseMimeType: "application/json",
+        temperature: 0.7,
+        maxOutputTokens: 8192,
+      },
     }),
   });
   if (!res.ok) {
     const t = await res.text();
-    throw new Error(`AI Gateway ${res.status}: ${t}`);
+    throw new Error(`Gemini API ${res.status}: ${t}`);
   }
   const data = await res.json();
-  const content = data.choices?.[0]?.message?.content;
-  if (!content) throw new Error("Empty completion: " + JSON.stringify(data));
+  const content = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join("");
+  if (!content) throw new Error("Empty completion: " + JSON.stringify(data).slice(0, 500));
   return JSON.parse(content);
 }
 
@@ -152,26 +156,27 @@ if (!validCats.includes(post.category)) post.category = topic.category;
 
 const today = new Date().toISOString().slice(0, 10);
 
-// ---- generate cover image via Lovable AI Gateway ----
+// ---- generate cover image via Google Gemini Image API ----
 async function generateCover(prompt, slug) {
   if (dry) return null;
   if (!prompt) return null;
   try {
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
+    const url = `${GEMINI_BASE}/${IMAGE_MODEL}:generateContent?key=${apiKey}`;
+    const res = await fetch(url, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-image",
-        messages: [
+        contents: [
           {
             role: "user",
-            content: `Create a 16:9 widescreen editorial cover image. Modern, clean, professional, dark-mode friendly with subtle lime-green accents. No text, no watermarks, no logos. Scene: ${prompt}`,
+            parts: [
+              {
+                text: `Create a 16:9 widescreen editorial cover image. Modern, clean, professional, dark-mode friendly with subtle lime-green accents. No text, no watermarks, no logos. Scene: ${prompt}`,
+              },
+            ],
           },
         ],
-        modalities: ["image", "text"],
+        generationConfig: { responseModalities: ["IMAGE", "TEXT"] },
       }),
     });
     if (!res.ok) {
@@ -179,12 +184,13 @@ async function generateCover(prompt, slug) {
       return null;
     }
     const data = await res.json();
-    const b64 = data?.data?.[0]?.b64_json;
-    if (!b64) {
+    const parts = data?.candidates?.[0]?.content?.parts || [];
+    const imgPart = parts.find((p) => p.inlineData?.data);
+    if (!imgPart) {
       console.warn("✗ No image data in response: " + JSON.stringify(data).slice(0, 300));
       return null;
     }
-    const buf = Buffer.from(b64, "base64");
+    const buf = Buffer.from(imgPart.inlineData.data, "base64");
     const dir = path.join(ROOT, "public/blog-images");
     fs.mkdirSync(dir, { recursive: true });
     const filename = `${slug}.png`;
