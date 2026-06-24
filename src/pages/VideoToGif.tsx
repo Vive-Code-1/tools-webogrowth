@@ -162,6 +162,12 @@ const VideoToGif = () => {
                 )}
                 <p className="text-sm text-on-surface-variant">{(output.size / 1024).toFixed(1)} KB</p>
                 <a href={output.url} download={output.name} className="block text-center bg-secondary text-on-secondary font-bold py-3 rounded-lg">Download {output.name}</a>
+                <ResultCountdownPanel
+                  active={!!output}
+                  resetKey={countdownKey}
+                  onExpire={handleExpire}
+                  onReconvert={convert}
+                />
               </div>
             ) : (
               <div className="bg-surface-container rounded-xl p-12 text-center text-on-surface-variant">
