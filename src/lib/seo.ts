@@ -889,6 +889,68 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
     ],
     benefits: ["Faster Google indexing", "Spec-compliant output", "Includes robots.txt snippet"],
   }),
+
+  "/heic-to-jpg": f("/heic-to-jpg", {
+    title: "HEIC to JPG Converter — Free Online iPhone Photo Converter",
+    description:
+      "Convert HEIC to JPG online free. Batch convert iPhone photos to JPG, PNG or WebP in your browser — no upload, no signup, no watermark.",
+    keywords:
+      "heic to jpg, heic to jpeg, heic to jpg converter, convert heic to jpg, heic converter, iphone photo converter, heic to png, heic to webp, heic file converter online free",
+    category: "Image",
+    h1: "HEIC to JPG Converter",
+    intro:
+      "Convert iPhone HEIC and HEIF photos to JPG, PNG or WebP instantly. Batch processing runs in your browser — your photos never leave your device.",
+    features: [
+      "Batch convert multiple HEIC files at once",
+      "Output as JPG, PNG or WebP",
+      "Adjustable quality (50–100%)",
+      "Up to 50 MB per file",
+      "Works on Windows, Mac, iPhone and Android browsers",
+      "100% client-side — no upload required",
+    ],
+    faqs: [
+      {
+        q: "Why are my iPhone photos in HEIC format?",
+        a: "Since iOS 11, iPhones save photos as HEIC (High Efficiency Image Container) because the format is roughly 50% smaller than JPEG at the same visual quality. Windows, older Android phones and many web apps don't support HEIC yet — so converting to JPG is the safest option for sharing.",
+      },
+      {
+        q: "Will I lose quality converting HEIC to JPG?",
+        a: "At 90–100% quality the difference is invisible to the eye. JPG is a lossy format, so each re-save loses a tiny bit of detail — for archival use, choose PNG (lossless) or WebP (better quality at the same size).",
+      },
+      {
+        q: "Are my photos uploaded to a server?",
+        a: "No. The entire conversion runs in your browser using JavaScript. Your HEIC files never leave your device, so the tool works offline once the page is loaded.",
+      },
+      {
+        q: "Can I convert HEIC to JPG on iPhone or Android?",
+        a: "Yes — the tool works in any modern mobile browser (Safari, Chrome, Firefox). Tap the upload area, pick your HEIC photos from the Files or Photos app, and download the converted JPGs.",
+      },
+      {
+        q: "How many HEIC files can I convert at once?",
+        a: "There's no fixed limit — batch convert as many as your device can handle. We process files one at a time to keep your browser responsive even for large iPhone Live Photos.",
+      },
+    ],
+    steps: [
+      {
+        name: "Drop your HEIC photos",
+        text: "Drag .heic or .heif files into the upload area, or click to pick from your iPhone or computer.",
+      },
+      {
+        name: "Choose output format and quality",
+        text: "Pick JPG for universal compatibility, PNG for lossless, or WebP for the smallest size. Adjust the quality slider.",
+      },
+      {
+        name: "Download the converted images",
+        text: "Click Convert and download each file individually or all at once.",
+      },
+    ],
+    benefits: [
+      "Open iPhone photos on Windows, Android and older apps",
+      "Upload to platforms that reject HEIC (WordPress, eBay, older CMSes)",
+      "Email and share without compatibility warnings",
+      "Full privacy — no upload, no tracking, no signup",
+    ],
+  }),
 };
 
 const CATEGORY_LABEL: Record<ToolCategory, string> = {

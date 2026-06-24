@@ -6,6 +6,7 @@ const footerLinks = [
     links: [
       { label: "Image Compressor", path: "/compressor" },
       { label: "Format Converter", path: "/converter" },
+      { label: "HEIC to JPG Converter", path: "/heic-to-jpg" },
       { label: "Image Resizer", path: "/image-resizer" },
       { label: "Favicon Generator", path: "/favicon" },
       { label: "Placeholder Image", path: "/placeholder" },
