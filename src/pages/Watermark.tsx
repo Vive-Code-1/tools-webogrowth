@@ -220,6 +220,14 @@ const Watermark = () => {
                 ))}
               </div>
             )}
+
+            <ResultCountdownPanel
+              active={outputs.length > 0}
+              resetKey={countdownKey}
+              onExpire={handleExpire}
+              onReconvert={processAll}
+            />
+
           </div>
         </div>
 
