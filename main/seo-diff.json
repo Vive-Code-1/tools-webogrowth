@@ -1,8 +1,8 @@
 {
   "baselineSource": "reports/baseline/seo-snapshot.json",
   "baselineAt": "2026-06-16T17:53:04.480Z",
-  "currentAt": "2026-06-24T05:19:10.351Z",
-  "totalChanges": 13,
+  "currentAt": "2026-06-24T05:31:33.391Z",
+  "totalChanges": 14,
   "changes": [
     {
       "path": "/image-to-svg",
@@ -235,6 +235,24 @@
           "HowTo"
         ],
         "faqCount": 3,
+        "howtoSteps": 3
+      }
+    },
+    {
+      "path": "/heic-to-jpg",
+      "kind": "added",
+      "after": {
+        "title": "HEIC to JPG Converter — Free Online iPhone Photo Converter",
+        "description": "Convert HEIC to JPG online free. Batch convert iPhone photos to JPG, PNG or WebP in your browser — no upload, no signup, no watermark.",
+        "keywords": "heic to jpg, heic to jpeg, heic to jpg converter, convert heic to jpg, heic converter, iphone photo converter, heic to png, heic to webp, heic file converter online free",
+        "canonicalPath": "/heic-to-jpg",
+        "jsonLdTypes": [
+          "SoftwareApplication",
+          "BreadcrumbList",
+          "FAQPage",
+          "HowTo"
+        ],
+        "faqCount": 5,
         "howtoSteps": 3
       }
     }
