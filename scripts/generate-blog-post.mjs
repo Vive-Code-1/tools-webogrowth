@@ -157,14 +157,14 @@ async function generateCover(prompt, slug) {
   if (dry) return null;
   if (!prompt) return null;
   try {
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-image-preview",
+        model: "google/gemini-2.5-flash-image",
         messages: [
           {
             role: "user",
@@ -179,21 +179,15 @@ async function generateCover(prompt, slug) {
       return null;
     }
     const data = await res.json();
-    const msg = data.choices?.[0]?.message;
-    const imgUrl =
-      msg?.images?.[0]?.image_url?.url ||
-      msg?.images?.[0]?.url ||
-      (Array.isArray(msg?.content) ? msg.content.find((c) => c?.image_url?.url)?.image_url?.url : null);
-    if (!imgUrl || !imgUrl.startsWith("data:")) {
-      console.warn("✗ No image data in response");
+    const b64 = data?.data?.[0]?.b64_json;
+    if (!b64) {
+      console.warn("✗ No image data in response: " + JSON.stringify(data).slice(0, 300));
       return null;
     }
-    const b64 = imgUrl.split(",")[1];
     const buf = Buffer.from(b64, "base64");
     const dir = path.join(ROOT, "public/blog-images");
     fs.mkdirSync(dir, { recursive: true });
-    const ext = imgUrl.includes("image/png") ? "png" : "jpg";
-    const filename = `${slug}.${ext}`;
+    const filename = `${slug}.png`;
     fs.writeFileSync(path.join(dir, filename), buf);
     console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB)`);
     return `/blog-images/${filename}`;
