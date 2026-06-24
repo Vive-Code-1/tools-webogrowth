@@ -220,6 +220,17 @@ function normalizePost(input) {
   const minutes = Number(post.readMinutes);
   post.readMinutes = Number.isFinite(minutes) ? Math.min(12, Math.max(3, Math.round(minutes))) : fallback.readMinutes;
 
+  post.faqs = Array.isArray(post.faqs)
+    ? post.faqs
+        .filter((f) => f && typeof f.question === "string" && typeof f.answer === "string")
+        .slice(0, 8)
+        .map((f) => ({
+          question: clampText(f.question.trim(), 160, ""),
+          answer: clampText(f.answer.trim(), 600, ""),
+        }))
+        .filter((f) => f.question && f.answer)
+    : [];
+
   return post;
 }
 
