@@ -432,6 +432,7 @@ const today = new Date().toISOString().slice(0, 10);
 // ---- generate cover image via Google Gemini Image API ----
 async function generateCover(prompt, slug) {
   if (dry) return null;
+  if (!apiKey) return null;
   if (!prompt) return null;
   try {
     const url = `${GEMINI_BASE}/${IMAGE_MODEL}:generateContent?key=${apiKey}`;
@@ -476,7 +477,7 @@ async function generateCover(prompt, slug) {
   }
 }
 
-const coverPath = await generateCover(post.imagePrompt, post.slug);
+const coverPath = (await generateCover(post.imagePrompt, post.slug)) ?? createFallbackCover(post.slug, post.title, post.imageAlt);
 const coverAlt = post.imageAlt || post.title;
 
 // ---- build TS literal ----
