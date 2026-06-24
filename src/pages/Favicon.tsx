@@ -128,7 +128,7 @@ const Favicon = () => {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-surface-container-low p-8 rounded-xl border border-primary/5 group hover:border-primary/20 transition-all duration-500">
             <div className="flex items-center justify-between mb-8">
