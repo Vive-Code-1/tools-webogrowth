@@ -29,7 +29,7 @@ import {
   DashboardSpeed02Icon,
   SearchVisualIcon,
   Robot02Icon,
-  PaletteIcon,
+  ColorsIcon,
   PaintBoardIcon,
   TextFontIcon,
   QrCode01Icon,
