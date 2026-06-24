@@ -720,7 +720,9 @@ const Converter = () => {
                 ) : (
                   <>
                     <span className="material-symbols-outlined">autorenew</span>
-                    Convert {items.length > 0 ? `All (${items.length})` : ""}
+                    {doneItems.length === items.length && items.length > 0
+                      ? `Re-convert All (${items.length})`
+                      : `Convert ${items.length > 0 ? `All (${items.length})` : ""}`}
                   </>
                 )}
               </button>
