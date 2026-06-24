@@ -196,6 +196,7 @@ function buildFallbackPost(reason = "") {
 function normalizePost(input) {
   const fallback = buildFallbackPost();
   const post = { ...fallback, ...(input && typeof input === "object" ? input : {}) };
+  post._fallback = Boolean(input && typeof input === "object" && input._fallback);
 
   post.slug = uniqueSlug(post.slug || post.title || fallback.slug, existingSlugs);
   post.title = clampText(post.title, 70, fallback.title);
