@@ -147,7 +147,7 @@ const BackgroundRemover = () => {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-start">
           <DropZone
             multiple
             accept="image/png,image/jpeg,image/webp"

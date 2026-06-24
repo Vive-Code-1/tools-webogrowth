@@ -138,7 +138,7 @@ const Watermark = () => {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
           <div className="lg:col-span-3 space-y-4">
             <DropZone multiple onFilesSelect={(f) => setFiles((p) => [...p, ...f].slice(0, 20))}
               accept="image/*" label="Drop images" sublabel="Up to 20 files" hasFiles={files.length > 0} />
