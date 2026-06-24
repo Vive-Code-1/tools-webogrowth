@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useToast } from "@/hooks/use-toast";
+import GoogleSearchConsoleModal from "@/components/GoogleSearchConsoleModal";
 
 const AUTH_KEY = "wg_admin_auth";
 const SETTINGS_KEY = "wg_admin_settings";
@@ -90,6 +91,7 @@ const Admin = () => {
   const [newAdminEmail, setNewAdminEmail] = useState("");
   const [newAdminPass, setNewAdminPass] = useState("");
   const [newAdminName, setNewAdminName] = useState("");
+  const [gscOpen, setGscOpen] = useState(false);
 
   useEffect(() => {
     const auth = sessionStorage.getItem(AUTH_KEY);
@@ -559,8 +561,15 @@ const Admin = () => {
             <div className="space-y-6">
               <h2 className="text-2xl font-headline font-bold">Sitemap</h2>
               <p className="text-on-surface-variant text-sm">Current sitemap.xml configuration. Submit this URL to Google Search Console:</p>
-              <div className="bg-surface-container rounded-xl p-4">
+              <div className="bg-surface-container rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
                 <code className="text-primary text-sm break-all">https://tools.webogrowth.com/sitemap.xml</code>
+                <button
+                  onClick={() => setGscOpen(true)}
+                  className="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all flex items-center gap-2 whitespace-nowrap"
+                >
+                  <span className="material-symbols-outlined text-base">cloud_upload</span>
+                  Connect Google Search Console
+                </button>
               </div>
               <div className="bg-surface-container rounded-xl p-6">
                 <h3 className="font-headline font-bold mb-4">Indexed URLs</h3>
@@ -577,6 +586,7 @@ const Admin = () => {
           )}
         </main>
       </div>
+      <GoogleSearchConsoleModal open={gscOpen} onClose={() => setGscOpen(false)} />
     </div>
   );
 };

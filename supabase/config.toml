@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.generate-alt-text]
 verify_jwt = false
+
+[functions.gsc-manage]
+verify_jwt = false
