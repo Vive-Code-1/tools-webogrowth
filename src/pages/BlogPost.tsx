@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getPostBySlug, BLOG_POSTS } from "@/blog/posts";
 import ShareButtons from "@/components/ShareButtons";
+import { getPostFaqs, buildFaqPageSchema } from "@/blog/faq";
 
 const SITE_URL = "https://tools.webogrowth.com";
 
