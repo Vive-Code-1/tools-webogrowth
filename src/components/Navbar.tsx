@@ -151,74 +151,78 @@ const Navbar = () => {
               All Tools
               <span className={`material-symbols-outlined text-sm transition-transform ${desktopDropdown ? "rotate-180" : ""}`}>expand_more</span>
             </button>
-            {desktopDropdown && <div className="absolute top-full right-0 w-full h-4" aria-hidden="true" />}
             {desktopDropdown && (
-              <div
-                role="menu"
-                className="absolute top-[calc(100%+14px)] right-0 w-[min(960px,92vw)] bg-surface-container-low/95 backdrop-blur-xl rounded-2xl border border-outline-variant/15 shadow-2xl animate-fade-in overflow-hidden"
-              >
-                <div className="p-6 space-y-7 max-h-[calc(100vh-7rem)] overflow-y-auto">
-                  {toolCategories.map((cat) => (
-                    <section key={cat.label}>
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="text-[11px] font-label uppercase tracking-[0.18em] text-primary font-bold">
-                          {cat.label}
-                        </span>
-                        <span className="text-[11px] text-on-surface-variant/50">{cat.tools.length} tools</span>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
-                        {cat.tools.map((tool) => {
-                          const active = location.pathname === tool.path;
-                          return (
-                            <Link
-                              key={tool.path}
-                              to={tool.path}
-                              role="menuitem"
-                              onClick={() => setDesktopDropdown(false)}
-                              className={`group flex items-start gap-3 rounded-xl p-3 transition-all border border-transparent ${
-                                active
-                                  ? "bg-primary/10 border-primary/30"
-                                  : "hover:bg-surface-container-high/60 hover:border-outline-variant/20"
-                              }`}
-                            >
-                              <span
-                                className={`shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-lg ${tool.accent} group-hover:scale-105 transition-transform`}
-                                aria-hidden="true"
-                              >
-                                <HugeiconsIcon icon={tool.icon} size={22} strokeWidth={1.6} />
-                              </span>
-                              <span className="min-w-0">
-                                <span
-                                  className={`block text-sm font-bold leading-tight ${
-                                    active ? "text-primary" : "text-foreground group-hover:text-primary"
+              <>
+                {/* Invisible hover bridge so the menu stays open while the cursor crosses the gap */}
+                <div className="fixed inset-x-0 top-[52px] h-5 z-40" aria-hidden="true" />
+                <div
+                  role="menu"
+                  className="fixed top-[68px] left-1/2 -translate-x-1/2 w-[min(1120px,calc(100vw-1.5rem))] max-h-[calc(100vh-84px)] bg-surface-container-low/95 backdrop-blur-xl rounded-2xl border border-outline-variant/15 shadow-2xl animate-fade-in overflow-hidden flex flex-col z-50"
+                >
+                  <div className="p-4 md:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 overflow-y-auto">
+                    {toolCategories.map((cat) => (
+                      <section key={cat.label} className="min-w-0">
+                        <div className="flex items-center justify-between mb-2.5 px-1">
+                          <span className="text-[11px] font-label uppercase tracking-[0.18em] text-primary font-bold">
+                            {cat.label}
+                          </span>
+                          <span className="text-[10px] text-on-surface-variant/50">{cat.tools.length}</span>
+                        </div>
+                        <ul className="space-y-0.5">
+                          {cat.tools.map((tool) => {
+                            const active = location.pathname === tool.path;
+                            return (
+                              <li key={tool.path}>
+                                <Link
+                                  to={tool.path}
+                                  role="menuitem"
+                                  onClick={() => setDesktopDropdown(false)}
+                                  className={`group flex items-center gap-2.5 rounded-lg px-2 py-1.5 transition-colors ${
+                                    active
+                                      ? "bg-primary/10"
+                                      : "hover:bg-surface-container-high/60"
                                   }`}
                                 >
-                                  {tool.label}
-                                </span>
-                                <span className="block text-xs text-on-surface-variant/70 mt-0.5 leading-snug line-clamp-2">
-                                  {tool.desc}
-                                </span>
-                              </span>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </section>
-                  ))}
+                                  <span
+                                    className={`shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-md ${tool.accent}`}
+                                    aria-hidden="true"
+                                  >
+                                    <HugeiconsIcon icon={tool.icon} size={18} strokeWidth={1.7} />
+                                  </span>
+                                  <span className="min-w-0 flex-1">
+                                    <span
+                                      className={`block text-[13px] font-bold leading-tight truncate ${
+                                        active ? "text-primary" : "text-foreground group-hover:text-primary"
+                                      }`}
+                                    >
+                                      {tool.label}
+                                    </span>
+                                    <span className="block text-[11px] text-on-surface-variant/65 leading-snug truncate">
+                                      {tool.desc}
+                                    </span>
+                                  </span>
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </section>
+                    ))}
+                  </div>
+                  <div className="border-t border-outline-variant/15 bg-surface-container-low/60 px-5 py-2.5 flex items-center justify-between shrink-0">
+                    <span className="text-[11px] text-on-surface-variant/70">
+                      Free, browser-based — no signup required
+                    </span>
+                    <Link
+                      to="/"
+                      onClick={() => setDesktopDropdown(false)}
+                      className="text-[11px] font-bold text-primary hover:underline"
+                    >
+                      Browse all tools →
+                    </Link>
+                  </div>
                 </div>
-                <div className="border-t border-outline-variant/15 bg-surface-container-low/60 px-6 py-3 flex items-center justify-between">
-                  <span className="text-xs text-on-surface-variant/70">
-                    Free, browser-based — no signup required
-                  </span>
-                  <Link
-                    to="/"
-                    onClick={() => setDesktopDropdown(false)}
-                    className="text-xs font-bold text-primary hover:underline"
-                  >
-                    Browse all tools →
-                  </Link>
-                </div>
-              </div>
+              </>
             )}
           </div>
         </div>
