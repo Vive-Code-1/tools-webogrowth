@@ -115,28 +115,27 @@ async function callModel() {
       body: "Dry run body.",
     };
   }
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const url = `${GEMINI_BASE}/${TEXT_MODEL}:generateContent?key=${apiKey}`;
+  const res = await fetch(url, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
-      messages: [
-        { role: "system", content: SYSTEM },
-        { role: "user", content: USER },
-      ],
-      response_format: { type: "json_object" },
+      systemInstruction: { parts: [{ text: SYSTEM }] },
+      contents: [{ role: "user", parts: [{ text: USER }] }],
+      generationConfig: {
+        responseMimeType: "application/json",
+        temperature: 0.7,
+        maxOutputTokens: 8192,
+      },
     }),
   });
   if (!res.ok) {
     const t = await res.text();
-    throw new Error(`AI Gateway ${res.status}: ${t}`);
+    throw new Error(`Gemini API ${res.status}: ${t}`);
   }
   const data = await res.json();
-  const content = data.choices?.[0]?.message?.content;
-  if (!content) throw new Error("Empty completion: " + JSON.stringify(data));
+  const content = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join("");
+  if (!content) throw new Error("Empty completion: " + JSON.stringify(data).slice(0, 500));
   return JSON.parse(content);
 }
 
