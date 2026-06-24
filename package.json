@@ -26,7 +26,9 @@
     "seo:pagespeed": "node scripts/page-speed-audit.mjs",
     "seo:pagespeed:run": "node scripts/page-speed-audit.mjs --run --strict",
     "social:tweet": "node scripts/twitter-post.mjs",
-    "social:tweet:dry": "node scripts/twitter-post.mjs --dry"
+    "social:tweet:dry": "node scripts/twitter-post.mjs --dry",
+    "blog:generate": "node scripts/generate-blog-post.mjs",
+    "blog:generate:dry": "node scripts/generate-blog-post.mjs --dry"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
