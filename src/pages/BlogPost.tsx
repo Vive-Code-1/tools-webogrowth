@@ -49,6 +49,9 @@ const BlogPost = () => {
     ],
   };
 
+  const faqs = getPostFaqs(post);
+  const faqLd = buildFaqPageSchema(faqs);
+
   // Internal-link Markdown rendering: rewrite relative links to use <Link>
   const components = {
     a: ({ href, children, ...rest }: any) => {
