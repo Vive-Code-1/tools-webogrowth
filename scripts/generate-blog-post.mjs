@@ -9,7 +9,8 @@
  * - Adds a sitemap.xml entry, saves cover image to public/blog-images/
  * - Marks the topic as posted in the queue
  *
- * Required env: GEMINI_API_KEY  (get from https://aistudio.google.com/apikey)
+ * Optional env: GEMINI_API_KEY  (get from https://aistudio.google.com/apikey)
+ * If Gemini is unavailable, the workflow publishes a deterministic fallback post + SVG cover.
  * Usage: node scripts/generate-blog-post.mjs [--dry] [--slug=custom-slug]
  */
 import fs from "node:fs";
@@ -467,7 +468,9 @@ async function generateCover(prompt, slug) {
     const buf = Buffer.from(imgPart.inlineData.data, "base64");
     const dir = path.join(ROOT, "public/blog-images");
     fs.mkdirSync(dir, { recursive: true });
-    const filename = `${slug}.png`;
+    const mimeType = String(imgPart.inlineData.mimeType || "image/png").toLowerCase();
+    const ext = mimeType.includes("jpeg") || mimeType.includes("jpg") ? "jpg" : mimeType.includes("webp") ? "webp" : "png";
+    const filename = `${slug}.${ext}`;
     fs.writeFileSync(path.join(dir, filename), buf);
     console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB)`);
     return `/blog-images/${filename}`;
