@@ -220,6 +220,17 @@ function normalizePost(input) {
   const minutes = Number(post.readMinutes);
   post.readMinutes = Number.isFinite(minutes) ? Math.min(12, Math.max(3, Math.round(minutes))) : fallback.readMinutes;
 
+  post.faqs = Array.isArray(post.faqs)
+    ? post.faqs
+        .filter((f) => f && typeof f.question === "string" && typeof f.answer === "string")
+        .slice(0, 8)
+        .map((f) => ({
+          question: clampText(f.question.trim(), 160, ""),
+          answer: clampText(f.answer.trim(), 600, ""),
+        }))
+        .filter((f) => f.question && f.answer)
+    : [];
+
   return post;
 }
 
@@ -335,6 +346,7 @@ Always include:
 - At least one comparison table
 - At least one numbered list (step-by-step)
 - A "Common mistakes" or "Pitfalls" section
+- A "## FAQ" section near the end with 4–6 H3 questions; each question is a real query a user would type into Google, and each answer is 2–4 plain sentences directly under the H3 (no sub-headings, no lists inside the answer). Mirror these Q&A pairs into the JSON "faqs" array.
 - A "TL;DR" closing section
 - Inline links to the related WeboGrowth tool (use relative paths like [/compressor]) at least 2 times
 - 1–2 inline links to other WeboGrowth tools or blog posts where genuinely relevant
@@ -354,7 +366,8 @@ Return STRICT JSON only — no markdown fence, no commentary. Schema:
   "relatedTools": [{ "label": "...", "path": "/..." }],
   "imagePrompt": "A short, vivid scene description (1-2 sentences) for a 16:9 editorial cover image illustrating the article. No text in the image. Modern, clean, professional. Dark background friendly. Include subject, mood, lighting, style.",
   "imageAlt": "Concise alt text for the cover image, includes the primary keyword naturally, ≤ 120 chars",
-  "body": "full markdown body, NO leading H1 (the page renders the title), starts with the intro paragraph"
+  "body": "full markdown body, NO leading H1 (the page renders the title), starts with the intro paragraph; MUST include an '## FAQ' H2 section with 4–6 H3 question/answer pairs",
+  "faqs": [{ "question": "...?", "answer": "2–4 plain sentences, no markdown" }]
 }`;
 
 const USER = `Topic: ${topic.title}
@@ -587,6 +600,12 @@ if (!/webogrowth\.com/i.test(finalBody)) {
 
 const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
 
+const faqsField = post.faqs && post.faqs.length > 0
+  ? `    faqs: [\n${post.faqs
+      .map((f) => `      { question: ${JSON.stringify(f.question)}, answer: ${JSON.stringify(f.answer)} },`)
+      .join("\n")}\n    ],\n`
+  : "";
+
 const block = `  post({
     slug: ${JSON.stringify(post.slug)},
     title: ${JSON.stringify(post.title)},
@@ -601,7 +620,8 @@ ${coverField}    excerpt: ${JSON.stringify(post.excerpt)},
 ${relatedTools}
     ],
     body: \`${esc(finalBody)}\`,
-  }),
+${faqsField}  }),
+];`;
 ];`;
 
 const updatedPosts = postsSrc.replace(/\n\];\s*\n\nexport const getPostBySlug/, `\n${block}\n\nexport const getPostBySlug`);

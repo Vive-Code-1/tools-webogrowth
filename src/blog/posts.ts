@@ -14,6 +14,7 @@ export interface BlogPost {
   excerpt: string;        // shown on blog index card
   relatedTools: { label: string; path: string }[];
   body: string;           // markdown
+  faqs?: { question: string; answer: string }[]; // optional explicit FAQ; auto-extracted from body if omitted
 }
 
 const post = (p: BlogPost): BlogPost => p;
@@ -36,6 +37,13 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: "Image Compressor", path: "/compressor" },
       { label: "Image Converter", path: "/converter" },
       { label: "Image Resizer", path: "/image-resizer" },
+    ],
+    faqs: [
+      { question: "How much can I compress a PNG without losing quality?", answer: "Most PNGs shrink by 60–80% using smart lossy compression that quantizes the color palette but keeps transparency intact. At typical screen sizes the result is visually identical to the original." },
+      { question: "Is online PNG compression safe and private?", answer: "Browser-based tools like the WeboGrowth Image Compressor process files entirely on your device — nothing is uploaded to a server, so even confidential screenshots stay private." },
+      { question: "Should I use PNG or WebP for the web?", answer: "Use PNG for logos, icons, and screenshots with text or transparency. For photographs and most other images, WebP is 25–35% smaller than JPEG at the same quality and is supported by every modern browser." },
+      { question: "Will compressing a PNG break transparency?", answer: "No — modern compressors preserve the alpha channel. Avoid tools that 'flatten' the image, which fills transparent pixels with white." },
+      { question: "Can I compress the same PNG twice?", answer: "It is not recommended. Re-quantizing an already-reduced palette can introduce visible banding in gradients and soft edges. Always compress from the original file." },
     ],
     body: `## Why PNGs are so heavy
 
@@ -126,6 +134,13 @@ Compress every PNG before you upload it. Use a quality of 70–80 for UI work, 6
       { label: "Image Converter", path: "/converter" },
       { label: "Image Compressor", path: "/compressor" },
       { label: "SVG Optimizer", path: "/svg-optimizer" },
+    ],
+    faqs: [
+      { question: "Which is better for the web — JPEG, WebP, or AVIF?", answer: "WebP is the best default in 2026: 25–35% smaller than JPEG at the same quality, supported by every modern browser, and great for both photos and graphics with transparency. AVIF wins on file size but encodes slowly." },
+      { question: "Does WebP work in every browser?", answer: "Yes. WebP is supported in Chrome, Edge, Firefox, Safari (14+), Opera, and all modern mobile browsers. Less than 1% of global traffic still needs a JPEG fallback." },
+      { question: "Should I switch all my JPEGs to AVIF?", answer: "Only if you have a CDN that auto-negotiates formats. AVIF saves 20–30% over WebP but encoding is slow and Safari support landed late. For most sites, WebP delivers the best speed-to-savings ratio." },
+      { question: "Does Google rank WebP images higher than JPEG?", answer: "Google does not rank formats directly, but smaller WebP files improve Core Web Vitals (LCP), and Core Web Vitals are a ranking signal. So WebP indirectly helps SEO." },
+      { question: "Will converting JPEG to WebP lose quality?", answer: "Re-encoding any lossy format degrades quality slightly. Convert from the original source file whenever possible, and keep WebP quality around 80 for a near-invisible loss." },
     ],
     body: `## The 30-second answer
 
@@ -236,6 +251,13 @@ Convert your assets once and you'll see immediate gains in PageSpeed Insights an
       { label: "Image Converter", path: "/converter" },
       { label: "Favicon Generator", path: "/favicon" },
     ],
+    faqs: [
+      { question: "What is the best free alternative to TinyPNG?", answer: "The WeboGrowth Image Compressor is a strong free alternative — it runs entirely in the browser, has no upload limit, no signup, and supports PNG, JPEG, and WebP with adjustable quality." },
+      { question: "Is TinyPNG really free?", answer: "TinyPNG is free for the first 20 images per month at up to 5 MB each. Beyond that, you need a paid plan. Browser-based alternatives have no monthly cap because the work happens on your device." },
+      { question: "Are browser-based image compressors as good as TinyPNG?", answer: "Yes — modern WebAssembly versions of pngquant and MozJPEG produce file sizes within 1–3% of TinyPNG, with the bonus that your images never leave your computer." },
+      { question: "Can I compress hundreds of images at once for free?", answer: "Yes. Tools that run client-side have no server cost, so they can batch-process unlimited files. The only limit is your device's RAM." },
+      { question: "Do free compressors strip EXIF and metadata?", answer: "Most do, by default, which is good for privacy and shaves a few KB. Check the tool's settings if you need to preserve copyright or camera data." },
+    ],
     body: `## Why look for a TinyPNG alternative?
 
 TinyPNG popularized smart PNG/JPEG compression and the free tier handles **20 images per month, up to 5 MB each**. If you process more than that, you have to pay $39/year — or open multiple browsers and play whack-a-mole with the limit.
@@ -336,6 +358,13 @@ Open [tools.webogrowth.com/compressor](/compressor), drag your image folder onto
       { label: "JSON Formatter", path: "/json-formatter" },
       { label: "Base64 Tool", path: "/base64" },
       { label: "HTML to Markdown", path: "/html-to-markdown" },
+    ],
+    faqs: [
+      { question: "How do I format JSON online for free?", answer: "Paste your JSON into the WeboGrowth JSON Formatter, click Format, and you get an indented, validated result instantly. The tool runs in your browser so your data is never uploaded." },
+      { question: "What does 'invalid JSON' usually mean?", answer: "The most common causes are trailing commas, single quotes instead of double quotes, unquoted keys, or stray comments. A good formatter highlights the exact line and column of the first error." },
+      { question: "Is it safe to paste sensitive JSON into an online formatter?", answer: "Only if the tool processes data client-side. The WeboGrowth JSON Formatter does — nothing leaves your browser, so API keys and tokens stay private." },
+      { question: "What is the difference between formatting and validating JSON?", answer: "Formatting (pretty-printing) re-indents the JSON for readability. Validating checks that the syntax is legal per the JSON spec. Most online tools do both at once." },
+      { question: "Can I minify JSON after formatting it?", answer: "Yes. Minifying removes all whitespace and is useful for production payloads. Most formatters offer a one-click toggle between pretty and minified output." },
     ],
     body: `## What is JSON formatting?
 
@@ -482,6 +511,13 @@ Validate first, format for humans, minify for machines. Use the [free WeboGrowth
       { label: "Color Palette", path: "/color-palette" },
       { label: "Image Compressor", path: "/compressor" },
     ],
+    faqs: [
+      { question: "Are free QR code generators safe to use?", answer: "Most are, but avoid generators that create 'dynamic' codes behind a third-party redirect — if that service shuts down, your code dies. Static QR codes generated client-side (like WeboGrowth's) point directly to your URL and last forever." },
+      { question: "What is the best size for a printed QR code?", answer: "A minimum of 2 × 2 cm (0.8 × 0.8 in) for short URLs scanned at arm's length, and at least 10 × 10 cm for posters or billboards. The rule of thumb is 1/10 of the scanning distance." },
+      { question: "Do QR codes expire?", answer: "Static QR codes (raw URL encoded in the pattern) never expire. Dynamic QR codes hosted by a service expire when the service stops redirecting — which is why static codes are safer for print." },
+      { question: "Can I add a logo to a QR code without breaking it?", answer: "Yes, as long as the logo covers less than 30% of the center and you use a higher error-correction level (H = 30%). Always test the scanned code on multiple phones before printing." },
+      { question: "Why does my QR code not scan?", answer: "Common causes are insufficient contrast (light pattern on light background), too small a size, glossy print finish causing glare, or excessive logo coverage in the middle." },
+    ],
     body: `## QR codes are everywhere again
 
 After a decade of being a punchline, QR codes are now one of the most-scanned interactions in retail, restaurants, packaging, events, and out-of-home advertising. Native camera support on iOS and Android killed the "I have to download an app" friction that made QR codes a joke in 2015.
@@ -588,6 +624,13 @@ Size it for the viewing distance. Pick error correction H if you add a logo. Alw
     excerpt: "A practical guide to convert heic to jpg online free, including the safest workflow, best settings, common mistakes, and a free browser tool.",
     relatedTools: [
       { label: "Image Converter", path: "/converter" },
+    ],
+    faqs: [
+      { question: "How do I convert HEIC to JPG online for free?", answer: "Open the WeboGrowth HEIC to JPG converter, drop your .heic file, and download the JPG. Conversion happens entirely in your browser — no upload, no signup, no watermark." },
+      { question: "Why are my iPhone photos saved as HEIC instead of JPG?", answer: "Apple switched to HEIC in iOS 11 because it stores the same image quality in roughly half the file size. The trade-off is that older apps, Windows, and many web platforms cannot open HEIC directly." },
+      { question: "Is it safe to convert HEIC files online?", answer: "Only if the tool processes the file in your browser. The WeboGrowth converter never uploads your photos, so personal images stay on your device." },
+      { question: "Does converting HEIC to JPG lose quality?", answer: "There is a tiny quality loss because JPG uses different compression. At quality 90 or above the difference is invisible. File size typically doubles compared to the HEIC original." },
+      { question: "Can I batch convert many HEIC files to JPG at once?", answer: "Yes — drop multiple .heic files into the converter and it processes them in parallel, then offers a single download. There is no per-file or per-day limit." },
     ],
     body: `How to Convert HEIC to JPG Online Free is easier when you use a fast browser-based workflow. This guide shows how to handle convert heic to jpg online free without uploads, installs, or confusing settings. Built by the team at [WeboGrowth](https://webogrowth.com), it focuses on practical steps you can use today.
 

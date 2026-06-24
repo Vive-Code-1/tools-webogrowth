@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getPostBySlug, BLOG_POSTS } from "@/blog/posts";
 import ShareButtons from "@/components/ShareButtons";
+import { getPostFaqs, buildFaqPageSchema } from "@/blog/faq";
 
 const SITE_URL = "https://tools.webogrowth.com";
 
@@ -48,6 +49,9 @@ const BlogPost = () => {
     ],
   };
 
+  const faqs = getPostFaqs(post);
+  const faqLd = buildFaqPageSchema(faqs);
+
   // Internal-link Markdown rendering: rewrite relative links to use <Link>
   const components = {
     a: ({ href, children, ...rest }: any) => {
@@ -90,6 +94,9 @@ const BlogPost = () => {
         <meta name="twitter:image" content={coverUrl} />
         <script type="application/ld+json">{JSON.stringify(articleLd)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
+        {faqLd && (
+          <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
+        )}
       </Helmet>
 
       <nav className="text-xs uppercase tracking-widest font-label text-on-surface-variant/60 mb-6" aria-label="Breadcrumb">
