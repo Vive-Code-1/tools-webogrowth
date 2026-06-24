@@ -1,51 +1,94 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
+import {
+  ArrowShrink02Icon,
+  Exchange01Icon,
+  ImageCropIcon,
+  Svg01Icon,
+  Svg02Icon,
+  AiEraserIcon,
+  Resize01Icon,
+  Stamp01Icon,
+  GifIcon,
+  StarIcon,
+  LayerMask01Icon,
+  BracketsIcon,
+  FileKeyIcon,
+  RegexIcon,
+  FileDiffIcon,
+  TerminalIcon,
+  Pdf01Icon,
+  CssThreeIcon,
+  BinaryCodeIcon,
+  HtmlFiveIcon,
+  HashtagIcon,
+  HierarchyIcon,
+  Flowchart01Icon,
+  AiMagicIcon,
+  DashboardSpeed02Icon,
+  SearchVisualIcon,
+  Robot02Icon,
+  ColorsIcon,
+  PaintBoardIcon,
+  TextFontIcon,
+  QrCode01Icon,
+} from "@hugeicons/core-free-icons";
 
-const toolCategories = [
+type ToolItem = {
+  label: string;
+  path: string;
+  desc: string;
+  icon: IconSvgElement;
+  /** Tailwind text color for the icon + tinted bg. Pairs with bg-{color}-500/10 */
+  accent: string;
+};
+
+const toolCategories: { label: string; tools: ToolItem[] }[] = [
   {
     label: "Image Tools",
     tools: [
-      { label: "Compressor", path: "/compressor" },
-      { label: "Converter", path: "/converter" },
-      { label: "HEIC to JPG", path: "/heic-to-jpg" },
-      { label: "Image to SVG", path: "/image-to-svg" },
-      { label: "Background Remover", path: "/background-remover" },
-      { label: "Image Resizer", path: "/image-resizer" },
-      { label: "Watermark Tool", path: "/watermark" },
-      { label: "Video to GIF", path: "/video-to-gif" },
-      { label: "Favicon Generator", path: "/favicon" },
-      { label: "Placeholder Image", path: "/placeholder" },
+      { label: "Compressor", path: "/compressor", desc: "Shrink PNG, JPEG & WebP up to 90%", icon: ArrowShrink02Icon, accent: "text-sky-400 bg-sky-400/10" },
+      { label: "Converter", path: "/converter", desc: "Swap between WebP, PNG, JPEG", icon: Exchange01Icon, accent: "text-violet-400 bg-violet-400/10" },
+      { label: "HEIC to JPG", path: "/heic-to-jpg", desc: "iPhone photos to JPG in browser", icon: ImageCropIcon, accent: "text-orange-400 bg-orange-400/10" },
+      { label: "Image to SVG", path: "/image-to-svg", desc: "Trace bitmaps into clean vectors", icon: Svg01Icon, accent: "text-pink-400 bg-pink-400/10" },
+      { label: "Background Remover", path: "/background-remover", desc: "AI cutout, no upload required", icon: AiEraserIcon, accent: "text-fuchsia-400 bg-fuchsia-400/10" },
+      { label: "Image Resizer", path: "/image-resizer", desc: "Resize for web, social and print", icon: Resize01Icon, accent: "text-blue-400 bg-blue-400/10" },
+      { label: "Watermark Tool", path: "/watermark", desc: "Stamp images with text or logo", icon: Stamp01Icon, accent: "text-amber-400 bg-amber-400/10" },
+      { label: "Video to GIF", path: "/video-to-gif", desc: "Convert clips to optimized GIFs", icon: GifIcon, accent: "text-rose-400 bg-rose-400/10" },
+      { label: "Favicon Generator", path: "/favicon", desc: "Multi-size favicons in one click", icon: StarIcon, accent: "text-yellow-400 bg-yellow-400/10" },
+      { label: "Placeholder Image", path: "/placeholder", desc: "Custom placeholders for mockups", icon: LayerMask01Icon, accent: "text-emerald-400 bg-emerald-400/10" },
     ],
   },
   {
     label: "Developer Tools",
     tools: [
-      { label: "JSON Formatter", path: "/json-formatter" },
-      { label: "JWT Decoder", path: "/jwt-decoder" },
-      { label: "Regex Tester", path: "/regex-tester" },
-      { label: "Diff Checker", path: "/diff-checker" },
-      { label: "cURL Builder", path: "/curl-builder" },
-      { label: "PDF Toolkit", path: "/pdf-toolkit" },
-      { label: "CSS Minifier", path: "/css-minifier" },
-      { label: "Base64 Tool", path: "/base64" },
-      { label: "SVG Optimizer", path: "/svg-optimizer" },
-      { label: "HTML to Markdown", path: "/html-to-markdown" },
+      { label: "JSON Formatter", path: "/json-formatter", desc: "Beautify, validate and minify JSON", icon: BracketsIcon, accent: "text-lime-400 bg-lime-400/10" },
+      { label: "JWT Decoder", path: "/jwt-decoder", desc: "Inspect header, payload & signature", icon: FileKeyIcon, accent: "text-amber-400 bg-amber-400/10" },
+      { label: "Regex Tester", path: "/regex-tester", desc: "Live match, groups and flags", icon: RegexIcon, accent: "text-cyan-400 bg-cyan-400/10" },
+      { label: "Diff Checker", path: "/diff-checker", desc: "Side-by-side text comparison", icon: FileDiffIcon, accent: "text-teal-400 bg-teal-400/10" },
+      { label: "cURL Builder", path: "/curl-builder", desc: "Compose HTTP requests visually", icon: TerminalIcon, accent: "text-slate-300 bg-slate-300/10" },
+      { label: "PDF Toolkit", path: "/pdf-toolkit", desc: "Merge, split and compress PDFs", icon: Pdf01Icon, accent: "text-red-400 bg-red-400/10" },
+      { label: "CSS Minifier", path: "/css-minifier", desc: "Strip comments & whitespace", icon: CssThreeIcon, accent: "text-blue-400 bg-blue-400/10" },
+      { label: "Base64 Tool", path: "/base64", desc: "Encode and decode text or files", icon: BinaryCodeIcon, accent: "text-indigo-400 bg-indigo-400/10" },
+      { label: "SVG Optimizer", path: "/svg-optimizer", desc: "Shrink SVGs without breaking them", icon: Svg02Icon, accent: "text-pink-400 bg-pink-400/10" },
+      { label: "HTML to Markdown", path: "/html-to-markdown", desc: "Clean Markdown from any HTML", icon: HtmlFiveIcon, accent: "text-orange-400 bg-orange-400/10" },
     ],
   },
   {
     label: "SEO & Design",
     tools: [
-      { label: "Meta Tag Generator", path: "/meta-tag-generator" },
-      { label: "Schema Generator", path: "/schema-generator" },
-      { label: "Sitemap Generator", path: "/sitemap-generator" },
-      { label: "AI Alt Text", path: "/alt-text-generator" },
-      { label: "PageSpeed Analyzer", path: "/pagespeed-analyzer" },
-      { label: "OG Preview", path: "/og-preview" },
-      { label: "Robots.txt Generator", path: "/robots-generator" },
-      { label: "Color Palette", path: "/color-palette" },
-      { label: "Gradient Generator", path: "/gradient-generator" },
-      { label: "Lorem Ipsum Generator", path: "/lorem-ipsum" },
-      { label: "QR Code Generator", path: "/qr-code" },
+      { label: "Meta Tag Generator", path: "/meta-tag-generator", desc: "Title, description & OG tags", icon: HashtagIcon, accent: "text-emerald-400 bg-emerald-400/10" },
+      { label: "Schema Generator", path: "/schema-generator", desc: "JSON-LD for rich results", icon: HierarchyIcon, accent: "text-violet-400 bg-violet-400/10" },
+      { label: "Sitemap Generator", path: "/sitemap-generator", desc: "XML sitemap from any URL list", icon: Flowchart01Icon, accent: "text-teal-400 bg-teal-400/10" },
+      { label: "AI Alt Text", path: "/alt-text-generator", desc: "Describe images with AI", icon: AiMagicIcon, accent: "text-fuchsia-400 bg-fuchsia-400/10" },
+      { label: "PageSpeed Analyzer", path: "/pagespeed-analyzer", desc: "Core Web Vitals at a glance", icon: DashboardSpeed02Icon, accent: "text-lime-400 bg-lime-400/10" },
+      { label: "OG Preview", path: "/og-preview", desc: "See your link card before posting", icon: SearchVisualIcon, accent: "text-sky-400 bg-sky-400/10" },
+      { label: "Robots.txt Generator", path: "/robots-generator", desc: "Control how crawlers see you", icon: Robot02Icon, accent: "text-slate-300 bg-slate-300/10" },
+      { label: "Color Palette", path: "/color-palette", desc: "Extract palettes from any image", icon: PaletteIcon, accent: "text-pink-400 bg-pink-400/10" },
+      { label: "Gradient Generator", path: "/gradient-generator", desc: "Build smooth CSS gradients", icon: PaintBoardIcon, accent: "text-purple-400 bg-purple-400/10" },
+      { label: "Lorem Ipsum", path: "/lorem-ipsum", desc: "Filler text for mockups", icon: TextFontIcon, accent: "text-amber-400 bg-amber-400/10" },
+      { label: "QR Code Generator", path: "/qr-code", desc: "Branded QR codes for any URL", icon: QrCode01Icon, accent: "text-lime-400 bg-lime-400/10" },
     ],
   },
 ];
@@ -100,29 +143,81 @@ const Navbar = () => {
             onMouseEnter={() => setDesktopDropdown(true)}
             onMouseLeave={() => setDesktopDropdown(false)}
           >
-            <button className="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1">
+            <button
+              className="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1"
+              aria-haspopup="true"
+              aria-expanded={desktopDropdown}
+            >
               All Tools
               <span className={`material-symbols-outlined text-sm transition-transform ${desktopDropdown ? "rotate-180" : ""}`}>expand_more</span>
             </button>
-            {desktopDropdown && <div className="absolute top-full right-0 w-full h-4" />}
+            {desktopDropdown && <div className="absolute top-full right-0 w-full h-4" aria-hidden="true" />}
             {desktopDropdown && (
-              <div className="absolute top-[calc(100%+16px)] right-0 bg-surface-container-low/95 backdrop-blur-xl rounded-xl border border-outline-variant/15 p-8 min-w-[640px] shadow-2xl grid grid-cols-3 gap-8 animate-fade-in">
-                {toolCategories.map((cat) => (
-                  <div key={cat.label}>
-                    <span className="text-xs font-label uppercase tracking-widest text-primary font-bold block mb-4">{cat.label}</span>
-                    <div className="space-y-1">
-                      {cat.tools.map((tool) => (
-                        <Link
-                          key={tool.path}
-                          to={tool.path}
-                          className={`block text-base py-1.5 transition-colors ${location.pathname === tool.path ? "text-primary font-bold" : "text-on-surface-variant hover:text-foreground"}`}
-                        >
-                          {tool.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+              <div
+                role="menu"
+                className="absolute top-[calc(100%+14px)] right-0 w-[min(960px,92vw)] bg-surface-container-low/95 backdrop-blur-xl rounded-2xl border border-outline-variant/15 shadow-2xl animate-fade-in overflow-hidden"
+              >
+                <div className="p-6 space-y-7 max-h-[calc(100vh-7rem)] overflow-y-auto">
+                  {toolCategories.map((cat) => (
+                    <section key={cat.label}>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-[11px] font-label uppercase tracking-[0.18em] text-primary font-bold">
+                          {cat.label}
+                        </span>
+                        <span className="text-[11px] text-on-surface-variant/50">{cat.tools.length} tools</span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
+                        {cat.tools.map((tool) => {
+                          const active = location.pathname === tool.path;
+                          return (
+                            <Link
+                              key={tool.path}
+                              to={tool.path}
+                              role="menuitem"
+                              onClick={() => setDesktopDropdown(false)}
+                              className={`group flex items-start gap-3 rounded-xl p-3 transition-all border border-transparent ${
+                                active
+                                  ? "bg-primary/10 border-primary/30"
+                                  : "hover:bg-surface-container-high/60 hover:border-outline-variant/20"
+                              }`}
+                            >
+                              <span
+                                className={`shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-lg ${tool.accent} group-hover:scale-105 transition-transform`}
+                                aria-hidden="true"
+                              >
+                                <HugeiconsIcon icon={tool.icon} size={22} strokeWidth={1.6} />
+                              </span>
+                              <span className="min-w-0">
+                                <span
+                                  className={`block text-sm font-bold leading-tight ${
+                                    active ? "text-primary" : "text-foreground group-hover:text-primary"
+                                  }`}
+                                >
+                                  {tool.label}
+                                </span>
+                                <span className="block text-xs text-on-surface-variant/70 mt-0.5 leading-snug line-clamp-2">
+                                  {tool.desc}
+                                </span>
+                              </span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+                <div className="border-t border-outline-variant/15 bg-surface-container-low/60 px-6 py-3 flex items-center justify-between">
+                  <span className="text-xs text-on-surface-variant/70">
+                    Free, browser-based — no signup required
+                  </span>
+                  <Link
+                    to="/"
+                    onClick={() => setDesktopDropdown(false)}
+                    className="text-xs font-bold text-primary hover:underline"
+                  >
+                    Browse all tools →
+                  </Link>
+                </div>
               </div>
             )}
           </div>
@@ -157,16 +252,21 @@ const Navbar = () => {
           {toolCategories.map((cat) => (
             <div key={cat.label}>
               <span className="text-xs font-label uppercase tracking-widest text-primary font-bold block mb-2">{cat.label}</span>
-              {cat.tools.map((tool) => (
-                <Link
-                  key={tool.path}
-                  to={tool.path}
-                  onClick={() => setMobileOpen(false)}
-                  className={`block py-2 font-headline text-base ${location.pathname === tool.path ? "text-primary" : "text-on-surface-variant"}`}
-                >
-                  {tool.label}
-                </Link>
-              ))}
+              <div className="grid grid-cols-1 gap-1">
+                {cat.tools.map((tool) => (
+                  <Link
+                    key={tool.path}
+                    to={tool.path}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-3 py-2 px-2 rounded-lg ${location.pathname === tool.path ? "bg-primary/10 text-primary" : "text-on-surface-variant"}`}
+                  >
+                    <span className={`inline-flex items-center justify-center w-9 h-9 rounded-lg ${tool.accent}`} aria-hidden="true">
+                      <HugeiconsIcon icon={tool.icon} size={20} strokeWidth={1.6} />
+                    </span>
+                    <span className="font-headline text-base">{tool.label}</span>
+                  </Link>
+                ))}
+              </div>
             </div>
           ))}
         </div>
