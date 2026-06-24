@@ -61,6 +61,9 @@ jobs:
       - name: Ping IndexNow (Bing, Yandex, etc.)
         run: node scripts/indexnow-submit.mjs || true
 
-      - name: Ping Google sitemap
+      - name: Submit sitemap to Google Search Console
         run: |
-          curl -s "https://www.google.com/ping?sitemap=https://tools.webogrowth.com/sitemap.xml" || true
+          curl -sS -X POST "https://vgfpjhimlztysvpxcgab.supabase.co/functions/v1/gsc-manage" \
+            -H "Content-Type: application/json" \
+            -d '{"action":"submit_sitemap","siteUrl":"https://tools.webogrowth.com/","feedpath":"https://tools.webogrowth.com/sitemap.xml"}' \
+            || true

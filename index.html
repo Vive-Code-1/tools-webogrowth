@@ -11,6 +11,36 @@
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
+    <script>
+      // Canonical-host guard: prevent lovable.app / vercel preview URLs from being indexed.
+      (function () {
+        try {
+          var h = location.hostname;
+          var canonical = "tools.webogrowth.com";
+          var isCanonical = h === canonical;
+          if (!isCanonical) {
+            // Override indexability for non-canonical hosts.
+            var setNoindex = function (name) {
+              var m = document.querySelector('meta[name="' + name + '"]');
+              if (!m) {
+                m = document.createElement("meta");
+                m.setAttribute("name", name);
+                document.head.appendChild(m);
+              }
+              m.setAttribute("content", "noindex, nofollow");
+            };
+            setNoindex("robots");
+            setNoindex("googlebot");
+            setNoindex("bingbot");
+            // Redirect real users to the canonical domain (skip localhost & lovable preview iframes used during editing).
+            var isPreview = /lovable\.dev$/i.test(h) || h === "localhost" || h === "127.0.0.1";
+            if (!isPreview) {
+              location.replace("https://" + canonical + location.pathname + location.search + location.hash);
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <title>WeboGrowth Tools — Free Image, Code &amp; SEO Utilities</title>
     <meta name="description" content="Free online tools by WeboGrowth. Compress PNG, JPEG, WebP images, convert formats, optimize SVGs, generate favicons, format JSON, and 17+ more tools.">
