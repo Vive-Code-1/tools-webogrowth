@@ -359,6 +359,13 @@ Open [tools.webogrowth.com/compressor](/compressor), drag your image folder onto
       { label: "Base64 Tool", path: "/base64" },
       { label: "HTML to Markdown", path: "/html-to-markdown" },
     ],
+    faqs: [
+      { question: "How do I format JSON online for free?", answer: "Paste your JSON into the WeboGrowth JSON Formatter, click Format, and you get an indented, validated result instantly. The tool runs in your browser so your data is never uploaded." },
+      { question: "What does 'invalid JSON' usually mean?", answer: "The most common causes are trailing commas, single quotes instead of double quotes, unquoted keys, or stray comments. A good formatter highlights the exact line and column of the first error." },
+      { question: "Is it safe to paste sensitive JSON into an online formatter?", answer: "Only if the tool processes data client-side. The WeboGrowth JSON Formatter does — nothing leaves your browser, so API keys and tokens stay private." },
+      { question: "What is the difference between formatting and validating JSON?", answer: "Formatting (pretty-printing) re-indents the JSON for readability. Validating checks that the syntax is legal per the JSON spec. Most online tools do both at once." },
+      { question: "Can I minify JSON after formatting it?", answer: "Yes. Minifying removes all whitespace and is useful for production payloads. Most formatters offer a one-click toggle between pretty and minified output." },
+    ],
     body: `## What is JSON formatting?
 
 **JSON formatting** (also called "beautifying" or "prettifying") rewrites a JSON string with consistent indentation and line breaks so a human can read it. **Minifying** is the opposite — it strips every space and newline to shrink the payload before sending it over the wire.
