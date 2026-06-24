@@ -16,6 +16,68 @@
 import fs from "node:fs";
 import path from "node:path";
 
+// ---------- structured stage logging ----------
+const DEBUG_DIR = path.join(process.cwd(), ".debug");
+fs.mkdirSync(DEBUG_DIR, { recursive: true });
+const LOG_FILE = path.join(DEBUG_DIR, "blog-generate.log");
+const STAGES_FILE = path.join(DEBUG_DIR, "stages.json");
+const stages = [];
+let currentStage = "init";
+
+function writeLog(line) {
+  const ts = new Date().toISOString();
+  try { fs.appendFileSync(LOG_FILE, `[${ts}] [${currentStage}] ${line}\n`); } catch {}
+}
+
+function flushStages(extra = {}) {
+  try {
+    fs.writeFileSync(
+      STAGES_FILE,
+      JSON.stringify({ finishedAt: new Date().toISOString(), currentStage, stages, ...extra }, null, 2),
+    );
+  } catch {}
+}
+
+async function stage(name, fn) {
+  currentStage = name;
+  const startedAt = new Date().toISOString();
+  console.log(`::group::stage:${name}`);
+  writeLog(`▶ start`);
+  const t0 = Date.now();
+  try {
+    const result = await fn();
+    const ms = Date.now() - t0;
+    stages.push({ name, status: "ok", startedAt, ms });
+    writeLog(`✓ ok (${ms}ms)`);
+    console.log(`::endgroup::`);
+    flushStages();
+    return result;
+  } catch (err) {
+    const ms = Date.now() - t0;
+    const message = err?.message || String(err);
+    const stack = err?.stack || "";
+    stages.push({ name, status: "fail", startedAt, ms, message });
+    writeLog(`✗ FAIL (${ms}ms): ${message}\n${stack}`);
+    console.log(`::endgroup::`);
+    console.log(`::error title=blog-generate stage failed::stage=${name} message=${message.replace(/\r?\n/g, " ")}`);
+    flushStages({ failedStage: name, error: message, stack });
+    throw err;
+  }
+}
+
+process.on("uncaughtException", (err) => {
+  writeLog(`uncaughtException: ${err?.stack || err?.message || err}`);
+  flushStages({ failedStage: currentStage, error: String(err?.message || err) });
+  console.log(`::error title=uncaughtException::${String(err?.message || err).replace(/\r?\n/g, " ")}`);
+  process.exit(1);
+});
+process.on("unhandledRejection", (reason) => {
+  writeLog(`unhandledRejection: ${reason?.stack || reason?.message || reason}`);
+  flushStages({ failedStage: currentStage, error: String(reason?.message || reason) });
+  console.log(`::error title=unhandledRejection::${String(reason?.message || reason).replace(/\r?\n/g, " ")}`);
+  process.exit(1);
+});
+
 const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
     const [k, v] = a.replace(/^--/, "").split("=");
