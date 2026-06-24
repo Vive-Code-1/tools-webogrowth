@@ -11,8 +11,8 @@ import {
   formatExtension,
   type ImageFormat,
 } from "@/lib/imageConvert";
-import { uploadToStorage, deleteFromStorage } from "@/lib/processedStorage";
 import { runWithConcurrency } from "@/lib/concurrency";
+import ResultCountdownPanel from "@/components/ResultCountdownPanel";
 
 const CONCURRENCY = 3;
 
@@ -82,13 +82,12 @@ const Converter = () => {
     else if (!sheetOpen && dy < -40) setSheetOpen(true);
   };
 
-  // ZIP download countdown
+  // ZIP download (local blob only — no cloud storage)
   const [zipUrl, setZipUrl] = useState<string | null>(null);
   const [zipName, setZipName] = useState<string>("");
-  const [secondsLeft, setSecondsLeft] = useState(0);
+  const [countdownKey, setCountdownKey] = useState(0);
   const [expired, setExpired] = useState(false);
   const zipUrlRef = useRef<string | null>(null);
-  const storagePathRef = useRef<string | null>(null);
 
   // Auto-collapse on conversion start, auto-expand when result ready / expired (mobile only)
   useEffect(() => {
@@ -103,36 +102,30 @@ const Converter = () => {
     if (zipUrl || expired) setSheetOpen(true);
   }, [zipUrl, expired]);
 
-
-
   const clearDownload = useCallback(() => {
     if (zipUrlRef.current && zipUrlRef.current.startsWith("blob:")) {
       URL.revokeObjectURL(zipUrlRef.current);
     }
-    if (storagePathRef.current) {
-      // Fire-and-forget server-side deletion
-      deleteFromStorage(storagePathRef.current);
-      storagePathRef.current = null;
-    }
     zipUrlRef.current = null;
+    setZipUrl(null);
   }, []);
 
-  // Tick countdown
-  useEffect(() => {
-    if (!zipUrl || expired) return;
-    const id = setInterval(() => {
-      setSecondsLeft((s) => {
-        if (s <= 1) {
-          clearInterval(id);
-          setExpired(true);
-          clearDownload();
-          return 0;
-        }
-        return s - 1;
-      });
-    }, 1000);
-    return () => clearInterval(id);
-  }, [zipUrl, expired, clearDownload]);
+  // Wipe everything when the 5-minute window expires: per-file blobs + ZIP.
+  const handleExpire = useCallback(() => {
+    clearDownload();
+    setExpired(true);
+    setItems((prev) =>
+      prev.map((i) => ({
+        ...i,
+        outBlob: undefined,
+        outSize: undefined,
+        outName: undefined,
+        status: i.status === "done" ? ("queued" as ItemStatus) : i.status,
+        progress: 0,
+        reachedTarget: undefined,
+      })),
+    );
+  }, [clearDownload]);
 
   // Cleanup on unmount
   useEffect(() => () => clearDownload(), [clearDownload]);
