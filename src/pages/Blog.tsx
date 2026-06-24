@@ -5,12 +5,13 @@ import { BLOG_POSTS } from "@/blog/posts";
 const SITE_URL = "https://tools.webogrowth.com";
 
 const Blog = () => {
+  const sortedPosts = [...BLOG_POSTS].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "WeboGrowth Tools Blog",
     url: `${SITE_URL}/blog`,
-    blogPost: BLOG_POSTS.map((p) => ({
+    blogPost: sortedPosts.map((p) => ({
       "@type": "BlogPosting",
       headline: p.title,
       description: p.description,
@@ -48,7 +49,7 @@ const Blog = () => {
       </header>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {BLOG_POSTS.map((post) => (
+        {sortedPosts.map((post) => (
           <article
             key={post.slug}
             className="group bg-surface-container-lowest border border-outline-variant/15 rounded-2xl p-6 hover:border-primary/40 transition-all"
