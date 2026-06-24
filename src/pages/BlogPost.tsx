@@ -153,6 +153,27 @@ const BlogPost = () => {
         <ShareButtons url={url} title={post.title} description={post.description} hashtags={["webogrowth", "webtools"]} />
       </div>
 
+      {(() => {
+        const tags = getPostTags(post);
+        if (tags.length === 0) return null;
+        return (
+          <section className="mt-10" aria-label="Post tags">
+            <p className="text-xs font-label uppercase tracking-widest text-on-surface-variant/60 font-bold mb-3">Tags</p>
+            <div className="flex flex-wrap gap-2">
+              {tags.map((t) => (
+                <Link
+                  key={t}
+                  to={`/blog/tag/${slugify(t)}`}
+                  className="px-3 py-1.5 rounded-full text-sm border border-outline-variant/20 hover:border-primary hover:text-primary transition-colors"
+                >
+                  #{t}
+                </Link>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
+
       <aside className="mt-16 p-6 bg-primary/5 border border-primary/20 rounded-2xl">
         <p className="text-xs font-label uppercase tracking-widest text-primary font-bold mb-3">Try the tools mentioned</p>
         <div className="flex flex-wrap gap-3">
