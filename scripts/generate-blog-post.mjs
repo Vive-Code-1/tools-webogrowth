@@ -214,6 +214,14 @@ const relatedTools = post.relatedTools
   .map((t) => `      { label: ${JSON.stringify(t.label)}, path: ${JSON.stringify(t.path)} },`)
   .join("\n");
 
+// Guarantee a webogrowth.com link exists in the body
+let finalBody = post.body;
+if (!/webogrowth\.com/i.test(finalBody)) {
+  finalBody += `\n\n---\n\n*Published by the team at [WeboGrowth](https://webogrowth.com) — SEO &amp; growth services for ambitious brands.*\n`;
+}
+
+const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
+
 const block = `  post({
     slug: ${JSON.stringify(post.slug)},
     title: ${JSON.stringify(post.title)},
@@ -223,11 +231,11 @@ const block = `  post({
     author: "WeboGrowth Team",
     category: ${JSON.stringify(post.category)},
     readMinutes: ${Number(post.readMinutes) || 6},
-    excerpt: ${JSON.stringify(post.excerpt)},
+${coverField}    excerpt: ${JSON.stringify(post.excerpt)},
     relatedTools: [
 ${relatedTools}
     ],
-    body: \`${esc(post.body)}\`,
+    body: \`${esc(finalBody)}\`,
   }),
 ];`;
 
