@@ -19,8 +19,30 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, info: ErrorInfo) {
     // eslint-disable-next-line no-console
     console.error("[ErrorBoundary] Uncaught render error:", error, info);
+
+    // Stale chunk after a new deploy → auto hard-reload once.
+    const msg = `${error?.name ?? ""} ${error?.message ?? ""}`;
+    const isChunkError =
+      /Failed to fetch dynamically imported module/i.test(msg) ||
+      /Importing a module script failed/i.test(msg) ||
+      /ChunkLoadError/i.test(msg) ||
+      /Loading chunk [\d]+ failed/i.test(msg) ||
+      /error loading dynamically imported module/i.test(msg);
+
+    if (isChunkError && typeof window !== "undefined") {
+      const KEY = "wg_chunk_reload_at";
+      const last = Number(sessionStorage.getItem(KEY) || 0);
+      if (Date.now() - last > 30_000) {
+        sessionStorage.setItem(KEY, String(Date.now()));
+        // Bypass HTTP cache to grab the latest index.html → fresh chunk hashes.
+        window.location.reload();
+        return;
+      }
+    }
+
     this.setState({ info });
   }
+
 
   handleReset = () => {
     this.setState({ error: null, info: null });
