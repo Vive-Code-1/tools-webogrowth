@@ -84,6 +84,15 @@ function clampText(value, max, fallback) {
   return text.slice(0, Math.max(0, max - 3)).replace(/[\s,.;:-]+$/g, "") + "...";
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function sanitizeRelatedTools(input) {
   const first = { label: topic.relatedToolLabel, path: topic.relatedToolPath };
   const seen = new Set([first.path]);
@@ -180,6 +189,78 @@ function buildFallbackPost(reason = "") {
     imageAlt: clampText(`${keyword} guide cover image`, 120),
     body: buildFallbackBody(),
   };
+}
+
+function normalizePost(input) {
+  const fallback = buildFallbackPost();
+  const post = { ...fallback, ...(input && typeof input === "object" ? input : {}) };
+
+  post.slug = uniqueSlug(post.slug || post.title || fallback.slug, existingSlugs);
+  post.title = clampText(post.title, 70, fallback.title);
+  post.description = clampText(post.description, 160, fallback.description);
+  post.keywords = clampText(post.keywords, 500, fallback.keywords);
+  post.excerpt = clampText(post.excerpt, 200, fallback.excerpt);
+  post.relatedTools = sanitizeRelatedTools(post.relatedTools);
+  post.body = String(post.body || fallback.body).trim() || fallback.body;
+  post.imagePrompt = clampText(post.imagePrompt, 500, fallback.imagePrompt);
+  post.imageAlt = clampText(post.imageAlt, 120, fallback.imageAlt);
+
+  const validCats = ["Image", "Developer", "SEO", "Design", "Guide"];
+  if (!validCats.includes(post.category)) post.category = topic.category;
+
+  const minutes = Number(post.readMinutes);
+  post.readMinutes = Number.isFinite(minutes) ? Math.min(12, Math.max(3, Math.round(minutes))) : fallback.readMinutes;
+
+  return post;
+}
+
+function createFallbackCover(slug, title, subtitle = topic.primaryKeyword) {
+  if (dry) return null;
+
+  const dir = path.join(ROOT, "public/blog-images");
+  fs.mkdirSync(dir, { recursive: true });
+
+  const filename = `${slug}.svg`;
+  const filePath = path.join(dir, filename);
+  const safeTitle = escapeHtml(clampText(title, 58, topic.title));
+  const safeSubtitle = escapeHtml(clampText(subtitle, 96, topic.primaryKeyword));
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="${safeTitle}">
+  <defs>
+    <radialGradient id="glow" cx="24%" cy="18%" r="70%">
+      <stop offset="0" stop-color="#bef264" stop-opacity="0.36"/>
+      <stop offset="0.42" stop-color="#365314" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="#020617"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <circle cx="1080" cy="118" r="190" fill="#84cc16" opacity="0.08"/>
+  <circle cx="1130" cy="610" r="260" fill="#22c55e" opacity="0.06"/>
+  <g opacity="0.25" stroke="#bef264" stroke-width="1">
+    <path d="M120 170H1160M120 250H1160M120 330H1160M120 410H1160M120 490H1160M120 570H1160"/>
+    <path d="M200 110V620M360 110V620M520 110V620M680 110V620M840 110V620M1000 110V620"/>
+  </g>
+  <rect x="150" y="145" width="980" height="430" rx="34" fill="url(#card)" stroke="#bef264" stroke-opacity="0.28" stroke-width="2"/>
+  <rect x="190" y="185" width="190" height="38" rx="19" fill="#bef264" opacity="0.95"/>
+  <text x="215" y="211" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" letter-spacing="2">WEBOGROWTH GUIDE</text>
+  <text x="190" y="330" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800">${safeTitle}</text>
+  <text x="190" y="405" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="500">${safeSubtitle}</text>
+  <path d="M190 475H530" stroke="#bef264" stroke-width="8" stroke-linecap="round"/>
+  <g transform="translate(840 262)">
+    <rect width="190" height="150" rx="24" fill="#111827" stroke="#84cc16" stroke-opacity="0.45"/>
+    <path d="M46 96l35-42 33 31 22-25 25 36" fill="none" stroke="#bef264" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="59" cy="50" r="14" fill="#bef264"/>
+  </g>
+</svg>
+`;
+
+  fs.writeFileSync(filePath, svg);
+  console.log(`✓ Fallback cover image: /blog-images/${filename}`);
+  return `/blog-images/${filename}`;
 }
 
 // ---- prompt the model ----
