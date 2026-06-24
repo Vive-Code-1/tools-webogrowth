@@ -4,5 +4,40 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "tools-webogrowth.lovable.app"
+        }
+      ],
+      "destination": "https://tools.webogrowth.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "(.*)\\.vercel\\.app"
+        }
+      ],
+      "destination": "https://tools.webogrowth.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.tools.webogrowth.com"
+        }
+      ],
+      "destination": "https://tools.webogrowth.com/:path*",
+      "permanent": true
+    }
   ]
 }
