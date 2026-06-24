@@ -22,55 +22,12 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: "20" }
 
-      - name: Diagnostics — environment
-        run: |
-          echo "node=$(node -v)"
-          echo "npm=$(npm -v)"
-          echo "cwd=$(pwd)"
-          echo "files:"
-          ls -la
-          echo "gemini key present: ${{ secrets.GEMINI_API_FOR_DAILY_AUTO_BLOG != '' }}"
-
       - name: Generate post
-        id: generate
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_FOR_DAILY_AUTO_BLOG }}
-        run: |
-          set -o pipefail
-          node scripts/generate-blog-post.mjs 2>&1 | tee .debug/stdout.log
-          echo "node exit=$?"
-
-      - name: Diagnostics — post-generate state
-        if: always()
-        run: |
-          mkdir -p .debug
-          echo "=== git status ===" | tee -a .debug/git-status.log
-          git status --porcelain | tee -a .debug/git-status.log
-          echo "=== git diff --stat ===" | tee -a .debug/git-status.log
-          git diff --stat | tee -a .debug/git-status.log || true
-          echo "=== blog-images dir ==="
-          ls -la public/blog-images 2>/dev/null || echo "(missing)"
-          echo "=== last 30 lines of posts.ts ==="
-          tail -n 30 src/blog/posts.ts || true
-          echo "=== stages.json ==="
-          cat .debug/stages.json 2>/dev/null || echo "(no stages.json)"
-
-      - name: Upload debug artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: blog-auto-debug-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            .debug/**
-            public/blog-images/**
-            src/blog/posts.ts
-            public/sitemap.xml
-            marketing/blog-topic-queue.json
-          if-no-files-found: warn
-          retention-days: 14
+        run: node scripts/generate-blog-post.mjs
 
       - name: Commit & push
-        if: success()
         run: |
           if git diff --quiet; then
             echo "No changes — nothing to commit."
@@ -85,10 +42,8 @@ jobs:
           git push
 
       - name: Ping IndexNow (Bing, Yandex, etc.)
-        if: success()
-        run: node scripts/indexnow-submit.mjs || true
+        run: node scripts/indexnow-submit.mjs
 
       - name: Ping Google sitemap
-        if: success()
         run: |
           curl -s "https://www.google.com/ping?sitemap=https://tools.webogrowth.com/sitemap.xml" || true

@@ -16,68 +16,6 @@
 import fs from "node:fs";
 import path from "node:path";
 
-// ---------- structured stage logging ----------
-const DEBUG_DIR = path.join(process.cwd(), ".debug");
-fs.mkdirSync(DEBUG_DIR, { recursive: true });
-const LOG_FILE = path.join(DEBUG_DIR, "blog-generate.log");
-const STAGES_FILE = path.join(DEBUG_DIR, "stages.json");
-const stages = [];
-let currentStage = "init";
-
-function writeLog(line) {
-  const ts = new Date().toISOString();
-  try { fs.appendFileSync(LOG_FILE, `[${ts}] [${currentStage}] ${line}\n`); } catch {}
-}
-
-function flushStages(extra = {}) {
-  try {
-    fs.writeFileSync(
-      STAGES_FILE,
-      JSON.stringify({ finishedAt: new Date().toISOString(), currentStage, stages, ...extra }, null, 2),
-    );
-  } catch {}
-}
-
-async function stage(name, fn) {
-  currentStage = name;
-  const startedAt = new Date().toISOString();
-  console.log(`::group::stage:${name}`);
-  writeLog(`▶ start`);
-  const t0 = Date.now();
-  try {
-    const result = await fn();
-    const ms = Date.now() - t0;
-    stages.push({ name, status: "ok", startedAt, ms });
-    writeLog(`✓ ok (${ms}ms)`);
-    console.log(`::endgroup::`);
-    flushStages();
-    return result;
-  } catch (err) {
-    const ms = Date.now() - t0;
-    const message = err?.message || String(err);
-    const stack = err?.stack || "";
-    stages.push({ name, status: "fail", startedAt, ms, message });
-    writeLog(`✗ FAIL (${ms}ms): ${message}\n${stack}`);
-    console.log(`::endgroup::`);
-    console.log(`::error title=blog-generate stage failed::stage=${name} message=${message.replace(/\r?\n/g, " ")}`);
-    flushStages({ failedStage: name, error: message, stack });
-    throw err;
-  }
-}
-
-process.on("uncaughtException", (err) => {
-  writeLog(`uncaughtException: ${err?.stack || err?.message || err}`);
-  flushStages({ failedStage: currentStage, error: String(err?.message || err) });
-  console.log(`::error title=uncaughtException::${String(err?.message || err).replace(/\r?\n/g, " ")}`);
-  process.exit(1);
-});
-process.on("unhandledRejection", (reason) => {
-  writeLog(`unhandledRejection: ${reason?.stack || reason?.message || reason}`);
-  flushStages({ failedStage: currentStage, error: String(reason?.message || reason) });
-  console.log(`::error title=unhandledRejection::${String(reason?.message || reason).replace(/\r?\n/g, " ")}`);
-  process.exit(1);
-});
-
 const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
     const [k, v] = a.replace(/^--/, "").split("=");
@@ -99,7 +37,13 @@ if (!apiKey && !dry) {
 
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 const TEXT_MODEL = "gemini-2.5-flash";
-const IMAGE_MODEL = "gemini-2.5-flash-image";
+// Try multiple image models in order — Gemini occasionally renames endpoints.
+const IMAGE_MODELS = [
+  "gemini-2.5-flash-image-preview",
+  "gemini-2.5-flash-image",
+  "gemini-2.0-flash-preview-image-generation",
+  "imagen-3.0-generate-002",
+];
 
 // ---- pick next topic ----
 const queue = JSON.parse(fs.readFileSync(QUEUE, "utf8"));
@@ -279,6 +223,30 @@ function normalizePost(input) {
   return post;
 }
 
+// Word-wrap a string into <= maxLines lines, each no wider than maxChars chars.
+// Returns array of lines; last line gets ellipsis if input had more words than fit.
+function wrapTitle(text, maxChars, maxLines) {
+  const words = String(text).split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = "";
+  for (const word of words) {
+    const candidate = line ? `${line} ${word}` : word;
+    if (candidate.length <= maxChars) {
+      line = candidate;
+    } else {
+      if (line) lines.push(line);
+      line = word;
+      if (lines.length === maxLines) break;
+    }
+  }
+  if (line && lines.length < maxLines) lines.push(line);
+  if (lines.length === maxLines && words.join(" ").length > lines.join(" ").length) {
+    const last = lines[lines.length - 1];
+    lines[lines.length - 1] = last.length > maxChars - 1 ? last.slice(0, maxChars - 1) + "…" : last + "…";
+  }
+  return lines;
+}
+
 function createFallbackCover(slug, title, subtitle = topic.primaryKeyword) {
   if (dry) return null;
 
@@ -287,39 +255,67 @@ function createFallbackCover(slug, title, subtitle = topic.primaryKeyword) {
 
   const filename = `${slug}.svg`;
   const filePath = path.join(dir, filename);
-  const safeTitle = escapeHtml(clampText(title, 58, topic.title));
-  const safeSubtitle = escapeHtml(clampText(subtitle, 96, topic.primaryKeyword));
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="${safeTitle}">
+
+  // ---- text prep ----
+  const rawTitle = String(title || topic.title).trim();
+  // Pick font-size + max chars per line so we never overflow the card width (~1080px usable).
+  const titleSize = rawTitle.length > 48 ? 56 : rawTitle.length > 32 ? 64 : 76;
+  const charsPerLine = titleSize >= 76 ? 16 : titleSize >= 64 ? 20 : 24;
+  const titleLines = wrapTitle(rawTitle, charsPerLine, 3).map(escapeHtml);
+  const lineHeight = Math.round(titleSize * 1.12);
+
+  const subtitleText = clampText(subtitle, 70, topic.primaryKeyword);
+  const safeSubtitle = escapeHtml(subtitleText);
+
+  // Badge: auto-fit width to text. Approx 11px per char at font-size 18 letter-spacing 2.
+  const badgeLabel = "WEBOGROWTH GUIDE";
+  const badgePadX = 28;
+  const badgeWidth = Math.ceil(badgeLabel.length * 11.2) + badgePadX * 2;
+  const badgeHeight = 42;
+
+  // Layout coordinates (card is x:120-1160, y:135-585, height 450)
+  const padX = 175;
+  const badgeY = 175;
+  const titleStartY = badgeY + badgeHeight + 78; // first baseline
+  const totalTitleHeight = titleLines.length * lineHeight;
+  const subtitleY = titleStartY + totalTitleHeight - lineHeight + 56;
+  const underlineY = subtitleY + 38;
+
+  const titleTspans = titleLines
+    .map((l, i) => `<tspan x="${padX}" ${i === 0 ? "" : `dy="${lineHeight}"`}>${l}</tspan>`)
+    .join("");
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="${escapeHtml(rawTitle)}">
   <defs>
-    <radialGradient id="glow" cx="24%" cy="18%" r="70%">
-      <stop offset="0" stop-color="#bef264" stop-opacity="0.36"/>
-      <stop offset="0.42" stop-color="#365314" stop-opacity="0.16"/>
+    <radialGradient id="glow" cx="22%" cy="16%" r="78%">
+      <stop offset="0" stop-color="#bef264" stop-opacity="0.42"/>
+      <stop offset="0.45" stop-color="#365314" stop-opacity="0.18"/>
       <stop offset="1" stop-color="#020617" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="card" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0" stop-color="#1f2937"/>
-      <stop offset="1" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#bef264"/>
+      <stop offset="1" stop-color="#65a30d"/>
     </linearGradient>
   </defs>
   <rect width="1280" height="720" fill="#020617"/>
   <rect width="1280" height="720" fill="url(#glow)"/>
-  <circle cx="1080" cy="118" r="190" fill="#84cc16" opacity="0.08"/>
-  <circle cx="1130" cy="610" r="260" fill="#22c55e" opacity="0.06"/>
-  <g opacity="0.25" stroke="#bef264" stroke-width="1">
-    <path d="M120 170H1160M120 250H1160M120 330H1160M120 410H1160M120 490H1160M120 570H1160"/>
-    <path d="M200 110V620M360 110V620M520 110V620M680 110V620M840 110V620M1000 110V620"/>
+  <circle cx="1120" cy="120" r="220" fill="#84cc16" opacity="0.10"/>
+  <circle cx="1180" cy="640" r="280" fill="#22c55e" opacity="0.07"/>
+  <g opacity="0.18" stroke="#bef264" stroke-width="1">
+    <path d="M120 180H1160M120 260H1160M120 340H1160M120 420H1160M120 500H1160M120 580H1160"/>
+    <path d="M240 110V620M400 110V620M560 110V620M720 110V620M880 110V620M1040 110V620"/>
   </g>
-  <rect x="150" y="145" width="980" height="430" rx="34" fill="url(#card)" stroke="#bef264" stroke-opacity="0.28" stroke-width="2"/>
-  <rect x="190" y="185" width="190" height="38" rx="19" fill="#bef264" opacity="0.95"/>
-  <text x="215" y="211" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" letter-spacing="2">WEBOGROWTH GUIDE</text>
-  <text x="190" y="330" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800">${safeTitle}</text>
-  <text x="190" y="405" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="500">${safeSubtitle}</text>
-  <path d="M190 475H530" stroke="#bef264" stroke-width="8" stroke-linecap="round"/>
-  <g transform="translate(840 262)">
-    <rect width="190" height="150" rx="24" fill="#111827" stroke="#84cc16" stroke-opacity="0.45"/>
-    <path d="M46 96l35-42 33 31 22-25 25 36" fill="none" stroke="#bef264" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="59" cy="50" r="14" fill="#bef264"/>
-  </g>
+  <rect x="120" y="135" width="1040" height="450" rx="36" fill="url(#card)" stroke="#bef264" stroke-opacity="0.32" stroke-width="2"/>
+  <rect x="${padX}" y="${badgeY}" width="${badgeWidth}" height="${badgeHeight}" rx="21" fill="url(#accent)"/>
+  <text x="${padX + badgePadX}" y="${badgeY + 28}" fill="#0a0f05" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="800" letter-spacing="2">${badgeLabel}</text>
+  <text fill="#f8fafc" font-family="Inter, Arial, Helvetica, sans-serif" font-size="${titleSize}" font-weight="800" y="${titleStartY}" style="letter-spacing:-1px">${titleTspans}</text>
+  <text x="${padX}" y="${subtitleY}" fill="#94a3b8" font-family="Inter, Arial, Helvetica, sans-serif" font-size="26" font-weight="500">${safeSubtitle}</text>
+  <path d="M${padX} ${underlineY}H${padX + 320}" stroke="url(#accent)" stroke-width="8" stroke-linecap="round"/>
+  <text x="1140" y="560" text-anchor="end" fill="#475569" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" letter-spacing="3">TOOLS.WEBOGROWTH.COM</text>
 </svg>
 `;
 
@@ -486,29 +482,25 @@ function repairJsonStrings(input) {
 }
 
 
-writeLog(`topic="${topic.title}" slug=${slugify(topic.title)} existingSlugs=${existingSlugs.size}`);
+const post = normalizePost(await callModel());
 
-const post = await stage("call-model", async () => normalizePost(await callModel()));
-writeLog(`post.slug=${post.slug} fallback=${!!post._fallback} bodyChars=${(post.body || "").length}`);
-
-await stage("validate-required", async () => {
-  const required = ["slug", "title", "description", "keywords", "category", "readMinutes", "excerpt", "relatedTools", "body"];
-  for (const k of required) if (post[k] == null) Object.assign(post, normalizePost(buildFallbackPost(`missing field: ${k}`)));
-});
+// ---- validate ----
+const required = ["slug", "title", "description", "keywords", "category", "readMinutes", "excerpt", "relatedTools", "body"];
+for (const k of required) if (post[k] == null) Object.assign(post, normalizePost(buildFallbackPost(`missing field: ${k}`)));
 
 const today = new Date().toISOString().slice(0, 10);
 
-// ---- generate cover image via Google Gemini Image API ----
-async function generateCover(prompt, slug) {
-  if (dry) return null;
-  if (!apiKey) return null;
-  if (!prompt) return null;
-  try {
-    const url = `${GEMINI_BASE}/${IMAGE_MODEL}:generateContent?key=${apiKey}`;
-    const res = await fetchWithRetry(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+// ---- generate cover image via Google Gemini Image API (try multiple models) ----
+async function tryImageModel(model, prompt) {
+  const url = `${GEMINI_BASE}/${model}:generateContent?key=${apiKey}`;
+  const isImagen = model.startsWith("imagen-");
+  const body = isImagen
+    ? {
+        // Imagen REST shape
+        instances: [{ prompt: `16:9 widescreen editorial cover. Modern, clean, professional, dark-mode friendly with subtle lime-green accents. No text, no watermarks, no logos. Scene: ${prompt}` }],
+        parameters: { sampleCount: 1, aspectRatio: "16:9" },
+      }
+    : {
         contents: [
           {
             role: "user",
@@ -520,59 +512,82 @@ async function generateCover(prompt, slug) {
           },
         ],
         generationConfig: { responseModalities: ["IMAGE", "TEXT"] },
-      }),
-    });
-    if (!res.ok) {
-      const t = await res.text();
-      writeLog(`image gen HTTP ${res.status}: ${t.slice(0, 300)}`);
-      console.warn(`✗ Image gen failed ${res.status}: ${t}`);
-      return null;
-    }
-    const data = await res.json();
+      };
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`${model} HTTP ${res.status}: ${txt.slice(0, 250)}`);
+  }
+  const data = await res.json();
+  // Imagen returns predictions[].bytesBase64Encoded; Gemini returns candidates[0].content.parts[].inlineData
+  let b64, mimeType;
+  if (isImagen) {
+    const pred = data?.predictions?.[0];
+    b64 = pred?.bytesBase64Encoded;
+    mimeType = pred?.mimeType || "image/png";
+  } else {
     const parts = data?.candidates?.[0]?.content?.parts || [];
     const imgPart = parts.find((p) => p.inlineData?.data);
-    if (!imgPart) {
-      writeLog(`image gen no inlineData: ${JSON.stringify(data).slice(0, 300)}`);
-      console.warn("✗ No image data in response: " + JSON.stringify(data).slice(0, 300));
-      return null;
-    }
-    const buf = Buffer.from(imgPart.inlineData.data, "base64");
-    const dir = path.join(ROOT, "public/blog-images");
-    fs.mkdirSync(dir, { recursive: true });
-    const mimeType = String(imgPart.inlineData.mimeType || "image/png").toLowerCase();
-    const ext = mimeType.includes("jpeg") || mimeType.includes("jpg") ? "jpg" : mimeType.includes("webp") ? "webp" : "png";
-    const filename = `${slug}.${ext}`;
-    fs.writeFileSync(path.join(dir, filename), buf);
-    console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB)`);
-    return `/blog-images/${filename}`;
-  } catch (e) {
-    writeLog(`image gen exception: ${e?.stack || e?.message || e}`);
-    console.warn(`✗ Image gen error: ${e.message}`);
-    return null;
+    b64 = imgPart?.inlineData?.data;
+    mimeType = imgPart?.inlineData?.mimeType || "image/png";
   }
+  if (!b64) throw new Error(`${model} returned no image bytes: ${JSON.stringify(data).slice(0, 250)}`);
+  return { b64, mimeType };
 }
 
-const coverPath = await stage("generate-cover", async () =>
-  (post._fallback ? null : await generateCover(post.imagePrompt, post.slug)) ?? createFallbackCover(post.slug, post.title, post.imageAlt),
-);
+async function generateCover(prompt, slug) {
+  if (dry) return null;
+  if (!apiKey) return null;
+  if (!prompt) return null;
+
+  let lastErr;
+  for (const model of IMAGE_MODELS) {
+    try {
+      console.log(`  → trying image model: ${model}`);
+      const { b64, mimeType } = await tryImageModel(model, prompt);
+      const buf = Buffer.from(b64, "base64");
+      const dir = path.join(ROOT, "public/blog-images");
+      fs.mkdirSync(dir, { recursive: true });
+      const mt = String(mimeType).toLowerCase();
+      const ext = mt.includes("jpeg") || mt.includes("jpg") ? "jpg" : mt.includes("webp") ? "webp" : "png";
+      const filename = `${slug}.${ext}`;
+      fs.writeFileSync(path.join(dir, filename), buf);
+      console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB) via ${model}`);
+      return `/blog-images/${filename}`;
+    } catch (e) {
+      lastErr = e;
+      console.warn(`  ✗ ${e.message}`);
+    }
+  }
+  console.warn(`✗ All image models failed. Last error: ${lastErr?.message || "unknown"}`);
+  return null;
+}
+
+
+const coverPath = (post._fallback ? null : await generateCover(post.imagePrompt, post.slug)) ?? createFallbackCover(post.slug, post.title, post.imageAlt);
 const coverAlt = post.imageAlt || post.title;
 
 // ---- build TS literal ----
-const { updatedPosts, updatedSitemap, block } = await stage("splice-files", async () => {
-  const esc = (s) => s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
-  const relatedTools = post.relatedTools
-    .filter((t) => t && t.label && t.path)
-    .slice(0, 4)
-    .map((t) => `      { label: ${JSON.stringify(t.label)}, path: ${JSON.stringify(t.path)} },`)
-    .join("\n");
+const esc = (s) => s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+const relatedTools = post.relatedTools
+  .filter((t) => t && t.label && t.path)
+  .slice(0, 4)
+  .map((t) => `      { label: ${JSON.stringify(t.label)}, path: ${JSON.stringify(t.path)} },`)
+  .join("\n");
 
-  let finalBody = post.body;
-  if (!/webogrowth\.com/i.test(finalBody)) {
-    finalBody += `\n\n---\n\n*Published by the team at [WeboGrowth](https://webogrowth.com) — SEO &amp; growth services for ambitious brands.*\n`;
-  }
+// Guarantee a webogrowth.com link exists in the body
+let finalBody = post.body;
+if (!/webogrowth\.com/i.test(finalBody)) {
+  finalBody += `\n\n---\n\n*Published by the team at [WeboGrowth](https://webogrowth.com) — SEO &amp; growth services for ambitious brands.*\n`;
+}
 
-  const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
-  const block = `  post({
+const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
+
+const block = `  post({
     slug: ${JSON.stringify(post.slug)},
     title: ${JSON.stringify(post.title)},
     description: ${JSON.stringify(post.description)},
@@ -589,39 +604,30 @@ ${relatedTools}
   }),
 ];`;
 
-  const updatedPosts = postsSrc.replace(/\n\];\s*\n\nexport const getPostBySlug/, `\n${block}\n\nexport const getPostBySlug`);
-  if (updatedPosts === postsSrc) {
-    fs.writeFileSync(path.join(DEBUG_DIR, "posts.snapshot.ts"), postsSrc.slice(-2000));
-    throw new Error("Failed to splice post into src/blog/posts.ts (regex did not match — see .debug/posts.snapshot.ts)");
-  }
+const updatedPosts = postsSrc.replace(/\n\];\s*\n\nexport const getPostBySlug/, `\n${block}\n\nexport const getPostBySlug`);
+if (updatedPosts === postsSrc) throw new Error("Failed to splice post into src/blog/posts.ts");
 
-  const sitemap = fs.readFileSync(SITEMAP, "utf8");
-  const newUrl = `  <url><loc>${SITE}/blog/${post.slug}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n</urlset>`;
-  const updatedSitemap = sitemap.includes(`/blog/${post.slug}`) ? sitemap : sitemap.replace("</urlset>", newUrl);
+// ---- sitemap entry ----
+const sitemap = fs.readFileSync(SITEMAP, "utf8");
+const newUrl = `  <url><loc>${SITE}/blog/${post.slug}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n</urlset>`;
+const updatedSitemap = sitemap.includes(`/blog/${post.slug}`)
+  ? sitemap
+  : sitemap.replace("</urlset>", newUrl);
 
-  return { updatedPosts, updatedSitemap, block };
-});
-
-await stage("mark-queue", async () => {
-  const idx = queue.findIndex((t) => t.title === topic.title);
-  if (idx === -1) throw new Error(`Topic not found in queue: ${topic.title}`);
-  queue[idx].posted = new Date().toISOString();
-  queue[idx].slug = post.slug;
-});
+// ---- mark queue ----
+const idx = queue.findIndex((t) => t.title === topic.title);
+queue[idx].posted = new Date().toISOString();
+queue[idx].slug = post.slug;
 
 if (dry) {
   console.log("--- DRY RUN ---\n", block.slice(0, 600), "\n...");
-  flushStages({ result: "dry-run" });
   process.exit(0);
 }
 
-await stage("write-files", async () => {
-  fs.writeFileSync(POSTS, updatedPosts);
-  fs.writeFileSync(SITEMAP, updatedSitemap);
-  fs.writeFileSync(QUEUE, JSON.stringify(queue, null, 2) + "\n");
-});
+fs.writeFileSync(POSTS, updatedPosts);
+fs.writeFileSync(SITEMAP, updatedSitemap);
+fs.writeFileSync(QUEUE, JSON.stringify(queue, null, 2) + "\n");
 
 console.log(`✓ Published /blog/${post.slug}`);
 console.log(`  title: ${post.title}`);
 console.log(`  words: ~${post.body.split(/\s+/).length}`);
-flushStages({ result: "ok", slug: post.slug, coverPath });
