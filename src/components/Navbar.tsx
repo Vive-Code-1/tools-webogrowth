@@ -157,7 +157,7 @@ const Navbar = () => {
                 <div className="fixed inset-x-0 top-[52px] h-5 z-40" aria-hidden="true" />
                 <div
                   role="menu"
-                  className="fixed top-[68px] left-1/2 -translate-x-1/2 w-[min(1120px,calc(100vw-1.5rem))] max-h-[calc(100vh-84px)] bg-surface-container-low/95 backdrop-blur-xl rounded-2xl border border-outline-variant/15 shadow-2xl animate-fade-in overflow-hidden flex flex-col z-50"
+                  className="fixed top-[68px] left-1/2 -translate-x-1/2 w-[min(1120px,calc(100vw-1.5rem))] max-h-[calc(100vh-84px)] bg-surface-container-low backdrop-blur-2xl rounded-2xl border border-outline-variant/25 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-1 ring-inset ring-white/5 animate-fade-in overflow-hidden flex flex-col z-50 before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-white/[0.06] before:via-transparent before:to-transparent"
                 >
                   <div className="p-4 md:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 overflow-y-auto">
                     {toolCategories.map((cat) => (
@@ -209,7 +209,7 @@ const Navbar = () => {
                       </section>
                     ))}
                   </div>
-                  <div className="border-t border-outline-variant/15 bg-surface-container-low/60 px-5 py-2.5 flex items-center justify-between shrink-0">
+                  <div className="relative border-t border-outline-variant/20 bg-surface-container px-5 py-2.5 flex items-center justify-between shrink-0">
                     <span className="text-[11px] text-on-surface-variant/70">
                       Free, browser-based — no signup required
                     </span>
