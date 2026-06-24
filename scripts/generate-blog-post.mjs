@@ -37,7 +37,13 @@ if (!apiKey && !dry) {
 
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 const TEXT_MODEL = "gemini-2.5-flash";
-const IMAGE_MODEL = "gemini-2.5-flash-image";
+// Try multiple image models in order — Gemini occasionally renames endpoints.
+const IMAGE_MODELS = [
+  "gemini-2.5-flash-image-preview",
+  "gemini-2.5-flash-image",
+  "gemini-2.0-flash-preview-image-generation",
+  "imagen-3.0-generate-002",
+];
 
 // ---- pick next topic ----
 const queue = JSON.parse(fs.readFileSync(QUEUE, "utf8"));
