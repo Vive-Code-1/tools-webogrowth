@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import { getPostBySlug, BLOG_POSTS } from "@/blog/posts";
 import ShareButtons from "@/components/ShareButtons";
 import { getPostFaqs, buildFaqPageSchema } from "@/blog/faq";
+import { getPostTags, slugify } from "@/blog/taxonomy";
 
 const SITE_URL = "https://tools.webogrowth.com";
 
@@ -104,12 +105,19 @@ const BlogPost = () => {
         <span className="mx-2">/</span>
         <Link to="/blog" className="hover:text-primary">Blog</Link>
         <span className="mx-2">/</span>
-        <span className="text-primary">{post.category}</span>
+        <Link to={`/blog/category/${slugify(post.category)}`} className="text-primary hover:underline">
+          {post.category}
+        </Link>
       </nav>
 
       <header className="mb-10">
         <div className="flex items-center gap-3 mb-4 text-xs uppercase tracking-widest font-label">
-          <span className="text-primary font-bold">{post.category}</span>
+          <Link
+            to={`/blog/category/${slugify(post.category)}`}
+            className="text-primary font-bold hover:underline"
+          >
+            {post.category}
+          </Link>
           <span className="text-on-surface-variant/40">•</span>
           <span className="text-on-surface-variant/60">{post.readMinutes} min read</span>
           <span className="text-on-surface-variant/40">•</span>
@@ -144,6 +152,27 @@ const BlogPost = () => {
       <div className="mt-10 pt-8 border-t border-outline-variant/15">
         <ShareButtons url={url} title={post.title} description={post.description} hashtags={["webogrowth", "webtools"]} />
       </div>
+
+      {(() => {
+        const tags = getPostTags(post);
+        if (tags.length === 0) return null;
+        return (
+          <section className="mt-10" aria-label="Post tags">
+            <p className="text-xs font-label uppercase tracking-widest text-on-surface-variant/60 font-bold mb-3">Tags</p>
+            <div className="flex flex-wrap gap-2">
+              {tags.map((t) => (
+                <Link
+                  key={t}
+                  to={`/blog/tag/${slugify(t)}`}
+                  className="px-3 py-1.5 rounded-full text-sm border border-outline-variant/20 hover:border-primary hover:text-primary transition-colors"
+                >
+                  #{t}
+                </Link>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
 
       <aside className="mt-16 p-6 bg-primary/5 border border-primary/20 rounded-2xl">
         <p className="text-xs font-label uppercase tracking-widest text-primary font-bold mb-3">Try the tools mentioned</p>

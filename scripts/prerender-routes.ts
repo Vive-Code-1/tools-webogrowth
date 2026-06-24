@@ -12,6 +12,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { TOOL_SEO, SITE, buildJsonLdFor, getSeoProps } from "../src/lib/seo";
 import { BLOG_POSTS } from "../src/blog/posts";
+import { getAllCategories, getAllTags, getPostsByCategorySlug, getPostsByTagSlug } from "../src/blog/taxonomy";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = resolve(__dirname, "../dist");
@@ -166,6 +167,62 @@ for (const p of BLOG_POSTS) {
           { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE.url}/blog` },
           { "@type": "ListItem", position: 3, name: p.title, item: url },
         ],
+      },
+    ],
+  });
+}
+
+// Blog categories
+for (const c of getAllCategories()) {
+  const path = `/blog/category/${c.slug}`;
+  const url = `${SITE.url}${path}`;
+  const posts = getPostsByCategorySlug(c.slug);
+  routes.push({
+    path,
+    title: `${c.name} — Blog Category | WeboGrowth Tools`,
+    description: `Browse ${c.count} ${c.name.toLowerCase()} guides and tutorials from the WeboGrowth Tools team.`,
+    canonicalUrl: url,
+    ogUrl: url,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: `${c.name} posts`,
+        url,
+        itemListElement: posts.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: `${SITE.url}/blog/${p.slug}`,
+          name: p.title,
+        })),
+      },
+    ],
+  });
+}
+
+// Blog tags
+for (const t of getAllTags()) {
+  const path = `/blog/tag/${t.slug}`;
+  const url = `${SITE.url}${path}`;
+  const posts = getPostsByTagSlug(t.slug);
+  routes.push({
+    path,
+    title: `${t.name} — Blog Tag | WeboGrowth Tools`,
+    description: `All blog posts tagged "${t.name}" on WeboGrowth Tools — ${t.count} ${t.count === 1 ? "guide" : "guides"}.`,
+    canonicalUrl: url,
+    ogUrl: url,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: `Posts tagged ${t.name}`,
+        url,
+        itemListElement: posts.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: `${SITE.url}/blog/${p.slug}`,
+          name: p.title,
+        })),
       },
     ],
   });
