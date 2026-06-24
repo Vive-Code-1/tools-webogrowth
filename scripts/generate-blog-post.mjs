@@ -355,7 +355,8 @@ Return STRICT JSON only — no markdown fence, no commentary. Schema:
   "relatedTools": [{ "label": "...", "path": "/..." }],
   "imagePrompt": "A short, vivid scene description (1-2 sentences) for a 16:9 editorial cover image illustrating the article. No text in the image. Modern, clean, professional. Dark background friendly. Include subject, mood, lighting, style.",
   "imageAlt": "Concise alt text for the cover image, includes the primary keyword naturally, ≤ 120 chars",
-  "body": "full markdown body, NO leading H1 (the page renders the title), starts with the intro paragraph"
+  "body": "full markdown body, NO leading H1 (the page renders the title), starts with the intro paragraph; MUST include an '## FAQ' H2 section with 4–6 H3 question/answer pairs",
+  "faqs": [{ "question": "...?", "answer": "2–4 plain sentences, no markdown" }]
 }`;
 
 const USER = `Topic: ${topic.title}
