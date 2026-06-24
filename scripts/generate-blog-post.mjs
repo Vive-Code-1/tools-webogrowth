@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 /**
- * Auto-generate a SEO-optimized blog post via Lovable AI Gateway.
+ * Auto-generate a SEO-optimized blog post via Google AI Studio (Gemini API).
  *
  * - Picks the next un-posted topic from marketing/blog-topic-queue.json
- * - Calls Gemini 2.5 Flash via the Lovable AI Gateway
+ * - Calls Gemini 2.5 Flash (text) + Gemini 2.5 Flash Image (cover) directly
+ *   on Google's Generative Language API using GEMINI_API_KEY
  * - Validates JSON, appends a fully-formed post to src/blog/posts.ts
- * - Adds a sitemap.xml entry
+ * - Adds a sitemap.xml entry, saves cover image to public/blog-images/
  * - Marks the topic as posted in the queue
  *
- * Required env: LOVABLE_API_KEY
+ * Required env: GEMINI_API_KEY  (get from https://aistudio.google.com/apikey)
  * Usage: node scripts/generate-blog-post.mjs [--dry] [--slug=custom-slug]
  */
 import fs from "node:fs";
@@ -28,11 +29,15 @@ const POSTS = path.join(ROOT, "src/blog/posts.ts");
 const SITEMAP = path.join(ROOT, "public/sitemap.xml");
 const SITE = "https://tools.webogrowth.com";
 
-const apiKey = process.env.LOVABLE_API_KEY;
+const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey && !dry) {
-  console.error("✗ LOVABLE_API_KEY missing. Set it as a repo secret.");
+  console.error("✗ GEMINI_API_KEY missing. Get one at https://aistudio.google.com/apikey and add it as a GitHub repo secret.");
   process.exit(1);
 }
+
+const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+const TEXT_MODEL = "gemini-2.5-flash";
+const IMAGE_MODEL = "gemini-2.5-flash-image";
 
 // ---- pick next topic ----
 const queue = JSON.parse(fs.readFileSync(QUEUE, "utf8"));
