@@ -85,7 +85,7 @@ const toolCategories: { label: string; tools: ToolItem[] }[] = [
       { label: "PageSpeed Analyzer", path: "/pagespeed-analyzer", desc: "Core Web Vitals at a glance", icon: DashboardSpeed02Icon, accent: "text-lime-400 bg-lime-400/10" },
       { label: "OG Preview", path: "/og-preview", desc: "See your link card before posting", icon: SearchVisualIcon, accent: "text-sky-400 bg-sky-400/10" },
       { label: "Robots.txt Generator", path: "/robots-generator", desc: "Control how crawlers see you", icon: Robot02Icon, accent: "text-slate-300 bg-slate-300/10" },
-      { label: "Color Palette", path: "/color-palette", desc: "Extract palettes from any image", icon: PaletteIcon, accent: "text-pink-400 bg-pink-400/10" },
+      { label: "Color Palette", path: "/color-palette", desc: "Extract palettes from any image", icon: ColorsIcon, accent: "text-pink-400 bg-pink-400/10" },
       { label: "Gradient Generator", path: "/gradient-generator", desc: "Build smooth CSS gradients", icon: PaintBoardIcon, accent: "text-purple-400 bg-purple-400/10" },
       { label: "Lorem Ipsum", path: "/lorem-ipsum", desc: "Filler text for mockups", icon: TextFontIcon, accent: "text-amber-400 bg-amber-400/10" },
       { label: "QR Code Generator", path: "/qr-code", desc: "Branded QR codes for any URL", icon: QrCode01Icon, accent: "text-lime-400 bg-lime-400/10" },
