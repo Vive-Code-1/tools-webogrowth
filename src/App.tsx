@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 
 const Compressor = lazy(() => import("./pages/Compressor"));
 const Converter = lazy(() => import("./pages/Converter"));
+const HeicToJpg = lazy(() => import("./pages/HeicToJpg"));
 const ImageToSvg = lazy(() => import("./pages/ImageToSvg"));
 const BackgroundRemover = lazy(() => import("./pages/BackgroundRemover"));
 const PdfToolkit = lazy(() => import("./pages/PdfToolkit"));
@@ -70,6 +71,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/compressor" element={<Compressor />} />
               <Route path="/converter" element={<Converter />} />
+              <Route path="/heic-to-jpg" element={<HeicToJpg />} />
               <Route path="/image-to-svg" element={<ImageToSvg />} />
               <Route path="/background-remover" element={<BackgroundRemover />} />
               <Route path="/pdf-toolkit" element={<PdfToolkit />} />
