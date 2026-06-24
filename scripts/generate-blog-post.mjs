@@ -490,17 +490,17 @@ for (const k of required) if (post[k] == null) Object.assign(post, normalizePost
 
 const today = new Date().toISOString().slice(0, 10);
 
-// ---- generate cover image via Google Gemini Image API ----
-async function generateCover(prompt, slug) {
-  if (dry) return null;
-  if (!apiKey) return null;
-  if (!prompt) return null;
-  try {
-    const url = `${GEMINI_BASE}/${IMAGE_MODEL}:generateContent?key=${apiKey}`;
-    const res = await fetchWithRetry(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+// ---- generate cover image via Google Gemini Image API (try multiple models) ----
+async function tryImageModel(model, prompt) {
+  const url = `${GEMINI_BASE}/${model}:generateContent?key=${apiKey}`;
+  const isImagen = model.startsWith("imagen-");
+  const body = isImagen
+    ? {
+        // Imagen REST shape
+        instances: [{ prompt: `16:9 widescreen editorial cover. Modern, clean, professional, dark-mode friendly with subtle lime-green accents. No text, no watermarks, no logos. Scene: ${prompt}` }],
+        parameters: { sampleCount: 1, aspectRatio: "16:9" },
+      }
+    : {
         contents: [
           {
             role: "user",
@@ -512,33 +512,61 @@ async function generateCover(prompt, slug) {
           },
         ],
         generationConfig: { responseModalities: ["IMAGE", "TEXT"] },
-      }),
-    });
-    if (!res.ok) {
-      console.warn(`✗ Image gen failed ${res.status}: ${await res.text()}`);
-      return null;
-    }
-    const data = await res.json();
+      };
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`${model} HTTP ${res.status}: ${txt.slice(0, 250)}`);
+  }
+  const data = await res.json();
+  // Imagen returns predictions[].bytesBase64Encoded; Gemini returns candidates[0].content.parts[].inlineData
+  let b64, mimeType;
+  if (isImagen) {
+    const pred = data?.predictions?.[0];
+    b64 = pred?.bytesBase64Encoded;
+    mimeType = pred?.mimeType || "image/png";
+  } else {
     const parts = data?.candidates?.[0]?.content?.parts || [];
     const imgPart = parts.find((p) => p.inlineData?.data);
-    if (!imgPart) {
-      console.warn("✗ No image data in response: " + JSON.stringify(data).slice(0, 300));
-      return null;
-    }
-    const buf = Buffer.from(imgPart.inlineData.data, "base64");
-    const dir = path.join(ROOT, "public/blog-images");
-    fs.mkdirSync(dir, { recursive: true });
-    const mimeType = String(imgPart.inlineData.mimeType || "image/png").toLowerCase();
-    const ext = mimeType.includes("jpeg") || mimeType.includes("jpg") ? "jpg" : mimeType.includes("webp") ? "webp" : "png";
-    const filename = `${slug}.${ext}`;
-    fs.writeFileSync(path.join(dir, filename), buf);
-    console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB)`);
-    return `/blog-images/${filename}`;
-  } catch (e) {
-    console.warn(`✗ Image gen error: ${e.message}`);
-    return null;
+    b64 = imgPart?.inlineData?.data;
+    mimeType = imgPart?.inlineData?.mimeType || "image/png";
   }
+  if (!b64) throw new Error(`${model} returned no image bytes: ${JSON.stringify(data).slice(0, 250)}`);
+  return { b64, mimeType };
 }
+
+async function generateCover(prompt, slug) {
+  if (dry) return null;
+  if (!apiKey) return null;
+  if (!prompt) return null;
+
+  let lastErr;
+  for (const model of IMAGE_MODELS) {
+    try {
+      console.log(`  → trying image model: ${model}`);
+      const { b64, mimeType } = await tryImageModel(model, prompt);
+      const buf = Buffer.from(b64, "base64");
+      const dir = path.join(ROOT, "public/blog-images");
+      fs.mkdirSync(dir, { recursive: true });
+      const mt = String(mimeType).toLowerCase();
+      const ext = mt.includes("jpeg") || mt.includes("jpg") ? "jpg" : mt.includes("webp") ? "webp" : "png";
+      const filename = `${slug}.${ext}`;
+      fs.writeFileSync(path.join(dir, filename), buf);
+      console.log(`✓ Cover image: /blog-images/${filename} (${Math.round(buf.length / 1024)} KB) via ${model}`);
+      return `/blog-images/${filename}`;
+    } catch (e) {
+      lastErr = e;
+      console.warn(`  ✗ ${e.message}`);
+    }
+  }
+  console.warn(`✗ All image models failed. Last error: ${lastErr?.message || "unknown"}`);
+  return null;
+}
+
 
 const coverPath = (post._fallback ? null : await generateCover(post.imagePrompt, post.slug)) ?? createFallbackCover(post.slug, post.title, post.imageAlt);
 const coverAlt = post.imageAlt || post.title;
