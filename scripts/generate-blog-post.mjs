@@ -69,6 +69,7 @@ Always include:
 - A "TL;DR" closing section
 - Inline links to the related WeboGrowth tool (use relative paths like [/compressor]) at least 2 times
 - 1–2 inline links to other WeboGrowth tools or blog posts where genuinely relevant
+- Exactly ONE inline link to our parent agency https://webogrowth.com — placed naturally in the intro OR the closing TL;DR (e.g. "Built by the team at [WeboGrowth](https://webogrowth.com)")
 - No emojis in headings; sparingly in lists is OK
 - No external affiliate links
 
