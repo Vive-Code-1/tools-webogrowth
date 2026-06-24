@@ -105,12 +105,19 @@ const BlogPost = () => {
         <span className="mx-2">/</span>
         <Link to="/blog" className="hover:text-primary">Blog</Link>
         <span className="mx-2">/</span>
-        <span className="text-primary">{post.category}</span>
+        <Link to={`/blog/category/${slugify(post.category)}`} className="text-primary hover:underline">
+          {post.category}
+        </Link>
       </nav>
 
       <header className="mb-10">
         <div className="flex items-center gap-3 mb-4 text-xs uppercase tracking-widest font-label">
-          <span className="text-primary font-bold">{post.category}</span>
+          <Link
+            to={`/blog/category/${slugify(post.category)}`}
+            className="text-primary font-bold hover:underline"
+          >
+            {post.category}
+          </Link>
           <span className="text-on-surface-variant/40">•</span>
           <span className="text-on-surface-variant/60">{post.readMinutes} min read</span>
           <span className="text-on-surface-variant/40">•</span>
