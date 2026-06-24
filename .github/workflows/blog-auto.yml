@@ -35,7 +35,9 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/blog/posts.ts public/sitemap.xml marketing/blog-topic-queue.json public/blog-images
+          mkdir -p public/blog-images
+          git add src/blog/posts.ts public/sitemap.xml marketing/blog-topic-queue.json
+          git add public/blog-images 2>/dev/null || true
           git commit -m "chore(blog): auto-publish daily SEO post [skip ci]"
           git push
 
