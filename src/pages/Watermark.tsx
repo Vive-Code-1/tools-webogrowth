@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 import DropZone from "@/components/DropZone";
+import ResultCountdownPanel from "@/components/ResultCountdownPanel";
 import JSZip from "jszip";
 import { useToast } from "@/hooks/use-toast";
 
@@ -22,7 +23,18 @@ const Watermark = () => {
   const [tile, setTile] = useState(false);
   const [outputs, setOutputs] = useState<{ name: string; url: string; blob: Blob }[]>([]);
   const [processing, setProcessing] = useState(false);
+  const [countdownKey, setCountdownKey] = useState(0);
   const previewRef = useRef<HTMLCanvasElement>(null);
+
+  const handleExpire = useCallback(() => {
+    setOutputs((prev) => {
+      prev.forEach((o) => {
+        if (o.url.startsWith("blob:")) URL.revokeObjectURL(o.url);
+      });
+      return [];
+    });
+  }, []);
+
 
   const drawWatermark = async (img: HTMLImageElement, logoImg: HTMLImageElement | null): Promise<Blob> => {
     const canvas = document.createElement("canvas");
@@ -112,7 +124,8 @@ const Watermark = () => {
       }
       if (logoUrl) URL.revokeObjectURL(logoUrl);
       setOutputs(results);
-      toast({ title: `Watermarked ${results.length} image${results.length > 1 ? "s" : ""}` });
+      setCountdownKey(Date.now());
+      toast({ title: `Watermarked ${results.length} image${results.length > 1 ? "s" : ""}`, description: "৫ মিনিটের মধ্যে ডাউনলোড করুন।" });
     } finally { setProcessing(false); }
   };
 
@@ -207,6 +220,14 @@ const Watermark = () => {
                 ))}
               </div>
             )}
+
+            <ResultCountdownPanel
+              active={outputs.length > 0}
+              resetKey={countdownKey}
+              onExpire={handleExpire}
+              onReconvert={processAll}
+            />
+
           </div>
         </div>
 

@@ -11,8 +11,8 @@ import {
   formatExtension,
   type ImageFormat,
 } from "@/lib/imageConvert";
-import { uploadToStorage, deleteFromStorage } from "@/lib/processedStorage";
 import { runWithConcurrency } from "@/lib/concurrency";
+import ResultCountdownPanel from "@/components/ResultCountdownPanel";
 
 const CONCURRENCY = 3;
 
@@ -82,13 +82,12 @@ const Converter = () => {
     else if (!sheetOpen && dy < -40) setSheetOpen(true);
   };
 
-  // ZIP download countdown
+  // ZIP download (local blob only — no cloud storage)
   const [zipUrl, setZipUrl] = useState<string | null>(null);
   const [zipName, setZipName] = useState<string>("");
-  const [secondsLeft, setSecondsLeft] = useState(0);
+  const [countdownKey, setCountdownKey] = useState(0);
   const [expired, setExpired] = useState(false);
   const zipUrlRef = useRef<string | null>(null);
-  const storagePathRef = useRef<string | null>(null);
 
   // Auto-collapse on conversion start, auto-expand when result ready / expired (mobile only)
   useEffect(() => {
@@ -103,36 +102,30 @@ const Converter = () => {
     if (zipUrl || expired) setSheetOpen(true);
   }, [zipUrl, expired]);
 
-
-
   const clearDownload = useCallback(() => {
     if (zipUrlRef.current && zipUrlRef.current.startsWith("blob:")) {
       URL.revokeObjectURL(zipUrlRef.current);
     }
-    if (storagePathRef.current) {
-      // Fire-and-forget server-side deletion
-      deleteFromStorage(storagePathRef.current);
-      storagePathRef.current = null;
-    }
     zipUrlRef.current = null;
+    setZipUrl(null);
   }, []);
 
-  // Tick countdown
-  useEffect(() => {
-    if (!zipUrl || expired) return;
-    const id = setInterval(() => {
-      setSecondsLeft((s) => {
-        if (s <= 1) {
-          clearInterval(id);
-          setExpired(true);
-          clearDownload();
-          return 0;
-        }
-        return s - 1;
-      });
-    }, 1000);
-    return () => clearInterval(id);
-  }, [zipUrl, expired, clearDownload]);
+  // Wipe everything when the 5-minute window expires: per-file blobs + ZIP.
+  const handleExpire = useCallback(() => {
+    clearDownload();
+    setExpired(true);
+    setItems((prev) =>
+      prev.map((i) => ({
+        ...i,
+        outBlob: undefined,
+        outSize: undefined,
+        outName: undefined,
+        status: i.status === "done" ? ("queued" as ItemStatus) : i.status,
+        progress: 0,
+        reachedTarget: undefined,
+      })),
+    );
+  }, [clearDownload]);
 
   // Cleanup on unmount
   useEffect(() => () => clearDownload(), [clearDownload]);
@@ -253,6 +246,12 @@ const Converter = () => {
 
       setProcessing(false);
 
+      // Start the 5-minute download window as soon as any conversion succeeded.
+      if (failed < targets.length) {
+        setCountdownKey(Date.now());
+        setExpired(false);
+      }
+
       if (failed) {
         toast({
           title: `${failed} image${failed > 1 ? "s" : ""} failed`,
@@ -298,25 +297,12 @@ const Converter = () => {
   const [preparing, setPreparing] = useState(false);
 
   const publishBlob = async (blob: Blob, fileName: string) => {
-    try {
-      const remote = await uploadToStorage(blob, fileName);
-      zipUrlRef.current = remote.url;
-      storagePathRef.current = remote.path;
-      setZipName(fileName);
-      setZipUrl(remote.url);
-    } catch (e) {
-      console.warn("Storage upload failed, using local blob URL:", e);
-      const url = URL.createObjectURL(blob);
-      zipUrlRef.current = url;
-      storagePathRef.current = null;
-      setZipName(fileName);
-      setZipUrl(url);
-      toast({
-        title: "Using local download",
-        description: "Cloud storage unavailable — download stays in your browser only.",
-      });
-    }
-    setSecondsLeft(COUNTDOWN_SECONDS);
+    // Local blob URL only — no cloud storage, zero DB usage.
+    const url = URL.createObjectURL(blob);
+    zipUrlRef.current = url;
+    setZipName(fileName);
+    setZipUrl(url);
+    setCountdownKey(Date.now());
     setExpired(false);
   };
 
@@ -378,9 +364,7 @@ const Converter = () => {
     }
   };
 
-  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
-  const ss = String(secondsLeft % 60).padStart(2, "0");
-  const progressPct = (secondsLeft / COUNTDOWN_SECONDS) * 100;
+  // (secondsLeft display now lives inside <ResultCountdownPanel/>)
 
   return (
     <>
@@ -606,9 +590,9 @@ const Converter = () => {
                         Converting
                       </span>
                     )}
-                    {zipUrl && !expired && (
+                    {doneItems.length > 0 && !expired && (
                       <span className="px-2 py-1 rounded-full bg-primary/20 text-primary font-bold whitespace-nowrap">
-                        Ready {mm}:{ss}
+                        Ready
                       </span>
                     )}
                   </div>
@@ -745,52 +729,21 @@ const Converter = () => {
               )}
 
               {zipUrl && !expired && (
-                <div className="bg-surface-container rounded-xl p-5 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary">timer</span>
-                      <span className="font-headline font-bold text-lg">{mm}:{ss}</span>
-                    </div>
-                    <span className="text-xs text-on-surface-variant uppercase tracking-widest font-bold">
-                      {storagePathRef.current ? "Cloud" : "Local"}
-                    </span>
-                  </div>
-                  <div className="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-primary transition-all duration-1000 rounded-full"
-                      style={{ width: `${progressPct}%` }}
-                    />
-                  </div>
-                  <button
-                    onClick={triggerDownload}
-                    className="w-full bg-primary text-on-primary py-4 rounded-lg font-bold flex items-center justify-center gap-3 active:scale-95 hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)]"
-                  >
-                    <span className="material-symbols-outlined">download</span>
-                    Download {doneItems.length > 1 ? "ZIP" : "File"}
-                  </button>
-                  <p className="text-[11px] text-on-surface-variant text-center">
-                    File auto-deletes from cloud in {mm}:{ss}
-                  </p>
-                </div>
+                <button
+                  onClick={triggerDownload}
+                  className="w-full bg-primary text-on-primary py-4 rounded-lg font-bold flex items-center justify-center gap-3 active:scale-95 hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)]"
+                >
+                  <span className="material-symbols-outlined">download</span>
+                  Download {doneItems.length > 1 ? "ZIP" : "File"}
+                </button>
               )}
 
-              {expired && (
-                <div className="bg-destructive/10 border border-destructive/40 rounded-xl p-5 text-center space-y-3">
-                  <span className="material-symbols-outlined text-destructive text-3xl">timer_off</span>
-                  <h4 className="font-headline font-bold text-destructive">Download window expired</h4>
-                  <p className="text-xs text-on-surface-variant">
-                    File has been deleted from cloud storage. Reconvert to download again.
-                  </p>
-                  <button
-                    onClick={handleConvertAgain}
-                    disabled={processing || !items.length}
-                    className="w-full bg-primary text-on-primary py-3 rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
-                  >
-                    <span className="material-symbols-outlined">refresh</span>
-                    আবার কনভার্ট করুন
-                  </button>
-                </div>
-              )}
+              <ResultCountdownPanel
+                active={doneItems.length > 0 || expired}
+                resetKey={countdownKey}
+                onExpire={handleExpire}
+                onReconvert={handleConvertAgain}
+              />
             </div>
             </div>
           </div>

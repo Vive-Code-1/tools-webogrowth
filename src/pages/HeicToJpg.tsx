@@ -3,7 +3,8 @@ import heic2any from "heic2any";
 import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
-import { uploadProcessedFile } from "@/lib/storage";
+import { uploadProcessedFile, deleteProcessedFile } from "@/lib/storage";
+import ResultCountdownPanel from "@/components/ResultCountdownPanel";
 
 import { toast } from "@/hooks/use-toast";
 
@@ -47,6 +48,17 @@ const HeicToJpg = () => {
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [countdownKey, setCountdownKey] = useState(0);
+
+  const handleExpire = useCallback(() => {
+    setResults((prev) => {
+      prev.forEach((r) => {
+        deleteProcessedFile(r.url);
+        if (r.previewUrl.startsWith("blob:")) URL.revokeObjectURL(r.previewUrl);
+      });
+      return [];
+    });
+  }, []);
 
   const acceptFiles = useCallback((files: File[]) => {
     const ok: File[] = [];
@@ -126,9 +138,10 @@ const HeicToJpg = () => {
     setProcessing(false);
     setProgress(null);
     if (out.length) {
+      setCountdownKey(Date.now());
       toast({
         title: `Converted ${out.length} file${out.length > 1 ? "s" : ""}`,
-        description: `Saved as ${ext.toUpperCase()} — ready to download.`,
+        description: `Saved as ${ext.toUpperCase()} — ${Math.round(out.length)} ready. ৫ মিনিটের মধ্যে ডাউনলোড করুন।`,
       });
     }
   };
@@ -325,6 +338,14 @@ const HeicToJpg = () => {
         {/* Results */}
         {results.length > 0 && (
           <div className="mt-10">
+            <div className="mb-5">
+              <ResultCountdownPanel
+                active={results.length > 0}
+                resetKey={countdownKey}
+                onExpire={handleExpire}
+                onReconvert={handleConvert}
+              />
+            </div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-headline font-bold text-lg">
                 Converted ({results.length})

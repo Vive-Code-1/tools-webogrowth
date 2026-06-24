@@ -13,7 +13,7 @@ import {
   avgLuminance,
   extractPaletteFromFile,
 } from "@/lib/palette";
-import { uploadToStorage, deleteFromStorage } from "@/lib/processedStorage";
+// (cloud storage removed — all downloads now stay in the browser as blob URLs)
 import { runWithConcurrency } from "@/lib/concurrency";
 
 const CONCURRENCY = 2;
@@ -91,10 +91,7 @@ const ImageToSvg = () => {
     if (zipUrlRef.current && zipUrlRef.current.startsWith("blob:")) {
       URL.revokeObjectURL(zipUrlRef.current);
     }
-    if (storagePathRef.current) {
-      deleteFromStorage(storagePathRef.current);
-      storagePathRef.current = null;
-    }
+    storagePathRef.current = null;
     zipUrlRef.current = null;
   }, []);
 
@@ -296,24 +293,12 @@ const ImageToSvg = () => {
   };
 
   const publishBlob = async (blob: Blob, fileName: string) => {
-    try {
-      const remote = await uploadToStorage(blob, fileName);
-      zipUrlRef.current = remote.url;
-      storagePathRef.current = remote.path;
-      setZipName(fileName);
-      setZipUrl(remote.url);
-    } catch (e) {
-      console.warn("Storage upload failed, using local blob URL:", e);
-      const url = URL.createObjectURL(blob);
-      zipUrlRef.current = url;
-      storagePathRef.current = null;
-      setZipName(fileName);
-      setZipUrl(url);
-      toast({
-        title: "Using local download",
-        description: "Cloud storage unavailable — download stays in your browser only.",
-      });
-    }
+    // Local blob URL only — no cloud storage, zero DB usage.
+    const url = URL.createObjectURL(blob);
+    zipUrlRef.current = url;
+    storagePathRef.current = null;
+    setZipName(fileName);
+    setZipUrl(url);
     setSecondsLeft(COUNTDOWN_SECONDS);
     setExpired(false);
   };

@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
 import RelatedTools from "@/components/RelatedTools";
 import DropZone from "@/components/DropZone";
+import ResultCountdownPanel from "@/components/ResultCountdownPanel";
 import { useToast } from "@/hooks/use-toast";
 
 const VideoToGif = () => {
@@ -19,8 +20,16 @@ const VideoToGif = () => {
   const [output, setOutput] = useState<{ url: string; size: number; name: string } | null>(null);
   const [progress, setProgress] = useState(0);
   const [busy, setBusy] = useState(false);
+  const [countdownKey, setCountdownKey] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const ffmpegRef = useRef<any>(null);
+
+  const handleExpire = useCallback(() => {
+    setOutput((cur) => {
+      if (cur && cur.url.startsWith("blob:")) URL.revokeObjectURL(cur.url);
+      return null;
+    });
+  }, []);
 
   const loadFFmpeg = async () => {
     if (ffmpegRef.current) return ffmpegRef.current;
@@ -74,7 +83,8 @@ const VideoToGif = () => {
         type: format === "gif" ? "image/gif" : `video/${format}`,
       });
       setOutput({ url: URL.createObjectURL(blob), size: blob.size, name: `${file.name.replace(/\.[^.]+$/, "")}.${format}` });
-      toast({ title: `Created ${format.toUpperCase()}` });
+      setCountdownKey(Date.now());
+      toast({ title: `Created ${format.toUpperCase()}`, description: "৫ মিনিটের মধ্যে ডাউনলোড করুন।" });
     } catch (e: any) {
       toast({ title: "Conversion failed", description: e.message, variant: "destructive" });
     } finally { setBusy(false); setProgress(0); }
@@ -152,6 +162,12 @@ const VideoToGif = () => {
                 )}
                 <p className="text-sm text-on-surface-variant">{(output.size / 1024).toFixed(1)} KB</p>
                 <a href={output.url} download={output.name} className="block text-center bg-secondary text-on-secondary font-bold py-3 rounded-lg">Download {output.name}</a>
+                <ResultCountdownPanel
+                  active={!!output}
+                  resetKey={countdownKey}
+                  onExpire={handleExpire}
+                  onReconvert={convert}
+                />
               </div>
             ) : (
               <div className="bg-surface-container rounded-xl p-12 text-center text-on-surface-variant">
