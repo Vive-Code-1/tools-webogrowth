@@ -12,6 +12,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { TOOL_SEO, SITE, buildJsonLdFor, getSeoProps } from "../src/lib/seo";
 import { BLOG_POSTS } from "../src/blog/posts";
+import { getAllCategories, getAllTags, getPostsByCategorySlug, getPostsByTagSlug } from "../src/blog/taxonomy";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = resolve(__dirname, "../dist");
