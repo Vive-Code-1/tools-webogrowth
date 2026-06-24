@@ -338,6 +338,14 @@ const HeicToJpg = () => {
         {/* Results */}
         {results.length > 0 && (
           <div className="mt-10">
+            <div className="mb-5">
+              <ResultCountdownPanel
+                active={results.length > 0}
+                resetKey={countdownKey}
+                onExpire={handleExpire}
+                onReconvert={handleConvert}
+              />
+            </div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-headline font-bold text-lg">
                 Converted ({results.length})
