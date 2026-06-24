@@ -94,7 +94,7 @@ const VideoToGif = () => {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           <div className="space-y-4">
             {!file && <DropZone accept="video/*" onFileSelect={onFile} label="Drop a video" sublabel="MP4, MOV, WebM up to 100MB" maxSizeMB={100} />}
             {videoUrl && (
