@@ -14,6 +14,7 @@ export interface BlogPost {
   excerpt: string;        // shown on blog index card
   relatedTools: { label: string; path: string }[];
   body: string;           // markdown
+  faqs?: { question: string; answer: string }[]; // optional explicit FAQ; auto-extracted from body if omitted
 }
 
 const post = (p: BlogPost): BlogPost => p;
