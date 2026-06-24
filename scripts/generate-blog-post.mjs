@@ -600,6 +600,12 @@ if (!/webogrowth\.com/i.test(finalBody)) {
 
 const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
 
+const faqsField = post.faqs && post.faqs.length > 0
+  ? `    faqs: [\n${post.faqs
+      .map((f) => `      { question: ${JSON.stringify(f.question)}, answer: ${JSON.stringify(f.answer)} },`)
+      .join("\n")}\n    ],\n`
+  : "";
+
 const block = `  post({
     slug: ${JSON.stringify(post.slug)},
     title: ${JSON.stringify(post.title)},
@@ -614,7 +620,8 @@ ${coverField}    excerpt: ${JSON.stringify(post.excerpt)},
 ${relatedTools}
     ],
     body: \`${esc(finalBody)}\`,
-  }),
+${faqsField}  }),
+];`;
 ];`;
 
 const updatedPosts = postsSrc.replace(/\n\];\s*\n\nexport const getPostBySlug/, `\n${block}\n\nexport const getPostBySlug`);
