@@ -116,23 +116,25 @@ async function callModel() {
     };
   }
   const url = `${GEMINI_BASE}/${TEXT_MODEL}:generateContent?key=${apiKey}`;
-  const res = await fetch(url, {
+  const body = JSON.stringify({
+    systemInstruction: { parts: [{ text: SYSTEM }] },
+    contents: [{ role: "user", parts: [{ text: USER }] }],
+    generationConfig: {
+      responseMimeType: "application/json",
+      temperature: 0.7,
+      maxOutputTokens: 8192,
+    },
+  });
+  const res = await fetchWithRetry(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: SYSTEM }] },
-      contents: [{ role: "user", parts: [{ text: USER }] }],
-      generationConfig: {
-        responseMimeType: "application/json",
-        temperature: 0.7,
-        maxOutputTokens: 8192,
-      },
-    }),
+    body,
   });
   if (!res.ok) {
     const t = await res.text();
     throw new Error(`Gemini API ${res.status}: ${t}`);
   }
+
   const data = await res.json();
   const content = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join("");
   if (!content) throw new Error("Empty completion: " + JSON.stringify(data).slice(0, 500));
