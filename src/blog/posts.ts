@@ -511,6 +511,13 @@ Validate first, format for humans, minify for machines. Use the [free WeboGrowth
       { label: "Color Palette", path: "/color-palette" },
       { label: "Image Compressor", path: "/compressor" },
     ],
+    faqs: [
+      { question: "Are free QR code generators safe to use?", answer: "Most are, but avoid generators that create 'dynamic' codes behind a third-party redirect — if that service shuts down, your code dies. Static QR codes generated client-side (like WeboGrowth's) point directly to your URL and last forever." },
+      { question: "What is the best size for a printed QR code?", answer: "A minimum of 2 × 2 cm (0.8 × 0.8 in) for short URLs scanned at arm's length, and at least 10 × 10 cm for posters or billboards. The rule of thumb is 1/10 of the scanning distance." },
+      { question: "Do QR codes expire?", answer: "Static QR codes (raw URL encoded in the pattern) never expire. Dynamic QR codes hosted by a service expire when the service stops redirecting — which is why static codes are safer for print." },
+      { question: "Can I add a logo to a QR code without breaking it?", answer: "Yes, as long as the logo covers less than 30% of the center and you use a higher error-correction level (H = 30%). Always test the scanned code on multiple phones before printing." },
+      { question: "Why does my QR code not scan?", answer: "Common causes are insufficient contrast (light pattern on light background), too small a size, glossy print finish causing glare, or excessive logo coverage in the middle." },
+    ],
     body: `## QR codes are everywhere again
 
 After a decade of being a punchline, QR codes are now one of the most-scanned interactions in retail, restaurants, packaging, events, and out-of-home advertising. Native camera support on iOS and Android killed the "I have to download an app" friction that made QR codes a joke in 2015.
