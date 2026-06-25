@@ -1,5 +1,6 @@
 import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
+import { TOTAL_TOOLS_LABEL } from "@/lib/tools";
 import { Link } from "react-router-dom";
 
 const services = [
@@ -31,7 +32,7 @@ const AboutUs = () => (
           <div>
             <h2 className="text-3xl font-headline font-bold mb-6">Our Mission</h2>
             <p className="text-on-surface-variant leading-relaxed mb-4">
-              At WeboGrowth, we believe that every business deserves access to high-quality digital tools and services. That's why we created WeboGrowth Tools — a collection of 17+ free online tools for developers, designers, and marketers.
+              At WeboGrowth, we believe that every business deserves access to high-quality digital tools and services. That's why we created WeboGrowth Tools — a collection of {TOTAL_TOOLS_LABEL} free online tools for developers, designers, and marketers.
             </p>
             <p className="text-on-surface-variant leading-relaxed">
               Our tools are designed to be fast, private, and accessible. Everything processes in your browser — no uploads, no data collection, no hidden costs.
@@ -40,7 +41,7 @@ const AboutUs = () => (
           <div className="bg-surface-container rounded-xl p-8 md:p-12">
             <div className="grid grid-cols-2 gap-6">
               {[
-                { value: "17+", label: "Free Tools" },
+                { value: TOTAL_TOOLS_LABEL, label: "Free Tools" },
                 { value: "100%", label: "Browser-Based" },
                 { value: "0", label: "Data Collected" },
                 { value: "24/7", label: "Available" },
