@@ -155,13 +155,26 @@ const Navbar = () => {
               <>
                 {/* Invisible hover bridge so the menu stays open while the cursor crosses the gap */}
                 <div className="fixed inset-x-0 top-[52px] h-5 z-40" aria-hidden="true" />
-                {/* Full-screen scrim: fully opaque solid background — nothing behind is visible */}
+                {/* Full-viewport scrim: solid opaque background + heavy blur fallback. Sits under navbar (z-50) and menu (z-50) but above all page content. */}
                 <div
-                  className="fixed inset-0 top-[64px] z-40 bg-background animate-fade-in"
+                  className="fixed inset-0 z-40 animate-fade-in"
                   aria-hidden="true"
                   onClick={() => setDesktopDropdown(false)}
-                  style={{ backdropFilter: "blur(40px)", WebkitBackdropFilter: "blur(40px)" }}
-                />
+                >
+                  {/* Layer 1: heavy backdrop blur for browsers that support it */}
+                  <div
+                    className="absolute inset-0 supports-[backdrop-filter]:bg-background/70 bg-background"
+                    style={{
+                      backdropFilter: "blur(32px) saturate(140%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(140%)",
+                    }}
+                  />
+                  {/* Layer 2: solid opaque fallback so nothing leaks through even without backdrop-filter support */}
+                  <div className="absolute inset-0 bg-background/95" />
+                  {/* Layer 3: subtle gradient for depth */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background/90" />
+                </div>
+
 
                 <div
                   role="menu"
