@@ -163,19 +163,18 @@ const Navbar = () => {
           still covering all page content behind them. */}
       {desktopDropdown && (
         <div
-          className="fixed inset-0 z-[60] animate-fade-in"
+          className="fixed inset-0 z-[60] animate-fade-in bg-background"
           aria-hidden="true"
           onClick={() => setDesktopDropdown(false)}
         >
           <div
-            className="absolute inset-0 supports-[backdrop-filter]:bg-background/70 bg-background"
+            className="absolute inset-0 bg-background"
             style={{
               backdropFilter: "blur(32px) saturate(140%)",
               WebkitBackdropFilter: "blur(32px) saturate(140%)",
             }}
           />
-          <div className="absolute inset-0 bg-background/95" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
         </div>
       )}
 
