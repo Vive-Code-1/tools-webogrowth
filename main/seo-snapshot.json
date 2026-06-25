@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-25T03:18:58.248Z",
+  "generatedAt": "2026-06-25T03:31:42.851Z",
   "routes": {
     "/": {
-      "title": "WeboGrowth Tools — 17+ Free Online Web Tools",
+      "title": "WeboGrowth Tools — 31+ Free Online Web Tools",
       "description": "Free online tools for developers and designers. Compress images, format JSON, generate QR codes, build meta tags and more — fast, private, browser-based.",
       "keywords": "free online tools, web developer tools, image compressor online, json formatter, qr code generator, meta tag generator, css minifier, color palette generator",
       "canonicalPath": "/",
@@ -269,7 +269,7 @@
     },
     "/about-us": {
       "title": "About WeboGrowth Tools — Free Web Tools by WeboGrowth",
-      "description": "Learn about WeboGrowth Tools — a free, privacy-first toolkit of 17+ developer and designer utilities built by the WeboGrowth team.",
+      "description": "Learn about WeboGrowth Tools — a free, privacy-first toolkit of 31+ developer and designer utilities built by the WeboGrowth team.",
       "keywords": "about webogrowth, free web tools, webogrowth team, online developer tools",
       "canonicalPath": "/about-us",
       "jsonLdTypes": [

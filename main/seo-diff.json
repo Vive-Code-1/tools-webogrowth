@@ -1,9 +1,31 @@
 {
   "baselineSource": "reports/baseline/seo-snapshot.json",
   "baselineAt": "2026-06-16T17:53:04.480Z",
-  "currentAt": "2026-06-25T03:18:58.248Z",
-  "totalChanges": 14,
+  "currentAt": "2026-06-25T03:31:42.851Z",
+  "totalChanges": 16,
   "changes": [
+    {
+      "path": "/",
+      "kind": "changed",
+      "diffs": [
+        {
+          "field": "title",
+          "before": "WeboGrowth Tools — 17+ Free Online Web Tools",
+          "after": "WeboGrowth Tools — 31+ Free Online Web Tools"
+        }
+      ]
+    },
+    {
+      "path": "/about-us",
+      "kind": "changed",
+      "diffs": [
+        {
+          "field": "description",
+          "before": "Learn about WeboGrowth Tools — a free, privacy-first toolkit of 17+ developer and designer utilities built by the WeboGrowth team.",
+          "after": "Learn about WeboGrowth Tools — a free, privacy-first toolkit of 31+ developer and designer utilities built by the WeboGrowth team."
+        }
+      ]
+    },
     {
       "path": "/image-to-svg",
       "kind": "added",
