@@ -5,6 +5,7 @@ import { useState } from "react";
 import heroAnimation from "@/assets/home-hero-animation.json";
 import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
+import { TOTAL_TOOLS_LABEL } from "@/lib/tools";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -50,7 +51,7 @@ const seoTools = [
 ];
 
 const stats = [
-  { value: "17+", label: "Free Tools" },
+  { value: TOTAL_TOOLS_LABEL, label: "Free Tools" },
   { value: "0ms", label: "Latency" },
   { value: "100%", label: "Privacy" },
 ];
@@ -133,7 +134,7 @@ const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.25 }}
               className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed"
             >
-              17+ free developer and designer tools for the modern web. Compress images, format JSON, generate QR codes, create meta tags, and more — all in your browser with 100% privacy.
+              {TOTAL_TOOLS_LABEL} free developer and designer tools for the modern web. Compress images, format JSON, generate QR codes, create meta tags, and more — all in your browser with 100% privacy.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

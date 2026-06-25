@@ -37,7 +37,7 @@ const DEFAULT_ADMIN: AdminUser = {
 
 const defaultSettings: AdminSettings = {
   siteTitle: "WeboGrowth Tools - Free Online Developer & Designer Tools",
-  siteDescription: "17+ free online tools: compress images, format JSON, generate QR codes, create meta tags, and more.",
+  siteDescription: "31+ free online tools: compress images, format JSON, generate QR codes, create meta tags, and more.",
   siteKeywords: "image compressor, json formatter, qr code generator, meta tag generator, free online tools",
   googleSearchConsole: "",
   googleAnalytics: "",
