@@ -218,7 +218,7 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-headline font-bold">Compress, Convert & Optimize</h2>
         </div>
       </AnimatedSection>
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 [grid-auto-flow:dense]">
         {imageTools.map((tool, i) => <ToolCard key={tool.path} tool={tool} index={i} />)}
       </div>
     </section>
@@ -230,7 +230,7 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-headline font-bold">Format, Minify & Convert</h2>
         </div>
       </AnimatedSection>
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 [grid-auto-flow:dense]">
         {devTools.map((tool, i) => <ToolCard key={tool.path} tool={tool} index={i} />)}
       </div>
     </section>
@@ -242,7 +242,7 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-headline font-bold">Generate, Preview & Create</h2>
         </div>
       </AnimatedSection>
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 [grid-auto-flow:dense]">
         {seoTools.map((tool, i) => <ToolCard key={tool.path} tool={tool} index={i} />)}
       </div>
     </section>
