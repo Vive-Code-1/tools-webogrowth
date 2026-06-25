@@ -34,6 +34,7 @@ const Navbar = () => {
     `transition-all duration-300 ${location.pathname === path ? "text-primary" : "text-on-surface-variant hover:text-primary"}`;
 
   return (
+    <>
     <header className="fixed top-0 w-full z-[70] bg-surface-container-low/90 backdrop-blur-xl border-b border-outline-variant/10">
       <nav className="relative z-[80] flex justify-between items-center px-6 md:px-8 py-4 max-w-7xl mx-auto">
         <Link to="/" className="flex items-center gap-2">
@@ -159,26 +160,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Full-viewport scrim for the desktop mega menu. It stays below the nav and menu, while
-          still covering all page content behind them. */}
-      {desktopDropdown && (
-        <div
-          className="fixed inset-0 z-[60] animate-fade-in bg-background"
-          aria-hidden="true"
-          onClick={() => setDesktopDropdown(false)}
-        >
-          <div
-            className="absolute inset-0 bg-background"
-            style={{
-              backdropFilter: "blur(32px) saturate(140%)",
-              WebkitBackdropFilter: "blur(32px) saturate(140%)",
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
-        </div>
-      )}
-
-
       {mobileOpen && (
         <div id="mobile-navigation" className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
           <Link to="/" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname === "/" ? "text-primary" : "text-on-surface-variant"}`}>Home</Link>
@@ -209,6 +190,26 @@ const Navbar = () => {
         </div>
       )}
     </header>
+
+    {/* Full-viewport scrim for the desktop mega menu. It is outside the backdrop-filtered header,
+        so inset-0 reliably covers the viewport in all browsers while staying below nav/menu. */}
+    {desktopDropdown && (
+      <div
+        className="fixed inset-0 z-[60] animate-fade-in bg-background"
+        aria-hidden="true"
+        onClick={() => setDesktopDropdown(false)}
+      >
+        <div
+          className="absolute inset-0 bg-background"
+          style={{
+            backdropFilter: "blur(32px) saturate(140%)",
+            WebkitBackdropFilter: "blur(32px) saturate(140%)",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
+      </div>
+    )}
+    </>
   );
 };
 
