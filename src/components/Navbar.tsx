@@ -159,6 +159,28 @@ const Navbar = () => {
         </div>
       </nav>
 
+      {/* Full-viewport scrim for the desktop mega menu. Rendered as a sibling of <nav> so it
+          sits OUTSIDE nav's stacking context — otherwise z-40 inside nav (z-50) would paint
+          over the logo and buttons. Inside <header> (z-50): nav z-50 stays above this z-40. */}
+      {desktopDropdown && (
+        <div
+          className="fixed inset-0 z-40 animate-fade-in"
+          aria-hidden="true"
+          onClick={() => setDesktopDropdown(false)}
+        >
+          <div
+            className="absolute inset-0 supports-[backdrop-filter]:bg-background/70 bg-background"
+            style={{
+              backdropFilter: "blur(32px) saturate(140%)",
+              WebkitBackdropFilter: "blur(32px) saturate(140%)",
+            }}
+          />
+          <div className="absolute inset-0 bg-background/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background/90" />
+        </div>
+      )}
+
+
       {mobileOpen && (
         <div id="mobile-navigation" className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
           <Link to="/" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname === "/" ? "text-primary" : "text-on-surface-variant"}`}>Home</Link>
