@@ -1,5 +1,6 @@
 // Central SEO registry — one source of truth for titles, descriptions,
 // keywords, FAQ + HowTo content, and JSON-LD generation for every page.
+import { TOTAL_TOOLS_LABEL } from "./tools";
 
 export const SITE = {
   url: "https://tools.webogrowth.com",
@@ -36,7 +37,7 @@ const f = (path: string, data: Omit<ToolSeo, "path" | "rating"> & { rating?: Too
 
 export const TOOL_SEO: Record<string, ToolSeo> = {
   "/": f("/", {
-    title: "WeboGrowth Tools — 17+ Free Online Web Tools",
+    title: `WeboGrowth Tools — ${TOTAL_TOOLS_LABEL} Free Online Web Tools`,
     description:
       "Free online tools for developers and designers. Compress images, format JSON, generate QR codes, build meta tags and more — fast, private, browser-based.",
     keywords:
@@ -44,7 +45,7 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
     category: "Site",
     h1: "Optimize Your Web Assets",
     intro:
-      "WeboGrowth Tools is a free, privacy-first toolkit of 17+ utilities for image optimization, code formatting, SEO and design.",
+      `WeboGrowth Tools is a free, privacy-first toolkit of ${TOTAL_TOOLS_LABEL} utilities for image optimization, code formatting, SEO and design.`,
     features: [
       "Image Compressor", "Format Converter", "SVG Optimizer", "Favicon Generator",
       "Image Resizer", "JSON Formatter", "Meta Tag Generator", "Color Palette",
@@ -53,7 +54,7 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
       "HTML to Markdown",
     ],
     faqs: [
-      { q: "Are WeboGrowth Tools really free?", a: "Yes. All 17+ tools are 100% free with no signup, no watermarks, and no usage limits." },
+      { q: "Are WeboGrowth Tools really free?", a: `Yes. All ${TOTAL_TOOLS_LABEL} tools are 100% free with no signup, no watermarks, and no usage limits.` },
       { q: "Is my data safe?", a: "All processing happens in your browser. Files are not uploaded to a server unless explicitly required, ensuring full privacy." },
       { q: "Do I need to install anything?", a: "No installation required. Every tool runs directly in modern browsers like Chrome, Firefox, Safari and Edge." },
       { q: "Can I use these tools commercially?", a: "Yes. Output from every tool is free to use in personal and commercial projects." },
@@ -540,7 +541,7 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   "/about-us": f("/about-us", {
     title: "About WeboGrowth Tools — Free Web Tools by WeboGrowth",
     description:
-      "Learn about WeboGrowth Tools — a free, privacy-first toolkit of 17+ developer and designer utilities built by the WeboGrowth team.",
+      `Learn about WeboGrowth Tools — a free, privacy-first toolkit of ${TOTAL_TOOLS_LABEL} developer and designer utilities built by the WeboGrowth team.`,
     keywords: "about webogrowth, free web tools, webogrowth team, online developer tools",
     category: "Site",
     h1: "About WeboGrowth Tools",
