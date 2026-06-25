@@ -15,7 +15,7 @@ const imageTools = [
   { title: "Format Converter", desc: "Transform assets between formats instantly. Supports AVIF, WebP, and SVG.", icon: "swap_horiz", path: "/converter", span: "md:col-span-4", tags: ["WebP", "AVIF", "SVG"] },
   { title: "HEIC to JPG Converter", desc: "Convert iPhone HEIC photos to JPG, PNG or WebP in batch. 100% browser-based — your photos never leave your device.", icon: "photo_camera", path: "/heic-to-jpg", span: "md:col-span-6", tags: ["iPhone", "Batch", "JPG"] },
   { title: "AI Background Remover", desc: "Remove image backgrounds with on-device AI. Bulk processing, transparent PNG output, 100% private — no upload to any server.", icon: "background_replace", path: "/background-remover", span: "md:col-span-6", tags: ["AI", "Bulk", "PNG"] },
-  { title: "Image to SVG Icon", desc: "Vectorize PNG, JPG or WebP into scalable SVG icons in standard sizes (16–256px). Bulk upload, color or B&W tracing.", icon: "polyline", path: "/image-to-svg", span: "md:col-span-6", tags: ["SVG", "Icon", "Vector"] },
+  { title: "Image to SVG Icon", desc: "Vectorize PNG, JPG or WebP into scalable SVG icons in standard sizes (16–256px). Bulk upload, color or B&W tracing.", icon: "polyline", path: "/image-to-svg", span: "md:col-span-4", tags: ["SVG", "Icon", "Vector"] },
   { title: "Video → GIF Converter", desc: "Convert short videos to optimized GIF, WebM or MP4 with trimming, FPS and resolution control. Powered by FFmpeg in your browser.", icon: "gif_box", path: "/video-to-gif", span: "md:col-span-8", large: true, tags: ["GIF", "WebM", "MP4"] },
   { title: "Watermark Tool", desc: "Add text or logo watermarks to bulk images. Position, opacity and tile pattern.", icon: "branding_watermark", path: "/watermark", span: "md:col-span-4", tags: ["Bulk"] },
   { title: "SVG Path Optimizer", desc: "Clean up messy exports from Illustrator or Figma. Minify paths and remove metadata.", icon: "slide_library", path: "/svg-optimizer", span: "md:col-span-4" },
@@ -47,7 +47,7 @@ const seoTools = [
   { title: "Color Palette", desc: "Generate complementary, analogous, and triadic palettes from any base color.", icon: "palette", path: "/color-palette", span: "md:col-span-4" },
   { title: "CSS Gradient", desc: "Create stunning CSS gradients visually. Choose colors, adjust angles, and copy CSS code.", icon: "gradient", path: "/gradient-generator", span: "md:col-span-4" },
   { title: "QR Code Generator", desc: "Generate advanced QR codes with logo overlay, custom shapes, WiFi, vCard and more.", icon: "qr_code_2", path: "/qr-code", span: "md:col-span-4" },
-  { title: "Lorem Ipsum Generator", desc: "Generate placeholder dummy text for your designs. Choose paragraphs, sentences, or words.", icon: "notes", path: "/lorem-ipsum", span: "md:col-span-6" },
+  { title: "Lorem Ipsum Generator", desc: "Generate placeholder dummy text for your designs. Choose paragraphs, sentences, or words.", icon: "notes", path: "/lorem-ipsum", span: "md:col-span-12" },
 ];
 
 const stats = [
@@ -218,7 +218,7 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-headline font-bold">Compress, Convert & Optimize</h2>
         </div>
       </AnimatedSection>
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 [grid-auto-flow:dense]">
         {imageTools.map((tool, i) => <ToolCard key={tool.path} tool={tool} index={i} />)}
       </div>
     </section>
@@ -230,7 +230,7 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-headline font-bold">Format, Minify & Convert</h2>
         </div>
       </AnimatedSection>
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 [grid-auto-flow:dense]">
         {devTools.map((tool, i) => <ToolCard key={tool.path} tool={tool} index={i} />)}
       </div>
     </section>
@@ -242,7 +242,7 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-headline font-bold">Generate, Preview & Create</h2>
         </div>
       </AnimatedSection>
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 [grid-auto-flow:dense]">
         {seoTools.map((tool, i) => <ToolCard key={tool.path} tool={tool} index={i} />)}
       </div>
     </section>
