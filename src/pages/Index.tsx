@@ -47,7 +47,7 @@ const seoTools = [
   { title: "Color Palette", desc: "Generate complementary, analogous, and triadic palettes from any base color.", icon: "palette", path: "/color-palette", span: "md:col-span-4" },
   { title: "CSS Gradient", desc: "Create stunning CSS gradients visually. Choose colors, adjust angles, and copy CSS code.", icon: "gradient", path: "/gradient-generator", span: "md:col-span-4" },
   { title: "QR Code Generator", desc: "Generate advanced QR codes with logo overlay, custom shapes, WiFi, vCard and more.", icon: "qr_code_2", path: "/qr-code", span: "md:col-span-4" },
-  { title: "Lorem Ipsum Generator", desc: "Generate placeholder dummy text for your designs. Choose paragraphs, sentences, or words.", icon: "notes", path: "/lorem-ipsum", span: "md:col-span-6" },
+  { title: "Lorem Ipsum Generator", desc: "Generate placeholder dummy text for your designs. Choose paragraphs, sentences, or words.", icon: "notes", path: "/lorem-ipsum", span: "md:col-span-12" },
 ];
 
 const stats = [
