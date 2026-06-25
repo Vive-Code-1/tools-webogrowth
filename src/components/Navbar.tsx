@@ -155,15 +155,14 @@ const Navbar = () => {
               <>
                 {/* Invisible hover bridge so the menu stays open while the cursor crosses the gap */}
                 <div className="fixed inset-x-0 top-[52px] h-5 z-40" aria-hidden="true" />
-                {/* Full-screen scrim: solid base + strong blur + gradient overlay so nothing behind shows through */}
+                {/* Full-screen scrim: fully opaque solid background — nothing behind is visible */}
                 <div
-                  className="fixed inset-0 top-[64px] z-40 animate-fade-in"
+                  className="fixed inset-0 top-[64px] z-40 bg-background animate-fade-in"
                   aria-hidden="true"
                   onClick={() => setDesktopDropdown(false)}
-                >
-                  <div className="absolute inset-0 bg-background/95 backdrop-blur-3xl" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background/70" />
-                </div>
+                  style={{ backdropFilter: "blur(40px)", WebkitBackdropFilter: "blur(40px)" }}
+                />
+
                 <div
                   role="menu"
                   className="fixed top-[68px] left-1/2 -translate-x-1/2 w-[min(1120px,calc(100vw-1.5rem))] max-h-[calc(100vh-84px)] bg-surface-container-low rounded-2xl border border-outline-variant/40 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.95)] ring-1 ring-inset ring-white/5 animate-fade-in overflow-hidden flex flex-col z-50 before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-white/[0.06] before:via-transparent before:to-transparent"
