@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface-container-low/70 backdrop-blur-xl">
-      <nav className="flex justify-between items-center px-6 md:px-8 py-4 max-w-7xl mx-auto">
+      <nav className="relative z-50 flex justify-between items-center px-6 md:px-8 py-4 max-w-7xl mx-auto">
         <Link to="/" className="flex items-center gap-2">
           {logo ? (
             <img src={logo} alt="WeboGrowth" className="h-8 w-auto" width="160" height="32" fetchPriority="high" decoding="async" />
