@@ -34,8 +34,9 @@ const Navbar = () => {
     `transition-all duration-300 ${location.pathname === path ? "text-primary" : "text-on-surface-variant hover:text-primary"}`;
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-surface-container-low/70 backdrop-blur-xl">
-      <nav className="relative z-50 flex justify-between items-center px-6 md:px-8 py-4 max-w-7xl mx-auto">
+    <>
+    <header className="fixed top-0 w-full z-[70] bg-surface-container-low/90 backdrop-blur-xl border-b border-outline-variant/10">
+      <nav className="relative z-[80] flex justify-between items-center px-6 md:px-8 py-4 max-w-7xl mx-auto">
         <Link to="/" className="flex items-center gap-2">
           {logo ? (
             <img src={logo} alt="WeboGrowth" className="h-8 w-auto" width="160" height="32" fetchPriority="high" decoding="async" />
@@ -64,13 +65,13 @@ const Navbar = () => {
             {desktopDropdown && (
               <>
                 {/* Invisible hover bridge so the menu stays open while the cursor crosses the gap */}
-                <div className="fixed inset-x-0 top-[52px] h-5 z-40" aria-hidden="true" />
+                <div className="fixed inset-x-0 top-[64px] h-8 z-[65]" aria-hidden="true" />
 
 
 
                 <div
                   role="menu"
-                  className="fixed top-[68px] left-1/2 -translate-x-1/2 w-[min(1120px,calc(100vw-1.5rem))] max-h-[calc(100vh-84px)] bg-surface-container-low rounded-2xl border border-outline-variant/40 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.95)] ring-1 ring-inset ring-white/5 animate-fade-in overflow-hidden flex flex-col z-50 before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-white/[0.06] before:via-transparent before:to-transparent"
+                  className="fixed top-[88px] left-1/2 -translate-x-1/2 w-[min(1120px,calc(100vw-1.5rem))] max-h-[calc(100vh-108px)] bg-surface-container-low rounded-2xl border border-outline-variant/40 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.95)] ring-1 ring-inset ring-white/5 animate-fade-in overflow-hidden flex flex-col z-[75] before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-white/[0.06] before:via-transparent before:to-transparent"
                 >
                   <div className="relative z-10 p-4 md:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 overflow-y-auto">
                     {toolCategories.map((cat) => (
@@ -159,28 +160,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Full-viewport scrim for the desktop mega menu. Rendered as a sibling of <nav> so it
-          sits OUTSIDE nav's stacking context — otherwise z-40 inside nav (z-50) would paint
-          over the logo and buttons. Inside <header> (z-50): nav z-50 stays above this z-40. */}
-      {desktopDropdown && (
-        <div
-          className="fixed inset-0 z-40 animate-fade-in"
-          aria-hidden="true"
-          onClick={() => setDesktopDropdown(false)}
-        >
-          <div
-            className="absolute inset-0 supports-[backdrop-filter]:bg-background/70 bg-background"
-            style={{
-              backdropFilter: "blur(32px) saturate(140%)",
-              WebkitBackdropFilter: "blur(32px) saturate(140%)",
-            }}
-          />
-          <div className="absolute inset-0 bg-background/95" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background/90" />
-        </div>
-      )}
-
-
       {mobileOpen && (
         <div id="mobile-navigation" className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
           <Link to="/" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname === "/" ? "text-primary" : "text-on-surface-variant"}`}>Home</Link>
@@ -211,6 +190,26 @@ const Navbar = () => {
         </div>
       )}
     </header>
+
+    {/* Full-viewport scrim for the desktop mega menu. It is outside the backdrop-filtered header,
+        so inset-0 reliably covers the viewport in all browsers while staying below nav/menu. */}
+    {desktopDropdown && (
+      <div
+        className="fixed inset-0 z-[60] animate-fade-in bg-background"
+        aria-hidden="true"
+        onClick={() => setDesktopDropdown(false)}
+      >
+        <div
+          className="absolute inset-0 bg-background"
+          style={{
+            backdropFilter: "blur(32px) saturate(140%)",
+            WebkitBackdropFilter: "blur(32px) saturate(140%)",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
+      </div>
+    )}
+    </>
   );
 };
 
