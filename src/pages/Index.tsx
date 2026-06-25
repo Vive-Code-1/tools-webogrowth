@@ -17,9 +17,9 @@ const imageTools = [
   { title: "AI Background Remover", desc: "Remove image backgrounds with on-device AI. Bulk processing, transparent PNG output, 100% private — no upload to any server.", icon: "background_replace", path: "/background-remover", span: "md:col-span-6", tags: ["AI", "Bulk", "PNG"] },
   { title: "Image to SVG Icon", desc: "Vectorize PNG, JPG or WebP into scalable SVG icons in standard sizes (16–256px). Bulk upload, color or B&W tracing.", icon: "polyline", path: "/image-to-svg", span: "md:col-span-4", tags: ["SVG", "Icon", "Vector"] },
   { title: "Video → GIF Converter", desc: "Convert short videos to optimized GIF, WebM or MP4 with trimming, FPS and resolution control. Powered by FFmpeg in your browser.", icon: "gif_box", path: "/video-to-gif", span: "md:col-span-8", large: true, tags: ["GIF", "WebM", "MP4"] },
-  { title: "Watermark Tool", desc: "Add text or logo watermarks to bulk images. Position, opacity and tile pattern.", icon: "branding_watermark", path: "/watermark", span: "md:col-span-4", tags: ["Bulk"] },
-  { title: "SVG Path Optimizer", desc: "Clean up messy exports from Illustrator or Figma. Minify paths and remove metadata.", icon: "slide_library", path: "/svg-optimizer", span: "md:col-span-4" },
-  { title: "Favicon Generator", desc: "Generate the complete set of icons for every platform. Includes Apple Touch Icons, Android manifest, and classic ICO formats.", icon: "branding_watermark", path: "/favicon", span: "md:col-span-8", large: true },
+  { title: "Watermark Tool", desc: "Add text or logo watermarks to bulk images. Position, opacity and tile pattern.", icon: "branding_watermark", path: "/watermark", span: "md:col-span-6", tags: ["Bulk"] },
+  { title: "SVG Path Optimizer", desc: "Clean up messy exports from Illustrator or Figma. Minify paths and remove metadata.", icon: "slide_library", path: "/svg-optimizer", span: "md:col-span-6" },
+  { title: "Favicon Generator", desc: "Generate the complete set of icons for every platform. Includes Apple Touch Icons, Android manifest, and classic ICO formats.", icon: "branding_watermark", path: "/favicon", span: "md:col-span-12", large: true },
   { title: "Image Resizer", desc: "Resize and crop images to exact dimensions with precision. Maintain aspect ratio or set custom values.", icon: "aspect_ratio", path: "/image-resizer", span: "md:col-span-6" },
   { title: "Placeholder Image", desc: "Generate custom placeholder images with specific dimensions, colors, and text for your mockups.", icon: "image", path: "/placeholder", span: "md:col-span-6" },
 ];
