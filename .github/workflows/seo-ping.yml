@@ -1,0 +1,37 @@
+name: SEO Auto-Index (IndexNow + Google Search Console)
+
+# Runs whenever sitemap.xml changes on main — i.e. a new blog post, a new tool,
+# or any new public route was added. Pings IndexNow (Bing/Yandex) and resubmits
+# the sitemap to Google Search Console so new URLs are discovered immediately.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "public/sitemap.xml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-ping
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+
+      - name: Ping IndexNow (Bing, Yandex, Seznam, Naver)
+        run: node scripts/indexnow-submit.mjs || true
+
+      - name: Resubmit sitemap to Google Search Console
+        run: |
+          curl -sS -X POST "https://vgfpjhimlztysvpxcgab.supabase.co/functions/v1/gsc-manage" \
+            -H "Content-Type: application/json" \
+            -d '{"action":"submit_sitemap","siteUrl":"https://tools.webogrowth.com/","feedpath":"https://tools.webogrowth.com/sitemap.xml"}' \
+            || true
