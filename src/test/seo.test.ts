@@ -12,6 +12,11 @@ const PUBLIC_ROUTES = [
   "/lorem-ipsum", "/robots-generator", "/og-preview", "/placeholder",
   "/html-to-markdown", "/privacy-policy", "/terms-of-service",
   "/about-us", "/contact-us",
+  // Newer tools — keep in sync with src/App.tsx <Route path=...> entries.
+  "/alt-text-generator", "/background-remover", "/curl-builder",
+  "/diff-checker", "/heic-to-jpg", "/image-to-svg", "/jwt-decoder",
+  "/pagespeed-analyzer", "/pdf-toolkit", "/regex-tester",
+  "/schema-generator", "/sitemap-generator", "/video-to-gif", "/watermark",
 ];
 
 // Blog routes are owned by Blog.tsx/BlogPost.tsx — they generate SEO at
