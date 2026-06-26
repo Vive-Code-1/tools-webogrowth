@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="How to Convert HEIC to JPG on iPhone (Step-by-Step 2026)">
+  <defs>
+    <radialGradient id="glow" cx="22%" cy="16%" r="78%">
+      <stop offset="0" stop-color="#bef264" stop-opacity="0.42"/>
+      <stop offset="0.45" stop-color="#365314" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#bef264"/>
+      <stop offset="1" stop-color="#65a30d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="#020617"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <circle cx="1120" cy="120" r="220" fill="#84cc16" opacity="0.10"/>
+  <circle cx="1180" cy="640" r="280" fill="#22c55e" opacity="0.07"/>
+  <g opacity="0.18" stroke="#bef264" stroke-width="1">
+    <path d="M120 180H1160M120 260H1160M120 340H1160M120 420H1160M120 500H1160M120 580H1160"/>
+    <path d="M240 110V620M400 110V620M560 110V620M720 110V620M880 110V620M1040 110V620"/>
+  </g>
+  <rect x="120" y="135" width="1040" height="450" rx="36" fill="url(#card)" stroke="#bef264" stroke-opacity="0.32" stroke-width="2"/>
+  <rect x="175" y="175" width="236" height="42" rx="21" fill="url(#accent)"/>
+  <text x="203" y="203" fill="#0a0f05" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="800" letter-spacing="2">WEBOGROWTH GUIDE</text>
+  <text fill="#f8fafc" font-family="Inter, Arial, Helvetica, sans-serif" font-size="56" font-weight="800" y="295" style="letter-spacing:-1px"><tspan x="175" >How to Convert HEIC to</tspan><tspan x="175" dy="63">JPG on iPhone</tspan><tspan x="175" dy="63">(Step-by-Step 2026)</tspan></text>
+  <text x="175" y="477" fill="#94a3b8" font-family="Inter, Arial, Helvetica, sans-serif" font-size="26" font-weight="500">how to convert heic to jpg on iphone guide cover image</text>
+  <path d="M175 515H495" stroke="url(#accent)" stroke-width="8" stroke-linecap="round"/>
+  <text x="1140" y="560" text-anchor="end" fill="#475569" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" letter-spacing="3">TOOLS.WEBOGROWTH.COM</text>
+</svg>
