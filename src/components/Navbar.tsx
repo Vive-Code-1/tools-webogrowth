@@ -183,7 +183,7 @@ const Navbar = () => {
       </nav>
 
       {mobileOpen && (
-        <div id="mobile-navigation" className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
+        <div id="mobile-navigation" className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto scrollbar-brand">
           <Link to="/" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname === "/" ? "text-primary" : "text-on-surface-variant"}`}>Home</Link>
           <Link to="/blog" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname.startsWith("/blog") ? "text-primary" : "text-on-surface-variant"}`}>Blog</Link>
           <Link to="/about-us" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname === "/about-us" ? "text-primary" : "text-on-surface-variant"}`}>About Us</Link>
