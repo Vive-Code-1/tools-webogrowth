@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { toolCategories } from "@/lib/tools";
 
@@ -10,6 +10,26 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopDropdown, setDesktopDropdown] = useState(false);
   const [logo, setLogo] = useState("");
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openMenu = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setDesktopDropdown(true);
+  };
+
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setDesktopDropdown(false), 180);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
 
   useEffect(() => {
     const loadLogo = () => {
