@@ -107,28 +107,47 @@ a[href*="lovable.dev"][target="_blank"],
   height: 0 !important;
 }
 
-/* Brand-colored scrollbar — used in mega menu and other scrollable surfaces. */
-.scrollbar-brand {
+/* ============================================================
+ * GLOBAL brand-colored scrollbar
+ * Applies site-wide: window scroll, every scrollable element,
+ * modals, dropdowns, textareas, code blocks, etc.
+ * ============================================================ */
+
+/* Firefox + modern browsers (thin variant) */
+html {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--primary) / 0.6) hsl(var(--surface-container-low, var(--background)) / 0.4);
+  scrollbar-color: hsl(var(--primary) / 0.7) hsl(var(--background) / 0.5);
 }
-.scrollbar-brand::-webkit-scrollbar {
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.7) hsl(var(--background) / 0.5);
+}
+
+/* WebKit (Chrome, Edge, Safari, Brave, Opera) — applies to everything */
+::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
-.scrollbar-brand::-webkit-scrollbar-track {
-  background: hsl(var(--surface-container-low, var(--background)) / 0.4);
+::-webkit-scrollbar-track {
+  background: hsl(var(--background) / 0.6);
   border-radius: 8px;
 }
-.scrollbar-brand::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, hsl(var(--primary) / 0.85), hsl(var(--primary) / 0.55));
   border-radius: 8px;
   border: 2px solid transparent;
   background-clip: padding-box;
   box-shadow: 0 0 8px hsl(var(--primary) / 0.35);
 }
-.scrollbar-brand::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--primary) / 0.7));
   background-clip: padding-box;
   border: 2px solid transparent;
 }
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Back-compat: existing .scrollbar-brand opt-in class still works (= same as global). */
+.scrollbar-brand { scrollbar-width: thin; scrollbar-color: hsl(var(--primary) / 0.7) hsl(var(--background) / 0.5); }
+
