@@ -31,6 +31,21 @@ export default defineConfig({
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,
       },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    // Firefox & WebKit only run the navbar hover-gap regression — the SEO suite
+    // is chromium-only to keep CI fast. This catches the Firefox/Safari-specific
+    // mouseleave behavior that originally broke the All Tools mega menu.
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+      testMatch: /navbar-hover\.spec\.ts/,
+    },
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
+      testMatch: /navbar-hover\.spec\.ts/,
+    },
+  ],
 });
 
