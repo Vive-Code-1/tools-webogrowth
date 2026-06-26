@@ -95,7 +95,7 @@ const Navbar = () => {
                   role="menu"
                   className="fixed top-[88px] left-1/2 -translate-x-1/2 w-[min(1120px,calc(100vw-1.5rem))] max-h-[calc(100vh-108px)] bg-surface-container-low rounded-2xl border border-outline-variant/40 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.95)] ring-1 ring-inset ring-white/5 animate-fade-in overflow-hidden flex flex-col z-[75] before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-white/[0.06] before:via-transparent before:to-transparent"
                 >
-                  <div className="relative z-10 p-4 md:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 overflow-y-auto">
+                  <div className="relative z-10 p-4 md:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 overflow-y-auto scrollbar-brand">
                     {toolCategories.map((cat) => (
                       <section key={cat.label} className="min-w-0">
                         <div className="flex items-center justify-between mb-2.5 px-1">
@@ -183,7 +183,7 @@ const Navbar = () => {
       </nav>
 
       {mobileOpen && (
-        <div id="mobile-navigation" className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
+        <div id="mobile-navigation" className="md:hidden bg-surface-container-low/95 backdrop-blur-xl border-t border-outline-variant/15 px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto scrollbar-brand">
           <Link to="/" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname === "/" ? "text-primary" : "text-on-surface-variant"}`}>Home</Link>
           <Link to="/blog" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname.startsWith("/blog") ? "text-primary" : "text-on-surface-variant"}`}>Blog</Link>
           <Link to="/about-us" onClick={() => setMobileOpen(false)} className={`block py-2 font-headline text-base ${location.pathname === "/about-us" ? "text-primary" : "text-on-surface-variant"}`}>About Us</Link>
