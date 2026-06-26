@@ -29,21 +29,22 @@ jobs:
         with: { node-version: "20" }
 
       - name: Generate post
+        id: generate
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_FOR_DAILY_AUTO_BLOG }}
         run: node scripts/generate-blog-post.mjs
 
       - name: Commit & push
+        id: commit
         env:
           USING_PAT: ${{ secrets.BLOG_BOT_PAT != '' }}
         run: |
           if git diff --quiet; then
             echo "No changes — nothing to commit."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           if [ "$USING_PAT" = "true" ]; then
-            # PAT present → attribute commit to PAT owner so it counts as
-            # human activity and keeps the scheduled workflow alive past 60 days.
             git config user.name "webogrowth-bot"
             git config user.email "bot@webogrowth.com"
             echo "→ pushing with BLOG_BOT_PAT (counts as human activity)"
@@ -57,13 +58,39 @@ jobs:
           git add public/blog-images 2>/dev/null || true
           git commit -m "chore(blog): auto-publish daily SEO post [skip ci]"
           git push
+          echo "committed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Ping IndexNow (Bing, Yandex, etc.)
-        run: node scripts/indexnow-submit.mjs || true
-
-      - name: Submit sitemap to Google Search Console
+      # Auto-indexing runs even when no new commit happened (manual re-runs),
+      # so a missed cron day still gets re-submitted. Failures FAIL the job —
+      # silent `|| true` is what hid the breakage that prompted this fix.
+      - name: Extract latest post URL from sitemap
+        id: latest
         run: |
-          curl -sS -X POST "https://vgfpjhimlztysvpxcgab.supabase.co/functions/v1/gsc-manage" \
+          LATEST_URL=$(grep -oP '<loc>\Khttps://tools\.webogrowth\.com/blog/[^<]+' public/sitemap.xml | tail -n 1)
+          echo "Latest blog URL: $LATEST_URL"
+          echo "url=$LATEST_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Ping IndexNow (Bing, Yandex, Seznam, Naver) — full sitemap
+        run: node scripts/indexnow-submit.mjs
+
+      - name: Ping IndexNow for the new post specifically (instant pickup)
+        if: steps.latest.outputs.url != ''
+        run: |
+          curl -fsS -X POST "https://api.indexnow.org/IndexNow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"tools.webogrowth.com\",\"key\":\"02a13238b42e97d3a8ff90893f5215d6\",\"keyLocation\":\"https://tools.webogrowth.com/02a13238b42e97d3a8ff90893f5215d6.txt\",\"urlList\":[\"${{ steps.latest.outputs.url }}\"]}"
+          echo
+
+      - name: Resubmit sitemap to Google Search Console
+        run: |
+          RESP=$(curl -sS -w "\nHTTP_STATUS:%{http_code}" -X POST \
+            "https://vgfpjhimlztysvpxcgab.supabase.co/functions/v1/gsc-manage" \
             -H "Content-Type: application/json" \
-            -d '{"action":"submit_sitemap","siteUrl":"https://tools.webogrowth.com/","feedpath":"https://tools.webogrowth.com/sitemap.xml"}' \
-            || true
+            -d '{"action":"submit_sitemap","siteUrl":"https://tools.webogrowth.com/","feedpath":"https://tools.webogrowth.com/sitemap.xml"}')
+          echo "$RESP"
+          STATUS=$(echo "$RESP" | grep -oP 'HTTP_STATUS:\K[0-9]+')
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::GSC sitemap resubmit failed with HTTP $STATUS"
+            exit 1
+          fi
+
