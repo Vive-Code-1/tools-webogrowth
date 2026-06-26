@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { toolCategories } from "@/lib/tools";
 
@@ -10,6 +10,26 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopDropdown, setDesktopDropdown] = useState(false);
   const [logo, setLogo] = useState("");
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openMenu = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setDesktopDropdown(true);
+  };
+
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setDesktopDropdown(false), 180);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
 
   useEffect(() => {
     const loadLogo = () => {
@@ -51,8 +71,8 @@ const Navbar = () => {
           <Link to="/about-us" className={navLinkClass("/about-us")}>About Us</Link>
           <div
             className="relative"
-            onMouseEnter={() => setDesktopDropdown(true)}
-            onMouseLeave={() => setDesktopDropdown(false)}
+            onMouseEnter={openMenu}
+            onMouseLeave={scheduleClose}
           >
             <button
               className="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1"
@@ -64,8 +84,10 @@ const Navbar = () => {
             </button>
             {desktopDropdown && (
               <>
-                {/* Invisible hover bridge so the menu stays open while the cursor crosses the gap */}
-                <div className="fixed inset-x-0 top-[64px] h-8 z-[65]" aria-hidden="true" />
+                {/* Hover bridge attached to wrapper — covers the gap between button bottom and the fixed menu */}
+                <div className="absolute left-1/2 -translate-x-1/2 top-full w-[300px] h-10 z-[65]" aria-hidden="true" />
+                {/* Full-width fixed bridge so cursor can travel anywhere across the nav strip into the menu */}
+                <div className="fixed inset-x-0 top-[56px] h-10 z-[65]" aria-hidden="true" />
 
 
 
