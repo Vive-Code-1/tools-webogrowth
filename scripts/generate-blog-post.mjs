@@ -622,7 +622,6 @@ ${relatedTools}
     body: \`${esc(finalBody)}\`,
 ${faqsField}  }),
 ];`;
-];`;
 
 const updatedPosts = postsSrc.replace(/\n\];\s*\n\nexport const getPostBySlug/, `\n${block}\n\nexport const getPostBySlug`);
 if (updatedPosts === postsSrc) throw new Error("Failed to splice post into src/blog/posts.ts");
