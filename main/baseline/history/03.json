@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-16T17:53:04.480Z",
+  "generatedAt": "2026-06-26T04:19:43.091Z",
   "routes": {
     "/": {
-      "title": "WeboGrowth Tools — 17+ Free Online Web Tools",
+      "title": "WeboGrowth Tools — 31+ Free Online Web Tools",
       "description": "Free online tools for developers and designers. Compress images, format JSON, generate QR codes, build meta tags and more — fast, private, browser-based.",
       "keywords": "free online tools, web developer tools, image compressor online, json formatter, qr code generator, meta tag generator, css minifier, color palette generator",
       "canonicalPath": "/",
@@ -34,6 +34,20 @@
       "description": "Convert PNG to WebP, PNG to AVIF, JPG to WebP and back online for free. Batch image format converter — fast, private, browser-based.",
       "keywords": "png to webp, png to avif, jpg to webp, convert to webp, image format converter, webp converter online, avif converter, image converter free",
       "canonicalPath": "/converter",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 4,
+      "howtoSteps": 3
+    },
+    "/image-to-svg": {
+      "title": "Image to SVG Icon Converter — PNG/JPG to SVG Free",
+      "description": "Convert PNG, JPG and WebP images to scalable SVG icons online. Bulk upload, color or B&W tracing, standard icon sizes 16–256px. Free & private.",
+      "keywords": "image to svg, png to svg, jpg to svg converter, raster to vector online, image vectorizer, svg icon generator, bulk image to svg, free svg converter",
+      "canonicalPath": "/image-to-svg",
       "jsonLdTypes": [
         "SoftwareApplication",
         "BreadcrumbList",
@@ -255,7 +269,7 @@
     },
     "/about-us": {
       "title": "About WeboGrowth Tools — Free Web Tools by WeboGrowth",
-      "description": "Learn about WeboGrowth Tools — a free, privacy-first toolkit of 17+ developer and designer utilities built by the WeboGrowth team.",
+      "description": "Learn about WeboGrowth Tools — a free, privacy-first toolkit of 31+ developer and designer utilities built by the WeboGrowth team.",
       "keywords": "about webogrowth, free web tools, webogrowth team, online developer tools",
       "canonicalPath": "/about-us",
       "jsonLdTypes": [
@@ -300,6 +314,188 @@
       ],
       "faqCount": 0,
       "howtoSteps": 0
+    },
+    "/background-remover": {
+      "title": "AI Background Remover — Free Online, Bulk & Private",
+      "description": "Remove image background online free with on-device AI. Bulk processing, transparent PNG output, no signup. Your images never leave the browser.",
+      "keywords": "background remover, remove background online, ai background remover free, transparent png maker, remove bg, bulk background remover, remove white background",
+      "canonicalPath": "/background-remover",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 4,
+      "howtoSteps": 3
+    },
+    "/pdf-toolkit": {
+      "title": "PDF Toolkit — Merge, Split, Compress & Convert PDF Free",
+      "description": "Free PDF toolkit — merge PDFs, split pages, compress files and convert PDF to images online. No upload, no watermarks, fully browser-based.",
+      "keywords": "merge pdf online, split pdf, compress pdf, pdf to image, pdf to png, free pdf tools, pdf merger, pdf splitter, online pdf editor free",
+      "canonicalPath": "/pdf-toolkit",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 4,
+      "howtoSteps": 3
+    },
+    "/jwt-decoder": {
+      "title": "JWT Decoder & Verifier Online — Decode JSON Web Tokens Free",
+      "description": "Free JWT decoder online — decode header, payload and signature, inspect claims, check expiry and verify HMAC signatures locally in your browser.",
+      "keywords": "jwt decoder, jwt.io alternative, decode jwt online, jwt verifier, json web token decoder, jwt parser, hs256 verify, jwt debugger",
+      "canonicalPath": "/jwt-decoder",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/pagespeed-analyzer": {
+      "title": "PageSpeed Analyzer — Free Core Web Vitals Audit Tool",
+      "description": "Free PageSpeed analyzer powered by Google Lighthouse. Audit Core Web Vitals (LCP, CLS, INP) for any URL with mobile and desktop scores.",
+      "keywords": "pagespeed analyzer, core web vitals checker, lighthouse audit online, website speed test, lcp checker, cls checker, page speed insights alternative",
+      "canonicalPath": "/pagespeed-analyzer",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 4,
+      "howtoSteps": 3
+    },
+    "/regex-tester": {
+      "title": "Regex Tester Online — Test JavaScript Regex Free",
+      "description": "Free regex tester with live match highlighting, capture groups, flags, replace preview and a cheat sheet. Test JavaScript regular expressions instantly.",
+      "keywords": "regex tester, regex101 alternative, javascript regex, regex builder online, regular expression tester, regex match highlighter",
+      "canonicalPath": "/regex-tester",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/schema-generator": {
+      "title": "Schema Markup Generator — JSON-LD Builder Free",
+      "description": "Generate Google-ready JSON-LD schema markup for Article, Product, FAQ, LocalBusiness, Organization, Breadcrumb and Event — copy & paste into your site.",
+      "keywords": "schema markup generator, json-ld generator, structured data generator, faq schema, product schema, article schema, localbusiness schema",
+      "canonicalPath": "/schema-generator",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/watermark": {
+      "title": "Image Watermark Tool — Bulk Watermark Photos Free",
+      "description": "Add text or logo watermarks to bulk images. Position, opacity, tile pattern, custom font size & color. 100% browser-based & private.",
+      "keywords": "watermark image online, bulk watermark, add watermark to photos, logo watermark tool, photo watermark, free watermark maker",
+      "canonicalPath": "/watermark",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/alt-text-generator": {
+      "title": "AI Alt Text Generator — Bulk Image Alt Tags Free",
+      "description": "Generate SEO-friendly, accessibility-compliant alt text for images using AI vision. Bulk process up to 10 images per batch, export as CSV.",
+      "keywords": "ai alt text generator, image alt text, bulk alt text, accessibility alt tags, seo alt text, ai image description",
+      "canonicalPath": "/alt-text-generator",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/video-to-gif": {
+      "title": "Video to GIF Converter — MP4 to GIF/WebM Online Free",
+      "description": "Convert MP4, MOV, WebM videos to optimized GIF, WebM or MP4 clips with trim, FPS and resolution control. Powered by FFmpeg in your browser.",
+      "keywords": "video to gif, mp4 to gif, convert video to gif, video trimmer online, webm converter, ffmpeg online, free gif maker",
+      "canonicalPath": "/video-to-gif",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/diff-checker": {
+      "title": "Diff Checker Online — Compare Text Side by Side Free",
+      "description": "Compare two text blocks with line or word-level diff highlighting. Spot added, removed and changed content instantly. Free & private.",
+      "keywords": "diff checker, text compare, compare text online, diff tool, text difference checker, code diff",
+      "canonicalPath": "/diff-checker",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/curl-builder": {
+      "title": "cURL Builder & HTTP Tester — Generate cURL Online Free",
+      "description": "Build HTTP requests visually with method, headers, body, auth — copy as cURL or fetch() and test from the browser. Free Postman alternative.",
+      "keywords": "curl builder, curl generator, http request builder, postman alternative, fetch generator, online curl tester, api request tool",
+      "canonicalPath": "/curl-builder",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/sitemap-generator": {
+      "title": "XML Sitemap Generator & Validator — Free SEO Tool",
+      "description": "Build a Google-ready XML sitemap from a URL list with per-page priority, changefreq, lastmod — and validate it against the sitemap.org spec.",
+      "keywords": "sitemap generator, xml sitemap, sitemap validator, sitemap.xml generator, google sitemap, free sitemap maker",
+      "canonicalPath": "/sitemap-generator",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 3,
+      "howtoSteps": 3
+    },
+    "/heic-to-jpg": {
+      "title": "HEIC to JPG Converter — Free Online iPhone Photo Converter",
+      "description": "Convert HEIC to JPG online free. Batch convert iPhone photos to JPG, PNG or WebP in your browser — no upload, no signup, no watermark.",
+      "keywords": "heic to jpg, heic to jpeg, heic to jpg converter, convert heic to jpg, heic converter, iphone photo converter, heic to png, heic to webp, heic file converter online free",
+      "canonicalPath": "/heic-to-jpg",
+      "jsonLdTypes": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage",
+        "HowTo"
+      ],
+      "faqCount": 5,
+      "howtoSteps": 3
     }
   }
 }

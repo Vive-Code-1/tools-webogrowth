@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-26T04:20:17.209Z",
+  "generatedAt": "2026-06-30T09:20:51.978Z",
   "totals": {
     "routes": 37,
-    "links": 224,
+    "links": 236,
     "orphans": 0,
     "under": 0,
     "stale": 0
@@ -89,11 +89,6 @@
       "sources": 3
     },
     {
-      "route": "/heic-to-jpg",
-      "count": 5,
-      "sources": 5
-    },
-    {
       "route": "/meta-tag-generator",
       "count": 6,
       "sources": 6
@@ -174,13 +169,18 @@
       "sources": 7
     },
     {
-      "route": "/converter",
+      "route": "/heic-to-jpg",
       "count": 10,
+      "sources": 5
+    },
+    {
+      "route": "/converter",
+      "count": 11,
       "sources": 7
     },
     {
       "route": "/compressor",
-      "count": 11,
+      "count": 12,
       "sources": 7
     },
     {
@@ -190,7 +190,7 @@
     },
     {
       "route": "/blog",
-      "count": 18,
+      "count": 23,
       "sources": 6
     }
   ],
@@ -220,6 +220,7 @@
       "src/blog/posts.ts",
       "src/blog/posts.ts",
       "src/blog/posts.ts",
+      "src/blog/posts.ts",
       "src/components/Footer.tsx",
       "src/components/RelatedTools.tsx",
       "src/lib/tools.ts",
@@ -233,6 +234,7 @@
       "src/blog/posts.ts",
       "src/blog/posts.ts",
       "src/blog/posts.ts",
+      "src/blog/posts.ts",
       "src/components/Footer.tsx",
       "src/components/RelatedTools.tsx",
       "src/lib/tools.ts",
@@ -241,6 +243,11 @@
       "public/sitemap.xml"
     ],
     "/heic-to-jpg": [
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
+      "src/blog/posts.ts",
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
       "src/lib/tools.ts",
@@ -487,6 +494,11 @@
       "src/pages/BlogPost.tsx",
       "src/pages/BlogTag.tsx",
       "src/pages/BlogTag.tsx",
+      "public/sitemap.xml",
+      "public/sitemap.xml",
+      "public/sitemap.xml",
+      "public/sitemap.xml",
+      "public/sitemap.xml",
       "public/sitemap.xml",
       "public/sitemap.xml",
       "public/sitemap.xml",
