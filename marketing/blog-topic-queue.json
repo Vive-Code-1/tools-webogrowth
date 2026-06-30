@@ -63,407 +63,39 @@
     "slug": "batch-convert-heic-to-jpg-100-photos-in-one-click"
   },
   {
-    "title": "How to Compress PNG Without Losing Transparency",
-    "primaryKeyword": "compress png without losing quality",
-    "category": "Image",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "How to Compress JPEG to 100KB Online (Email-Ready)",
-    "primaryKeyword": "compress jpeg to 100kb",
-    "category": "Image",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "How to Compress Image to 20KB for Online Forms",
-    "primaryKeyword": "compress image to 20kb",
-    "category": "Image",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "How to Compress Image to 50KB Without Losing Quality",
-    "primaryKeyword": "compress image to 50kb",
-    "category": "Image",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "How to Reduce Photo Size for WhatsApp DP",
-    "primaryKeyword": "reduce photo size for whatsapp",
-    "category": "Image",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "JSON Formatter vs JSON Validator: What's the Difference?",
-    "primaryKeyword": "json formatter vs validator",
-    "category": "Developer",
-    "relatedToolPath": "/json-formatter",
-    "relatedToolLabel": "JSON Formatter",
-    "posted": null
-  },
-  {
-    "title": "How to Beautify JSON in 2 Seconds (Online Free)",
-    "primaryKeyword": "json beautify online",
-    "category": "Developer",
-    "relatedToolPath": "/json-formatter",
-    "relatedToolLabel": "JSON Formatter",
-    "posted": null
-  },
-  {
-    "title": "How to Read a JSON File Without Coding Skills",
-    "primaryKeyword": "how to read json file",
-    "category": "Developer",
-    "relatedToolPath": "/json-formatter",
-    "relatedToolLabel": "JSON Formatter",
-    "posted": null
-  },
-  {
-    "title": "JWT Decoder: How to Read a Token Without Verifying",
-    "primaryKeyword": "decode jwt token online",
-    "category": "Developer",
-    "relatedToolPath": "/jwt-decoder",
-    "relatedToolLabel": "JWT Decoder",
-    "posted": null
-  },
-  {
-    "title": "Base64 Encode vs Decode: Beginner's Guide With Examples",
-    "primaryKeyword": "base64 encode decode",
-    "category": "Developer",
-    "relatedToolPath": "/base64",
-    "relatedToolLabel": "Base64 Tool",
-    "posted": null
-  },
-  {
-    "title": "Are Free QR Code Generators Safe? Privacy Checklist",
-    "primaryKeyword": "are free qr code generators safe",
-    "category": "Marketing",
-    "relatedToolPath": "/qr-code",
-    "relatedToolLabel": "QR Code Generator",
-    "posted": null
-  },
-  {
-    "title": "Best Free QR Code Generator That's Actually Free (No Signup)",
-    "primaryKeyword": "best free qr code generator",
-    "category": "Marketing",
-    "relatedToolPath": "/qr-code",
-    "relatedToolLabel": "QR Code Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Make a WiFi QR Code So Guests Connect Instantly",
-    "primaryKeyword": "wifi qr code generator",
-    "category": "Marketing",
-    "relatedToolPath": "/qr-code",
-    "relatedToolLabel": "QR Code Generator",
-    "posted": null
-  },
-  {
-    "title": "QR Code Size for Business Cards: The Ideal Pixel Guide",
-    "primaryKeyword": "qr code size for business card",
-    "category": "Marketing",
-    "relatedToolPath": "/qr-code",
-    "relatedToolLabel": "QR Code Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Merge PDF Files Online Without Email Signup",
-    "primaryKeyword": "merge pdf files online",
-    "category": "PDF",
-    "relatedToolPath": "/pdf-toolkit",
-    "relatedToolLabel": "PDF Toolkit",
-    "posted": null
-  },
-  {
-    "title": "How to Split a PDF Into Separate Pages (Free Browser Tool)",
-    "primaryKeyword": "split pdf into pages",
-    "category": "PDF",
-    "relatedToolPath": "/pdf-toolkit",
-    "relatedToolLabel": "PDF Toolkit",
-    "posted": null
-  },
-  {
-    "title": "How to Compress PDF to 1MB Without Losing Quality",
-    "primaryKeyword": "compress pdf to 1mb",
-    "category": "PDF",
-    "relatedToolPath": "/pdf-toolkit",
-    "relatedToolLabel": "PDF Toolkit",
-    "posted": null
-  },
-  {
-    "title": "Open Graph Image Size 2026: Facebook, LinkedIn, X Cheatsheet",
-    "primaryKeyword": "open graph image size",
-    "category": "SEO",
-    "relatedToolPath": "/og-preview",
-    "relatedToolLabel": "OG Preview",
-    "posted": null
-  },
-  {
-    "title": "Robots.txt Examples Every Developer Should Bookmark",
-    "primaryKeyword": "robots.txt examples",
-    "category": "SEO",
-    "relatedToolPath": "/robots-generator",
-    "relatedToolLabel": "Robots.txt Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Pick Brand Colors That Convert (HEX + HSL Guide)",
-    "primaryKeyword": "how to pick brand colors",
-    "category": "Design",
-    "relatedToolPath": "/color-palette",
-    "relatedToolLabel": "Color Palette",
-    "posted": null
-  },
-  {
-    "title": "Linear Gradient CSS Generator: 50 Copy-Paste Examples",
-    "primaryKeyword": "linear gradient css examples",
-    "category": "Design",
-    "relatedToolPath": "/gradient-generator",
-    "relatedToolLabel": "Gradient Generator",
-    "posted": null
-  },
-  {
-    "title": "SVG vs PNG: Which Should You Use for Logos in 2026?",
-    "primaryKeyword": "svg vs png for logo",
-    "category": "Design",
-    "relatedToolPath": "/image-to-svg",
-    "relatedToolLabel": "Image to SVG",
-    "posted": null
-  },
-  {
-    "title": "How to Make a Transparent PNG From Any Image (No Photoshop)",
-    "primaryKeyword": "make image transparent png",
-    "category": "Image",
-    "relatedToolPath": "/background-remover",
-    "relatedToolLabel": "Background Remover",
-    "posted": null
-  },
-  {
-    "title": "WebP vs PNG: Which Format Is Better for SEO in 2026?",
-    "primaryKeyword": "webp vs png seo",
+    "title": "PNG to WebP Converter: 80% Smaller, Same Quality",
+    "primaryKeyword": "png to webp",
     "category": "Image",
     "relatedToolPath": "/converter",
     "relatedToolLabel": "Image Converter",
     "posted": null
   },
   {
-    "title": "How to Reduce JPEG File Size Without Losing Quality",
-    "primaryKeyword": "reduce jpeg file size without losing quality",
-    "category": "Image",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "How to Resize Images for Instagram (All Sizes 2026)",
-    "primaryKeyword": "resize images for instagram",
-    "category": "Image",
-    "relatedToolPath": "/image-resizer",
-    "relatedToolLabel": "Image Resizer",
-    "posted": null
-  },
-  {
-    "title": "How to Remove Background from Image Free Online",
-    "primaryKeyword": "remove background from image free online",
-    "category": "Image",
-    "relatedToolPath": "/background-remover",
-    "relatedToolLabel": "Background Remover",
-    "posted": null
-  },
-  {
-    "title": "How to Add Watermark to Photos Without Photoshop",
-    "primaryKeyword": "add watermark to photo online",
-    "category": "Image",
-    "relatedToolPath": "/watermark",
-    "relatedToolLabel": "Watermark Tool",
-    "posted": null
-  },
-  {
-    "title": "How to Convert Video to GIF Online Free",
-    "primaryKeyword": "convert video to gif online",
-    "category": "Image",
-    "relatedToolPath": "/video-to-gif",
-    "relatedToolLabel": "Video to GIF",
-    "posted": null
-  },
-  {
-    "title": "How to Convert PNG to SVG: Vectorize Any Logo Online",
-    "primaryKeyword": "convert png to svg online",
-    "category": "Image",
-    "relatedToolPath": "/image-to-svg",
-    "relatedToolLabel": "Image to SVG",
-    "posted": null
-  },
-  {
-    "title": "How to Optimize SVG Files for Faster Web Pages",
-    "primaryKeyword": "optimize svg files",
-    "category": "Image",
-    "relatedToolPath": "/svg-optimizer",
-    "relatedToolLabel": "SVG Optimizer",
-    "posted": null
-  },
-  {
-    "title": "How to Create a Favicon from PNG (All Sizes Generator)",
-    "primaryKeyword": "create favicon from png",
-    "category": "Image",
-    "relatedToolPath": "/favicon",
-    "relatedToolLabel": "Favicon Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Generate AI Alt Text for Images at Scale",
-    "primaryKeyword": "ai alt text generator",
-    "category": "SEO",
-    "relatedToolPath": "/alt-text-generator",
-    "relatedToolLabel": "AI Alt Text Generator",
-    "posted": null
-  },
-  {
-    "title": "Image SEO Checklist: 12 Steps to Rank on Google Images",
-    "primaryKeyword": "image seo checklist",
-    "category": "SEO",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "Core Web Vitals: How to Pass LCP, CLS, INP in 2026",
-    "primaryKeyword": "core web vitals 2026",
-    "category": "SEO",
-    "relatedToolPath": "/pagespeed-analyzer",
-    "relatedToolLabel": "PageSpeed Analyzer",
-    "posted": null
-  },
-  {
-    "title": "How to Write Meta Descriptions That Get More Clicks",
-    "primaryKeyword": "how to write meta description",
-    "category": "SEO",
-    "relatedToolPath": "/meta-tag-generator",
-    "relatedToolLabel": "Meta Tag Generator",
-    "posted": null
-  },
-  {
-    "title": "Open Graph Tags Explained: The Complete Guide",
-    "primaryKeyword": "open graph tags guide",
-    "category": "SEO",
-    "relatedToolPath": "/og-preview",
-    "relatedToolLabel": "Open Graph Preview",
-    "posted": null
-  },
-  {
-    "title": "How to Create an XML Sitemap for Your Website",
-    "primaryKeyword": "how to create xml sitemap",
-    "category": "SEO",
-    "relatedToolPath": "/sitemap-generator",
-    "relatedToolLabel": "Sitemap Generator",
-    "posted": null
-  },
-  {
-    "title": "Robots.txt Tutorial: Block, Allow & Test Like a Pro",
-    "primaryKeyword": "robots.txt tutorial",
-    "category": "SEO",
-    "relatedToolPath": "/robots-generator",
-    "relatedToolLabel": "Robots.txt Generator",
-    "posted": null
-  },
-  {
-    "title": "Schema Markup Generator: Add Rich Snippets in 5 Minutes",
-    "primaryKeyword": "schema markup generator",
-    "category": "SEO",
-    "relatedToolPath": "/schema-generator",
-    "relatedToolLabel": "Schema Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Format JSON Online: 7 Tricks Every Dev Should Know",
-    "primaryKeyword": "format json online",
+    "title": "JSON Minifier vs Beautifier: When to Use Each",
+    "primaryKeyword": "json minifier",
     "category": "Developer",
     "relatedToolPath": "/json-formatter",
     "relatedToolLabel": "JSON Formatter",
     "posted": null
   },
   {
-    "title": "Base64 Encoding Explained (with Free Online Tool)",
-    "primaryKeyword": "base64 encoder online",
-    "category": "Developer",
-    "relatedToolPath": "/base64",
-    "relatedToolLabel": "Base64 Tool",
+    "title": "SVGO Online: Optimize SVG Files Without Installing Anything",
+    "primaryKeyword": "svgo online",
+    "category": "SEO",
+    "relatedToolPath": "/svg-optimizer",
+    "relatedToolLabel": "SVG Optimizer",
     "posted": null
   },
   {
-    "title": "How to Decode a JWT Token Safely (Free Online Decoder)",
-    "primaryKeyword": "jwt decoder online",
-    "category": "Developer",
-    "relatedToolPath": "/jwt-decoder",
-    "relatedToolLabel": "JWT Decoder",
+    "title": "WiFi QR Code Generator: Share Internet Without Typing Passwords",
+    "primaryKeyword": "wifi qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
     "posted": null
   },
   {
-    "title": "Regex Tester: 20 Patterns You'll Actually Use",
-    "primaryKeyword": "regex tester online",
-    "category": "Developer",
-    "relatedToolPath": "/regex-tester",
-    "relatedToolLabel": "Regex Tester",
-    "posted": null
-  },
-  {
-    "title": "How to Minify CSS for Faster Page Loads",
-    "primaryKeyword": "minify css online",
-    "category": "Developer",
-    "relatedToolPath": "/css-minifier",
-    "relatedToolLabel": "CSS Minifier",
-    "posted": null
-  },
-  {
-    "title": "Convert HTML to Markdown: The Complete Migration Guide",
-    "primaryKeyword": "html to markdown converter",
-    "category": "Developer",
-    "relatedToolPath": "/html-to-markdown",
-    "relatedToolLabel": "HTML to Markdown",
-    "posted": null
-  },
-  {
-    "title": "How to Build a cURL Command (with Visual Builder)",
-    "primaryKeyword": "curl command builder",
-    "category": "Developer",
-    "relatedToolPath": "/curl-builder",
-    "relatedToolLabel": "cURL Builder",
-    "posted": null
-  },
-  {
-    "title": "Diff Checker: Compare Two Texts Side by Side Online",
-    "primaryKeyword": "diff checker online",
-    "category": "Developer",
-    "relatedToolPath": "/diff-checker",
-    "relatedToolLabel": "Diff Checker",
-    "posted": null
-  },
-  {
-    "title": "PDF Toolkit: Merge, Split & Compress PDFs in Your Browser",
-    "primaryKeyword": "pdf toolkit online free",
-    "category": "Developer",
-    "relatedToolPath": "/pdf-toolkit",
-    "relatedToolLabel": "PDF Toolkit",
-    "posted": null
-  },
-  {
-    "title": "How to Pick a Color Palette for Your Brand (with Generator)",
-    "primaryKeyword": "color palette generator",
-    "category": "Design",
-    "relatedToolPath": "/color-palette",
-    "relatedToolLabel": "Color Palette Generator",
-    "posted": null
-  },
-  {
-    "title": "CSS Gradient Generator: 25 Modern Gradient Recipes",
+    "title": "CSS Gradient Generator: 100+ Background Ideas with Code",
     "primaryKeyword": "css gradient generator",
     "category": "Design",
     "relatedToolPath": "/gradient-generator",
@@ -471,79 +103,599 @@
     "posted": null
   },
   {
-    "title": "How to Generate Placeholder Images for Wireframes",
-    "primaryKeyword": "placeholder image generator",
-    "category": "Design",
-    "relatedToolPath": "/placeholder",
-    "relatedToolLabel": "Placeholder Image",
+    "title": "How to Merge PDF Files Online Free (No Watermark)",
+    "primaryKeyword": "merge pdf online free",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
     "posted": null
   },
   {
-    "title": "Lorem Ipsum Generator: When to Use It and When Not To",
-    "primaryKeyword": "lorem ipsum generator",
-    "category": "Design",
-    "relatedToolPath": "/lorem-ipsum",
-    "relatedToolLabel": "Lorem Ipsum Generator",
+    "title": "Apple Touch Icon Generator: Get Every Size in One Click",
+    "primaryKeyword": "apple touch icon generator",
+    "category": "SEO",
+    "relatedToolPath": "/favicon",
+    "relatedToolLabel": "Favicon Generator",
     "posted": null
   },
   {
-    "title": "How to Create Custom QR Codes with Logo (Free Tool)",
-    "primaryKeyword": "qr code with logo generator",
-    "category": "Design",
-    "relatedToolPath": "/qr-code",
-    "relatedToolLabel": "QR Code Generator",
-    "posted": null
-  },
-  {
-    "title": "AVIF vs WebP: Which Modern Image Format Wins in 2026?",
-    "primaryKeyword": "avif vs webp",
+    "title": "PNG to AVIF Converter: The Next-Gen Image Format Explained",
+    "primaryKeyword": "png to avif",
     "category": "Image",
     "relatedToolPath": "/converter",
     "relatedToolLabel": "Image Converter",
     "posted": null
   },
   {
-    "title": "How to Speed Up a WordPress Site (Image Optimization First)",
-    "primaryKeyword": "speed up wordpress site",
-    "category": "SEO",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "Lazy Loading Images: The Right Way in 2026",
-    "primaryKeyword": "lazy loading images",
+    "title": "Base64 Decoder: Decode Strings, Images & Files Instantly",
+    "primaryKeyword": "base64 decoder",
     "category": "Developer",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
+    "relatedToolPath": "/base64",
+    "relatedToolLabel": "Base64 Tool",
     "posted": null
   },
   {
-    "title": "Responsive Images with srcset: Complete Developer Guide",
-    "primaryKeyword": "responsive images srcset",
-    "category": "Developer",
-    "relatedToolPath": "/image-resizer",
-    "relatedToolLabel": "Image Resizer",
-    "posted": null
-  },
-  {
-    "title": "How to Test Page Speed: 5 Free Tools That Beat Lighthouse",
-    "primaryKeyword": "test page speed online",
-    "category": "SEO",
-    "relatedToolPath": "/pagespeed-analyzer",
-    "relatedToolLabel": "PageSpeed Analyzer",
-    "posted": null
-  },
-  {
-    "title": "Twitter Card Tags: Get Bigger Previews That Drive Clicks",
-    "primaryKeyword": "twitter card tags guide",
+    "title": "Meta Tag Generator for SEO: Title, Description & Open Graph",
+    "primaryKeyword": "meta tag generator",
     "category": "SEO",
     "relatedToolPath": "/meta-tag-generator",
     "relatedToolLabel": "Meta Tag Generator",
     "posted": null
   },
   {
-    "title": "How to Fix Cumulative Layout Shift (CLS) on Image-Heavy Pages",
+    "title": "vCard QR Code: Share Contact Info Without Apps",
+    "primaryKeyword": "vcard qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Color Palette from Image: Extract Brand Colors in Seconds",
+    "primaryKeyword": "color palette from image",
+    "category": "Design",
+    "relatedToolPath": "/color-palette",
+    "relatedToolLabel": "Color Palette",
+    "posted": null
+  },
+  {
+    "title": "How to Split PDF Pages Online (Free, No Signup)",
+    "primaryKeyword": "split pdf online",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "Robots.txt Generator: Block Bots Without Breaking SEO",
+    "primaryKeyword": "robots txt generator",
+    "category": "SEO",
+    "relatedToolPath": "/robots-generator",
+    "relatedToolLabel": "Robots.txt Generator",
+    "posted": null
+  },
+  {
+    "title": "WebP Compressor: Shrink WebP Files Without Visible Loss",
+    "primaryKeyword": "webp compressor",
+    "category": "Image",
+    "relatedToolPath": "/compressor",
+    "relatedToolLabel": "Image Compressor",
+    "posted": null
+  },
+  {
+    "title": "JWT Decoder Online: Inspect Tokens Without Leaking Secrets",
+    "primaryKeyword": "jwt decoder",
+    "category": "Developer",
+    "relatedToolPath": "/jwt-decoder",
+    "relatedToolLabel": "JWT Decoder",
+    "posted": null
+  },
+  {
+    "title": "Open Graph Image Preview: Test Before You Tweet",
+    "primaryKeyword": "og image preview",
+    "category": "SEO",
+    "relatedToolPath": "/og-preview",
+    "relatedToolLabel": "OG Preview",
+    "posted": null
+  },
+  {
+    "title": "QR Code with Logo: Branded Codes That Still Scan",
+    "primaryKeyword": "qr code with logo",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Dummy Image Generator: Placeholder PNGs for Mockups",
+    "primaryKeyword": "dummy image",
+    "category": "Design",
+    "relatedToolPath": "/placeholder",
+    "relatedToolLabel": "Placeholder Image",
+    "posted": null
+  },
+  {
+    "title": "Compress PDF to 100KB Online Free",
+    "primaryKeyword": "compress pdf to 100kb",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "CSS Minifier: Shrink Stylesheets Without Breaking Layouts",
+    "primaryKeyword": "css minifier",
+    "category": "Developer",
+    "relatedToolPath": "/css-minifier",
+    "relatedToolLabel": "CSS Minifier",
+    "posted": null
+  },
+  {
+    "title": "Resize Image Without Losing Quality: 7 Techniques That Work",
+    "primaryKeyword": "resize image without losing quality",
+    "category": "Image",
+    "relatedToolPath": "/image-resizer",
+    "relatedToolLabel": "Image Resizer",
+    "posted": null
+  },
+  {
+    "title": "HTML to Markdown Converter: Clean Output Every Time",
+    "primaryKeyword": "html to markdown",
+    "category": "Developer",
+    "relatedToolPath": "/html-to-markdown",
+    "relatedToolLabel": "HTML to Markdown",
+    "posted": null
+  },
+  {
+    "title": "Schema Markup Generator: Get Rich Snippets in Google",
+    "primaryKeyword": "schema markup generator",
+    "category": "SEO",
+    "relatedToolPath": "/schema-generator",
+    "relatedToolLabel": "Schema Generator",
+    "posted": null
+  },
+  {
+    "title": "Restaurant Menu QR Code: From PDF to Scan in 5 Minutes",
+    "primaryKeyword": "menu qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Lorem Ipsum Generator: Dummy Text in Any Length",
+    "primaryKeyword": "dummy text generator",
+    "category": "Design",
+    "relatedToolPath": "/lorem-ipsum",
+    "relatedToolLabel": "Lorem Ipsum",
+    "posted": null
+  },
+  {
+    "title": "PDF to JPG Converter: Save Every Page as Image",
+    "primaryKeyword": "pdf to jpg",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "Sitemap Generator: Build XML Sitemaps in Under a Minute",
+    "primaryKeyword": "sitemap generator",
+    "category": "SEO",
+    "relatedToolPath": "/sitemap-generator",
+    "relatedToolLabel": "Sitemap Generator",
+    "posted": null
+  },
+  {
+    "title": "Image to SVG Converter: Vectorize PNGs in Browser",
+    "primaryKeyword": "image to svg",
+    "category": "Image",
+    "relatedToolPath": "/image-to-svg",
+    "relatedToolLabel": "Image to SVG",
+    "posted": null
+  },
+  {
+    "title": "Regex Tester Online: Debug Patterns with Live Highlights",
+    "primaryKeyword": "regex tester",
+    "category": "Developer",
+    "relatedToolPath": "/regex-tester",
+    "relatedToolLabel": "Regex Tester",
+    "posted": null
+  },
+  {
+    "title": "Minify SVG: Strip XML Bloat & Cut File Size 60%",
+    "primaryKeyword": "minify svg",
+    "category": "SEO",
+    "relatedToolPath": "/svg-optimizer",
+    "relatedToolLabel": "SVG Optimizer",
+    "posted": null
+  },
+  {
+    "title": "Event QR Code Generator: Boost Check-ins with Smart Codes",
+    "primaryKeyword": "event qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Free Color Palette Generator from Any Photo",
+    "primaryKeyword": "color palette generator",
+    "category": "Design",
+    "relatedToolPath": "/color-palette",
+    "relatedToolLabel": "Color Palette",
+    "posted": null
+  },
+  {
+    "title": "How to Convert Word to PDF Online Free",
+    "primaryKeyword": "word to pdf",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "Open Graph Generator: Perfect Social Previews Every Time",
+    "primaryKeyword": "open graph generator",
+    "category": "SEO",
+    "relatedToolPath": "/meta-tag-generator",
+    "relatedToolLabel": "Meta Tag Generator",
+    "posted": null
+  },
+  {
+    "title": "How to Compress JPEG to 200KB Without Losing Quality",
+    "primaryKeyword": "compress jpeg to 200kb",
+    "category": "Image",
+    "relatedToolPath": "/compressor",
+    "relatedToolLabel": "Image Compressor",
+    "posted": null
+  },
+  {
+    "title": "Format JSON Online: Beautify, Validate & Sort Keys",
+    "primaryKeyword": "json formatter",
+    "category": "Developer",
+    "relatedToolPath": "/json-formatter",
+    "relatedToolLabel": "JSON Formatter",
+    "posted": null
+  },
+  {
+    "title": "How to Add Favicon to Website (All Sizes, 2026 Guide)",
+    "primaryKeyword": "how to add favicon",
+    "category": "SEO",
+    "relatedToolPath": "/favicon",
+    "relatedToolLabel": "Favicon Generator",
+    "posted": null
+  },
+  {
+    "title": "Instagram Bio Link QR Code: Track Profile Clicks",
+    "primaryKeyword": "instagram qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Linear Gradient CSS: 50 Copy-Paste Combos",
+    "primaryKeyword": "linear gradient css",
+    "category": "Design",
+    "relatedToolPath": "/gradient-generator",
+    "relatedToolLabel": "Gradient Generator",
+    "posted": null
+  },
+  {
+    "title": "PDF to Word Online Free: Editable Documents in Seconds",
+    "primaryKeyword": "pdf to word",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "How to Generate Open Graph Image for Free",
+    "primaryKeyword": "how to create open graph image",
+    "category": "SEO",
+    "relatedToolPath": "/og-preview",
+    "relatedToolLabel": "OG Preview",
+    "posted": null
+  },
+  {
+    "title": "Background Remover Online: Free, No Signup, AI-Quality",
+    "primaryKeyword": "background remover online free",
+    "category": "Image",
+    "relatedToolPath": "/background-remover",
+    "relatedToolLabel": "Background Remover",
+    "posted": null
+  },
+  {
+    "title": "cURL Command Builder: Generate Requests from a Form",
+    "primaryKeyword": "curl command builder",
+    "category": "Developer",
+    "relatedToolPath": "/curl-builder",
+    "relatedToolLabel": "cURL Builder",
+    "posted": null
+  },
+  {
+    "title": "How to Submit Sitemap to Google Search Console (2026)",
+    "primaryKeyword": "submit sitemap to google",
+    "category": "SEO",
+    "relatedToolPath": "/sitemap-generator",
+    "relatedToolLabel": "Sitemap Generator",
+    "posted": null
+  },
+  {
+    "title": "Business Card QR Code: Modern Networking That Works",
+    "primaryKeyword": "business card qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Radial Gradient CSS Generator: Spotlight Effects Made Easy",
+    "primaryKeyword": "radial gradient css",
+    "category": "Design",
+    "relatedToolPath": "/gradient-generator",
+    "relatedToolLabel": "Gradient Generator",
+    "posted": null
+  },
+  {
+    "title": "Add Page Numbers to PDF Online (Free Tool)",
+    "primaryKeyword": "add page numbers to pdf",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "Schema.org FAQ: Get FAQ Rich Results in Google",
+    "primaryKeyword": "faq schema generator",
+    "category": "SEO",
+    "relatedToolPath": "/schema-generator",
+    "relatedToolLabel": "Schema Generator",
+    "posted": null
+  },
+  {
+    "title": "How to Resize Image to 600x600 for Amazon Listings",
+    "primaryKeyword": "resize image 600x600",
+    "category": "Image",
+    "relatedToolPath": "/image-resizer",
+    "relatedToolLabel": "Image Resizer",
+    "posted": null
+  },
+  {
+    "title": "Diff Checker Online: Compare Text & Code Side by Side",
+    "primaryKeyword": "diff checker online",
+    "category": "Developer",
+    "relatedToolPath": "/diff-checker",
+    "relatedToolLabel": "Diff Checker",
+    "posted": null
+  },
+  {
+    "title": "Twitter Card Preview: Validate Before You Post",
+    "primaryKeyword": "twitter card preview",
+    "category": "SEO",
+    "relatedToolPath": "/og-preview",
+    "relatedToolLabel": "OG Preview",
+    "posted": null
+  },
+  {
+    "title": "URL QR Code Generator: Short Links That Scan",
+    "primaryKeyword": "url qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Convert Logo to SVG Online: Trace Raster to Vector",
+    "primaryKeyword": "convert image to svg",
+    "category": "Design",
+    "relatedToolPath": "/image-to-svg",
+    "relatedToolLabel": "Image to SVG",
+    "posted": null
+  },
+  {
+    "title": "PDF to PNG Converter: High-Res Image Export",
+    "primaryKeyword": "pdf to png",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "LocalBusiness Schema: Rank in Google Maps & Local Pack",
+    "primaryKeyword": "local business schema",
+    "category": "SEO",
+    "relatedToolPath": "/schema-generator",
+    "relatedToolLabel": "Schema Generator",
+    "posted": null
+  },
+  {
+    "title": "How to Make a Photo Smaller in KB on Phone",
+    "primaryKeyword": "reduce image size kb",
+    "category": "Image",
+    "relatedToolPath": "/compressor",
+    "relatedToolLabel": "Image Compressor",
+    "posted": null
+  },
+  {
+    "title": "Base64 Encoder for Images: Inline PNGs in CSS/HTML",
+    "primaryKeyword": "base64 encoder",
+    "category": "Developer",
+    "relatedToolPath": "/base64",
+    "relatedToolLabel": "Base64 Tool",
+    "posted": null
+  },
+  {
+    "title": "How to Test robots.txt: Free Validator Walkthrough",
+    "primaryKeyword": "robots.txt tester",
+    "category": "SEO",
+    "relatedToolPath": "/robots-generator",
+    "relatedToolLabel": "Robots.txt Generator",
+    "posted": null
+  },
+  {
+    "title": "Email Signature QR Code: Get More Replies",
+    "primaryKeyword": "email signature qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Hex Color Picker from Image: Free Online Tool",
+    "primaryKeyword": "hex color from image",
+    "category": "Design",
+    "relatedToolPath": "/color-palette",
+    "relatedToolLabel": "Color Palette",
+    "posted": null
+  },
+  {
+    "title": "Rotate PDF Pages Online Free (Save Permanently)",
+    "primaryKeyword": "rotate pdf online",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "Article Schema Markup: Boost Blog Posts in Search",
+    "primaryKeyword": "article schema markup",
+    "category": "SEO",
+    "relatedToolPath": "/schema-generator",
+    "relatedToolLabel": "Schema Generator",
+    "posted": null
+  },
+  {
+    "title": "How to Convert JPG to PDF Online (Multiple Images, One File)",
+    "primaryKeyword": "jpg to pdf",
+    "category": "Image",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "Beautify JSON Online: Pretty Print with One Click",
+    "primaryKeyword": "json beautifier",
+    "category": "Developer",
+    "relatedToolPath": "/json-formatter",
+    "relatedToolLabel": "JSON Formatter",
+    "posted": null
+  },
+  {
+    "title": "PageSpeed Insights: Fix Core Web Vitals on Your Site",
+    "primaryKeyword": "pagespeed insights",
+    "category": "SEO",
+    "relatedToolPath": "/pagespeed-analyzer",
+    "relatedToolLabel": "PageSpeed Analyzer",
+    "posted": null
+  },
+  {
+    "title": "Spotify QR Code: Share Playlists & Songs Instantly",
+    "primaryKeyword": "spotify qr code",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "CSS Background Gradient: Animated & Mesh Examples",
+    "primaryKeyword": "css background gradient",
+    "category": "Design",
+    "relatedToolPath": "/gradient-generator",
+    "relatedToolLabel": "Gradient Generator",
+    "posted": null
+  },
+  {
+    "title": "Unlock PDF Online Free: Remove Password Protection",
+    "primaryKeyword": "unlock pdf online",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "Largest Contentful Paint: How to Fix LCP in 2026",
+    "primaryKeyword": "fix lcp",
+    "category": "SEO",
+    "relatedToolPath": "/pagespeed-analyzer",
+    "relatedToolLabel": "PageSpeed Analyzer",
+    "posted": null
+  },
+  {
+    "title": "Image Resizer for Instagram: 1080x1080, 1080x1350 & Reels",
+    "primaryKeyword": "image resizer for instagram",
+    "category": "Image",
+    "relatedToolPath": "/image-resizer",
+    "relatedToolLabel": "Image Resizer",
+    "posted": null
+  },
+  {
+    "title": "How to Validate JSON: Catch Errors Before They Ship",
+    "primaryKeyword": "json validator",
+    "category": "Developer",
+    "relatedToolPath": "/json-formatter",
+    "relatedToolLabel": "JSON Formatter",
+    "posted": null
+  },
+  {
+    "title": "Core Web Vitals Checker: Field vs Lab Data Explained",
+    "primaryKeyword": "core web vitals checker",
+    "category": "SEO",
+    "relatedToolPath": "/pagespeed-analyzer",
+    "relatedToolLabel": "PageSpeed Analyzer",
+    "posted": null
+  },
+  {
+    "title": "Restaurant QR Menu: Free Generator + Print-Ready PDF",
+    "primaryKeyword": "restaurant qr menu",
+    "category": "Marketing",
+    "relatedToolPath": "/qr-code",
+    "relatedToolLabel": "QR Code Generator",
+    "posted": null
+  },
+  {
+    "title": "Free Logo Color Extractor: Match Your Brand Palette",
+    "primaryKeyword": "logo color extractor",
+    "category": "Design",
+    "relatedToolPath": "/color-palette",
+    "relatedToolLabel": "Color Palette",
+    "posted": null
+  },
+  {
+    "title": "Convert HTML to PDF Online (Preserve CSS & Images)",
+    "primaryKeyword": "html to pdf",
+    "category": "PDF",
+    "relatedToolPath": "/pdf-toolkit",
+    "relatedToolLabel": "PDF Toolkit",
+    "posted": null
+  },
+  {
+    "title": "Product Schema Markup: Get Rich Results for E-commerce",
+    "primaryKeyword": "product schema markup",
+    "category": "SEO",
+    "relatedToolPath": "/schema-generator",
+    "relatedToolLabel": "Schema Generator",
+    "posted": null
+  },
+  {
+    "title": "How to Add Watermark to Photo Online Free",
+    "primaryKeyword": "add watermark to photo",
+    "category": "Image",
+    "relatedToolPath": "/watermark",
+    "relatedToolLabel": "Watermark Tool",
+    "posted": null
+  },
+  {
+    "title": "HTML to Markdown for AI: Clean Inputs for ChatGPT & Claude",
+    "primaryKeyword": "html to markdown converter",
+    "category": "Developer",
+    "relatedToolPath": "/html-to-markdown",
+    "relatedToolLabel": "HTML to Markdown",
+    "posted": null
+  },
+  {
+    "title": "How to Fix CLS: Stop Layout Shift in 5 Steps",
     "primaryKeyword": "fix cumulative layout shift",
     "category": "SEO",
     "relatedToolPath": "/pagespeed-analyzer",
@@ -551,187 +703,27 @@
     "posted": null
   },
   {
-    "title": "Best Image Sizes for Every Social Media Platform (2026)",
-    "primaryKeyword": "social media image sizes 2026",
-    "category": "Image",
-    "relatedToolPath": "/image-resizer",
-    "relatedToolLabel": "Image Resizer",
-    "posted": null
-  },
-  {
-    "title": "JSON to CSV: How to Convert Without Excel",
-    "primaryKeyword": "json to csv online",
-    "category": "Developer",
-    "relatedToolPath": "/json-formatter",
-    "relatedToolLabel": "JSON Formatter",
-    "posted": null
-  },
-  {
-    "title": "How to Generate a Privacy-Friendly QR Menu for Restaurants",
-    "primaryKeyword": "qr code menu restaurant",
-    "category": "Design",
+    "title": "Payment QR Code: Accept UPI, PayPal & Crypto with One Image",
+    "primaryKeyword": "payment qr code",
+    "category": "Marketing",
     "relatedToolPath": "/qr-code",
     "relatedToolLabel": "QR Code Generator",
     "posted": null
   },
   {
-    "title": "Convert MP4 to GIF for Twitter and Slack Reactions",
-    "primaryKeyword": "mp4 to gif converter",
-    "category": "Image",
+    "title": "Video to GIF Converter: Free, No Watermark, HD",
+    "primaryKeyword": "video to gif",
+    "category": "Design",
     "relatedToolPath": "/video-to-gif",
     "relatedToolLabel": "Video to GIF",
     "posted": null
   },
   {
-    "title": "Vectorize Hand-Drawn Sketches into Clean SVGs",
-    "primaryKeyword": "sketch to svg vectorize",
-    "category": "Image",
-    "relatedToolPath": "/image-to-svg",
-    "relatedToolLabel": "Image to SVG",
-    "posted": null
-  },
-  {
-    "title": "How to Bulk Resize Images Without Losing Quality",
-    "primaryKeyword": "bulk resize images online",
-    "category": "Image",
-    "relatedToolPath": "/image-resizer",
-    "relatedToolLabel": "Image Resizer",
-    "posted": null
-  },
-  {
-    "title": "PDF Compression: Shrink a 50MB PDF Under 5MB",
-    "primaryKeyword": "compress pdf online",
-    "category": "Developer",
-    "relatedToolPath": "/pdf-toolkit",
-    "relatedToolLabel": "PDF Toolkit",
-    "posted": null
-  },
-  {
-    "title": "How Search Engines Crawl JavaScript Sites (And How to Help)",
-    "primaryKeyword": "javascript seo crawling",
+    "title": "Alt Text Generator AI: SEO-Friendly Image Descriptions",
+    "primaryKeyword": "alt text generator",
     "category": "SEO",
-    "relatedToolPath": "/sitemap-generator",
-    "relatedToolLabel": "Sitemap Generator",
-    "posted": null
-  },
-  {
-    "title": "Internal Linking Strategy: A Practical Guide for Small Sites",
-    "primaryKeyword": "internal linking strategy",
-    "category": "SEO",
-    "relatedToolPath": "/sitemap-generator",
-    "relatedToolLabel": "Sitemap Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Find and Fix Broken Links Across Your Site",
-    "primaryKeyword": "find broken links website",
-    "category": "SEO",
-    "relatedToolPath": "/pagespeed-analyzer",
-    "relatedToolLabel": "PageSpeed Analyzer",
-    "posted": null
-  },
-  {
-    "title": "FAQ Schema: How to Earn Rich Results in Google",
-    "primaryKeyword": "faq schema markup",
-    "category": "SEO",
-    "relatedToolPath": "/schema-generator",
-    "relatedToolLabel": "Schema Generator",
-    "posted": null
-  },
-  {
-    "title": "Article Schema for Blogs: Boost CTR with Author Rich Snippets",
-    "primaryKeyword": "article schema for blogs",
-    "category": "SEO",
-    "relatedToolPath": "/schema-generator",
-    "relatedToolLabel": "Schema Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Build a Color Palette from a Single Image",
-    "primaryKeyword": "color palette from image",
-    "category": "Design",
-    "relatedToolPath": "/color-palette",
-    "relatedToolLabel": "Color Palette Generator",
-    "posted": null
-  },
-  {
-    "title": "Mesh Gradients in CSS: How to Get the Stripe Look",
-    "primaryKeyword": "css mesh gradient",
-    "category": "Design",
-    "relatedToolPath": "/gradient-generator",
-    "relatedToolLabel": "Gradient Generator",
-    "posted": null
-  },
-  {
-    "title": "Dark Mode Color Palettes That Actually Work",
-    "primaryKeyword": "dark mode color palette",
-    "category": "Design",
-    "relatedToolPath": "/color-palette",
-    "relatedToolLabel": "Color Palette Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Read and Validate a JWT Without Server-Side Code",
-    "primaryKeyword": "validate jwt online",
-    "category": "Developer",
-    "relatedToolPath": "/jwt-decoder",
-    "relatedToolLabel": "JWT Decoder",
-    "posted": null
-  },
-  {
-    "title": "Pretty Print JSON: Format Nested API Responses Instantly",
-    "primaryKeyword": "pretty print json",
-    "category": "Developer",
-    "relatedToolPath": "/json-formatter",
-    "relatedToolLabel": "JSON Formatter",
-    "posted": null
-  },
-  {
-    "title": "How to Minify HTML, CSS and JS for Maximum Speed",
-    "primaryKeyword": "minify html css js",
-    "category": "Developer",
-    "relatedToolPath": "/css-minifier",
-    "relatedToolLabel": "CSS Minifier",
-    "posted": null
-  },
-  {
-    "title": "Convert Markdown to HTML and Back (Migration Guide)",
-    "primaryKeyword": "markdown to html converter",
-    "category": "Developer",
-    "relatedToolPath": "/html-to-markdown",
-    "relatedToolLabel": "HTML to Markdown",
-    "posted": null
-  },
-  {
-    "title": "How to Generate Realistic Lorem Ipsum for UI Mockups",
-    "primaryKeyword": "realistic lorem ipsum",
-    "category": "Design",
-    "relatedToolPath": "/lorem-ipsum",
-    "relatedToolLabel": "Lorem Ipsum Generator",
-    "posted": null
-  },
-  {
-    "title": "How to Make Your Site Load in Under 1 Second",
-    "primaryKeyword": "make site load faster",
-    "category": "SEO",
-    "relatedToolPath": "/pagespeed-analyzer",
-    "relatedToolLabel": "PageSpeed Analyzer",
-    "posted": null
-  },
-  {
-    "title": "How to Compress Images for Email Without Killing Quality",
-    "primaryKeyword": "compress images for email",
-    "category": "Image",
-    "relatedToolPath": "/compressor",
-    "relatedToolLabel": "Image Compressor",
-    "posted": null
-  },
-  {
-    "title": "How to Create OG Images That Actually Get Shared",
-    "primaryKeyword": "open graph image generator",
-    "category": "Design",
-    "relatedToolPath": "/og-preview",
-    "relatedToolLabel": "Open Graph Preview",
+    "relatedToolPath": "/alt-text-generator",
+    "relatedToolLabel": "Alt Text Generator",
     "posted": null
   }
 ]
