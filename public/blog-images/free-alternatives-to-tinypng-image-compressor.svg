@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="How to Convert HEIC to JPG on Windows 11 (Free Method)">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="5 Free Alternatives to TinyPNG That Don&#39;t Limit Your Uploads">
   <defs>
-    <radialGradient id="glow" cx="17%" cy="16%" r="78%">
+    <radialGradient id="glow" cx="18%" cy="19%" r="78%">
       <stop offset="0" stop-color="#bef264" stop-opacity="0.45"/>
       <stop offset="0.45" stop-color="#365314" stop-opacity="0.20"/>
       <stop offset="1" stop-color="#020617" stop-opacity="0"/>
@@ -20,15 +20,15 @@
   </defs>
   <rect width="1280" height="720" fill="#020617"/>
   <rect width="1280" height="720" fill="url(#glow)"/>
-  <g transform="rotate(153 1120 120)"><circle cx="1120" cy="120" r="220" fill="#84cc16" opacity="0.10"/></g>
-  <g transform="rotate(144 1180 640)"><circle cx="1180" cy="640" r="280" fill="#22c55e" opacity="0.07"/></g>
+  <g transform="rotate(32 1120 120)"><circle cx="1120" cy="120" r="220" fill="#84cc16" opacity="0.10"/></g>
+  <g transform="rotate(47 1180 640)"><circle cx="1180" cy="640" r="280" fill="#22c55e" opacity="0.07"/></g>
   <g opacity="0.16" stroke="#bef264" stroke-width="1">
     <path d="M120 180H1160M120 260H1160M120 340H1160M120 420H1160M120 500H1160M120 580H1160"/>
     <path d="M240 110V620M400 110V620M560 110V620M720 110V620M880 110V620M1040 110V620"/>
   </g>
   <rect x="120" y="135" width="1040" height="450" rx="36" fill="url(#card)" stroke="#bef264" stroke-opacity="0.32" stroke-width="2"/>
 
-  <polygon points="990,190 1145,350 990,510 835,350" fill="none" stroke="#bef264" stroke-opacity="0.22" stroke-width="2"/>
+  <rect x="840" y="200" width="300" height="300" rx="40" fill="none" stroke="#bef264" stroke-opacity="0.22" stroke-width="2" transform="rotate(-3 990 350)"/>
   <circle cx="990" cy="350" r="110" fill="url(#iconBg)" stroke="#bef264" stroke-opacity="0.55" stroke-width="2"/>
   <g transform="translate(922.8 282.8) scale(5.6)" fill="none" stroke="#bef264" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3 6a2 2 0 012-2h3l2-2h4l2 2h3a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6zm9 11a4 4 0 100-8 4 4 0 000 8z"/>
@@ -37,8 +37,8 @@
   <rect x="175" y="175" width="226" height="42" rx="21" fill="url(#accent)"/>
   <text x="199" y="203" textLength="178" lengthAdjust="spacingAndGlyphs" fill="#0a0f05" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="800" letter-spacing="2">WEBOGROWTH GUIDE</text>
 
-  <text fill="#f8fafc" font-family="Inter, Arial, Helvetica, sans-serif" font-size="56" font-weight="800" y="287" style="letter-spacing:-1px"><tspan x="175" >How to Convert</tspan><tspan x="175" dy="64">HEIC to JPG on</tspan><tspan x="175" dy="64">Windows 11 (Free…</tspan></text>
-  <text x="175" y="465" fill="#94a3b8" font-family="Inter, Arial, Helvetica, sans-serif" font-size="24" font-weight="500">how to convert heic to jpg on windows</text>
-  <path d="M175 497H455" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+  <text fill="#f8fafc" font-family="Inter, Arial, Helvetica, sans-serif" font-size="50" font-weight="800" y="287" style="letter-spacing:-1px"><tspan x="175" >5 Free Alternatives</tspan><tspan x="175" dy="57">to TinyPNG That Don&#39;t</tspan><tspan x="175" dy="57">Limit Your Uploads</tspan></text>
+  <text x="175" y="451" fill="#94a3b8" font-family="Inter, Arial, Helvetica, sans-serif" font-size="24" font-weight="500">tinypng alternative</text>
+  <path d="M175 483H455" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
   <text x="1140" y="560" text-anchor="end" fill="#475569" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" letter-spacing="3">TOOLS.WEBOGROWTH.COM</text>
 </svg>
