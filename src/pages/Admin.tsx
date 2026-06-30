@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useToast } from "@/hooks/use-toast";
 import GoogleSearchConsoleModal from "@/components/GoogleSearchConsoleModal";
+import SeoPerformanceDashboard from "@/components/SeoPerformanceDashboard";
 
 const AUTH_KEY = "wg_admin_auth";
 const SETTINGS_KEY = "wg_admin_settings";
@@ -271,6 +272,7 @@ const Admin = () => {
 
   const tabs = [
     { id: "seo", label: "SEO Settings", icon: "search" },
+    { id: "performance", label: "SEO Performance", icon: "trending_up" },
     { id: "verification", label: "Verification", icon: "verified" },
     { id: "logo", label: "Logo", icon: "image" },
     { id: "email", label: "Email Settings", icon: "mail" },
@@ -366,6 +368,8 @@ const Admin = () => {
               <button onClick={handleSave} className="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_hsla(82,98%,72%,0.3)] transition-all">Save SEO Settings</button>
             </div>
           )}
+
+          {activeTab === "performance" && <SeoPerformanceDashboard />}
 
           {activeTab === "verification" && (
             <div className="space-y-6">

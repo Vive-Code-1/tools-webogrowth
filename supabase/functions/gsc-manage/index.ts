@@ -134,6 +134,30 @@ Deno.serve(async (req) => {
       return json(r.ok ? { success: true } : r.data, r.status);
     }
 
+    if (action === "query_search_analytics") {
+      const siteUrl = String(body.siteUrl || "").trim();
+      if (!siteUrl) return json({ error: "siteUrl required" }, 400);
+      const today = new Date();
+      const iso = (d: Date) => d.toISOString().slice(0, 10);
+      const days = Number(body.days) || 90;
+      const end = iso(new Date(today.getTime() - 2 * 86400_000)); // GSC has ~2-day lag
+      const start = iso(new Date(today.getTime() - (days + 2) * 86400_000));
+      const payload = {
+        startDate: body.startDate || start,
+        endDate: body.endDate || end,
+        dimensions: body.dimensions || ["query", "page"],
+        rowLimit: Math.min(Number(body.rowLimit) || 1000, 25000),
+        dataState: "all",
+      };
+      const r = await gscFetch(
+        `/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`,
+        GSC_KEY,
+        LOVABLE_API_KEY,
+        { method: "POST", body: JSON.stringify(payload) },
+      );
+      return json(r.data, r.status);
+    }
+
     return json({ error: "Unknown action" }, 400);
   } catch (e) {
     return json({ error: (e as Error).message }, 500);
