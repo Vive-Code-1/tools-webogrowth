@@ -15,6 +15,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { buildCoverSvg } from "./lib-blog-cover.mjs";
 
 const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
@@ -258,80 +259,16 @@ function wrapTitle(text, maxChars, maxLines) {
   return lines;
 }
 
-function createFallbackCover(slug, title, subtitle = topic.primaryKeyword) {
+// Deterministic hash from a string → integer.
+function createFallbackCover(slug, title, subtitle = topic.primaryKeyword, category = topic.category, keyword = topic.primaryKeyword) {
   if (dry) return null;
-
   const dir = path.join(ROOT, "public/blog-images");
   fs.mkdirSync(dir, { recursive: true });
-
   const filename = `${slug}.svg`;
   const filePath = path.join(dir, filename);
-
-  // ---- text prep ----
-  const rawTitle = String(title || topic.title).trim();
-  // Pick font-size + max chars per line so we never overflow the card width (~1080px usable).
-  const titleSize = rawTitle.length > 48 ? 56 : rawTitle.length > 32 ? 64 : 76;
-  const charsPerLine = titleSize >= 76 ? 16 : titleSize >= 64 ? 20 : 24;
-  const titleLines = wrapTitle(rawTitle, charsPerLine, 3).map(escapeHtml);
-  const lineHeight = Math.round(titleSize * 1.12);
-
-  const subtitleText = clampText(subtitle, 70, topic.primaryKeyword);
-  const safeSubtitle = escapeHtml(subtitleText);
-
-  // Badge: auto-fit width to text. Approx 11px per char at font-size 18 letter-spacing 2.
-  const badgeLabel = "WEBOGROWTH GUIDE";
-  const badgePadX = 28;
-  const badgeWidth = Math.ceil(badgeLabel.length * 11.2) + badgePadX * 2;
-  const badgeHeight = 42;
-
-  // Layout coordinates (card is x:120-1160, y:135-585, height 450)
-  const padX = 175;
-  const badgeY = 175;
-  const titleStartY = badgeY + badgeHeight + 78; // first baseline
-  const totalTitleHeight = titleLines.length * lineHeight;
-  const subtitleY = titleStartY + totalTitleHeight - lineHeight + 56;
-  const underlineY = subtitleY + 38;
-
-  const titleTspans = titleLines
-    .map((l, i) => `<tspan x="${padX}" ${i === 0 ? "" : `dy="${lineHeight}"`}>${l}</tspan>`)
-    .join("");
-
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="${escapeHtml(rawTitle)}">
-  <defs>
-    <radialGradient id="glow" cx="22%" cy="16%" r="78%">
-      <stop offset="0" stop-color="#bef264" stop-opacity="0.42"/>
-      <stop offset="0.45" stop-color="#365314" stop-opacity="0.18"/>
-      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="card" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#1f2937"/>
-      <stop offset="1" stop-color="#0b1220"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0" stop-color="#bef264"/>
-      <stop offset="1" stop-color="#65a30d"/>
-    </linearGradient>
-  </defs>
-  <rect width="1280" height="720" fill="#020617"/>
-  <rect width="1280" height="720" fill="url(#glow)"/>
-  <circle cx="1120" cy="120" r="220" fill="#84cc16" opacity="0.10"/>
-  <circle cx="1180" cy="640" r="280" fill="#22c55e" opacity="0.07"/>
-  <g opacity="0.18" stroke="#bef264" stroke-width="1">
-    <path d="M120 180H1160M120 260H1160M120 340H1160M120 420H1160M120 500H1160M120 580H1160"/>
-    <path d="M240 110V620M400 110V620M560 110V620M720 110V620M880 110V620M1040 110V620"/>
-  </g>
-  <rect x="120" y="135" width="1040" height="450" rx="36" fill="url(#card)" stroke="#bef264" stroke-opacity="0.32" stroke-width="2"/>
-  <rect x="${padX}" y="${badgeY}" width="${badgeWidth}" height="${badgeHeight}" rx="21" fill="url(#accent)"/>
-  <text x="${padX + badgePadX}" y="${badgeY + 28}" fill="#0a0f05" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="800" letter-spacing="2">${badgeLabel}</text>
-  <text fill="#f8fafc" font-family="Inter, Arial, Helvetica, sans-serif" font-size="${titleSize}" font-weight="800" y="${titleStartY}" style="letter-spacing:-1px">${titleTspans}</text>
-  <text x="${padX}" y="${subtitleY}" fill="#94a3b8" font-family="Inter, Arial, Helvetica, sans-serif" font-size="26" font-weight="500">${safeSubtitle}</text>
-  <path d="M${padX} ${underlineY}H${padX + 320}" stroke="url(#accent)" stroke-width="8" stroke-linecap="round"/>
-  <text x="1140" y="560" text-anchor="end" fill="#475569" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" letter-spacing="3">TOOLS.WEBOGROWTH.COM</text>
-</svg>
-`;
-
+  const svg = buildCoverSvg({ slug, title: title || topic.title, subtitle, category, keyword });
   fs.writeFileSync(filePath, svg);
-  console.log(`✓ Fallback cover image: /blog-images/${filename}`);
+  console.log(`✓ Cover image (topic-aware SVG): /blog-images/${filename}`);
   return `/blog-images/${filename}`;
 }
 
