@@ -132,7 +132,7 @@ export function buildCoverSvg({ slug, title, subtitle, category = "Guide", keywo
   const cardX = 120, cardY = 135, cardW = 1040, cardH = 450;
   const padX = 175;
   const textRight = 760;
-  const charLimit = Math.max(12, Math.floor((textRight - padX) / (titleSize * 0.55)));
+  const charLimit = Math.max(12, Math.floor((textRight - padX) / (titleSize * 0.5)));
   const finalLines = wrapTitle(rawTitle, charLimit, 3).map(escapeHtml);
 
   const safeSubtitle = escapeHtml(clampText(subtitle || keyword, 70));
