@@ -592,8 +592,63 @@ const relatedTools = post.relatedTools
   .map((t) => `      { label: ${JSON.stringify(t.label)}, path: ${JSON.stringify(t.path)} },`)
   .join("\n");
 
+// Auto-insert internal links to relevant tool pages (first plain-text mention only,
+// max one link per tool, max 4 extra links per post). Skips text already inside [..](..)
+// markdown links, inline `code`, fenced ``` blocks, and image alts.
+const TOOL_LINKS = [
+  ["image compressor", "/compressor"], ["compress png", "/compressor"], ["compress jpeg", "/compressor"],
+  ["webp compressor", "/compressor"], ["png to webp", "/converter"], ["jpg to webp", "/converter"],
+  ["png to avif", "/converter"], ["heic to jpg", "/heic-to-jpg"], ["image resizer", "/image-resizer"],
+  ["resize image", "/image-resizer"], ["background remover", "/background-remover"],
+  ["watermark", "/watermark"], ["video to gif", "/video-to-gif"], ["favicon generator", "/favicon"],
+  ["apple touch icon", "/favicon"], ["placeholder image", "/placeholder"], ["image to svg", "/image-to-svg"],
+  ["svg optimizer", "/svg-optimizer"], ["svgo", "/svg-optimizer"], ["alt text", "/alt-text-generator"],
+  ["pagespeed", "/pagespeed-analyzer"], ["core web vitals", "/pagespeed-analyzer"],
+  ["json formatter", "/json-formatter"], ["json minifier", "/json-formatter"],
+  ["css minifier", "/css-minifier"], ["base64", "/base64"], ["html to markdown", "/html-to-markdown"],
+  ["jwt decoder", "/jwt-decoder"], ["regex tester", "/regex-tester"], ["curl builder", "/curl-builder"],
+  ["diff checker", "/diff-checker"], ["meta tag generator", "/meta-tag-generator"],
+  ["og preview", "/og-preview"], ["open graph preview", "/og-preview"],
+  ["sitemap generator", "/sitemap-generator"], ["robots.txt", "/robots-generator"],
+  ["schema markup", "/schema-generator"], ["color palette", "/color-palette"],
+  ["gradient generator", "/gradient-generator"], ["qr code", "/qr-code"],
+  ["lorem ipsum", "/lorem-ipsum"], ["pdf", "/pdf-toolkit"],
+];
+
+function autoInternalLink(markdown, existingPaths, maxNew = 4) {
+  const skipped = new Set(existingPaths);
+  // Mask code blocks, inline code, markdown links/images so we don't touch them.
+  const masks = [];
+  const stash = (m) => { masks.push(m); return `§MASK${masks.length - 1}§`; };
+  let text = markdown
+    .replace(/```[\s\S]*?```/g, stash)
+    .replace(/`[^`\n]+`/g, stash)
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, stash)
+    .replace(/\[[^\]]+\]\([^)]+\)/g, stash);
+
+  let added = 0;
+  for (const [phrase, href] of TOOL_LINKS) {
+    if (added >= maxNew) break;
+    if (skipped.has(href)) continue;
+    // word-boundary, case-insensitive, first plain-text occurrence
+    const re = new RegExp(`(?<![\\w\\[/])(${phrase.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")})(?![\\w/])`, "i");
+    const m = text.match(re);
+    if (!m) continue;
+    text = text.replace(re, `[${m[1]}](${href})`);
+    skipped.add(href);
+    added++;
+  }
+  // restore masks
+  text = text.replace(/§MASK(\d+)§/g, (_, i) => masks[Number(i)]);
+  return { text, added };
+}
+
+const existingLinkPaths = [...post.body.matchAll(/\]\((\/[a-z0-9-]+)\)/gi)].map((m) => m[1]);
+const linked = autoInternalLink(post.body, existingLinkPaths);
+let finalBody = linked.text;
+if (linked.added > 0) console.log(`✓ Auto-added ${linked.added} internal tool links`);
+
 // Guarantee a webogrowth.com link exists in the body
-let finalBody = post.body;
 if (!/webogrowth\.com/i.test(finalBody)) {
   finalBody += `\n\n---\n\n*Published by the team at [WeboGrowth](https://webogrowth.com) — SEO &amp; growth services for ambitious brands.*\n`;
 }
