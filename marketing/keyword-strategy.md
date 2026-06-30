@@ -38,3 +38,21 @@ Source: Semrush (US database), 14 Jun 2026. Authority Score is currently very lo
 2. Write 2 blog posts per primary KW (cluster strategy) — see `src/blog/posts.ts`.
 3. Re-submit sitemap to GSC + IndexNow after deploy.
 4. Track positions weekly via Semrush Position Tracking (use Semrush connector for in-app dashboard).
+
+---
+
+## 90-Day Blog Calendar (auto-rotated)
+
+The `marketing/blog-topic-queue.json` file holds the next 83 un-posted topics (after the first 7 HEIC posts already shipped). Topics are interleaved by **category** to prevent the daily auto-publisher from binge-posting one niche.
+
+Rotation per week: `Image → Developer → SEO → Marketing → Design → PDF → (SEO or Developer)`.
+
+Each topic targets a **low-KDI / long-tail / high-intent keyword** drawn from the per-tool table above. Sample focus areas:
+- **Image** — webp compressor, png→webp, png→avif, image resizer (Instagram/Amazon), background remover, watermark
+- **Developer** — json minifier, jwt decoder, base64 encoder/decoder, css minifier, regex tester, diff checker, html→markdown, curl builder
+- **SEO** — svgo online, apple touch icon, meta tag generator, robots.txt, sitemap, schema markup (FAQ / LocalBusiness / Article / Product), Core Web Vitals, alt text
+- **Marketing** — wifi qr, vcard qr, menu qr, instagram/spotify/payment qr, qr with logo
+- **Design** — color palette from image, css gradient (linear/radial/mesh), dummy text, image→svg, video→gif
+- **PDF** — merge / split / compress / unlock / rotate / convert (word, jpg, png, html)
+
+Refresh the queue every 60 days based on actual GSC click data (drop zero-impression topics, double-down on winners).
