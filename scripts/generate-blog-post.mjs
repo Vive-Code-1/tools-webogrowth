@@ -15,6 +15,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { buildCoverSvg } from "./lib-blog-cover.mjs";
 
 const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
