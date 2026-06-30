@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-30T09:33:36.717Z",
+  "generatedAt": "2026-06-14T17:09:41.525Z",
   "totals": {
-    "routes": 37,
-    "links": 236,
+    "routes": 23,
+    "links": 156,
     "orphans": 0,
     "under": 0,
     "stale": 0
@@ -19,74 +19,14 @@
       "sources": 2
     },
     {
-      "route": "/image-to-svg",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/background-remover",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/pdf-toolkit",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/jwt-decoder",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/pagespeed-analyzer",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/regex-tester",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/schema-generator",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/watermark",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/alt-text-generator",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/video-to-gif",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/diff-checker",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/curl-builder",
-      "count": 4,
-      "sources": 4
-    },
-    {
-      "route": "/sitemap-generator",
-      "count": 4,
-      "sources": 4
-    },
-    {
       "route": "/about-us",
       "count": 4,
       "sources": 3
+    },
+    {
+      "route": "/contact-us",
+      "count": 5,
+      "sources": 4
     },
     {
       "route": "/meta-tag-generator",
@@ -122,11 +62,6 @@
       "route": "/placeholder",
       "count": 6,
       "sources": 6
-    },
-    {
-      "route": "/contact-us",
-      "count": 6,
-      "sources": 5
     },
     {
       "route": "/svg-optimizer",
@@ -169,29 +104,24 @@
       "sources": 7
     },
     {
-      "route": "/heic-to-jpg",
-      "count": 10,
-      "sources": 5
-    },
-    {
       "route": "/converter",
-      "count": 11,
+      "count": 9,
       "sources": 7
     },
     {
       "route": "/compressor",
-      "count": 12,
+      "count": 11,
       "sources": 7
     },
     {
       "route": "/",
-      "count": 15,
-      "sources": 12
+      "count": 12,
+      "sources": 10
     },
     {
       "route": "/blog",
-      "count": 23,
-      "sources": 6
+      "count": 12,
+      "sources": 4
     }
   ],
   "orphans": [],
@@ -203,13 +133,10 @@
       "src/components/Navbar.tsx",
       "src/components/Navbar.tsx",
       "src/components/Navbar.tsx",
-      "src/components/Navbar.tsx",
       "src/components/ToolSeoSection.tsx",
       "src/pages/AboutUs.tsx",
       "src/pages/Admin.tsx",
-      "src/pages/BlogCategory.tsx",
       "src/pages/BlogPost.tsx",
-      "src/pages/BlogTag.tsx",
       "src/pages/NotFound.tsx",
       "src/pages/PrivacyPolicy.tsx",
       "src/pages/TermsOfService.tsx",
@@ -220,10 +147,9 @@
       "src/blog/posts.ts",
       "src/blog/posts.ts",
       "src/blog/posts.ts",
-      "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "src/pages/Index.tsx",
@@ -233,110 +159,18 @@
       "src/blog/posts.ts",
       "src/blog/posts.ts",
       "src/blog/posts.ts",
-      "src/blog/posts.ts",
-      "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/heic-to-jpg": [
-      "src/blog/posts.ts",
-      "src/blog/posts.ts",
-      "src/blog/posts.ts",
-      "src/blog/posts.ts",
-      "src/blog/posts.ts",
-      "src/blog/posts.ts",
-      "src/components/Footer.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/image-to-svg": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/background-remover": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/pdf-toolkit": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/jwt-decoder": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/pagespeed-analyzer": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/regex-tester": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/schema-generator": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/watermark": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/alt-text-generator": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/video-to-gif": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/diff-checker": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/curl-builder": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
-      "src/pages/Index.tsx",
-      "public/sitemap.xml"
-    ],
-    "/sitemap-generator": [
-      "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
     ],
     "/svg-optimizer": [
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
@@ -344,8 +178,8 @@
     "/favicon": [
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
@@ -353,8 +187,8 @@
     "/json-formatter": [
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "src/pages/Index.tsx",
@@ -362,8 +196,8 @@
     ],
     "/meta-tag-generator": [
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
@@ -371,8 +205,8 @@
     "/color-palette": [
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
@@ -380,8 +214,8 @@
     "/qr-code": [
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
@@ -389,16 +223,16 @@
     "/image-resizer": [
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
     ],
     "/css-minifier": [
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
@@ -406,48 +240,48 @@
     "/base64": [
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
     ],
     "/gradient-generator": [
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
     ],
     "/lorem-ipsum": [
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
     ],
     "/robots-generator": [
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
     ],
     "/og-preview": [
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
     ],
     "/placeholder": [
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
@@ -455,8 +289,8 @@
     "/html-to-markdown": [
       "src/blog/posts.ts",
       "src/components/Footer.tsx",
+      "src/components/Navbar.tsx",
       "src/components/RelatedTools.tsx",
-      "src/lib/tools.ts",
       "src/pages/Admin.tsx",
       "src/pages/Index.tsx",
       "public/sitemap.xml"
@@ -476,7 +310,6 @@
       "public/sitemap.xml"
     ],
     "/contact-us": [
-      "src/components/ErrorBoundary.tsx",
       "src/components/Footer.tsx",
       "src/components/Navbar.tsx",
       "src/components/Navbar.tsx",
@@ -487,20 +320,9 @@
       "src/components/Footer.tsx",
       "src/components/Navbar.tsx",
       "src/components/Navbar.tsx",
-      "src/pages/BlogCategory.tsx",
-      "src/pages/BlogCategory.tsx",
       "src/pages/BlogPost.tsx",
       "src/pages/BlogPost.tsx",
       "src/pages/BlogPost.tsx",
-      "src/pages/BlogTag.tsx",
-      "src/pages/BlogTag.tsx",
-      "public/sitemap.xml",
-      "public/sitemap.xml",
-      "public/sitemap.xml",
-      "public/sitemap.xml",
-      "public/sitemap.xml",
-      "public/sitemap.xml",
-      "public/sitemap.xml",
       "public/sitemap.xml",
       "public/sitemap.xml",
       "public/sitemap.xml",
