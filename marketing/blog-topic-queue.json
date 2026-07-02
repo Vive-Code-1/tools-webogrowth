@@ -77,7 +77,8 @@
     "category": "Developer",
     "relatedToolPath": "/json-formatter",
     "relatedToolLabel": "JSON Formatter",
-    "posted": null
+    "posted": "2026-07-02T08:41:40.225Z",
+    "slug": "json-minifier-vs-beautifier"
   },
   {
     "title": "SVGO Online: Optimize SVG Files Without Installing Anything",
