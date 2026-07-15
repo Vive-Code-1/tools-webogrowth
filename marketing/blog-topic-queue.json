@@ -194,7 +194,8 @@
     "category": "Image",
     "relatedToolPath": "/compressor",
     "relatedToolLabel": "Image Compressor",
-    "posted": null
+    "posted": "2026-07-15T07:50:02.833Z",
+    "slug": "webp-compressor-shrink-webp-files-without-visible-loss"
   },
   {
     "title": "JWT Decoder Online: Inspect Tokens Without Leaking Secrets",
