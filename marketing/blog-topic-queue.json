@@ -329,7 +329,8 @@
     "category": "Developer",
     "relatedToolPath": "/regex-tester",
     "relatedToolLabel": "Regex Tester",
-    "posted": null
+    "posted": "2026-07-30T08:07:05.017Z",
+    "slug": "regex-tester-online-debug-patterns-with-live-highlights"
   },
   {
     "title": "Minify SVG: Strip XML Bloat & Cut File Size 60%",
