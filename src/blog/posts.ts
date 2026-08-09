@@ -4997,6 +4997,386 @@ To make your Instagram QR code more effective, ensure it has a clear call to act
 
 Creating a trackable **Instagram QR code** for your bio link is a smart way to bridge offline and online engagement. Use WeboGrowth's [QR Code Generator](/qr-code) to create a static QR code, ensuring your destination URL includes UTM parameters for Google Analytics tracking. This allows you to monitor clicks, understand campaign performance, and make data-driven decisions to optimize your marketing efforts and drive more traffic to your Instagram profile or linked content. Avoid common mistakes like untrackable links or poor placement to maximize effectiveness.`,
   }),
+  post({
+    slug: "linear-gradient-css-50-copy-paste-combos",
+    title: "Linear Gradient CSS: 50 Copy-Paste Combos for Web Design",
+    description: "Master linear gradient CSS with 50 copy-paste code examples. Learn how to create stunning color transitions for your web design projects easily.",
+    keywords: "linear gradient css, css gradients, web design, front-end development, css background, gradient generator, css color transitions, copy paste css, gradient examples, modern css",
+    date: "2026-08-09",
+    author: "WeboGrowth Team",
+    category: "Design",
+    readMinutes: 7,
+    cover: "/blog-images/linear-gradient-css-50-copy-paste-combos.svg",
+    excerpt: "Discover how to effortlessly add beautiful color transitions to your website using linear gradient CSS. This guide provides 50 copy-paste code examples and practical tips for stunning web design.",
+    relatedTools: [
+      { label: "Gradient Generator", path: "/gradient-generator" },
+      { label: "Color Palette", path: "/color-palette" },
+    ],
+    body: `Adding beautiful color transitions to your website is simple with **linear gradient CSS**. This guide provides 50 copy-paste code examples to help you create stunning backgrounds, buttons, and more without complex image editing. You'll learn the basics and advanced techniques to bring your designs to life, built by the team at [WeboGrowth](https://webogrowth.com).
+
+## Understanding Linear Gradient CSS Basics
+
+A \`linear-gradient()\` in CSS creates an image consisting of a progressive transition between two or more colors along a straight line. It's a powerful tool for modern web design, allowing for smooth blends or sharp color breaks.
+
+### How Linear Gradients Work
+
+The basic syntax for a linear gradient is \`background-image: linear-gradient(direction, color-stop1, color-stop2, ...);\`.
+
+*   **\`direction\`**: Specifies the angle or direction of the gradient. This can be a keyword like \`to top\`, \`to right\`, \`to bottom left\`, or an angle like \`45deg\`, \`90deg\`.
+*   **\`color-stop\`**: Defines the colors in the gradient and where they start and end. Each color can optionally have a position (e.g., \`red 0%\`, \`blue 100%\`).
+
+### Direction Keywords and Angles
+
+You can define the gradient's direction in several ways:
+
+*   **Keywords**: \`to top\`, \`to bottom\`, \`to left\`, \`to right\`, \`to top left\`, \`to top right\`, \`to bottom left\`, \`to bottom right\`.
+*   **Angles**: \`0deg\` (to top), \`90deg\` (to right), \`180deg\` (to bottom), \`270deg\` (to left), \`45deg\`, \`-45deg\`, etc.
+
+### Color Stops and Transparency
+
+Color stops define the colors and their positions along the gradient line. You can use any valid CSS color value (hex, RGB, HSL, named colors). Transparency is achieved using \`rgba()\` with an alpha value or the \`transparent\` keyword.
+
+## 50 Copy-Paste Linear Gradient CSS Examples
+
+Here are 50 \`linear-gradient()\` examples you can copy and paste directly into your CSS. Experiment with these to find the perfect look for your project.
+
+### Simple Two-Color Gradients
+
+1.  **Blue to Purple (Default: Top to Bottom)**
+    \`\`\`css
+    background-image: linear-gradient(blue, purple);
+    \`\`\`
+2.  **Red to Yellow (Left to Right)**
+    \`\`\`css
+    background-image: linear-gradient(to right, red, yellow);
+    \`\`\`
+3.  **Green to Teal (Diagonal: Top-Left to Bottom-Right)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom right, #00ff00, #008080);
+    \`\`\`
+4.  **Orange to Pink (45-degree angle)**
+    \`\`\`css
+    background-image: linear-gradient(45deg, orange, pink);
+    \`\`\`
+5.  **Gray to Black (Vertical)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom, #cccccc, #333333);
+    \`\`\`
+6.  **Sky Blue to White (Top to Bottom)**
+    \`\`\`css
+    background-image: linear-gradient(#87ceeb, white);
+    \`\`\`
+7.  **Deep Blue to Light Blue (Right to Left)**
+    \`\`\`css
+    background-image: linear-gradient(to left, #000080, #add8e6);
+    \`\`\`
+8.  **Gold to Silver (Horizontal)**
+    \`\`\`css
+    background-image: linear-gradient(to right, #ffd700, #c0c0c0);
+    \`\`\`
+9.  **Forest Green to Lime Green (Diagonal)**
+    \`\`\`css
+    background-image: linear-gradient(135deg, #228b22, #32cd32);
+    \`\`\`
+10. **Warm Red to Dark Red (Vertical)**
+    \`\`\`css
+    background-image: linear-gradient(#ff6347, #8b0000);
+    \`\`\`
+
+### Multi-Color Gradients
+
+11. **Sunset Blend (Orange, Pink, Purple)**
+    \`\`\`css
+    background-image: linear-gradient(to right, orange, pink, purple);
+    \`\`\`
+12. **Ocean Horizon (Dark Blue, Sky Blue, White)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom, #000080, #87ceeb, white);
+    \`\`\`
+13. **Rainbow (Red, Orange, Yellow, Green, Blue, Indigo, Violet)**
+    \`\`\`css
+    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    \`\`\`
+14. **Earthy Tones (Brown, Tan, Green)**
+    \`\`\`css
+    background-image: linear-gradient(90deg, #8b4513, #d2b48c, #228b22);
+    \`\`\`
+15. **Vibrant Tech (Cyan, Magenta, Yellow)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom right, cyan, magenta, yellow);
+    \`\`\`
+16. **Pastel Dream (Lavender, Mint, Peach)**
+    \`\`\`css
+    background-image: linear-gradient(to top, #e6e6fa, #98fb98, #ffdab9);
+    \`\`\`
+17. **Cool Blues (Dark Blue, Medium Blue, Light Blue)**
+    \`\`\`css
+    background-image: linear-gradient(to left, #000080, #0000cd, #add8e6);
+    \`\`\`
+18. **Warm Golds (Gold, Orange, Brown)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom, #ffd700, #ffa500, #a52a2a);
+    \`\`\`
+19. **Grayscale Fade (Black, Dark Gray, Light Gray, White)**
+    \`\`\`css
+    background-image: linear-gradient(to right, black, #333, #ccc, white);
+    \`\`\`
+20. **Tropical Mix (Turquoise, Coral, Yellow)**
+    \`\`\`css
+    background-image: linear-gradient(135deg, #40e0d0, #ff7f50, #ffff00);
+    \`\`\`
+21. **Forest Sunset (Dark Green, Orange, Purple)**
+    \`\`\`css
+    background-image: linear-gradient(to top left, #006400, #ff8c00, #800080);
+    \`\`\`
+22. **Electric (Neon Green, Electric Blue, Hot Pink)**
+    \`\`\`css
+    background-image: linear-gradient(to right, #00ff00, #00ffff, #ff00ff);
+    \`\`\`
+23. **Deep Ocean (Navy, Deep Teal, Aqua)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom, #00004d, #004d4d, #00ffff);
+    \`\`\`
+24. **Fire (Dark Red, Orange, Yellow)**
+    \`\`\`css
+    background-image: linear-gradient(to right, #8b0000, #ff4500, #ffd700);
+    \`\`\`
+25. **Aurora (Dark Purple, Blue, Green)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom right, #4b0082, #0000ff, #00ff00);
+    \`\`\`
+
+### Transparent Gradients
+
+26. **Fade to Transparent (Left to Right)**
+    \`\`\`css
+    background-image: linear-gradient(to right, rgba(255,0,0,1), rgba(255,0,0,0));
+    \`\`\`
+27. **Blue Overlay (Top to Bottom)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom, rgba(0,0,255,0.7), rgba(0,0,255,0));
+    \`\`\`
+28. **Subtle Fade (Diagonal)**
+    \`\`\`css
+    background-image: linear-gradient(45deg, #333 0%, rgba(51,51,51,0) 70%);
+    \`\`\`
+29. **Center Transparent (Horizontal)**
+    \`\`\`css
+    background-image: linear-gradient(to right, red, transparent 50%, blue);
+    \`\`\`
+30. **Textured Overlay (Black to Transparent)**
+    \`\`\`css
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0));
+    \`\`\`
+
+### Hard Stops & Stripes
+
+31. **Two-Color Horizontal Stripe**
+    \`\`\`css
+    background-image: linear-gradient(to right, red 50%, blue 50%);
+    \`\`\`
+32. **Three-Color Vertical Stripe**
+    \`\`\`css
+    background-image: linear-gradient(to bottom, red 33%, white 33%, white 66%, blue 66%);
+    \`\`\`
+33. **Diagonal Red and White Stripes**
+    \`\`\`css
+    background-image: linear-gradient(45deg, #ff0000 25%, #fff 25%, #fff 50%, #ff0000 50%, #ff0000 75%, #fff 75%);
+    background-size: 20px 20px; /* Important for stripes */
+    \`\`\`
+34. **Checkerboard-like (using multiple gradients and background-size)**
+    \`\`\`css
+    background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    \`\`\`
+35. **Rainbow Stripes**
+    \`\`\`css
+    background-image: linear-gradient(to right, red 14%, orange 14%, orange 28%, yellow 28%, yellow 42%, green 42%, green 56%, blue 56%, blue 70%, indigo 70%, indigo 84%, violet 84%);
+    \`\`\`
+36. **Rounded Stripe (using \`border-radius\` and gradient)**
+    \`\`\`css
+    background-image: linear-gradient(to right, #f00 50%, #00f 50%);
+    border-radius: 10px;
+    \`\`\`
+37. **Repeating Gradient (Basic)**
+    \`\`\`css
+    background-image: repeating-linear-gradient(45deg, #ccc, #ccc 10px, #eee 10px, #eee 20px);
+    \`\`\`
+38. **Repeating Gradient (Complex)**
+    \`\`\`css
+    background-image: repeating-linear-gradient(60deg, #f6d365, #f6d365 10px, #fda085 10px, #fda085 20px);
+    \`\`\`
+39. **Vertical Hard Stop with Transparency**
+    \`\`\`css
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 50%, transparent 50%);
+    \`\`\`
+40. **Angled Hard Stop**
+    \`\`\`css
+    background-image: linear-gradient(30deg, #ff0000 30%, #0000ff 30%);
+    \`\`\`
+
+### Advanced Gradients
+
+41. **Multiple Backgrounds (Gradient + Image)**
+    \`\`\`css
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('path/to/your/image.jpg');
+    background-size: cover;
+    \`\`\`
+42. **Text Gradient (requires \`background-clip\` and \`text-fill-color\`)**
+    \`\`\`css
+    color: transparent;
+    background-image: linear-gradient(to right, #ff7e5f, #feb47b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    \`\`\`
+43. **Gradient with \`calc()\` for precise stops**
+    \`\`\`css
+    background-image: linear-gradient(to right, red 20%, yellow calc(20% + 5px), blue calc(80% - 5px), purple 80%);
+    \`\`\`
+44. **Subtle Diagonal Texture**
+    \`\`\`css
+    background-image: linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%, rgba(0,0,0,0.05)), linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%, rgba(0,0,0,0.05));
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    \`\`\`
+45. **Metallic Look**
+    \`\`\`css
+    background-image: linear-gradient(to bottom, #dcdcdc 0%, #f0f0f0 50%, #dcdcdc 100%);
+    \`\`\`
+46. **Glass Effect (with \`backdrop-filter\`)**
+    \`\`\`css
+    background-image: linear-gradient(to bottom right, rgba(255,255,255,0.2), rgba(255,255,255,0));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    \`\`\`
+47. **Retro Striped Background**
+    \`\`\`css
+    background-image: linear-gradient(90deg, #ff0000 25%, #00ff00 25%, #00ff00 50%, #0000ff 50%, #0000ff 75%, #ffff00 75%);
+    background-size: 100% 50%;
+    \`\`\`
+48. **Animated Gradient (requires CSS animation keyframes)**
+    \`\`\`css
+    /* Define keyframes elsewhere */
+    /* @keyframes gradient-animation { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } } */
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
+    \`\`\`
+49. **Layered Gradients (for complex patterns)**
+    \`\`\`css
+    background-image: linear-gradient(to right, rgba(255,0,0,0.5), rgba(255,0,0,0.5)), linear-gradient(to bottom, rgba(0,0,255,0.5), rgba(0,0,255,0.5));
+    \`\`\`
+50. **Diagonal Gradient with Fixed Center**
+    \`\`\`css
+    background-image: linear-gradient(to bottom right, #f00 0%, #f00 25%, #0f0 50%, #0f0 75%, #00f 100%);
+    \`\`\`
+
+## How to Use Our Gradient Generator Tool
+
+Creating custom linear gradient CSS is even easier with our [Gradient Generator](/gradient-generator). Instead of manually writing out color stops and directions, you can visually design your gradient and get the code instantly. Here's how:
+
+1.  **Visit the Tool**: Go to the [Gradient Generator](/gradient-generator) page on WeboGrowth Tools.
+2.  **Choose Gradient Type**: Select 'Linear' as your gradient type.
+3.  **Add Colors**: Click on the color stops to choose your desired colors. You can add more stops by clicking on the gradient bar.
+4.  **Adjust Positions**: Drag the color stops to set their positions or enter precise percentages.
+5.  **Set Direction/Angle**: Use the angle control to change the gradient's direction.
+6.  **Preview and Copy**: Watch the live preview. Once satisfied, click the 'Copy CSS' button to grab your generated \`linear-gradient\` code.
+
+This tool saves time and helps you achieve complex gradients without guesswork. You can also use our [Color Palette](/color-palette) tool to find harmonious color combinations before generating your gradient.
+
+## Common Linear Gradient CSS Mistakes
+
+Even with simple syntax, it's easy to make small errors when working with \`linear-gradient\`.
+
+### Forgetting \`background-image\`
+
+The \`linear-gradient()\` function generates an image, so it must be assigned to the \`background-image\` property, not \`background-color\`.
+
+\`\`\`css
+/* Incorrect */
+background-color: linear-gradient(red, blue);
+
+/* Correct */
+background-image: linear-gradient(red, blue);
+\`\`\`
+
+### Incorrect Color Stop Syntax
+
+Make sure each color stop is separated by a comma. If you're using percentages, ensure they are valid.
+
+\`\`\`css
+/* Incorrect */
+linear-gradient(red 0% blue 100%);
+
+/* Correct */
+linear-gradient(red 0%, blue 100%);
+\`\`\`
+
+### Overlapping or Conflicting Directions
+
+Using both a direction keyword and an angle that conflict (e.g., \`to right, 90deg\`) can lead to unexpected results. Stick to one method.
+
+### Not Specifying \`background-size\` for Stripes
+
+For sharp stripes, especially diagonal ones, \`background-size\` is often needed to repeat the pattern correctly. Without it, the gradient might just stretch.
+
+## Best Practices for Gradients in Web Design
+
+| Feature           | \`linear-gradient()\`                                | \`radial-gradient()\`                                 |
+| :---------------- | :------------------------------------------------- | :-------------------------------------------------- |
+| **Shape**         | Straight line transition                           | Circular or elliptical transition                   |
+| **Direction**     | \`to top\`, \`90deg\` (angle), etc.                    | \`at center\`, \`circle\`, \`ellipse\`                    |
+| **Use Cases**     | Backgrounds, buttons, borders, text, overlays      | Spotlights, vignettes, circular patterns, subtle glows |
+| **Complexity**    | Generally simpler to control direction             | Can be trickier to position and size precisely      |
+| **Performance**   | Excellent                                          | Excellent                                           |
+
+### Accessibility Considerations
+
+*   **Contrast**: Ensure text placed over a gradient has sufficient contrast. Test with tools to check readability.
+*   **Meaning**: Avoid using gradients to convey critical information, as they might be less readable for some users.
+
+### Performance Tips
+
+CSS gradients are performant as they are rendered by the browser and don't require external image files. This reduces HTTP requests and page load times.
+
+*   **Minify CSS**: If you have many gradients, consider using a tool like our [CSS Minifier](/css-minifier) to reduce file size.
+*   **Limit Complexity**: While possible, extremely complex gradients with many stops might slightly impact rendering on older devices. Keep it reasonable.
+
+### Browser Support
+
+Modern browsers have excellent support for linear gradients. For very old browsers, you might need vendor prefixes (\`-webkit-\`, \`-moz-\`) or a fallback solid \`background-color\`.
+
+## FAQ
+
+### What is a linear gradient in CSS?
+
+A linear gradient in CSS creates a smooth transition between two or more colors along a straight line. It's a type of CSS image that is generated by the browser, commonly used for backgrounds or decorative elements.
+
+### How do you make a linear gradient go top to bottom?
+
+By default, linear gradients go from top to bottom if no direction is specified. You can explicitly set it using \`linear-gradient(to bottom, color1, color2);\` or \`linear-gradient(180deg, color1, color2);\`.
+
+### Can you use transparency in a linear gradient?
+
+Yes, you can use transparency in a linear gradient by specifying \`rgba()\` colors with an alpha value less than 1, or by using the \`transparent\` keyword. This allows for effects like fading elements into the background.
+
+### What is the difference between linear and radial gradients?
+
+Linear gradients create color transitions along a straight line, resulting in a stripe-like or diagonal fade. Radial gradients create color transitions from a central point outwards, forming circular or elliptical patterns.
+
+### How do I add multiple colors to a linear gradient?
+
+To add multiple colors, simply list them as additional color stops in the \`linear-gradient()\` function, separated by commas. For example: \`linear-gradient(to right, red, yellow, green, blue);\`.
+
+### Why is my linear gradient not showing up?
+
+Common reasons include using \`background-color\` instead of \`background-image\`, syntax errors like missing commas or incorrect direction keywords, or having another background property override it. Ensure your element has dimensions and is not completely transparent.
+
+## TL;DR
+
+**Linear gradient CSS** is a versatile tool for adding visually appealing color transitions to your web projects. By understanding directions, color stops, and transparency, you can create a wide range of effects, from simple fades to complex stripes. Use the provided 50 copy-paste examples to quickly implement gradients, and leverage our [Gradient Generator](/gradient-generator) for effortless custom designs. Always consider accessibility and ensure good contrast for text over gradients.`,
+  }),
 ];
 
 export const getPostBySlug = (slug: string) =>
