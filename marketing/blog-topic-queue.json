@@ -572,7 +572,8 @@
     "category": "Image",
     "relatedToolPath": "/compressor",
     "relatedToolLabel": "Image Compressor",
-    "posted": null
+    "posted": "2026-08-26T06:29:37.275Z",
+    "slug": "reduce-image-size-kb-on-phone"
   },
   {
     "title": "Base64 Encoder for Images: Inline PNGs in CSS/HTML",
