@@ -61,25 +61,9 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      return new Response(JSON.stringify({ error: "LOVABLE_API_KEY not configured" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY_1");
-    if (!RESEND_API_KEY) {
-      return new Response(JSON.stringify({ error: "RESEND_API_KEY not configured" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
     const { name, email, service, message, toEmail, type } = await req.json();
 
-    const recipientEmail = toEmail || "rafikuzzaman10@gmail.com";
+    const recipientEmail = (typeof toEmail === "string" && toEmail.trim()) || FALLBACK_TO;
 
     // Newsletter signup
     if (type === "newsletter") {
@@ -90,30 +74,20 @@ Deno.serve(async (req) => {
         });
       }
 
-      const res = await fetch(`${GATEWAY_URL}/emails`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-          "X-Connection-Api-Key": RESEND_API_KEY,
-        },
-        body: JSON.stringify({
-          from: "WeboGrowth Tools <onboarding@resend.dev>",
-          to: [recipientEmail],
-          subject: `New Newsletter Signup: ${email.trim()}`,
-          html: `
-            <h2>New Newsletter Subscription</h2>
-            <p><strong>Email:</strong> ${email.trim()}</p>
-            <p>This user wants to receive updates from WeboGrowth Tools.</p>
-          `,
-        }),
+      const out = await sendEmail({
+        from: FROM,
+        to: [recipientEmail],
+        subject: `New Newsletter Signup: ${email.trim()}`,
+        html: `
+          <h2>New Newsletter Subscription</h2>
+          <p><strong>Email:</strong> ${email.trim()}</p>
+          <p>This user wants to receive updates from WeboGrowth Tools.</p>
+        `,
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        console.error("Resend API error:", JSON.stringify(data));
-        return new Response(JSON.stringify({ error: data.message || "Failed to send" }), {
-          status: res.status,
+      if (!out.ok) {
+        return new Response(JSON.stringify({ error: out.data?.message || "Failed to send" }), {
+          status: out.status,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
@@ -139,36 +113,28 @@ Deno.serve(async (req) => {
       });
     }
 
-    const res = await fetch(`${GATEWAY_URL}/emails`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-        "X-Connection-Api-Key": RESEND_API_KEY,
-      },
-      body: JSON.stringify({
-        from: "WeboGrowth Tools <onboarding@resend.dev>",
-        to: [recipientEmail],
-        subject: `Contact from ${name.trim()} - ${service || "General"}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Service:</strong> ${service || "N/A"}</p>
-          <hr/>
-          <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, "<br/>")}</p>
-        `,
-        reply_to: email,
-      }),
+    const escape = (s: string) =>
+      String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    const out = await sendEmail({
+      from: FROM,
+      to: [recipientEmail],
+      subject: `Contact from ${name.trim()} - ${service || "General"}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${escape(name)}</p>
+        <p><strong>Email:</strong> ${escape(email)}</p>
+        <p><strong>Service:</strong> ${escape(service || "N/A")}</p>
+        <hr/>
+        <p><strong>Message:</strong></p>
+        <p>${escape(message).replace(/\n/g, "<br/>")}</p>
+      `,
+      reply_to: email,
     });
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      console.error("Resend API error:", JSON.stringify(data));
-      return new Response(JSON.stringify({ error: data.message || "Failed to send email" }), {
-        status: res.status,
+    if (!out.ok) {
+      return new Response(JSON.stringify({ error: out.data?.message || "Failed to send email" }), {
+        status: out.status,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
