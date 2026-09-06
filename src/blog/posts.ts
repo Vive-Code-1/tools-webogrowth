@@ -8,7 +8,7 @@ export interface BlogPost {
   date: string;           // YYYY-MM-DD
   updated?: string;
   author: string;
-  category: "Image" | "Developer" | "SEO" | "Design" | "Guide";
+  category: "Image" | "Developer" | "SEO" | "Design" | "Guide" | "Marketing" | "PDF";
   readMinutes: number;
   cover?: string;
   excerpt: string;        // shown on blog index card
