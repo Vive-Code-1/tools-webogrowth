@@ -4,6 +4,56 @@ const corsHeaders = {
 };
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
+const DIRECT_URL = "https://api.resend.com";
+const FROM = "WeboGrowth Tools <onboarding@resend.dev>";
+const FALLBACK_TO = "rafikuzzaman10@gmail.com";
+
+/**
+ * Send via Resend. Prefers the user's own RESEND_API_KEY (direct API);
+ * falls back to the Lovable connector gateway key.
+ */
+async function sendEmail(payload: Record<string, unknown>) {
+  const directKey = Deno.env.get("RESEND_API_KEY");
+  const gatewayKey = Deno.env.get("RESEND_API_KEY_1");
+  const lovableKey = Deno.env.get("LOVABLE_API_KEY");
+
+  const attempts: { url: string; headers: Record<string, string> }[] = [];
+  if (directKey) {
+    attempts.push({
+      url: `${DIRECT_URL}/emails`,
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${directKey}` },
+    });
+  }
+  if (gatewayKey && lovableKey) {
+    attempts.push({
+      url: `${GATEWAY_URL}/emails`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${lovableKey}`,
+        "X-Connection-Api-Key": gatewayKey,
+      },
+    });
+  }
+
+  if (!attempts.length) {
+    return { ok: false, status: 500, data: { message: "No Resend API key configured" } };
+  }
+
+  let last = { ok: false, status: 500, data: { message: "Unknown error" } as Record<string, unknown> };
+  for (const a of attempts) {
+    try {
+      const res = await fetch(a.url, { method: "POST", headers: a.headers, body: JSON.stringify(payload) });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) return { ok: true, status: res.status, data };
+      console.error("Resend send failed", a.url, res.status, JSON.stringify(data));
+      last = { ok: false, status: res.status, data };
+    } catch (e) {
+      console.error("Resend request error", a.url, String(e));
+      last = { ok: false, status: 502, data: { message: String(e) } };
+    }
+  }
+  return last;
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
