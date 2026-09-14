@@ -21,21 +21,12 @@ const ContactUs = () => {
 
     setSending(true);
     try {
-      // Read admin-configured recipient email
-      let toEmail = "rafikuzzaman10@gmail.com";
-      try {
-        const saved = localStorage.getItem("wg_admin_settings");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (parsed.siteEmail) toEmail = parsed.siteEmail;
-        }
-      } catch {}
-
       const { data, error } = await supabase.functions.invoke("send-contact-email", {
-        body: { name: name.trim(), email: email.trim(), service: form.service, message: message.trim(), toEmail },
+        body: { name: name.trim(), email: email.trim(), service: form.service, message: message.trim() },
       });
 
       if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || "Email delivery failed");
 
       toast({ title: "Message sent successfully!", description: "We'll get back to you soon." });
       setForm({ name: "", email: "", service: "", message: "" });
