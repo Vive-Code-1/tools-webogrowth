@@ -1,16 +1,13 @@
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-};
+import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
 const DIRECT_URL = "https://api.resend.com";
 const FROM = "WeboGrowth Tools <onboarding@resend.dev>";
-const FALLBACK_TO = "rafikuzzaman10@gmail.com";
+const FALLBACK_TO = "aabeg01@gmail.com";
 
 /**
- * Send via Resend. Prefers the user's own RESEND_API_KEY (direct API);
- * falls back to the Lovable connector gateway key.
+ * Send via the linked Resend connection first, with the direct key as a
+ * fallback when one is configured.
  */
 async function sendEmail(payload: Record<string, unknown>) {
   const directKey = Deno.env.get("RESEND_API_KEY");
@@ -18,12 +15,6 @@ async function sendEmail(payload: Record<string, unknown>) {
   const lovableKey = Deno.env.get("LOVABLE_API_KEY");
 
   const attempts: { url: string; headers: Record<string, string> }[] = [];
-  if (directKey) {
-    attempts.push({
-      url: `${DIRECT_URL}/emails`,
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${directKey}` },
-    });
-  }
   if (gatewayKey && lovableKey) {
     attempts.push({
       url: `${GATEWAY_URL}/emails`,
@@ -32,6 +23,12 @@ async function sendEmail(payload: Record<string, unknown>) {
         Authorization: `Bearer ${lovableKey}`,
         "X-Connection-Api-Key": gatewayKey,
       },
+    });
+  }
+  if (directKey) {
+    attempts.push({
+      url: `${DIRECT_URL}/emails`,
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${directKey}` },
     });
   }
 
@@ -61,9 +58,11 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { name, email, service, message, toEmail, type } = await req.json();
+    const { name, email, service, message, type } = await req.json();
 
-    const recipientEmail = (typeof toEmail === "string" && toEmail.trim()) || FALLBACK_TO;
+    // Never trust a browser-provided recipient. Resend's test sender can only
+    // deliver to the connected account owner's verified inbox.
+    const recipientEmail = Deno.env.get("CONTACT_TO_EMAIL")?.trim() || FALLBACK_TO;
 
     // Newsletter signup
     if (type === "newsletter") {
