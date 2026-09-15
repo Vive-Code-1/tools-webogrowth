@@ -1,16 +1,1 @@
-project_id = "vgfpjhimlztysvpxcgab"
-
-[functions.send-contact-email]
-verify_jwt = false
-
-[functions.cleanup-expired-files]
-verify_jwt = false
-
-[functions.generate-gradient-image]
-verify_jwt = false
-
-[functions.generate-alt-text]
-verify_jwt = false
-
-[functions.gsc-manage]
-verify_jwt = false
+project_id = "voorfcfafmjbpbsbzfbm"
