@@ -1,55 +1,39 @@
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
-const DIRECT_URL = "https://api.resend.com";
 const FROM = "WeboGrowth Tools <onboarding@resend.dev>";
-const FALLBACK_TO = "aabeg01@gmail.com";
+const RESEND_ACCOUNT_EMAIL = "aabeg01@gmail.com";
 
 /**
- * Send via the linked Resend connection first, with the direct key as a
- * fallback when one is configured.
+ * Send only through the Resend connection linked to this project. The
+ * onboarding sender is intentionally restricted to the Resend account email.
  */
 async function sendEmail(payload: Record<string, unknown>) {
-  const directKey = Deno.env.get("RESEND_API_KEY");
   const gatewayKey = Deno.env.get("RESEND_API_KEY_1");
   const lovableKey = Deno.env.get("LOVABLE_API_KEY");
 
-  const attempts: { url: string; headers: Record<string, string> }[] = [];
-  if (gatewayKey && lovableKey) {
-    attempts.push({
-      url: `${GATEWAY_URL}/emails`,
+  if (!gatewayKey || !lovableKey) {
+    return { ok: false, status: 500, data: { message: "Resend connection is not configured" } };
+  }
+
+  try {
+    const res = await fetch(`${GATEWAY_URL}/emails`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${lovableKey}`,
         "X-Connection-Api-Key": gatewayKey,
       },
+      body: JSON.stringify(payload),
     });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok) return { ok: true, status: res.status, data };
+    console.error("Resend send failed", res.status, JSON.stringify(data));
+    return { ok: false, status: res.status, data };
+  } catch (error) {
+    console.error("Resend request error", String(error));
+    return { ok: false, status: 502, data: { message: "Unable to reach Resend" } };
   }
-  if (directKey) {
-    attempts.push({
-      url: `${DIRECT_URL}/emails`,
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${directKey}` },
-    });
-  }
-
-  if (!attempts.length) {
-    return { ok: false, status: 500, data: { message: "No Resend API key configured" } };
-  }
-
-  let last = { ok: false, status: 500, data: { message: "Unknown error" } as Record<string, unknown> };
-  for (const a of attempts) {
-    try {
-      const res = await fetch(a.url, { method: "POST", headers: a.headers, body: JSON.stringify(payload) });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok) return { ok: true, status: res.status, data };
-      console.error("Resend send failed", a.url, res.status, JSON.stringify(data));
-      last = { ok: false, status: res.status, data };
-    } catch (e) {
-      console.error("Resend request error", a.url, String(e));
-      last = { ok: false, status: 502, data: { message: String(e) } };
-    }
-  }
-  return last;
 }
 
 Deno.serve(async (req) => {
@@ -62,7 +46,7 @@ Deno.serve(async (req) => {
 
     // Never trust a browser-provided recipient. Resend's test sender can only
     // deliver to the connected account owner's verified inbox.
-    const recipientEmail = Deno.env.get("CONTACT_TO_EMAIL")?.trim() || FALLBACK_TO;
+    const recipientEmail = RESEND_ACCOUNT_EMAIL;
 
     // Newsletter signup
     if (type === "newsletter") {
@@ -128,6 +112,7 @@ Deno.serve(async (req) => {
         <p><strong>Message:</strong></p>
         <p>${escape(message).replace(/\n/g, "<br/>")}</p>
       `,
+      text: `New contact form submission\n\nName: ${name.trim()}\nEmail: ${email.trim()}\nService: ${service || "N/A"}\n\nMessage:\n${message.trim()}`,
       reply_to: email,
     });
 
