@@ -158,6 +158,93 @@ Deno.serve(async (req) => {
       return json(r.data, r.status);
     }
 
+    if (action === "inspect_urls") {
+      const siteUrl = String(body.siteUrl || "").trim();
+      const urls: string[] = Array.isArray(body.urls) ? body.urls.slice(0, 40) : [];
+      if (!siteUrl || urls.length === 0) {
+        return json({ error: "siteUrl and urls[] required" }, 400);
+      }
+
+      const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+      const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+      const results: Record<string, unknown>[] = [];
+      for (const inspectionUrl of urls) {
+        const r = await gscFetch(
+          "/v1/urlInspection/index:inspect",
+          GSC_KEY,
+          LOVABLE_API_KEY,
+          {
+            method: "POST",
+            body: JSON.stringify({ inspectionUrl, siteUrl }),
+          },
+        );
+        if (!r.ok) {
+          results.push({ url: inspectionUrl, error: true, status: r.status, detail: r.data });
+          // Quota / permission errors will repeat for every URL — stop early.
+          if (r.status === 403 || r.status === 429) break;
+          continue;
+        }
+        const idx = (r.data as any)?.inspectionResult?.indexStatusResult || {};
+        results.push({
+          url: inspectionUrl,
+          verdict: idx.verdict ?? null,
+          coverageState: idx.coverageState ?? null,
+          robotsTxtState: idx.robotsTxtState ?? null,
+          googleCanonical: idx.googleCanonical ?? null,
+          userCanonical: idx.userCanonical ?? null,
+          lastCrawlTime: idx.lastCrawlTime ?? null,
+        });
+      }
+
+      // Cache successful checks so the dashboard keeps history between runs.
+      if (SUPABASE_URL && SERVICE_KEY) {
+        const rows = results
+          .filter((x) => !x.error)
+          .map((x) => ({
+            url: x.url,
+            verdict: x.verdict,
+            coverage_state: x.coverageState,
+            robots_state: x.robotsTxtState,
+            google_canonical: x.googleCanonical,
+            user_canonical: x.userCanonical,
+            last_crawl_time: x.lastCrawlTime,
+            checked_at: new Date().toISOString(),
+          }));
+        if (rows.length) {
+          const up = await fetch(`${SUPABASE_URL}/rest/v1/url_index_status?on_conflict=url`, {
+            method: "POST",
+            headers: {
+              apikey: SERVICE_KEY,
+              Authorization: `Bearer ${SERVICE_KEY}`,
+              "Content-Type": "application/json",
+              Prefer: "resolution=merge-duplicates,return=minimal",
+            },
+            body: JSON.stringify(rows),
+          });
+          if (!up.ok) console.error("index status cache failed:", up.status, await up.text());
+        }
+      }
+
+      return json({ results });
+    }
+
+    if (action === "cached_index_status") {
+      const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+      const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      if (!SUPABASE_URL || !SERVICE_KEY) return json({ rows: [] });
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/url_index_status?select=*&order=checked_at.desc&limit=1000`,
+        { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } },
+      );
+      if (!res.ok) {
+        const t = await res.text();
+        console.error("cached index status read failed:", res.status, t);
+        return json({ error: t }, res.status);
+      }
+      return json({ rows: await res.json() });
+    }
+
     return json({ error: "Unknown action" }, 400);
   } catch (e) {
     return json({ error: (e as Error).message }, 500);
