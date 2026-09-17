@@ -3,7 +3,7 @@
     "total": 407,
     "passed": 400,
     "failed": 7,
-    "startTime": 1789647458829,
+    "startTime": 1789647645365,
     "success": false
   },
   "routes": [
@@ -923,1981 +923,1981 @@
       "suite": "SEO registry coverage",
       "title": "has an entry for every public route in App.tsx",
       "status": "passed",
-      "duration": 2.060628000000179,
+      "duration": 2.0064860000002227,
       "messages": []
     },
     {
       "suite": "SEO fields for /",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.2950640000003659,
+      "duration": 0.25564799999983734,
       "messages": []
     },
     {
       "suite": "SEO fields for /",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.15238600000020597,
+      "duration": 0.1457230000000891,
       "messages": []
     },
     {
       "suite": "SEO fields for /",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.1934230000001662,
+      "duration": 0.2232280000002902,
       "messages": []
     },
     {
       "suite": "SEO fields for /",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.2599389999995765,
+      "duration": 0.25236299999960465,
       "messages": []
     },
     {
       "suite": "SEO fields for /",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.27350299999989147,
+      "duration": 0.2313430000003791,
       "messages": []
     },
     {
       "suite": "SEO fields for /",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.26675099999965823,
+      "duration": 0.2547770000001037,
       "messages": []
     },
     {
       "suite": "SEO fields for /compressor",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.1159269999998287,
+      "duration": 0.1630950000003395,
       "messages": []
     },
     {
       "suite": "SEO fields for /compressor",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.1962189999999282,
+      "duration": 0.19786100000010265,
       "messages": []
     },
     {
       "suite": "SEO fields for /compressor",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.15751600000021426,
+      "duration": 0.11371300000018891,
       "messages": []
     },
     {
       "suite": "SEO fields for /compressor",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.09221299999990151,
+      "duration": 0.07949900000039634,
       "messages": []
     },
     {
       "suite": "SEO fields for /compressor",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.1623040000004039,
+      "duration": 0.15502999999989697,
       "messages": []
     },
     {
       "suite": "SEO fields for /compressor",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.11156899999969028,
+      "duration": 0.10424500000044645,
       "messages": []
     },
     {
       "suite": "SEO fields for /converter",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.23059299999977156,
+      "duration": 0.2561500000001615,
       "messages": []
     },
     {
       "suite": "SEO fields for /converter",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.12933300000031522,
+      "duration": 0.12673700000004828,
       "messages": []
     },
     {
       "suite": "SEO fields for /converter",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.07015199999977995,
+      "duration": 0.06996100000014849,
       "messages": []
     },
     {
       "suite": "SEO fields for /converter",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.1554220000002715,
+      "duration": 0.12590599999975893,
       "messages": []
     },
     {
       "suite": "SEO fields for /converter",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.16326699999990524,
+      "duration": 0.15531100000043807,
       "messages": []
     },
     {
       "suite": "SEO fields for /converter",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.09866499999998268,
+      "duration": 0.0904289999998582,
       "messages": []
     },
     {
       "suite": "SEO fields for /svg-optimizer",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.0898389999997562,
+      "duration": 0.08718399999997928,
       "messages": []
     },
     {
       "suite": "SEO fields for /svg-optimizer",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.07616299999972398,
+      "duration": 0.09629999999970096,
       "messages": []
     },
     {
       "suite": "SEO fields for /svg-optimizer",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.05813900000021022,
+      "duration": 0.06377999999995154,
       "messages": []
     },
     {
       "suite": "SEO fields for /svg-optimizer",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.07326699999975972,
+      "duration": 0.0709830000000693,
       "messages": []
     },
     {
       "suite": "SEO fields for /svg-optimizer",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.1760300000000825,
+      "duration": 0.14589299999988725,
       "messages": []
     },
     {
       "suite": "SEO fields for /svg-optimizer",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.0880050000000665,
+      "duration": 0.08450700000003053,
       "messages": []
     },
     {
       "suite": "SEO fields for /favicon",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.08498899999995047,
+      "duration": 0.0852100000001883,
       "messages": []
     },
     {
       "suite": "SEO fields for /favicon",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.0917530000001534,
+      "duration": 0.08839599999964776,
       "messages": []
     },
     {
       "suite": "SEO fields for /favicon",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.10008800000014162,
+      "duration": 0.06220599999960541,
       "messages": []
     },
     {
       "suite": "SEO fields for /favicon",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.0919330000001537,
+      "duration": 0.05676599999969767,
       "messages": []
     },
     {
       "suite": "SEO fields for /favicon",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.15923900000007052,
+      "duration": 0.15524099999993268,
       "messages": []
     },
     {
       "suite": "SEO fields for /favicon",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.08472900000015215,
+      "duration": 0.08460900000000038,
       "messages": []
     },
     {
       "suite": "SEO fields for /json-formatter",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.14921999999978652,
+      "duration": 0.11498600000004444,
       "messages": []
     },
     {
       "suite": "SEO fields for /json-formatter",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.08431800000016665,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /json-formatter",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.05287900000030277,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /json-formatter",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.052748999999948865,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /json-formatter",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.14731699999992998,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /json-formatter",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.0795389999998406,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /meta-tag-generator",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.0775459999999839,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /meta-tag-generator",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.14199600000029022,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /meta-tag-generator",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.06673499999988053,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /meta-tag-generator",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.056806999999935215,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /meta-tag-generator",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.16909799999984898,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /meta-tag-generator",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.08050100000036764,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /color-palette",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.0751709999999548,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /color-palette",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.07374799999979587,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /color-palette",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.05361099999981889,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /color-palette",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.05317900000000009,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /color-palette",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.1196949999998651,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /color-palette",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.07645300000012867,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /qr-code",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.09521900000027017,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /qr-code",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.13898100000005797,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /qr-code",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.10894499999994878,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /qr-code",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.099315999999817,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /qr-code",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.21568500000012136,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /qr-code",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.14163600000028964,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-resizer",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.13690700000006473,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-resizer",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.12667700000019977,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-resizer",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.19056799999998475,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-resizer",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.11132900000029622,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-resizer",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.22261800000023868,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-resizer",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.13383100000010018,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /css-minifier",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.1559519999996155,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /css-minifier",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
       "duration": 0.07524100000000544,
       "messages": []
     },
     {
-      "suite": "SEO fields for /css-minifier",
+      "suite": "SEO fields for /json-formatter",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.09129100000018298,
+      "duration": 0.053149999999732245,
       "messages": []
     },
     {
-      "suite": "SEO fields for /css-minifier",
+      "suite": "SEO fields for /json-formatter",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.05088500000010754,
+      "duration": 0.051876999999876716,
       "messages": []
     },
     {
-      "suite": "SEO fields for /css-minifier",
+      "suite": "SEO fields for /json-formatter",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.10804300000017975,
+      "duration": 0.14051300000028277,
       "messages": []
     },
     {
-      "suite": "SEO fields for /css-minifier",
+      "suite": "SEO fields for /json-formatter",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.07426900000018577,
+      "duration": 0.07690400000001318,
       "messages": []
     },
     {
-      "suite": "SEO fields for /base64",
+      "suite": "SEO fields for /meta-tag-generator",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.0667660000003707,
+      "duration": 0.07781500000010055,
       "messages": []
     },
     {
-      "suite": "SEO fields for /base64",
+      "suite": "SEO fields for /meta-tag-generator",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.056986999999935506,
+      "duration": 0.18864299999995637,
       "messages": []
     },
     {
-      "suite": "SEO fields for /base64",
+      "suite": "SEO fields for /meta-tag-generator",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.04267100000015489,
+      "duration": 0.12640699999974458,
       "messages": []
     },
     {
-      "suite": "SEO fields for /base64",
+      "suite": "SEO fields for /meta-tag-generator",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.046867999999903986,
+      "duration": 0.05762800000002244,
       "messages": []
     },
     {
-      "suite": "SEO fields for /base64",
+      "suite": "SEO fields for /meta-tag-generator",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.10350500000004104,
+      "duration": 0.1400220000000445,
       "messages": []
     },
     {
-      "suite": "SEO fields for /base64",
+      "suite": "SEO fields for /meta-tag-generator",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.06939099999999598,
+      "duration": 0.07984899999974004,
       "messages": []
     },
     {
-      "suite": "SEO fields for /gradient-generator",
+      "suite": "SEO fields for /color-palette",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.06485199999997349,
+      "duration": 0.07375799999999799,
       "messages": []
     },
     {
-      "suite": "SEO fields for /gradient-generator",
+      "suite": "SEO fields for /color-palette",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.056376000000000204,
+      "duration": 0.06674500000008265,
       "messages": []
     },
     {
-      "suite": "SEO fields for /gradient-generator",
+      "suite": "SEO fields for /color-palette",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.042449999999917054,
+      "duration": 0.051216000000295026,
       "messages": []
     },
     {
-      "suite": "SEO fields for /gradient-generator",
+      "suite": "SEO fields for /color-palette",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.04130799999984447,
+      "duration": 0.049592999999731546,
       "messages": []
     },
     {
-      "suite": "SEO fields for /gradient-generator",
+      "suite": "SEO fields for /color-palette",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.13397200000008525,
+      "duration": 0.11594700000023295,
       "messages": []
     },
     {
-      "suite": "SEO fields for /gradient-generator",
+      "suite": "SEO fields for /color-palette",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.07145400000035806,
+      "duration": 0.07711399999971036,
       "messages": []
     },
     {
-      "suite": "SEO fields for /lorem-ipsum",
+      "suite": "SEO fields for /qr-code",
       "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.06510200000002442,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /lorem-ipsum",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05621599999994942,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /lorem-ipsum",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.0478200000002289,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /lorem-ipsum",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04337199999963559,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /lorem-ipsum",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.10110900000017864,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /lorem-ipsum",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.06782799999973577,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /robots-generator",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.0627079999999296,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /robots-generator",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.058329999999841675,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /robots-generator",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04217999999991662,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /robots-generator",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04179900000008274,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /robots-generator",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.10214199999973061,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /robots-generator",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.09287399999993795,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /og-preview",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.06230599999980768,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /og-preview",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05541399999992791,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /og-preview",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.042699999999967986,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /og-preview",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04190900000003239,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /og-preview",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.09642099999973652,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /og-preview",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.06956000000036511,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /placeholder",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.061054999999669235,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /placeholder",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05511399999977584,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /placeholder",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04291000000011991,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /placeholder",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.042119000000184315,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /placeholder",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.09842499999967913,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /placeholder",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.06697600000006787,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /html-to-markdown",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.062136999999893305,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /html-to-markdown",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.08233500000005733,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /html-to-markdown",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.045094999999946594,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /html-to-markdown",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04333099999985279,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /html-to-markdown",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.09863600000016959,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /html-to-markdown",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.06767700000000332,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /privacy-policy",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.09234299999980067,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /privacy-policy",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.0718749999996362,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /privacy-policy",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04493499999989581,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /privacy-policy",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.043241999999736436,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /privacy-policy",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.0978939999999966,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /privacy-policy",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.03897300000016912,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /terms-of-service",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.0644110000002911,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /terms-of-service",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05589399999962552,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /terms-of-service",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04253000000016982,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /terms-of-service",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.07683399999996254,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /terms-of-service",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.10541700000021592,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /terms-of-service",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.04580600000008417,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /about-us",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.060913999999684165,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /about-us",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05930100000023231,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /about-us",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04257000000006883,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /about-us",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04201899999998204,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /about-us",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.09150200000021869,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /about-us",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.040205999999670894,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /contact-us",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.060763999999835505,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /contact-us",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05383099999971819,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /contact-us",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04172800000014831,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /contact-us",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04100699999980861,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /contact-us",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.08772399999998015,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /contact-us",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.028783999999632215,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /alt-text-generator",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.0815429999997832,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /alt-text-generator",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.06260699999984354,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /alt-text-generator",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.042308999999931984,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /alt-text-generator",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04173900000023423,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /alt-text-generator",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.1004480000001422,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /alt-text-generator",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.06916899999987436,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /background-remover",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.06422999999995227,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /background-remover",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.055314000000180386,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /background-remover",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.0433709999997518,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /background-remover",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.041788999999880616,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /background-remover",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.09898599999996804,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /background-remover",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.06609500000013213,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /curl-builder",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.06203600000026199,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /curl-builder",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05678600000010192,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /curl-builder",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.0419289999999819,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /curl-builder",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.06686499999977968,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /curl-builder",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.10867400000006455,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /curl-builder",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.07055300000001807,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /diff-checker",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.061595000000124855,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /diff-checker",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05823899999995774,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /diff-checker",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04159799999979441,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /diff-checker",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04284000000006927,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /diff-checker",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.09764399999994566,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /diff-checker",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.0655229999997573,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /heic-to-jpg",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.0592610000003333,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /heic-to-jpg",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05469300000004296,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /heic-to-jpg",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04392199999983859,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /heic-to-jpg",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04228000000011889,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /heic-to-jpg",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.09912699999995311,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /heic-to-jpg",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.09346599999980754,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-to-svg",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.06215599999995902,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-to-svg",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05414199999995617,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-to-svg",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04320099999995364,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-to-svg",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04197900000008303,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-to-svg",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.10654999999997017,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /image-to-svg",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.07081300000027113,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /jwt-decoder",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.06118500000002314,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /jwt-decoder",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.05484299999989162,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /jwt-decoder",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.04158800000004703,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /jwt-decoder",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04213900000013382,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /jwt-decoder",
-      "title": "breadcrumb JSON-LD uses internal links only",
-      "status": "passed",
-      "duration": 0.09670199999982287,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /jwt-decoder",
-      "title": "references the external WeboGrowth parent domain",
-      "status": "passed",
-      "duration": 0.06913900000017748,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /pagespeed-analyzer",
-      "title": "title is non-empty and ≤ 60 chars",
-      "status": "passed",
-      "duration": 0.0613060000000587,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /pagespeed-analyzer",
-      "title": "description is non-empty and ≤ 160 chars",
-      "status": "passed",
-      "duration": 0.09820399999989604,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /pagespeed-analyzer",
-      "title": "canonical path self-references the route",
-      "status": "passed",
-      "duration": 0.047498999999788794,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /pagespeed-analyzer",
-      "title": "keywords are present",
-      "status": "passed",
-      "duration": 0.04366200000004028,
-      "messages": []
-    },
-    {
-      "suite": "SEO fields for /pagespeed-analyzer",
-      "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
       "duration": 0.10159999999996217,
       "messages": []
     },
     {
+      "suite": "SEO fields for /qr-code",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.10013699999990422,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /qr-code",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.059020000000145956,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /qr-code",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.053950999999869964,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /qr-code",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.11811199999965538,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /qr-code",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.09026900000026217,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-resizer",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.08690299999989293,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-resizer",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.07232599999997547,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-resizer",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.12010499999996682,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-resizer",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.09725200000002587,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-resizer",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.12287000000014814,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-resizer",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.08382699999992838,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /css-minifier",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.07004099999994651,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /css-minifier",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.06284700000014709,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /css-minifier",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.07904800000005707,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /css-minifier",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.04815000000007785,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /css-minifier",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.10207100000025093,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /css-minifier",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.07178400000020702,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /base64",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.06283799999982875,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /base64",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.05453200000010838,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /base64",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.040636000000176864,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /base64",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.05639500000006592,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /base64",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.17016899999998714,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /base64",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.0929839999998876,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /gradient-generator",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.0692589999998745,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /gradient-generator",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.05630599999994956,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /gradient-generator",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.04105600000002596,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /gradient-generator",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.04116700000031415,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /gradient-generator",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.09935600000017075,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /gradient-generator",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.06786700000020573,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /lorem-ipsum",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.06060300000035568,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /lorem-ipsum",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.05360000000018772,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /lorem-ipsum",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.04182799999989584,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /lorem-ipsum",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.041318000000046595,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /lorem-ipsum",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.14468100000021877,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /lorem-ipsum",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.08337600000004386,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /robots-generator",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.06999099999984537,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /robots-generator",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.05701700000008714,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /robots-generator",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.04224900000008347,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /robots-generator",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.041067000000111875,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /robots-generator",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.1021509999995942,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /robots-generator",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.0682779999997365,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /og-preview",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.060503000000153406,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /og-preview",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.053910999999970954,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /og-preview",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.04093699999975797,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /og-preview",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.039293999999699736,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /og-preview",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.09798300000011295,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /og-preview",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.06792700000005425,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /placeholder",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.08846500000026936,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /placeholder",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.056124999999610736,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /placeholder",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.04117800000040006,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /placeholder",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.041077000000314,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /placeholder",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.09803300000021409,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /placeholder",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.06865900000002512,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /html-to-markdown",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.061094000000139204,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /html-to-markdown",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.054121000000122876,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /html-to-markdown",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.040975999999773194,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /html-to-markdown",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.041948000000047614,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /html-to-markdown",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.1119499999999789,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /html-to-markdown",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.07266600000002654,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /privacy-policy",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.12604700000019875,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /privacy-policy",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.12938200000007782,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /privacy-policy",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.08431800000016665,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /privacy-policy",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.08300499999995736,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /privacy-policy",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.18257200000016383,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /privacy-policy",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.06870900000012625,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /terms-of-service",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.11025600000039049,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /terms-of-service",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.1018500000000131,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /terms-of-service",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.08036100000026636,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /terms-of-service",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.11741000000029089,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /terms-of-service",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.1723629999996774,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /terms-of-service",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.06060299999990093,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /about-us",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.10803200000009383,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /about-us",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.11024599999973361,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /about-us",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.07638299999962328,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /about-us",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.07700399999976071,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /about-us",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.17239199999994526,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /about-us",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.06833800000003976,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /contact-us",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.10368400000015754,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /contact-us",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.09030900000016118,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /contact-us",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.06732600000032107,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /contact-us",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.06731700000000274,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /contact-us",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.14962000000014086,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /contact-us",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.053369999999631546,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /alt-text-generator",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.09710200000017721,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /alt-text-generator",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.096320999999989,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /alt-text-generator",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.07264699999996083,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /alt-text-generator",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.07263599999987491,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /alt-text-generator",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.2036910000001626,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /alt-text-generator",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.1113879999998062,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /background-remover",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.10027799999988929,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /background-remover",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.09323500000027707,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /background-remover",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.06366899999966336,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /background-remover",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.06545200000027762,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /background-remover",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.1619829999999638,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /background-remover",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.10292299999991883,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /curl-builder",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.14860799999996743,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /curl-builder",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.09975699999995413,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /curl-builder",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.07355700000016441,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /curl-builder",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.07134399999995367,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /curl-builder",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.17271299999993062,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /curl-builder",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.10645900000008623,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /diff-checker",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.09971700000005512,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /diff-checker",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.09500699999989592,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /diff-checker",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.065853000000061,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /diff-checker",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.0806710000001658,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /diff-checker",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.17773299999998926,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /diff-checker",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.10856299999977637,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /heic-to-jpg",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.10308299999996962,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /heic-to-jpg",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.09650099999998929,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /heic-to-jpg",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.07535099999995509,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /heic-to-jpg",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.07272700000021359,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /heic-to-jpg",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.17570900000009715,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /heic-to-jpg",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.1461829999998372,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-to-svg",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.10575800000015079,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-to-svg",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.10174099999994723,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-to-svg",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.07074300000022049,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-to-svg",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.07048200000008364,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-to-svg",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.1762100000000828,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /image-to-svg",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.1128910000002179,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /jwt-decoder",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.09460699999999633,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /jwt-decoder",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.1149849999997059,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /jwt-decoder",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.06686500000023443,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /jwt-decoder",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.0648310000001402,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /jwt-decoder",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.16251399999964633,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /jwt-decoder",
+      "title": "references the external WeboGrowth parent domain",
+      "status": "passed",
+      "duration": 0.10342300000002069,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /pagespeed-analyzer",
+      "title": "title is non-empty and ≤ 60 chars",
+      "status": "passed",
+      "duration": 0.09388600000011138,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /pagespeed-analyzer",
+      "title": "description is non-empty and ≤ 160 chars",
+      "status": "passed",
+      "duration": 0.08654200000000856,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /pagespeed-analyzer",
+      "title": "canonical path self-references the route",
+      "status": "passed",
+      "duration": 0.06347899999991569,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /pagespeed-analyzer",
+      "title": "keywords are present",
+      "status": "passed",
+      "duration": 0.0621169999999438,
+      "messages": []
+    },
+    {
+      "suite": "SEO fields for /pagespeed-analyzer",
+      "title": "breadcrumb JSON-LD uses internal links only",
+      "status": "passed",
+      "duration": 0.19170800000028976,
+      "messages": []
+    },
+    {
       "suite": "SEO fields for /pagespeed-analyzer",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.06910999999990963,
+      "duration": 0.11898299999984374,
       "messages": []
     },
     {
       "suite": "SEO fields for /pdf-toolkit",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.06089400000018941,
+      "duration": 0.11595699999998033,
       "messages": []
     },
     {
       "suite": "SEO fields for /pdf-toolkit",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.05385099999966769,
+      "duration": 0.09559900000022026,
       "messages": []
     },
     {
       "suite": "SEO fields for /pdf-toolkit",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.04056600000012622,
+      "duration": 0.07311699999991106,
       "messages": []
     },
     {
       "suite": "SEO fields for /pdf-toolkit",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.04158800000004703,
+      "duration": 0.07338700000036624,
       "messages": []
     },
     {
       "suite": "SEO fields for /pdf-toolkit",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.09779399999979432,
+      "duration": 0.18323299999974552,
       "messages": []
     },
     {
       "suite": "SEO fields for /pdf-toolkit",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.06831800000009025,
+      "duration": 0.11525600000004488,
       "messages": []
     },
     {
       "suite": "SEO fields for /regex-tester",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.061455000000023574,
+      "duration": 0.13462200000003577,
       "messages": []
     },
     {
       "suite": "SEO fields for /regex-tester",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.05446200000005774,
+      "duration": 0.09123099999987971,
       "messages": []
     },
     {
       "suite": "SEO fields for /regex-tester",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.04143800000019837,
+      "duration": 0.0670350000000326,
       "messages": []
     },
     {
       "suite": "SEO fields for /regex-tester",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.040746000000126514,
+      "duration": 0.065853000000061,
       "messages": []
     },
     {
       "suite": "SEO fields for /regex-tester",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.12465400000019144,
+      "duration": 0.16454800000019532,
       "messages": []
     },
     {
       "suite": "SEO fields for /regex-tester",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.06940000000031432,
+      "duration": 0.10041799999999057,
       "messages": []
     },
     {
       "suite": "SEO fields for /schema-generator",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.060684000000037486,
+      "duration": 0.0969519999998738,
       "messages": []
     },
     {
       "suite": "SEO fields for /schema-generator",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.05491299999994226,
+      "duration": 0.0874140000000807,
       "messages": []
     },
     {
       "suite": "SEO fields for /schema-generator",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.042809999999917636,
+      "duration": 0.06584300000031362,
       "messages": []
     },
     {
       "suite": "SEO fields for /schema-generator",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.04231900000013411,
+      "duration": 0.06583299999965675,
       "messages": []
     },
     {
       "suite": "SEO fields for /schema-generator",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.09965700000020661,
+      "duration": 0.1959470000001602,
       "messages": []
     },
     {
       "suite": "SEO fields for /schema-generator",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.0694300000000112,
+      "duration": 0.10893299999997907,
       "messages": []
     },
     {
       "suite": "SEO fields for /sitemap-generator",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.06340899999986505,
+      "duration": 0.10155000000031578,
       "messages": []
     },
     {
       "suite": "SEO fields for /sitemap-generator",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.05497299999979077,
+      "duration": 0.08638199999995777,
       "messages": []
     },
     {
       "suite": "SEO fields for /sitemap-generator",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.04170800000019881,
+      "duration": 0.06734600000027058,
       "messages": []
     },
     {
       "suite": "SEO fields for /sitemap-generator",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.04246000000011918,
+      "duration": 0.06589299999996001,
       "messages": []
     },
     {
       "suite": "SEO fields for /sitemap-generator",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.1468960000001971,
+      "duration": 0.2066570000001775,
       "messages": []
     },
     {
       "suite": "SEO fields for /sitemap-generator",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.17021000000022468,
+      "duration": 0.10891399999991336,
       "messages": []
     },
     {
       "suite": "SEO fields for /video-to-gif",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.12308100000018385,
+      "duration": 0.12728799999968032,
       "messages": []
     },
     {
       "suite": "SEO fields for /video-to-gif",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.10780300000033094,
+      "duration": 0.09538899999961359,
       "messages": []
     },
     {
       "suite": "SEO fields for /video-to-gif",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.07506100000000515,
+      "duration": 0.07482999999956519,
       "messages": []
     },
     {
       "suite": "SEO fields for /video-to-gif",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 0.06888900000012654,
+      "duration": 0.07275600000002669,
       "messages": []
     },
     {
       "suite": "SEO fields for /video-to-gif",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.1770729999998366,
+      "duration": 0.1727429999996275,
       "messages": []
     },
     {
       "suite": "SEO fields for /video-to-gif",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.1147249999999076,
+      "duration": 0.10163999999986117,
       "messages": []
     },
     {
       "suite": "SEO fields for /watermark",
       "title": "title is non-empty and ≤ 60 chars",
       "status": "passed",
-      "duration": 0.1356949999999415,
+      "duration": 0.09387599999990925,
       "messages": []
     },
     {
       "suite": "SEO fields for /watermark",
       "title": "description is non-empty and ≤ 160 chars",
       "status": "passed",
-      "duration": 0.10731100000020888,
+      "duration": 0.09286399999973582,
       "messages": []
     },
     {
       "suite": "SEO fields for /watermark",
       "title": "canonical path self-references the route",
       "status": "passed",
-      "duration": 0.07747600000038801,
+      "duration": 6.980236000000332,
       "messages": []
     },
     {
       "suite": "SEO fields for /watermark",
       "title": "keywords are present",
       "status": "passed",
-      "duration": 6.9809769999997116,
+      "duration": 0.06248699999969176,
       "messages": []
     },
     {
       "suite": "SEO fields for /watermark",
       "title": "breadcrumb JSON-LD uses internal links only",
       "status": "passed",
-      "duration": 0.1536580000001777,
+      "duration": 0.14864799999986644,
       "messages": []
     },
     {
       "suite": "SEO fields for /watermark",
       "title": "references the external WeboGrowth parent domain",
       "status": "passed",
-      "duration": 0.09100099999977829,
+      "duration": 0.08150200000000041,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.6777029999998376,
+      "duration": 0.6025970000000598,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.5632180000002336,
+      "duration": 0.6089499999998225,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /compressor",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.48138399999970716,
+      "duration": 0.4245349999996506,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /compressor",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.34399600000006103,
+      "duration": 0.3848400000001675,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /converter",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.46554399999968155,
+      "duration": 0.42098699999996825,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /converter",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.35627900000008594,
+      "duration": 0.39473899999984496,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /svg-optimizer",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.4592720000000554,
+      "duration": 0.4474880000002486,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /svg-optimizer",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.39013299999987794,
+      "duration": 0.34321200000022145,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /favicon",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3449879999998302,
+      "duration": 0.38274599999977,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /favicon",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.3845920000003389,
+      "duration": 0.3279939999997623,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /json-formatter",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.6236499999999978,
+      "duration": 0.6496559999995952,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /json-formatter",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.6647680000000946,
+      "duration": 0.6278850000003331,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /meta-tag-generator",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.6234909999998308,
+      "duration": 0.6060750000001462,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /meta-tag-generator",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.6416140000001178,
+      "duration": 0.6596549999999297,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /color-palette",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.6374070000001666,
+      "duration": 0.5993509999998423,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /color-palette",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.6405629999999292,
+      "duration": 0.622515999999905,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /qr-code",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.6634659999999712,
+      "duration": 0.6509289999999055,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /qr-code",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.6763700000001336,
+      "duration": 0.6753239999998186,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /image-resizer",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.34509799999977986,
+      "duration": 0.3761739999999918,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /image-resizer",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.3874869999999646,
+      "duration": 0.3370499999996355,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /css-minifier",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3187279999997372,
+      "duration": 0.3095599999996921,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /css-minifier",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.312387000000399,
+      "duration": 0.35479499999973996,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /base64",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3326250000000073,
+      "duration": 0.30403900000010253,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /base64",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.31062299999985044,
+      "duration": 0.3052119999997558,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /gradient-generator",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3077480000001742,
+      "duration": 0.3537019999998847,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /gradient-generator",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.328277000000071,
+      "duration": 0.3090180000003784,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /lorem-ipsum",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3130479999999807,
+      "duration": 0.30221499999970547,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /lorem-ipsum",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.31708500000013373,
+      "duration": 0.3222729999997682,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /robots-generator",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.33122199999979784,
+      "duration": 0.3026959999997416,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /robots-generator",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.3095509999998285,
+      "duration": 0.2980280000001585,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /og-preview",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3104730000000018,
+      "duration": 0.34783100000004197,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /og-preview",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.32880800000020827,
+      "duration": 0.30649399999992966,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /placeholder",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3115749999997206,
+      "duration": 0.3006430000000364,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /placeholder",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.30506300000024567,
+      "duration": 0.32359600000017963,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /html-to-markdown",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3277559999996811,
+      "duration": 0.30336799999986397,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /html-to-markdown",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.30768699999998717,
+      "duration": 0.3024070000001302,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /alt-text-generator",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.307908000000225,
+      "duration": 0.32734300000038274,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /alt-text-generator",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.325090000000273,
+      "duration": 0.3026959999997416,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /background-remover",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.4074050000003808,
+      "duration": 0.40108100000043123,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /background-remover",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.3114650000002257,
+      "duration": 0.3472999999999047,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /curl-builder",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3493260000000191,
+      "duration": 0.3059520000001612,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /curl-builder",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.30786799999987124,
+      "duration": 0.30238599999984217,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /diff-checker",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.3071469999999863,
+      "duration": 0.33944500000006883,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /diff-checker",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.32918800000015835,
+      "duration": 0.30336799999986397,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /heic-to-jpg",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.45596599999998944,
+      "duration": 0.4456239999999525,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /heic-to-jpg",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.3117360000001099,
+      "duration": 0.3209710000000996,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /image-to-svg",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.43388499999991836,
+      "duration": 0.41310299999986455,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /image-to-svg",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.3073859999999513,
+      "duration": 0.3423800000000483,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /jwt-decoder",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.30353900000000067,
+      "duration": 0.3007930000003398,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /jwt-decoder",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.34777299999996103,
+      "duration": 0.30607199999985824,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /pagespeed-analyzer",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.40704399999958696,
+      "duration": 0.4164690000002338,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /pagespeed-analyzer",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.4006120000003648,
+      "duration": 0.32200300000022253,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /pdf-toolkit",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.7720400000002883,
+      "duration": 0.3733890000003157,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /pdf-toolkit",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.6104669999999714,
+      "duration": 0.3455869999997958,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /regex-tester",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.5964899999999034,
+      "duration": 0.32861499999989974,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /regex-tester",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.621136000000206,
+      "duration": 0.694590000000062,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /schema-generator",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.6001670000000559,
+      "duration": 0.5513420000002043,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /schema-generator",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.5879329999997935,
+      "duration": 0.5735230000000229,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /sitemap-generator",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.5162190000000919,
+      "duration": 0.5044040000002497,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /sitemap-generator",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.537579000000278,
+      "duration": 0.5278679999996712,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /video-to-gif",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.5451130000001285,
+      "duration": 0.5551190000001043,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /video-to-gif",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.5822930000003907,
+      "duration": 0.5431870000002164,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /watermark",
       "title": "FAQPage is valid schema.org and has Questions with Answers",
       "status": "passed",
-      "duration": 0.5797979999997551,
+      "duration": 0.5932699999998476,
       "messages": []
     },
     {
       "suite": "Schema.org JSON-LD for /watermark",
       "title": "HowTo is valid schema.org with positioned HowToStep entries",
       "status": "passed",
-      "duration": 0.5719529999996666,
+      "duration": 0.548265999999785,
       "messages": []
     },
     {
       "suite": "sitemap.xml coverage",
       "title": "contains at least one URL",
       "status": "passed",
-      "duration": 0.1240219999999681,
+      "duration": 0.11484500000005937,
       "messages": []
     },
     {
       "suite": "sitemap.xml coverage",
       "title": "every indexable route appears in sitemap.xml",
       "status": "passed",
-      "duration": 4.377799000000323,
+      "duration": 4.424252000000251,
       "messages": []
     }
   ]
