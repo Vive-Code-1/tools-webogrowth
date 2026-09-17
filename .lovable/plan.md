@@ -1,58 +1,43 @@
-# Format Converter — Bulk + Target Size (KB) + ZIP Download
+# ট্রাফিক ও ইনডেক্সিং উন্নয়ন পরিকল্পনা
 
-## কী যোগ হবে
+পাঁচটি কাজ একসাথে: ভিজিটর ট্র্যাকিং, ইনডেক্স স্ট্যাটাস রিপোর্ট, পোস্ট অপ্টিমাইজেশন সাজেশন, অথরিটি প্ল্যান, আর ট্রাফিক কম হওয়ার কারণ বের করা।
 
-1. **Bulk image upload** — একসাথে অনেক ইমেজ (drag-drop + browse multiple)।
-2. **Limit file size (KB)** — optional checkbox + number input। প্রতিটি ইমেজ ওই target KB-এর নিচে নামানো হবে (binary-search quality compression)।
-3. **ZIP download** — সব converted ইমেজ একটা `converted-images.zip`-এ একসাথে ডাউনলোড। একটা ইমেজ হলে সরাসরি সেটাই দেবে (optional)।
-4. **Per-file progress list** — নাম, original size, converted size, status (queued/converting/done/failed)।
+## ১. প্রতি পোস্টে আসল ভিজিটর ও পড়ার সময়
 
-## UI পরিবর্তন (`src/pages/Converter.tsx`)
+এখন শুধু Search Console-এর কীওয়ার্ড ডেটা দেখা যায় — সেখানে "কত মানুষ এলো" আর "কতক্ষণ থাকলো" নেই।
 
-- বাঁদিকের DropZone-এ multiple file select।
-- নিচে selected files list (thumbnail + size + remove)।
-- ডানদিকের Conversion Options panel-এ নতুন সেকশন:
-  - ☑ **Limit file size** (checkbox)
-  - Input: `Target size` + unit dropdown `KB` (locked to KB এখন)
-  - Helper text: "Each image will be compressed to stay under this size."
-- "Convert" button → "Convert All (N)"।
-- Result অংশে: "Download ZIP" button (সব done হলে enable)।
+- সাইটে একটি হালকা ভিজিট-রেকর্ডার যোগ হবে: প্রতিটি পেজে ঢোকা, কোথা থেকে এলো (Google / সরাসরি / সোশ্যাল), আর পেজ ছাড়ার সময় কত সেকেন্ড ছিল — এটুকু রেকর্ড হবে।
+- ডেটা জমা হবে সাইটের নিজস্ব ব্যাকএন্ডে, কোনো ব্যক্তিগত তথ্য ছাড়া (কুকি নেই, IP সংরক্ষণ নেই)।
+- অ্যাডমিনে নতুন "Visitors" ভিউ: প্রতি পোস্ট/টুল পেজের ভিজিট, গড় সময়, বাউন্স হার, সোর্স — ৭/৩০/৯০ দিনে, বেশি সময় কাটানো পেজগুলো উপরে।
+- Search Console ক্লিকের পাশে এই সংখ্যাগুলো বসবে, তাই "কীওয়ার্ডের বাইরে কত ভিজিটর" স্পষ্ট বোঝা যাবে।
 
-## নতুন/আপডেট ফাইল
+## ২. সাইটম্যাপের প্রতিটি URL-এর ইনডেক্স স্ট্যাটাস
 
-- **Update** `src/components/DropZone.tsx` — `multiple?: boolean` prop, `onFilesSelect?: (files: File[]) => void`। existing `onFileSelect` ব্যাকওয়ার্ড-কম্প্যাটিবল থাকবে।
-- **New** `src/lib/imageConvert.ts` — utility:
-  - `convertImage(file, { format, quality }) → Blob`
-  - `convertImageToTargetSize(file, { format, targetKB, minQuality=10, maxQuality=95 }) → Blob` (binary search on quality; PNG হলে JPEG/WebP-তে fallback সাজেস্ট, কারণ PNG lossless-এ KB target ঠিক হয় না — UI-তে warning দেখাবে)
-- **Update** `src/pages/Converter.tsx` — bulk state (`files`, `items[]` with status), target-size state, ZIP builder।
-- **Dep add**: `jszip` (ZIP তৈরির জন্য)।
+- অ্যাডমিনে "Index Status" ভিউ: sitemap.xml-এর ১২৪টি URL Google-এর কাছে জিজ্ঞেস করে দেখানো হবে — Indexed / Not indexed / Crawled but not indexed / Discovered, সাথে কারণ।
+- ইনডেক্স না হওয়া URL আলাদা তালিকায়, এক ক্লিকে CSV নামানো যাবে এবং IndexNow দিয়ে পুনরায় জানানো যাবে।
+- Google দিনে সীমিত সংখ্যক URL পরীক্ষা করতে দেয়, তাই ধাপে ধাপে চলবে এবং ফলাফল জমা থাকবে।
 
-## টার্গেট-সাইজ অ্যালগো (KB)
+## ৩. প্রতিটি পোস্টের SEO সাজেশন
 
-JPEG/WebP-এর জন্য:
-```
-lo=0.1, hi=0.95
-repeat ~7 বার:
-  mid = (lo+hi)/2
-  blob = canvas.toBlob(format, mid)
-  if blob.size <= targetKB*1024: best=blob; lo=mid
-  else: hi=mid
-```
-যদি সবচেয়ে কম quality-তেও target মিস হয় → canvas resize (0.9x করে কয়েকবার) করে রিট্রাই। শেষমেশ closest blob রিটার্ন + UI-তে "couldn't reach target" badge।
+- অ্যাডমিনে প্রতিটি পোস্টের জন্য চেকলিস্ট স্কোর: টাইটেলের দৈর্ঘ্য ও কীওয়ার্ড, মেটা বর্ণনা, H2/H3 গঠন, শব্দসংখ্যা, ভেতরের লিংক সংখ্যা, ছবির alt, FAQ স্কিমা আছে কিনা, টুল পেজে লিংক আছে কিনা।
+- যেগুলো দুর্বল, সেগুলোর জন্য সরাসরি সাজেশন ("FAQ যোগ করুন", "৩টি ভেতরের লিংক কম")।
+- নতুন পোস্ট তৈরির স্ক্রিপ্টে একই নিয়ম বসবে, তাই এখন থেকে প্রতিটি পোস্ট জন্ম থেকেই অপ্টিমাইজড — FAQ স্কিমা, HowTo স্কিমা, টুল লিংক, লেখক তথ্য, আপডেট তারিখ সহ।
 
-PNG target মোডে অটো-fallback: `image/jpeg` ব্যবহার করবে (UI-তে নোটিস)।
+## ৪. অথরিটি ও সার্চ ইন্টেন্ট পরিকল্পনা
 
-## ডাউনলোড ফ্লো
+`marketing/authority-plan.md` ফাইলে ৯০ দিনের রোডম্যাপ:
 
-- Convert শেষ হলে blobs মেমরিতে রাখা হবে (Supabase upload skip বাল্ক মোডে — ক্লায়েন্ট-সাইড ZIP)।
-- JSZip দিয়ে blob bundle → `URL.createObjectURL` → auto-trigger `<a download>`।
-- Single file mode: existing `CountdownDownload` flow ঠিক থাকবে।
+- **ইন্টেন্ট ক্লাস্টার** — প্রতিটি টুলের চারপাশে ১টি প্রধান পেজ + ৪-৬টি সহায়ক পোস্ট, সবগুলো পরস্পরে লিংক করা (topical authority)।
+- **বাইরের লিংক** — গেস্ট পোস্ট ও তালিকাভুক্তির বাস্তব লক্ষ্য: ফ্রি-টুল ডিরেক্টরি, Product Hunt, Reddit/Indie Hackers, Dev.to/Hashnode রি-পোস্ট (canonical ঠিক রেখে), HARO-ধাঁচের উদ্ধৃতি।
+- **সাপ্তাহিক রুটিন** — কতগুলো পোস্ট, কতগুলো আউটরিচ, কী মাপতে হবে।
 
-## SEO/Copy
+## ৫. ট্রাফিক কম কেন — নির্ণয় ও সমাধান
 
-হেডার অপরিবর্তিত। DropZone sublabel: "Supports PNG, JPEG, WebP, GIF — bulk upload up to 50MB each"।
+পরীক্ষা করে রিপোর্ট দেব: পেজগুলো আদৌ ইনডেক্স হয়েছে কিনা, কোন কীওয়ার্ডে কত পজিশনে আছে, পেজের গতি, ভেতরের লিংক কাঠামো, আর কনটেন্টের গভীরতা প্রতিযোগীদের তুলনায়। ফলাফল ও করণীয় `marketing/traffic-diagnosis.md`-এ থাকবে, আর যেগুলো কোড দিয়ে ঠিক করা যায় সেগুলো এই কাজেই ঠিক করব।
 
-## আউট-অফ-স্কোপ
+## কারিগরি নোট
 
-- "KB" ছাড়া অন্য unit (MB) — পরে যোগ করা যাবে।
-- Server-side conversion — পুরোটাই browser-side থাকছে।
+- ট্র্যাকিং: `page_views` টেবিল (path, referrer_source, dwell_ms, device, day), শুধু insert পাবলিক; পড়ার জন্য অ্যাডমিন-কী ফাংশন। `sendBeacon` দিয়ে unload-এ dwell পাঠানো।
+- ইনডেক্স স্ট্যাটাস: `gsc-manage` ফাংশনে `inspect_urls` অ্যাকশন (URL Inspection API, ব্যাচড), ফল `url_index_status` টেবিলে ক্যাশ।
+- পোস্ট অডিট: `src/lib/postAudit.ts` বিশুদ্ধ ফাংশন, Admin ও `scripts/generate-blog-post.mjs` দুই জায়গায় ব্যবহার।
+- Search Console প্রোপার্টি `https://tools.webogrowth.com/` ব্যবহার হবে (lovable.app ডোমেইনে কোনো ভেরিফাইড প্রোপার্টি নেই)।
