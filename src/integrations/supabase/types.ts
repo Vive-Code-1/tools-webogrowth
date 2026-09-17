@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      page_views: {
+        Row: {
+          created_at: string
+          device: string
+          dwell_ms: number
+          id: string
+          is_bounce: boolean
+          path: string
+          referrer_host: string | null
+          referrer_source: string
+          session_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          device?: string
+          dwell_ms?: number
+          id?: string
+          is_bounce?: boolean
+          path: string
+          referrer_host?: string | null
+          referrer_source?: string
+          session_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          device?: string
+          dwell_ms?: number
+          id?: string
+          is_bounce?: boolean
+          path?: string
+          referrer_host?: string | null
+          referrer_source?: string
+          session_id?: string | null
+        }
+        Relationships: []
+      }
+      url_index_status: {
+        Row: {
+          checked_at: string
+          coverage_state: string | null
+          google_canonical: string | null
+          last_crawl_time: string | null
+          robots_state: string | null
+          url: string
+          user_canonical: string | null
+          verdict: string | null
+        }
+        Insert: {
+          checked_at?: string
+          coverage_state?: string | null
+          google_canonical?: string | null
+          last_crawl_time?: string | null
+          robots_state?: string | null
+          url: string
+          user_canonical?: string | null
+          verdict?: string | null
+        }
+        Update: {
+          checked_at?: string
+          coverage_state?: string | null
+          google_canonical?: string | null
+          last_crawl_time?: string | null
+          robots_state?: string | null
+          url?: string
+          user_canonical?: string | null
+          verdict?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
