@@ -590,6 +590,33 @@ if (!/webogrowth\.com/i.test(finalBody)) {
   finalBody += `\n\n---\n\n*Published by the team at [WeboGrowth](https://webogrowth.com) — SEO &amp; growth services for ambitious brands.*\n`;
 }
 
+// ---- SEO auto-fixes before publishing ----
+// 1) Guarantee at least 4 internal links (one more pass with a higher cap).
+let internalCount = (finalBody.match(/\]\((\/[a-z0-9/-]*)\)/gi) || []).length;
+if (internalCount < 4) {
+  const paths = [...finalBody.matchAll(/\]\((\/[a-z0-9-]+)\)/gi)].map((m) => m[1]);
+  const second = autoInternalLink(finalBody, paths, 4 - internalCount);
+  finalBody = second.text;
+  internalCount = (finalBody.match(/\]\((\/[a-z0-9/-]*)\)/gi) || []).length;
+}
+// 2) Guarantee a "Related tools" block linking the tool pages attached to this post.
+if (internalCount < 4 && post.relatedTools.length) {
+  finalBody += `\n\n## Related free tools\n\n${post.relatedTools
+    .filter((t) => t && t.label && t.path)
+    .map((t) => `- [${t.label}](${t.path})`)
+    .join("\n")}\n`;
+}
+
+// 3) Run the shared SEO audit and print remaining suggestions (non-blocking).
+try {
+  const { auditPost } = await import("../src/lib/postAudit.ts");
+  const audit = auditPost({ ...post, body: finalBody, date: today });
+  console.log(`SEO score: ${audit.score}/100 (${audit.wordCount} words, ${audit.internalLinks} internal links)`);
+  for (const issue of audit.issues) console.log(`  · [${issue.severity}] ${issue.label} — ${issue.suggestion}`);
+} catch (e) {
+  console.log(`(SEO audit skipped: ${e.message})`);
+}
+
 const coverField = coverPath ? `    cover: ${JSON.stringify(coverPath)},\n` : "";
 
 const faqsField = post.faqs && post.faqs.length > 0
