@@ -3,6 +3,9 @@ import { Helmet } from "react-helmet-async";
 import { useToast } from "@/hooks/use-toast";
 import GoogleSearchConsoleModal from "@/components/GoogleSearchConsoleModal";
 import SeoPerformanceDashboard from "@/components/SeoPerformanceDashboard";
+import VisitorAnalyticsDashboard from "@/components/VisitorAnalyticsDashboard";
+import IndexStatusPanel from "@/components/IndexStatusPanel";
+import PostSeoAudit from "@/components/PostSeoAudit";
 
 const AUTH_KEY = "wg_admin_auth";
 const SETTINGS_KEY = "wg_admin_settings";

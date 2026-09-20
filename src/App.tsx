@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "./components/Layout";
 import AdminHeadInjector from "./components/AdminHeadInjector";
+import PageViewTracker from "./components/PageViewTracker";
 import Index from "./pages/Index";
 
 const Compressor = lazy(() => import("./pages/Compressor"));
@@ -67,6 +68,7 @@ const App = () => (
       <Sonner />
       <AdminHeadInjector />
       <BrowserRouter>
+        <PageViewTracker />
         <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route element={<Layout />}>
