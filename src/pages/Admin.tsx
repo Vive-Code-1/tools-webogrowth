@@ -276,6 +276,9 @@ const Admin = () => {
   const tabs = [
     { id: "seo", label: "SEO Settings", icon: "search" },
     { id: "performance", label: "SEO Performance", icon: "trending_up" },
+    { id: "visitors", label: "Visitors", icon: "groups" },
+    { id: "index-status", label: "Index Status", icon: "fact_check" },
+    { id: "post-audit", label: "Post SEO Audit", icon: "checklist" },
     { id: "verification", label: "Verification", icon: "verified" },
     { id: "logo", label: "Logo", icon: "image" },
     { id: "email", label: "Email Settings", icon: "mail" },
@@ -373,6 +376,9 @@ const Admin = () => {
           )}
 
           {activeTab === "performance" && <SeoPerformanceDashboard />}
+          {activeTab === "visitors" && <VisitorAnalyticsDashboard />}
+          {activeTab === "index-status" && <IndexStatusPanel />}
+          {activeTab === "post-audit" && <PostSeoAudit />}
 
           {activeTab === "verification" && (
             <div className="space-y-6">
