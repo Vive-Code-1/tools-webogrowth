@@ -707,7 +707,8 @@
     "category": "Developer",
     "relatedToolPath": "/json-formatter",
     "relatedToolLabel": "JSON Formatter",
-    "posted": null
+    "posted": "2026-09-24T10:44:02.329Z",
+    "slug": "json-validator-catch-errors"
   },
   {
     "title": "Core Web Vitals Checker: Field vs Lab Data Explained",
