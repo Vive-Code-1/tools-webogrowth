@@ -1,0 +1,60 @@
+name: Refresh Weak Blog Posts
+
+on:
+  schedule:
+    # Tue, Thu, Sat, Sun 06:00 UTC (12:00 Bangladesh) — the days without a new post
+    - cron: "0 6 * * 0,2,4,6"
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "How many posts to improve this run (1-5)"
+        default: "3"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-auto
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BLOG_BOT_PAT || secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+
+      - name: Improve weakest posts
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_FOR_DAILY_AUTO_BLOG }}
+        run: npx tsx scripts/refresh-weak-posts.mjs --count=${{ github.event.inputs.count || '3' }}
+
+      - name: Commit & push
+        id: commit
+        run: |
+          if git diff --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          git config user.name "webogrowth-bot"
+          git config user.email "bot@webogrowth.com"
+          git add src/blog/posts.ts marketing/refresh-log.json marketing/refresh-priority.json
+          git commit -m "chore(blog): refresh weak posts [skip ci]"
+          git push
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Ask search engines to re-crawl refreshed posts
+        if: steps.commit.outputs.committed == 'true'
+        run: |
+          URLS=$(jq -R . .refreshed-urls.txt | jq -s -c 'map(select(length>0))')
+          curl -fsS -X POST "https://api.indexnow.org/IndexNow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"tools.webogrowth.com\",\"key\":\"02a13238b42e97d3a8ff90893f5215d6\",\"keyLocation\":\"https://tools.webogrowth.com/02a13238b42e97d3a8ff90893f5215d6.txt\",\"urlList\":$URLS}"
+          curl -fsS -X POST "https://voorfcfafmjbpbsbzfbm.supabase.co/functions/v1/gsc-manage" \
+            -H "Content-Type: application/json" \
+            -H "apikey: sb_publishable_QQ0GUAwSgPsvS_GlYRV0Uw_bWgQWTmM" \
+            -d '{"action":"submit_sitemap","siteUrl":"https://tools.webogrowth.com/","feedpath":"https://tools.webogrowth.com/sitemap.xml"}'
