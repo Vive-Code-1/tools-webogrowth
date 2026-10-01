@@ -12,7 +12,6 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(__filename), "..");
 const BASE = "https://tools.webogrowth.com";
-const TODAY = new Date().toISOString().slice(0, 10);
 
 // ---------- Static routes from App.tsx ----------
 const appSrc = fs.readFileSync(path.join(ROOT, "src/App.tsx"), "utf8");
@@ -77,7 +76,7 @@ const xml =
   unique
     .map(
       (e) =>
-        `  <url><loc>${e.loc}</loc><lastmod>${TODAY}</lastmod><changefreq>${e.c}</changefreq><priority>${e.p}</priority></url>`
+        `  <url><loc>${e.loc}</loc><changefreq>${e.c}</changefreq><priority>${e.p}</priority></url>`
     )
     .join("\n") +
   `\n</urlset>\n`;
