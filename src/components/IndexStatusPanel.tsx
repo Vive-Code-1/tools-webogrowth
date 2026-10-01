@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const SITE_URL = "https://tools.webogrowth.com/";
-const BATCH = 15;
+const BATCH = 4;
 
 interface StatusRow {
   url: string;
