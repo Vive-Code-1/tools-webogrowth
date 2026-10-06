@@ -1,9 +1,9 @@
-name: Daily SEO Blog Post
+name: SEO Blog Post (3x per week)
 
 on:
   schedule:
-    # 06:00 UTC daily = 12:00 noon Bangladesh time
-    - cron: "0 6 * * *"
+    # Mon, Wed, Fri 06:00 UTC = 12:00 noon Bangladesh time (3 posts/week)
+    - cron: "0 6 * * 1,3,5"
   workflow_dispatch:
 
 permissions:
@@ -84,7 +84,7 @@ jobs:
       - name: Resubmit sitemap to Google Search Console
         run: |
           RESP=$(curl -sS -w "\nHTTP_STATUS:%{http_code}" -X POST \
-            "https://vgfpjhimlztysvpxcgab.supabase.co/functions/v1/gsc-manage" \
+            "https://voorfcfafmjbpbsbzfbm.supabase.co/functions/v1/gsc-manage" -H "apikey: sb_publishable_QQ0GUAwSgPsvS_GlYRV0Uw_bWgQWTmM" \
             -H "Content-Type: application/json" \
             -d '{"action":"submit_sitemap","siteUrl":"https://tools.webogrowth.com/","feedpath":"https://tools.webogrowth.com/sitemap.xml"}')
           echo "$RESP"
