@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import ffmpegWorkerURL from "@ffmpeg/ffmpeg/worker?url";
 import SEOHead from "@/components/SEOHead";
 import { getSeoProps } from "@/lib/seo";
 import ToolSeoSection from "@/components/ToolSeoSection";
@@ -39,6 +40,7 @@ const VideoToGif = () => {
     const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd";
     ff.on("progress", ({ progress }: { progress: number }) => setProgress(Math.round(progress * 100)));
     await ff.load({
+      classWorkerURL: ffmpegWorkerURL,
       coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
       wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
     });
