@@ -37,7 +37,7 @@ const VideoToGif = () => {
     const { FFmpeg } = await import("@ffmpeg/ffmpeg");
     const { toBlobURL } = await import("@ffmpeg/util");
     const ff = new FFmpeg();
-    const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd";
+    const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.10/dist/esm";
     ff.on("progress", ({ progress }: { progress: number }) => setProgress(Math.round(progress * 100)));
     await ff.load({
       classWorkerURL: ffmpegWorkerURL,
@@ -79,7 +79,10 @@ const VideoToGif = () => {
       } else {
         args.push("-vf", `fps=${fps},scale=${width}:-2`, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-an", outName);
       }
-      await ff.exec(args);
+      const exitCode = await ff.exec(args);
+      if (exitCode !== 0) {
+        throw new Error("Try a shorter clip or lower the frame rate and width.");
+      }
       const data = await ff.readFile(outName);
       const blob = new Blob([(data as Uint8Array).buffer as ArrayBuffer], {
         type: format === "gif" ? "image/gif" : `video/${format}`,
